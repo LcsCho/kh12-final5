@@ -18,29 +18,8 @@ public class ReviewListDaoImpl implements ReviewListDao {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<ReviewListVO> findByDateDesc() {
-		return sqlSession.selectList("reviewList.findByDateDesc");
-	}
-
-	@Override
-	public List<ReviewListVO> findByDateAsc() {
-		return sqlSession.selectList("reviewList.findByDateAsc");
-	}
-
-	@Override
-	public List<ReviewListVO> findByLikeDesc() {
-		return sqlSession.selectList("reviewList.findByLikeDesc");
-	}
-
-	@Override
-	public List<ReviewListVO> findByRatingDesc() {
-		return sqlSession.selectList("reviewList.findByRatingDesc");
-	}
-
-	@Override
-	public List<ReviewListVO> findByRatingAesc() {
-		return sqlSession.selectList("reviewList.findByRatingAsc");
-	}
-	
+    public List<ReviewListVO> complexSearch(String sortType) {
+        return sqlSession.selectList("reviewList.complexSearch", sortType);
+    }
 	
 }

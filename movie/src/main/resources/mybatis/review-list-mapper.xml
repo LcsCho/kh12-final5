@@ -6,29 +6,33 @@
     
 <mapper namespace="reviewList">
 	
-	<!-- 조회(최신순) -->
-	<select id="findByDateDesc" resultType="ReviewListVO">
-		select * from review_list order by review_date desc
-	</select>
-	
-	<!-- 조회(오래된순) -->
-	<select id="findByDateAsc" resultType="ReviewListVO">
-		select * from review_list order by review_date asc
-	</select>
-	
-	<!-- 조회(좋아요순) -->
-	<select id="findByLikeDesc" resultType="ReviewListVO">
-		select * from review_list order by review_like_count desc
-	</select>
-	
-	<!-- 조회(평점높은순) -->
-	<select id="findByRatingDesc" resultType="ReviewListVO">
-		select * from review_list order by rating_score desc
-	</select>
-	
-	<!-- 조회(평점낮은순) -->
-	<select id="findByRatingAsc" resultType="ReviewListVO">
-		select * from review_list order by rating_score asc
+	<select id="complexSearch" resultType="ReviewListVO">
+		select * from review_list
+		
+			<!-- 조회(최신순) -->
+			<if test="sortType == 'findByDateDesc'">
+				order by review_date desc
+			</if>
+			
+			<!-- 조회(오래된순) -->
+			<if test="sortType == 'findByDateAsc'">
+				order by review_date asc
+			</if>
+			
+			<!-- 조회(좋아요순) -->
+			<if test="sortType == 'findByLikeDesc'">
+				order by review_like_count desc
+			</if>
+			
+			<!-- 조회(평점높은순) -->
+			<if test="sortType == 'findByRatingDesc'">
+				order by rating_score desc
+			</if>
+			
+			<!-- 조회(평점낮은순) -->
+			<if test="sortType == 'findByRatingAsc'">
+				order by rating_score asc
+			</if>
 	</select>
 	
 </mapper>
