@@ -49,7 +49,7 @@ public class GenreDaoImpl implements GenreDao{
 		Map<String, Object> params = new HashMap<>();
 		params.put("genreNo", genreNo);
 		params.put("genreDto", genreDto);
-		return sqlSession.update("movie.edit", params) > 0;
+		return sqlSession.update("genre.edit", params) > 0;
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class GenreDaoImpl implements GenreDao{
 		Map<String, Object> params = new HashMap<>();
 		params.put("genreNo", genreNo);
 		params.put("genreDto", genreDto);
-		return sqlSession.update("movie.editUnit", params) > 0;
+		return sqlSession.update("genre.editUnit", params) > 0;
 	}
 
 }

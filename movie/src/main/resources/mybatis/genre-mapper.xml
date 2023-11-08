@@ -29,7 +29,7 @@
 	<update id="edit">
 		update genre set 
 		<if test="genreDto.genreNo > 0">
-			genre_no = #{genreDto.genreNo}
+			genre_no = #{genreDto.genreNo}, 
 		</if>
 		genre_name = #{genreDto.genreName}
 		where genre_no = #{genreNo}
@@ -38,8 +38,8 @@
 	<update id="editUnit">
 		update genre
 		<set>
-			<if test="genreDto.genreNo > 0">genre_no = #{genreNo},</if>
-			<if test="genreDto.genreName != null">genre_name = #{genreName},</if>
+			<if test="genreDto.genreNo > 0">genre_no = #{genreDto.genreNo},</if>
+			<if test="genreDto.genreName != null">genre_name = #{genreDto.genreName},</if>
 		</set>
 		where genre_no = #{genreNo}
 	</update>
