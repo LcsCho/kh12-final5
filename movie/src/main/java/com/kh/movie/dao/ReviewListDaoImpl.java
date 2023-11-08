@@ -8,15 +8,15 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.movie.vo.ReviewListVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class ReviewListDaoImpl implements ReviewListDao {
 
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@Autowired
-	private ReviewListDao reviewListDao;
-
 	@Override
 	public List<ReviewListVO> findByDateDesc() {
 		return sqlSession.selectList("reviewList.findByDateDesc");
