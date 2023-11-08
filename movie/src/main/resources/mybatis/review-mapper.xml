@@ -5,5 +5,28 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="review">
-
+	
+	<!-- 등록 -->
+	<insert id="save">
+		insert into review (
+			review_no, member_id, member_nickname, 
+			movie_no, review_content
+		) values (
+			review_seq.nextval, #{memberNo}, #{memberNickname}, 
+			#{movieNo}, #{reviewContent}
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="edit">
+		update review 
+			set review_content = #{reviewContent}
+			where review_no = #{reviewNo}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="delete">
+		delete review where review_no = #{reviewNo}
+	</delete>
+	
 </mapper>

@@ -6,4 +6,16 @@
     
 <mapper namespace="reviewLike">
 
+	<!-- 등록 -->
+	<insert id="save">
+		insert into review_like values (#{reviewNo}, #{member_nickname})
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="edit">
+		delete review_like 
+			where review_no = #{reviewNo} 
+				and meber_nickname = #{memberNickname} 
+	</delete>
+	
 </mapper>
