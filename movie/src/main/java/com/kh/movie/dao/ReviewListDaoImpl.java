@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class ReviewListDaoImpl implements ReviewListDao {
 
+
     @Autowired
     private SqlSession sqlSession;
 
@@ -21,5 +22,6 @@ public class ReviewListDaoImpl implements ReviewListDao {
     public List<ReviewListVO> complexSearch(String sortType) {
         log.info("complexSearch 호출: sortType={}", sortType);
         return sqlSession.selectList("reviewList.complexSearch", sortType);
+
     }
 }

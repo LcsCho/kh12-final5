@@ -10,6 +10,7 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
+
 function sortReview() {
   // sortType 값 가져오기
   const sortType = document.querySelector("[name='sortType']").value;
@@ -19,9 +20,11 @@ function sortReview() {
   url.searchParams.set('sortType', sortType);
   window.location.href = url.toString();
 }
+
 </script>
 
 <body>
+
 
   <button type="button" name="findByDateDesc" value="findByDateDesc" onclick="sortReview()">최신순</button>
   <button type="button" name="findByDateAsc" value="findByDateAsc" onclick="sortReview()">오래된순</button>
@@ -41,6 +44,7 @@ function sortReview() {
       <hr>
     </c:forEach>
   </c:if>
+
 
 </body>
 </html>
