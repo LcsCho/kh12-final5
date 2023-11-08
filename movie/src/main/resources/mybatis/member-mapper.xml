@@ -8,14 +8,8 @@
 
 <!-- 등록(가입) -->
 <insert id="join">
-	insert into member(
-		member_id, member_pw, member_nickname, member_birth, member_level, member_join, 
-		member_last_login, member_last_update, member_gender, member_contact
-	) 
-	values(
-		#{memberId}, #{memberPw}, #{memberNickname}, #{memberBirth}, #{memberLevel},
-		#{memberJoin}, #{memberLastlogin}, #{memberLastUpdate}, #{memberGender}, #{memberContact}
-	)
+	insert into member(member_id, member_pw, member_nickname, member_birth, member_gender, member_contact) values(
+		#{memberId}, #{memberPw}, #{memberNickname}, #{memberBirth},#{memberGender}, #{memberContact})
 </insert>
 
 <!-- 수정 -->
