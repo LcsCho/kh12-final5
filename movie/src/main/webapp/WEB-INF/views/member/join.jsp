@@ -42,25 +42,25 @@
                         <label>비밀번호<span class="red">*</span></label>
                     </div>
                     <div class="row w-75 pr-30">
-                        <input type="text" name="memberPw" 
+                        <input type="text" name="memberPw"
                              placeholder="비밀번호를 입력해주세요"
                             class="form-input w-100">
                         <div class="success-feedback left"></div>
                         <div class="fail-feedback left">영문,숫자,특수문자(!@#$) 반드시 1개 이상 포함 8~16자</div>
                     </div>
                 </div>
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>비밀번호 확인<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="text" id="password-check" placeholder="비밀번호 한 번 더 입력해주세요"
-                                    class="form-input w-100">
-                        <div class="success-feedback"></div>
-                        <div class="fail-feedback left">동일한 비밀번호를 입력하세요</div>
-                        <div class="fail2-feedback left">비밀번호를 먼저 작성하세요</div>
-                    </div>
-                </div>
+<!--                 <div class="row flex-container"> -->
+<!--                     <div class="row w-25 left"> -->
+<!--                         <label>비밀번호 확인<span class="red">*</span></label> -->
+<!--                     </div> -->
+<!--                     <div class="row w-75 pr-30"> -->
+<!--                         <input type="text" id="password-check" placeholder="비밀번호 한 번 더 입력해주세요" -->
+<!--                                     class="form-input w-100"> -->
+<!--                         <div class="success-feedback"></div> -->
+<!--                         <div class="fail-feedback left">동일한 비밀번호를 입력하세요</div> -->
+<!--                         <div class="fail2-feedback left">비밀번호를 먼저 작성하세요</div> -->
+<!--                     </div> -->
+<!--                 </div> -->
                
                 <div class="row flex-container">
                     <div class="row w-25 left">

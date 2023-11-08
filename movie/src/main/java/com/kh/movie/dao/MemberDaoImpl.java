@@ -26,8 +26,8 @@ public class MemberDaoImpl implements MemberDao{
 		String origin = memberDto.getMemberPw();
 		String encrypt = encoder.encode(origin);
 		memberDto.setMemberPw(encrypt);
-		
 		sqlSession.insert("member.join", memberDto);
+		
 	}
 	
 	@Override
