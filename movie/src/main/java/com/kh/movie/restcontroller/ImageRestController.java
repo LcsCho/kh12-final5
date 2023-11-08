@@ -28,8 +28,8 @@ public class ImageRestController {
 
 	
 	@PostMapping(value = "/image/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void upload(@RequestPart MultipartFile image) {
-		log.debug("attach = {}", image);
+	public void upload(@RequestPart MultipartFile attach) {
+		log.debug("attach = {}", attach);
 	}
 	
   	@PostMapping(value = "/images/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
