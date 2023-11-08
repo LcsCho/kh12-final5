@@ -6,6 +6,11 @@
     
 
 <mapper namespace="image">
+	<!-- 시퀀스 번호 뽑기 -->
+	<select id="sequence" resultType="int">
+		select image_seq.nextval from dual
+	</select>
+
 	<!-- 등록 -->
 	<insert id="add">
 	  insert into image(

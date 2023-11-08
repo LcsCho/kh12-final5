@@ -77,5 +77,8 @@
 		</set>
 		where movie_no = #{movieNo}
 	</update>
-
+	
+	<insert id="connectMainImage">
+		insert into movie_main_image(movie_no,image_no) values(#{movieNo},#{imageNo})
+	</insert>
 </mapper>

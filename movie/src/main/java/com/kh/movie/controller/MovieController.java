@@ -18,6 +18,9 @@ public class MovieController {
 	@Autowired
 	private ReviewListDao reviewListDao;
 
+	
+	
+	
 	@GetMapping("/review/list")
 	public String reviewList(Model model) {
 		List<ReviewListVO> reviewList = reviewListDao.findByDateDesc();

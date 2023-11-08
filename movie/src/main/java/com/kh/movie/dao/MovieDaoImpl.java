@@ -54,4 +54,14 @@ public class MovieDaoImpl implements MovieDao{
 		params.put("dto", movieDto);
 		return sqlSession.update("movie.editUnit", params) > 0;
 	}
+	
+	//영화 대표 이미지 연결
+	@Override
+	public void connectMainImage(int movieNo, int imageNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("movieNo", movieNo);
+		params.put("imageNo", imageNo);
+		sqlSession.insert("movie.connectMainImage",params);
+		
+	}
 }
