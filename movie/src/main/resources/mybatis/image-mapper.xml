@@ -4,3 +4,27 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
+<mapper namespace="image">
+	<!-- 등록 -->
+	<insert id="add">
+	  insert into image(
+	  image_no, image_name, image_size, 
+	  image_type, image_time
+	  )
+	  values(
+	  image_seq.nextval, #{imageName}, #{imageSize}, 
+	  #{imageType}, #{imageTime}
+	  )
+	</insert>
+	<!-- 상세  -->
+	<select id="find" resultType="ImageDto">
+		select * from image where image_no = #{imageNo}
+	</select>
+	<!-- 삭제 -->
+	<delect id="delete">
+		delect image where image_no = #{imageNo}
+	</delect>
+	
+
+
+</mapper>

@@ -1,5 +1,10 @@
 package com.kh.movie.dao;
 
-public interface ImageDao {
+import com.kh.movie.dto.ImageDto;
 
+public interface ImageDao {
+	
+	void insert(ImageDto imageDto);
+	ImageDto selectOne(int imageNo);
+	boolean delete(int imageNo);
 }
