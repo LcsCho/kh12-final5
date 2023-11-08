@@ -20,9 +20,13 @@ public class MovieDto {
 	
 	@JsonIgnore
 	public boolean isEmpty() {
-		return movieNo == 0 && movieName == null && movieReleaseDate == null
-				&& movieDirector == null && movieTime == 0
-				&& movieLevel == null && movieNation == null
+		return movieNo == 0 
+				&& movieName == null 
+				&& movieReleaseDate == null
+				&& movieDirector == null 
+				&& movieTime == 0
+				&& movieLevel == null 
+				&& movieNation == null
 				&& movieContent == null;
 	}
 }
