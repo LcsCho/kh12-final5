@@ -1,8 +1,11 @@
 package com.kh.movie.restcontroller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,13 +16,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MovieDao;
+import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "영화 관리", description = "영화 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
@@ -28,6 +37,9 @@ public class MovieRestController {
 	
 	@Autowired
 	private MovieDao movieDao;
+	
+	@Autowired
+	private ImageDao imageDao; 
 	
 	@GetMapping("/")
 	public List<MovieDto> list() {
@@ -63,7 +75,32 @@ public class MovieRestController {
 		boolean result = movieDao.editUnit(movieNo, movieDto);
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
-			
+	
+	@PostMapping(value = "/image/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void upload(@RequestPart MultipartFile attach, 
+						@RequestBody MovieDto movieDto) throws IllegalStateException, IOException {
+		movieDao.insert(movieDto);
+		
+		int imageNo = imageDao.sequence();
+		
+		String home = System.getProperty("user.home");
+		File dir = new File(home,"upload");
+		dir.mkdir();
+		File target = new File(dir.toString().valueOf(imageNo));
+		attach.transferTo(target);
+		
+		ImageDto imageDto = new ImageDto();
+		imageDto.setImageNo(imageNo);
+		imageDto.setImageName(attach.getOriginalFilename());
+		imageDto.setImageSize(attach.getSize());
+		imageDto.setImageType(attach.getContentType());	
+		imageDao.insert(imageDto);
+		
+		movieDao.connectMainImage(movieDto.getMovieNo(),imageNo);
+//		log.debug("attach = {}", attach);
+		
+		
+	}
 	
 
 }

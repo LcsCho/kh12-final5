@@ -16,6 +16,11 @@ public class ImageDaoImpl implements ImageDao{
 	private SqlSession sqlSession;
 	
 	@Override
+	public int sequence() {
+		return sqlSession.selectOne("image.sequence");
+	}
+	
+	@Override
 	public void insert(ImageDto imageDto) {
 		sqlSession.insert("image.add",imageDto);
 		

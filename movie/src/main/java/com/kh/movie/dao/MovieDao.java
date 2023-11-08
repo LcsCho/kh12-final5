@@ -12,5 +12,6 @@ public interface MovieDao {
 	boolean delete(int movieNo);
 	boolean edit(int movieNo, MovieDto movieDto);
 	boolean editUnit(int movieNo, MovieDto movieDto);
+	void connectMainImage(int movieNo, int imageNo);
 
 }

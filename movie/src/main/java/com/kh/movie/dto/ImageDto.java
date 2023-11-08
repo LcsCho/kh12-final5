@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class ImageDto {
-	private int imageNo, imageSize;
+	private int imageNo; 
+	private long imageSize;
 	private String imageName, imageType;
 	private Date imageTime;
 }
