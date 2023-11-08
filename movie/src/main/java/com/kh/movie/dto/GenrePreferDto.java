@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class ReviewLike {
-	private int reviewNo;
-	private String memberNickname;
+public class GenrePreferDto {
+	private String memberNickname, genreName;
 }

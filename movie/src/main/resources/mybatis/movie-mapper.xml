@@ -1,1 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="movie">
+
+	<select id="findAll" resultType="MovieDto">
+		select * from movie order by
+		movie_release_date desc
+	</select>
+
+	<select id="findByMovieName" resultType="MovieDto">
+		select * from movie
+		where instr(movie_name, #{movieName}) > 0
+		order by movie_release_date desc
+	</select>
+
+	<insert id="save">
+		insert into movie(movie_no, movie_name, movie_director, movie_release_date, 
+		movie_time, movie_level, movie_nation, movie_content) 
+		values(movie_seq.nextval, #{movieName}, 
+		#{movieDirector}, #{movieReleaseDate}, #{movieTime},
+		#{movieLevel}, #{movieNation},
+		#{movieContent})
+	</insert>
+
+	<delete id="deleteByMovieNo">
+		delete from movie where movie_no = #{movieNo}
+	</delete>
+	
+	<update id="edit">
+		update movie
+		set 
+		<if test="dto.movieNo > 0">
+			movie_no = #{dto.movieNo}, 
+			
+		</if>
+		movie_name = #{dto.movieName},
+		movie_release_date = #{dto.movieReleaseDate},
+		movie_director = #{dto.movieDirector},
+		movie_time = #{dto.movieTime},
+		movie_level = #{dto.movieLevel},
+		movie_nation = #{dto.movieNation},
+		movie_content = #{dto.movieContent} 
+		where movie_no = #{movieNo}
+	</update>
+
+	<update id="editUnit">
+		update movie
+		<set>
+			<if test="dto.movieNo > 0">
+				movie_no = #{dto.movieNo},
+			</if>
+			<if test="dto.movieName != null">
+				movie_name = #{dto.movieName},
+			</if>
+			<if test="dto.movieReleaseDate != null">
+				movie_release_date = #{dto.movieReleaseDate},
+			</if>
+			<if test="dto.movieDirector != null">
+				movie_director = #{dto.movieDirector},
+			</if>
+			<if test="dto.movieTime > 0">
+				movie_time = #{dto.movieTime},
+			</if>
+			<if test="dto.movieLevel != null">
+				movie_level = #{dto.movieLevel},
+			</if>
+			<if test="dto.movieNation != null">
+				movie_nation = #{dto.movieNation},
+			</if>
+			<if test="dto.movieContent != null">
+				movie_content = #{dto.movieContent},
+			</if>
+		</set>
+		where movie_no = #{movieNo}
+	</update>
+
+</mapper>
