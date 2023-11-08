@@ -6,6 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class GenrePrefer {
-	private String memberNickname, genreName;
+public class MovieDetailImageDto {
+	private int imageNo, movieNo;
 }
