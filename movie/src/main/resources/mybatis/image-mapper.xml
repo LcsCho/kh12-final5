@@ -22,7 +22,7 @@
 		select * from image where image_no = #{imageNo}
 	</select>
 	<!-- 삭제 -->
-	<select id="delete">
+	<delete id="delete">
 		select image where image_no = #{imageNo}
-	</select>
+	</delete>
 </mapper>
