@@ -1,4 +1,4 @@
-package com.kh.movie.dto;
+package com.kh.movie.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class MovieDetailImage {
-	private int imageNo, movieNo;
+public class MovieSearchVO {
+	private String moiveName, movieNation, movieDirector;
+	private String genreName;
 }
