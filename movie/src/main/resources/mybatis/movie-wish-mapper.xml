@@ -10,13 +10,21 @@
 		select movie_wish_seq.nextval from dual
 	</select>
 	
-	<select id="list" resultType="movieWishDto">
+	<select id="findAll" resultType="movieWishDto">
 		select * from movie_wish order by wish_no desc
+	</select>
+	
+	<select id="findByWishNo" resultType="movieWishDto">
+		select * from movie_wish where wish_no = #{wishNo}
 	</select>
 	
 	<insert id="add">
 		insert into movie_wish(wish_no, movie_no, member_id, wish_date) 
-		values(moive_wish_seq.nextval)
+		values(#{wishNo}, #{movieNo}, #{memberId}, #{wishDate})
 	</insert>
+	
+	<delete id="delete">
+		delete movie_wish where wish_no = #{wishNo}
+	</delete>
 	
 </mapper>
