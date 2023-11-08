@@ -42,7 +42,7 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public boolean edit(int movieNo, MovieDto movieDto) {
 		Map<String, Object> params = new HashMap<>();
-		params.put("moviNo", movieNo);
+		params.put("movieNo", movieNo);
 		params.put("dto", movieDto);
 		return sqlSession.update("movie.edit", params) > 0;
 	}
@@ -50,8 +50,8 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public boolean editUnit(int movieNo, MovieDto movieDto) {
 		Map<String, Object> params = new HashMap<>();
-		params.put("moviNo", movieNo);
+		params.put("movieNo", movieNo);
 		params.put("dto", movieDto);
-		return sqlSession.update("movie.edit", params) > 0;
+		return sqlSession.update("movie.editUnit", params) > 0;
 	}
 }
