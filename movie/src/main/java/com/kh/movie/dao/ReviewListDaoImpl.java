@@ -18,8 +18,8 @@ public class ReviewListDaoImpl implements ReviewListDao {
 	private SqlSession sqlSession;
 	
 	@Override
-    public List<ReviewListVO> complexSearch(String sortType) {
-        return sqlSession.selectList("reviewList.complexSearch", sortType);
+    public List<ReviewListVO> complexSearch(ReviewListVO vo) {
+        return sqlSession.selectList("reviewList.complexSearch", vo);
     }
 	
 }

@@ -10,16 +10,15 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-
 </script>
 
 <body>
 
-	<button type="button" name="sortType" value="findByDateDesc">최신순</button>
-	<button type="button" name="sortType" value="findByDateAsc">오래된순</button>
-	<button type="button" name="sortType" value="findByLikeDesc">좋아요순</button>
-	<button type="button" name="sortType" value="findByRatingDesc">높은평점순</button>
-	<button type="button" name="sortType" value="findByRatingAsc">낮은평점순</button>
+	<button type="submit" name="sortType" value="findByDateDesc">최신순</button>
+	<button type="submit" name="sortType" value="findByDateAsc">오래된순</button>
+	<button type="submit" name="sortType" value="findByLikeDesc">좋아요순</button>
+	<button type="submit" name="sortType" value="findByRatingDesc">높은평점순</button>
+	<button type="submit" name="sortType" value="findByRatingAsc">낮은평점순</button>
 
 	<br>
 	<c:forEach items="${reviewList}" var="review">

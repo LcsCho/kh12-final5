@@ -3,36 +3,38 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="reviewList">
-	
+
 	<select id="complexSearch" resultType="ReviewListVO">
 		select * from review_list
-		
-			<!-- 조회(최신순) -->
-			<if test="sortType == 'findByDateDesc'">
-				order by review_date desc
-			</if>
-			
-			<!-- 조회(오래된순) -->
-			<if test="sortType == 'findByDateAsc'">
-				order by review_date asc
-			</if>
-			
-			<!-- 조회(좋아요순) -->
-			<if test="sortType == 'findByLikeDesc'">
-				order by review_like_count desc
-			</if>
-			
-			<!-- 조회(평점높은순) -->
-			<if test="sortType == 'findByRatingDesc'">
-				order by rating_score desc
-			</if>
-			
-			<!-- 조회(평점낮은순) -->
-			<if test="sortType == 'findByRatingAsc'">
-				order by rating_score asc
-			</if>
+
+		<!-- 조회(최신순) -->
+		<if test="sortType == 'findByDateDesc'">
+			order by review_date desc
+		</if>
+
+		<!-- 조회(오래된순) -->
+		<if test="sortType == 'findByDateAsc'">
+			order by review_date asc
+		</if>
+
+		<!-- 조회(좋아요순) -->
+		<if test="sortType == 'findByLikeDesc'">
+			order by review_like_count desc
+		</if>
+
+		<!-- 조회(평점높은순) -->
+		<if test="sortType == 'findByRatingDesc'">
+			order by rating_score desc
+		</if>
+
+		<!-- 조회(평점낮은순) -->
+		<if test="sortType == 'findByRatingAsc'">
+			order by rating_score asc
+		</if>
+
 	</select>
-	
+
+
 </mapper>
