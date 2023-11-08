@@ -7,27 +7,27 @@
 <mapper namespace="reviewList">
 	
 	<!-- 조회(최신순) -->
-	<select id="findByDateDesc">
+	<select id="findByDateDesc" resultType="reviewListVO">
 		select * from review_list order by review_date desc
 	</select>
 	
 	<!-- 조회(오래된순) -->
-	<select id="findByDateAsc">
+	<select id="findByDateAsc" resultType="reviewListVO">
 		select * from review_list order by review_date asc
 	</select>
 	
 	<!-- 조회(좋아요순) -->
-	<select id="findByLikeDesc">
+	<select id="findByLikeDesc" resultType="reviewListVO">
 		select * from review_list order by review_like_count desc
 	</select>
 	
 	<!-- 조회(평점높은순) -->
-	<select id="findByRatingDesc">
+	<select id="findByRatingDesc" resultType="reviewListVO">
 		select * from review_list order by rating_score desc
 	</select>
 	
 	<!-- 조회(평점낮은순) -->
-	<select id="findByRatingAsc">
+	<select id="findByRatingAsc" resultType="reviewListVO">
 		select * from review_list order by rating_score asc
 	</select>
 	

@@ -1,4 +1,4 @@
-package com.kh.movie.dto;
+package com.kh.movie.vo;
 
 import java.sql.Date;
 
@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class ReviewListDto {
+public class ReviewListVO {
 	private int reviewNo;
 	private String reviewContent;
 	private int reviewLikeCount;
