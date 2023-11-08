@@ -5,8 +5,11 @@ import java.util.List;
 import com.kh.movie.dto.GenreDto;
 
 public interface GenreDao {
-	List<GenreDto> selectList();
+	int sequence();
 	void insert(GenreDto genreDto);
-	void delete(int genreNo);
-	GenreDto findByGenreNo(int genreNo);
+	boolean delete(int genreNo);
+	List<GenreDto> selectList();
+	GenreDto selectOne(int genreNo);
+	boolean edit(int genreNo, GenreDto genreDto);
+	boolean editUnit(int genreNo, GenreDto genreDto);
 }

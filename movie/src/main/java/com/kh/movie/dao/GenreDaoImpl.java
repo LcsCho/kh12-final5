@@ -1,6 +1,8 @@
 package com.kh.movie.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +20,44 @@ public class GenreDaoImpl implements GenreDao{
 	private SqlSession sqlSession;
 
 	@Override
-	public List<GenreDto> selectList() {
-		// TODO Auto-generated method stub
-		return null;
+	public int sequence() {
+		return sqlSession.selectOne("genre.sequence");
 	}
 
 	@Override
 	public void insert(GenreDto genreDto) {
-		// TODO Auto-generated method stub
-		
+		sqlSession.insert("genre.add", genreDto);
 	}
 
 	@Override
-	public void delete(int genreNo) {
-		// TODO Auto-generated method stub
-		
+	public boolean delete(int genreNo) {
+		return sqlSession.delete("genre.delete", genreNo) > 0;
 	}
 
 	@Override
-	public GenreDto findByGenreNo(int genreNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GenreDto> selectList() {
+		return sqlSession.selectList("genre.findAll");
 	}
+
+	@Override
+	public GenreDto selectOne(int genreNo) {
+		return sqlSession.selectOne("genre.findByGenreNo",genreNo);
+	}
+
+	@Override
+	public boolean edit(int genreNo, GenreDto genreDto) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("genreNo", genreNo);
+		params.put("genreDto", genreDto);
+		return sqlSession.update("movie.edit", params) > 0;
+	}
+	
+	@Override
+	public boolean editUnit(int genreNo, GenreDto genreDto) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("genreNo", genreNo);
+		params.put("genreDto", genreDto);
+		return sqlSession.update("movie.editUnit", params) > 0;
+	}
+
 }
