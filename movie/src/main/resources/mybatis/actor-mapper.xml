@@ -5,5 +5,52 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="actor">
+	<select id="findAll" resultType="ActorDto">
+		select * from actor order by
+		actor_name
+	</select>
+
+	<select id="findByActorName" resultType="ActorDto">
+		select * from actor
+		where instr(actor_name, #{actorName}) > 0
+		order by actor_name desc
+	</select>
+
+	<insert id="save">
+		insert into actor(actor_no, movie_no, actor_name, 
+		actor_role) 
+		values(actor_seq.nextval, #{movieNo},
+		 #{actorName}, #{actorRole})
+	</insert>
+
+	<delete id="deleteByActorNo">
+		delete from actor where actor_no = #{actorNo}
+	</delete>
 	
+	<update id="edit">
+		update actor
+		set 
+		<if test="dto.actorNo > 0">
+			actor_no = #{dto.actorNo}, 
+		</if>
+		actor_name = #{dto.actorName},
+		actor_role = #{dto.actorRole}
+		where actor_no = #{actorNo}
+	</update>
+
+	<update id="editUnit">
+		update actor
+		<set>
+			<if test="dto.actorNo > 0">
+				actor_no = #{dto.actorNo},
+			</if>
+			<if test="dto.actorName != null">
+				actor_name = #{dto.actorName},
+			</if>
+			<if test="dto.actorRole != null">
+				actor_role = #{dto.actorRole}
+			</if>
+		</set>
+		where actor_no = #{actorNo}
+	</update>
 </mapper>
