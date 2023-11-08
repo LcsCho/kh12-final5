@@ -2,6 +2,7 @@ package com.kh.movie.dto;
 
 import java.sql.Date;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
