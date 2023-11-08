@@ -10,26 +10,37 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
+function sortReview() {
+  // sortType 값 가져오기
+  const sortType = document.querySelector("[name='sortType']").value;
 
+  // 리뷰 목록 정렬
+  const url = new URL("/review/list/sortBy", window.location);
+  url.searchParams.set('sortType', sortType);
+  window.location.href = url.toString();
+}
 </script>
 
 <body>
 
-	<button type="button" name="sortType" value="findByDateDesc">최신순</button>
-	<button type="button" name="sortType" value="findByDateAsc">오래된순</button>
-	<button type="button" name="sortType" value="findByLikeDesc">좋아요순</button>
-	<button type="button" name="sortType" value="findByRatingDesc">높은평점순</button>
-	<button type="button" name="sortType" value="findByRatingAsc">낮은평점순</button>
+  <button type="button" name="findByDateDesc" value="findByDateDesc" onclick="sortReview()">최신순</button>
+  <button type="button" name="findByDateAsc" value="findByDateAsc" onclick="sortReview()">오래된순</button>
+  <button type="button" name="findByLikeDesc" value="findByLikeDesc" onclick="sortReview()">좋아요순</button>
+  <button type="button" name="findByRatingDesc" value="findByRatingDesc" onclick="sortReview()">높은평점순</button>
+  <button type="button" name="findByRatingAsc" value="findByRatingAsc" onclick="sortReview()">낮은평점순</button>
 
-	<br>
-	<c:forEach items="${reviewList}" var="review">
-		사진 : ${review.imageNo} <br>
-		닉네임 : ${review.memberNickname} <br>
-		평점 : ${review.ratingScore} <br>
-		내용 : ${review.reviewContent} <br>
-		좋아요 : ${review.reviewLikeCount}
-		<hr>
-	</c:forEach>
-	
+  <br>
+
+  <c:if test="${reviewList != null}">
+    <c:forEach items="${reviewList}" var="review">
+      사진 : ${review.imageNo} <br>
+      닉네임 : ${review.memberNickname} <br>
+      평점 : ${review.ratingScore} <br>
+      내용 : ${review.reviewContent} <br>
+      좋아요 : ${review.reviewLikeCount}
+      <hr>
+    </c:forEach>
+  </c:if>
+
 </body>
 </html>

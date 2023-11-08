@@ -24,10 +24,10 @@ public class MovieController {
 	
 	@GetMapping("/review/list")
 	public String reviewList(Model model, 
-										@RequestParam(value = "sortType", defaultValue = "findByDateDesc") 
-										String sortType) {
-		List<ReviewListVO> reviewList = reviewListDao.complexSearch(sortType);
-		model.addAttribute("reviewList", reviewList);
-		return "reviewList";
+	                         @RequestParam(value = "sortType", defaultValue = "findByDateDesc") 
+	                         String sortType) {
+	    List<ReviewListVO> reviewList = reviewListDao.complexSearch(sortType);
+	    model.addAttribute("reviewList", reviewList);
+	    return "reviewList";
 	}
 }
