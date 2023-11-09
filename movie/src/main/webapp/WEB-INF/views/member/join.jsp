@@ -33,7 +33,7 @@
 
                     <div class="row w-75 pr-30 left">
                         <input type="email" name="memberId" placeholder="예: test@kh.com" class="form-input w-70">
-   					<button class="btn-send btn btn-navy">
+   					<button type="button" class="btn-send btn btn-navy">
     			<i class="fa-solid fa-spinner fa-spin"></i>
     					<span>인증</span>
 								</button>
