@@ -23,4 +23,8 @@ public class MemberRestController {
 //	public int count() {
 //		return memberDao.getCount();
 //	}
+	@GetMapping("/memberCount")
+	public int count() {
+		return memberDao.getCount();
+	}
 }
