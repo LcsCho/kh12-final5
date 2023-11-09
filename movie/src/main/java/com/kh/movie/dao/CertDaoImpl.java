@@ -4,6 +4,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.movie.dto.CertDto;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -12,4 +14,9 @@ public class CertDaoImpl implements CertDao{
 
 	@Autowired
 	private SqlSession sqlSession;
+
+	@Override
+	public void insert(CertDto certDto) {
+		sqlSession.insert("cert.add", certDto);
+	}
 }

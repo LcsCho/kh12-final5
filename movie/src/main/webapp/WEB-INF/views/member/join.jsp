@@ -31,12 +31,19 @@
                         <label>아이디<span class="red">*</span></label>
                     </div>
 
-
                     <div class="row w-75 pr-30 left">
                         <input type="email" name="memberId" placeholder="예: test@kh.com" class="form-input w-70">
+   					<button class="btn-send btn btn-navy">
+    			<i class="fa-solid fa-spinner fa-spin"></i>
+    					<span>인증</span>
+								</button>
+                        <div class="cert-wrapper pt-10">
+       					 <input type="text" class="cert-input form-input w-70">
+       					 <button class="btn-cert btn btn-navy">확인완료</button>
    					</div>
    					
                 </div>
+                
                 <div class="row flex-container">
                     <div class="row w-25 left">
                         <label>비밀번호<span class="red">*</span></label>
@@ -106,5 +113,6 @@
                     <button type="submit" class="btn btn-orange">가입하기</button>
                 </div>
 
+        </div>
         </div>
     </form>
