@@ -21,31 +21,31 @@ public class ReviewListRestController {
 	
 	//최신순 조회
 	@PostMapping("/findByDateDesc")
-	public List<ReviewListVO> findByDateDesc() {
-		return reviewListDao.findByDateDesc();
+	public List<ReviewListVO> findByDateDesc(int movieNo) {
+		return reviewListDao.findByDateDesc(movieNo);
 	}
 	
 	//오래된순 조회
 	@PostMapping("/findByDateAsc")
-	public List<ReviewListVO> findByDateAsc() {
-		return reviewListDao.findByDateAsc();
+	public List<ReviewListVO> findByDateAsc(int movieNo) {
+		return reviewListDao.findByDateAsc(movieNo);
 	}
 	
 	//좋아요순 조회
 	@PostMapping("/findByLikeDesc")
-	public List<ReviewListVO> findByLikeDesc() {
-		return reviewListDao.findByLikeDesc();
+	public List<ReviewListVO> findByLikeDesc(int movieNo) {
+		return reviewListDao.findByLikeDesc(movieNo);
 	}
 	
 	//평점높은순
 	@PostMapping("/findByRatingDesc")
-	public List<ReviewListVO> findByRatingDesc() {
-		return reviewListDao.findByRatingDesc();
+	public List<ReviewListVO> findByRatingDesc(int movieNo) {
+		return reviewListDao.findByRatingDesc(movieNo);
 	}
 	
 	//평점낮은순
 	@PostMapping("/findByRatingAsc")
-	public List<ReviewListVO> findByRatingAsc() {
-		return reviewListDao.findByRatingAsc();
+	public List<ReviewListVO> findByRatingAsc(int movieNo) {
+		return reviewListDao.findByRatingAsc(movieNo);
 	}
 }
