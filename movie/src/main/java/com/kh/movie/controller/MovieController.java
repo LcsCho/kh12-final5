@@ -18,12 +18,8 @@ public class MovieController {
 	@Autowired
 	private ReviewListDao reviewListDao;
 
-	
-	
-	
 	@RequestMapping("/review/list")
-	public String reviewList(Model model,  @RequestParam(value = "sortType", defaultValue = "findByDateDesc") 
-	                         String sortType) {
+	public String reviewList(Model model,  @RequestParam(value = "sortType", defaultValue = "findByDateDesc") String sortType) {
 	    List<ReviewListVO> reviewList = reviewListDao.complexSearch(sortType);
 	    model.addAttribute("reviewList", reviewList);
 	    return "reviewList";

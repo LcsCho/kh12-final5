@@ -12,4 +12,9 @@ public class RatingDaoImpl implements RatingDao{
 
 	@Autowired
 	private SqlSession sqlSession;
+
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("rating.count");
+	}
 }
