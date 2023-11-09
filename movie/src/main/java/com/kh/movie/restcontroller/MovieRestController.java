@@ -48,7 +48,7 @@ public class MovieRestController {
 		return movieDao.selectList();
 	}
 	
-	@GetMapping("/movieCount/{movieCount}")
+	@GetMapping("/movieCount")
 	public int count() {
 		return movieDao.getCount();
 	}
@@ -70,7 +70,7 @@ public class MovieRestController {
 		return movieDao.selectList(movieName);
 	}
 	
-	@GetMapping("/adminMovieList/{adminMovieList}")
+	@GetMapping("/adminMovieList")
 	public List<AdminMovieListVO> adminMovieList() {
 		return movieDao.selectAdminMovieList();
 	}
