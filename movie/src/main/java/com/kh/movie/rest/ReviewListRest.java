@@ -1,4 +1,4 @@
-package com.kh.movie.restcontroller;
+package com.kh.movie.rest;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import com.kh.movie.vo.ReviewListVO;
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/review/list")
-public class ReviewListRestController {
+public class ReviewListRest {
 	
 	@Autowired
 	private ReviewListDao reviewListDao;

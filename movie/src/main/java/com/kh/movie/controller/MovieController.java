@@ -21,7 +21,7 @@ public class MovieController {
 	public String reviewList(@RequestParam int movieNo, Model model) {
 		ReviewListVO reviewListVO = (ReviewListVO) reviewListDao.findByDateDesc(movieNo);
 		model.addAttribute("review", reviewListVO);
-		return "movie/review/list";
+		return "movie/review/list?movieNo=" + movieNo;
 	}
 
 }
