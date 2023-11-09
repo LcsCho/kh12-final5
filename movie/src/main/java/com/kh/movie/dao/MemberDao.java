@@ -8,6 +8,7 @@ public interface MemberDao {
 	MemberDto login(MemberDto memberDto);
 	
 	void updateMemberInfo(MemberDto inputDto);
+	void delete(String memberId);
 
 
 }
