@@ -6,4 +6,10 @@
     
 <mapper namespace="cert">
 
+<!-- 이메일 발송 -->
+<insert id="add">
+	insert into cert(cert_email, cert_no)
+	 values(#{certEmail}, #{certNo})
+</insert>
+
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.vo.AdminMovieListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,11 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public List<MovieDto> selectList() {
 		return sqlSession.selectList("movie.findAll");
+	}
+	
+	@Override
+	public List<AdminMovieListVO> selectAdminMovieList() {
+		return sqlSession.selectList("movie.adminMovieList");
 	}
 
 	@Override
@@ -70,4 +76,10 @@ public class MovieDaoImpl implements MovieDao{
 		sqlSession.insert("movie.connectMainImage",params);
 		
 	}
+	
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("movie.count");
+	}
+
 }

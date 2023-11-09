@@ -6,21 +6,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.movie.dao.MemberDao;
+import com.kh.movie.dao.RatingDao;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
-@Tag(name = "회원 관리", description = "회원 관리를 위한 컨트롤러")
+@Slf4j
+@Tag(name = "평점 관리", description = "평점 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/member")
-public class MemberRestController {
-
-	@Autowired
-	private MemberDao memberDao;
+@RequestMapping("/rating")
+public class RatingRestController {
 	
-	@GetMapping("/memberCount/{memberCount}")
+	@Autowired
+	private RatingDao ratingDao;
+	
+	@GetMapping("/ratingCount/{ratingCount}")
 	public int count() {
-		return memberDao.getCount();
+		return ratingDao.getCount();
 	}
+	
 }
