@@ -35,6 +35,7 @@ public class MemberController {
 	@PostMapping("/join")
 	public String join(@ModelAttribute MemberDto memberDto) throws MessagingException, IOException {
 		memberDao.insert(memberDto);
+		
 		emailService.sendCelebration(memberDto.getMemberId());
 		return "redirect:joinFinish";
 	}
