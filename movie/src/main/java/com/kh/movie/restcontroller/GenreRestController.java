@@ -20,7 +20,7 @@ import com.kh.movie.dto.GenreDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name ="장르 리액트용 백엔드", description = "장르")
+@Tag(name ="장르 관리", description = "장르 관리를 위한 컨트롤러")
 
 @CrossOrigin
 @RestController
@@ -49,7 +49,7 @@ public class GenreRestController {
 	
 	@GetMapping("/{genreNo}") //상세 조회
 	public ResponseEntity<GenreDto> findByGenreNo(@PathVariable int genreNo) {
-		GenreDto genreDto = genreDao.selectOne(genreNo);
+		GenreDto genreDto = genreDao.findByGenreNo(genreNo);
 		if(genreDto != null) 	return ResponseEntity.ok().body(genreDto);
 		else return ResponseEntity.notFound().build();
 	}

@@ -9,7 +9,7 @@ public interface GenreDao {
 	void insert(GenreDto genreDto);
 	boolean delete(int genreNo);
 	List<GenreDto> selectList();
-	GenreDto selectOne(int genreNo);
+	GenreDto findByGenreNo(int genreNo);
 	boolean edit(int genreNo, GenreDto genreDto);
 	boolean editUnit(int genreNo, GenreDto genreDto);
 }
