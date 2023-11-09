@@ -14,7 +14,7 @@
     
     $(function(){
         //처음 로딩아이콘 숨김
-        $(".btn-send").find(".fa-spinner").hide();
+       // $(".btn-send").find(".fa-spinner").hide();
         $(".cert-wrapper").hide();
 
         //인증번호 보내기 버튼을 누르면
@@ -32,12 +32,16 @@
                 data:{certEmail: email},
                 success:function(){
                     $(".btn-send").prop("disabled", false);
-                    $(".btn-send").find(".fa-spinner").hide();
-                    $(".btn-send").find("span").text("재전송");
+                     //$(".btn-send").find(".fa-spinner").hide();
+                   $(".btn-send").find("span").text("재전송");
                     // window.alert("이메일 확인하세요!");
                     $(".cert-wrapper").show();
                     window.email = email;
                 },
+                fail:function(){
+                	console.log("실패");
+                	}
+                }
             });
         });
     
