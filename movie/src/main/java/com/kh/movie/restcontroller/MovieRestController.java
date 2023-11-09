@@ -24,6 +24,7 @@ import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.vo.AdminMovieListVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,11 @@ public class MovieRestController {
 		return movieDao.selectList();
 	}
 	
+	@GetMapping("/movieCount/{movieCount}")
+	public int count() {
+		return movieDao.getCount();
+	}
+	
 	@PostMapping("/")
 	public void insert(@RequestBody MovieDto movieDto) {
 		movieDao.insert(movieDto);
@@ -61,6 +67,11 @@ public class MovieRestController {
 	@GetMapping("/{movieName}")
 	public List<MovieDto> find(@PathVariable String movieName) {
 		return movieDao.selectList(movieName);
+	}
+	
+	@GetMapping("/adminMovieList/{adminMovieList}")
+	public List<AdminMovieListVO> adminMovieList() {
+		return movieDao.selectAdminMovieList();
 	}
 	
 	@PutMapping("/{movieNo}")
