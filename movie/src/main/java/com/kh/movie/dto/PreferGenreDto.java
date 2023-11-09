@@ -6,6 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class GenrePreferDto {
+public class PreferGenreDto {
 	private String memberNickname, genreName;
 }

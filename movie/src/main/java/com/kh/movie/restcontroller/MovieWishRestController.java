@@ -18,7 +18,7 @@ import com.kh.movie.dto.MovieWishDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "영화찜 리액트용 백엔드", description = "영화찜")
+@Tag(name = "영화찜 관리", description = "영화찜 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
 @RequestMapping("/movieWish")
