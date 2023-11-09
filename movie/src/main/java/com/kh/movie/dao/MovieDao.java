@@ -6,7 +6,7 @@ import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
 
 public interface MovieDao {
-
+	int sequence();
 	List<MovieDto> selectList();
 	List<AdminMovieListVO> selectAdminMovieList();
 	List<MovieDto> selectList(String movieName);

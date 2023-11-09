@@ -6,6 +6,10 @@
 
 <mapper namespace="movie">
 
+	<select id="sequence" resultType="int">
+		select movie_seq.nextval from dual
+	</select>
+
 	<select id="findAll" resultType="MovieDto">
 		select * from movie order by
 		movie_release_date desc
@@ -23,11 +27,12 @@
 		select count(*) from movie
 	</select>
 
+
+	
 	<insert id="save">
-		insert into movie(movie_no, movie_name,
-		movie_director, movie_release_date,
-		movie_time, movie_level, movie_nation, movie_content)
-		values(movie_seq.nextval, #{movieName},
+		insert into movie(movie_no, movie_name, movie_director, movie_release_date, 
+		movie_time, movie_level, movie_nation, movie_content) 
+		values(#{movieNo}, #{movieName}, 
 		#{movieDirector}, #{movieReleaseDate}, #{movieTime},
 		#{movieLevel}, #{movieNation},
 		#{movieContent})
