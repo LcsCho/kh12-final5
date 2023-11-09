@@ -7,5 +7,4 @@ public interface MemberDao {
 	MemberDto selectOne(String memberId);
 	MemberDto login(MemberDto memberDto);
 
-
 }

@@ -6,4 +6,19 @@
     
 <mapper namespace="cert">
 
+<!-- 이메일 발송 -->
+<insert id="add">
+	insert into cert(cert_email, cert_no)
+	 values(#{certEmail}, #{certNo})
+</insert>
+
+<delete id="remove">
+	delete cert where cert_email = #{certEmail}
+</delete>
+
+<select id="find" resultType="CertDto">
+	select * from cert where cert_email = #{certEmail}
+</select>
+
+
 </mapper>
