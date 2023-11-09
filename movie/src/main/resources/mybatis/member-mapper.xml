@@ -38,4 +38,9 @@
 	<delete id="remove">
 		delete member where member_id = #{memberId}
 	</delete>
+	
+	<!-- 회원 수 출력 쿼리문 -->
+	<select id="count" resultType="int">
+		select count(*) from member
+	</select>
 </mapper>

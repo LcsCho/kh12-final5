@@ -48,4 +48,9 @@ public class MemberDaoImpl implements MemberDao{
 		return null;
 	}
 
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("member.count");
+	}
+
 }
