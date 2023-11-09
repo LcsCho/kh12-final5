@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
 
@@ -77,9 +78,25 @@ public class MovieDaoImpl implements MovieDao{
 		
 	}
 	
+	//영화 상세 이미지 연결
+	@Override
+	public void connectDetailImage(int movieNo, int imageNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("movieNo", movieNo);
+		params.put("imageNo", imageNo);
+		sqlSession.insert("movie.connectDetailImage",params);
+		
+	}
+	
 	@Override
 	public int getCount() {
 		return sqlSession.selectOne("movie.count");
+	}
+	
+	@Override
+	public ImageDto findMainImage(int movieNo) {
+		
+		return sqlSession.selectOne("movie.findMainImage",movieNo);
 	}
 
 }

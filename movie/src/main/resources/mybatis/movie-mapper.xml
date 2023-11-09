@@ -95,32 +95,23 @@
 		insert into movie_main_image(movie_no,image_no)
 		values(#{movieNo},#{imageNo})
 	</insert>
+	
+	<insert id="connectDetailImage">
+		insert into movie_detail_image(movie_no,image_no) 
+		values(#{movieNo},#{imageNo})
+	</insert>
+
+	<select id="findMainImage" resultType="ImageDto">
+		select * from image where image_no=(
+			select image_no from movie_main_image 
+			where movie_no=#{movieNo})
+	</select>
+	
+
+
 
 	<!-- 관리자용 영화 목록 조회 -->
 	<select id="adminMovieList" resultType="AdminMovieListVO">
-		SELECT
-		m.movie_no AS movie_no,
-		m.movie_name AS movie_name,
-		m.movie_director AS movie_director,
-		m.movie_nation AS movie_nation,
-		LISTAGG(DISTINCT g.genre_name, ', ') WITHIN GROUP (ORDER BY g.genre_name) AS
-		genre_name,
-		CASE
-		WHEN COUNT(a.ACTOR_NAME) > 2 THEN
-		SUBSTR(LISTAGG(DISTINCT a.ACTOR_NAME, ', '), 1, INSTR(LISTAGG(DISTINCT a.ACTOR_NAME, ', '),
-		',', -1) - 1) || ' 등'
-		ELSE
-		LISTAGG(DISTINCT a.ACTOR_NAME, ', ') WITHIN GROUP (ORDER BY a.ACTOR_NAME)
-		END AS actor_name
-		FROM
-		movie m
-		JOIN movie_genre mg ON m.movie_no = mg.movie_no
-		JOIN genre g ON mg.genre_name = g.genre_name
-		JOIN actor a ON m.MOVIE_NO = a.MOVIE_NO
-		GROUP BY
-		m.movie_no,
-		m.movie_name,
-		m.movie_director,
-		m.movie_nation
+		SELECT * from admin_movie_list
 	</select>
 </mapper>

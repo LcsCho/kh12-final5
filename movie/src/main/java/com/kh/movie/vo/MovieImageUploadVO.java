@@ -1,6 +1,7 @@
 package com.kh.movie.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,8 +13,12 @@ import lombok.Data;
 
 //영화 대표 이미지 등록을 위해 만든 VO
 @Data
-public class MovieUploadVO {
-	private MultipartFile attach;
+public class MovieImageUploadVO {
+	
+	private MultipartFile attach;//하나씩 이미지
+	
+	private List<MultipartFile> list;//이미지 여러개
+	
 	private String movieName, movieDirector;
 	private Date movieReleaseDate;
 	private int movieTime;
