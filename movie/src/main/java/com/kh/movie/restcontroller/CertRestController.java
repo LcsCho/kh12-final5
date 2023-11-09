@@ -18,6 +18,8 @@ import com.kh.movie.dao.CertDao;
 @RestController
 @RequestMapping("/rest/cert")
 public class CertRestController {
+
+	
 	
 	@Autowired
 	private JavaMailSender sender;

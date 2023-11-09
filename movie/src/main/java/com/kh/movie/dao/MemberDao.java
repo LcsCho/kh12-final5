@@ -6,6 +6,5 @@ public interface MemberDao {
 	void insert(MemberDto memberDto);
 	MemberDto selectOne(String memberId);
 	MemberDto login(MemberDto memberDto);
-	int getCount();
 
 }
