@@ -86,7 +86,7 @@ public class MovieRestController {
 		String home = System.getProperty("user.home");
 		File dir = new File(home,"upload");
 		dir.mkdir();
-		File target = new File(dir.toString().valueOf(imageNo));
+		File target = new File(dir,String.valueOf(imageNo));
 		attach.transferTo(target);
 		
 		ImageDto imageDto = new ImageDto();
