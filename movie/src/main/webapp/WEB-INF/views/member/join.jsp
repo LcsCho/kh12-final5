@@ -31,12 +31,19 @@
                         <label>아이디<span class="red">*</span></label>
                     </div>
 
-
                     <div class="row w-75 pr-30 left">
                         <input type="email" name="memberId" placeholder="예: test@kh.com" class="form-input w-70">
+   					<button class="btn-send btn btn-navy">
+    			<i class="fa-solid fa-spinner fa-spin"></i>
+    					<span>인증</span>
+								</button>
+                        <div class="cert-wrapper pt-10">
+       					 <input type="text" class="cert-input form-input w-70">
+       					 <button class="btn-cert btn btn-navy">확인완료</button>
    					</div>
    					
                 </div>
+                
                 <div class="row flex-container">
                     <div class="row w-25 left">
                         <label>비밀번호<span class="red">*</span></label>
@@ -45,8 +52,6 @@
                         <input type="text" name="memberPw"
                              placeholder="비밀번호를 입력해주세요"
                             class="form-input w-100">
-                        <div class="success-feedback left"></div>
-                        <div class="fail-feedback left">영문,숫자,특수문자(!@#$) 반드시 1개 이상 포함 8~16자</div>
                     </div>
                 </div>
 <!--                 <div class="row flex-container"> -->
@@ -69,8 +74,6 @@
                     <div class="row w-75 pr-30">
                         <input type="text" name="memberNickname" 
                          class="form-input w-100">
-                        <div class="success-feedback"></div>
-                        <div class="fail-feedback left"></div>
                     </div>
                 </div>
 
@@ -81,7 +84,6 @@
                     <div class="row w-75 pr-30">
                         <input type="date" name="memberBirth" 
                         class="form-input w-100">
-                        <div class="fail-feedback left">잘못된 날짜를 선택하셨습니다</div>
                     </div>
                 </div>
 
@@ -92,7 +94,6 @@
                     <div class="row w-75 pr-30">
                         <input type="tel" name="memberContact" placeholder="01012341234(-없이)"
                                 class="form-input w-100">
-                        <div class="fail-feedback left">휴대폰 번호를 입력해주세요</div>
                     </div>
                 </div>
                   <div class="row flex-container">
@@ -100,7 +101,6 @@
                     <div class="row w-25 left">
                         <label>성별<span class="red">*</span></label>
                     </div>
-
 
                     <div class="row w-75 pr-30 left">
                         <input type="text" name="memberGender" class="form-input w-70">
@@ -113,5 +113,6 @@
                     <button type="submit" class="btn btn-orange">가입하기</button>
                 </div>
 
+        </div>
         </div>
     </form>
