@@ -3,9 +3,11 @@ package com.kh.movie.controller;
 import java.io.IOException;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,5 +61,26 @@ public class MemberController {
 			return "redirect:login?success";
 		}
 	}
+	//개인정보 변경
+	@GetMapping("/change")
+	public String name(HttpSession session, Model model) {
+		String memberId = (String) session.getAttribute("name");
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		model.addAttribute("memberDto", memberDto);
+		return "member/change";
+	}
 	
+	@PostMapping("/change")
+	public String change(@ModelAttribute MemberDto inputDto, HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		
+		MemberDto findDto = memberDao.selectOne(memberId);
+			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+			return "redirect:changeFinish";
+	}
+	
+	@RequestMapping("/changeFinish")
+	public String changeFinish() {
+		return "member/changeFinish";
+	}
 }

@@ -48,4 +48,9 @@ public class MemberDaoImpl implements MemberDao{
 		return null;
 	}
 
+	@Override
+	public void updateMemberInfo(MemberDto inputDto) {
+		
+	}
+
 }

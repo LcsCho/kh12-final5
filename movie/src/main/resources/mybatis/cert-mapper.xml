@@ -12,4 +12,13 @@
 	 values(#{certEmail}, #{certNo})
 </insert>
 
+<delete id="remove">
+	delete cert where cert_email = #{certEmail}
+</delete>
+
+<select id="find" resultType="CertDto">
+	select * from cert where cert_email = #{certEmail}
+</select>
+
+
 </mapper>
