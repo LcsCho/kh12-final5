@@ -59,4 +59,9 @@ public class MemberDaoImpl implements MemberDao{
 		
 	}
 
+	@Override
+	public void delete(String memberId) {
+		
+	}
+
 }
