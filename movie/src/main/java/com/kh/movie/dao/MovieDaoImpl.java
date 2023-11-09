@@ -20,6 +20,11 @@ public class MovieDaoImpl implements MovieDao{
 	private SqlSession sqlSession;
 
 	@Override
+	public int sequence() {
+		return sqlSession.selectOne("movie.sequence");
+	}
+	
+	@Override
 	public List<MovieDto> selectList() {
 		return sqlSession.selectList("movie.findAll");
 	}
@@ -33,6 +38,7 @@ public class MovieDaoImpl implements MovieDao{
 	public void insert(MovieDto movieDto) {
 		sqlSession.insert("movie.save", movieDto);
 	}
+
 
 	@Override
 	public boolean delete(int movieNo) {

@@ -5,7 +5,7 @@ import java.util.List;
 import com.kh.movie.dto.MovieDto;
 
 public interface MovieDao {
-
+	int sequence();
 	List<MovieDto> selectList();
 	List<MovieDto> selectList(String movieName);
 	void insert(MovieDto movieDto);

@@ -10,13 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +24,7 @@ import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.vo.MovieUploadVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -76,10 +77,21 @@ public class MovieRestController {
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
-	@PostMapping(value = "/image/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void upload(@RequestPart MultipartFile attach, 
-						@RequestBody MovieDto movieDto) throws IllegalStateException, IOException {
-		movieDao.insert(movieDto);
+	@PostMapping(value = "/image/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void upload(@ModelAttribute MovieUploadVO vo) throws IllegalStateException, IOException {
+//		ObjectMapper mapper = new ObjectMapper();
+//		MovieDto dto = mapper.readValue(movieDto, MovieDto.class);
+		log.debug("dto = {}", vo);
+		MovieDto moviedto = vo.getMovieDto();
+		
+		int movieNo = movieDao.sequence();
+		log.debug("movieNo={}",movieNo);
+		
+		moviedto.setMovieNo(movieNo);
+		log.debug("movieNo={}",moviedto.getMovieNo());
+		movieDao.insert(moviedto);
+		
+		MultipartFile attach =vo.getAttach();
 		
 		int imageNo = imageDao.sequence();
 		
@@ -96,8 +108,8 @@ public class MovieRestController {
 		imageDto.setImageType(attach.getContentType());	
 		imageDao.insert(imageDto);
 		
-		movieDao.connectMainImage(movieDto.getMovieNo(),imageNo);
-//		log.debug("attach = {}", attach);
+		movieDao.connectMainImage(moviedto.getMovieNo(),imageNo);
+		log.debug("attach = {}", attach);
 		
 		
 	}
