@@ -19,8 +19,8 @@ public class MemberRestController {
 	@Autowired
 	private MemberDao memberDao;
 	
-	@GetMapping("/memberCount/{memberCount}")
-	public int count() {
-		return memberDao.getCount();
-	}
+//	@GetMapping("/memberCount/{memberCount}")
+//	public int count() {
+//		return memberDao.getCount();
+//	}
 }

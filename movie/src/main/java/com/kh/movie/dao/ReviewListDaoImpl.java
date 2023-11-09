@@ -20,31 +20,32 @@ public class ReviewListDaoImpl implements ReviewListDao {
 
     //최신순 조회
     @Override
-    public List<ReviewListVO> findByDateDesc() {
-        return sqlSession.selectList("reviewList.findByDateDesc");
+    public List<ReviewListVO> findByDateDesc(int movieNo) {
+        return sqlSession.selectList("reviewList.findByDateDesc", movieNo);
     }
     
     //오래된순 조회
     @Override
-    public List<ReviewListVO> findByDateAsc() {
-        return sqlSession.selectList("reviewList.findByDateAsc");
+    public List<ReviewListVO> findByDateAsc(int movieNo) {
+        return sqlSession.selectList("reviewList.findByDateAsc", movieNo);
     }
     
     //좋아요순 조회
     @Override
-    public List<ReviewListVO> findByLikeDesc() {
-        return sqlSession.selectList("reviewList.findByLikeDesc");
+    public List<ReviewListVO> findByLikeDesc(int movieNo) {
+        return sqlSession.selectList("reviewList.findByLikeDesc", movieNo);
     }
     
     //평점높은순 조회
     @Override
-    public List<ReviewListVO> findByRatingDesc() {
-        return sqlSession.selectList("reviewList.findByRatingDesc");
+    public List<ReviewListVO> findByRatingDesc(int movieNo) {
+        return sqlSession.selectList("reviewList.findByRatingDesc", movieNo);
     }
     
     //평점낮은순 조회
     @Override
-    public List<ReviewListVO> findByRatingAsc() {
-        return sqlSession.selectList("reviewList.findByRatingAsc");
+    public List<ReviewListVO> findByRatingAsc(int movieNo) {
+        return sqlSession.selectList("reviewList.findByRatingAsc", movieNo);
     }
+    
 }

@@ -11,19 +11,21 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 $(function(){ 
+	var params = new URLSearchParams(location.search);
+	var no = params.get("movieNo");
+	
+	$(document).ready(function () {
+        // 페이지가 로드될 때 최신순 조회 함수 호출
+        $(".ByDateDesc").click();
+    });
 	
 	//최신순 조회
 	$(".ByDateDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByDateDesc",
-			method: "post",
+			url: "http://localhost:8080/rest/review/list/findByDateDesc?movieNo=" + no,
+			method: "get",
 			data: {
-				imageNo : "review.reviewNo",
-				memberNickname : "review.memberNickname",
-				ratingScore : "review.ratingScore",
-				reviewCount : "review.reviewContent",
-				reviewLikeCount : "review.reviewLikeCount",
-				sortType: "findByDateDesc"
+				data:{movieNo : movieNo},
 			},
 			success: function(response){
 				$(".review-list").empty();
@@ -48,8 +50,8 @@ $(function(){
 	//오래된순 조회
 	$(".ByDateAsc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByDateAsc",
-			method: "post",
+			url: "http://localhost:8080/rest/review/list/findByDateAsc" + no,
+			method: "get",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -81,8 +83,8 @@ $(function(){
 	//좋아요순 조회
 	$(".ByLikeDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByLikeDesc",
-			method: "post",
+			url: "http://localhost:8080/rest/review/list/findByLikeDesc" + no,
+			method: "get",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -114,8 +116,8 @@ $(function(){
 	//평점높은순 조회
 	$(".ByRatingDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByRatingDesc",
-			method: "post",
+			url: "http://localhost:8080/rest/review/list/findByRatingDesc" + no,
+			method: "get",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -147,8 +149,8 @@ $(function(){
 	//평점낮은순 조회
 	$(".ByRatingAsc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByRatingAsc",
-			method: "post",
+			url: "http://localhost:8080/rest/review/list/findByRatingAsc" + no,
+			method: "get",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -190,9 +192,7 @@ $(function(){
 		  <button type="button" class="ByRatingDesc">높은평점순</button>
 		  <button type="button" class="ByRatingAsc">낮은평점순</button>
 		</div>
-		<div class="review-list">
-		
-		</div>
+		<div class="review-list"></div>
 	</div>
 
 </body>
