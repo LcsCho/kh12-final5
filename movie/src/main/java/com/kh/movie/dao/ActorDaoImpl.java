@@ -20,6 +20,11 @@ public class ActorDaoImpl implements ActorDao{
 	private SqlSession sqlSession;
 
 	@Override
+	public int sequence() {
+		return sqlSession.selectOne("actor.sequence");
+	}
+	
+	@Override
 	public List<ActorDto> selectList() {
 		return sqlSession.selectList("actor.findAll");
 	}
@@ -54,5 +59,14 @@ public class ActorDaoImpl implements ActorDao{
 		params.put("actorNo", actorNo);
 		params.put("dto", actorDto);
 		return sqlSession.update("actor.editUnit", params) > 0;
+	}
+	
+	@Override
+	public void connectActorImage(int actorNo, int imageNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("actorNo", actorNo);
+		params.put("imageNo", imageNo);
+		sqlSession.insert("actor.connectActorImage",params);
+		
 	}
 }
