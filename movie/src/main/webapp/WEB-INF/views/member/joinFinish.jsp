@@ -83,10 +83,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
     
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+          <c:forEach var="genreDto" items="${list}" varStatus="status">
+       		<input type="checkbox" value=${genreDto.genreName}>${genreDto.genreName} <br>
+          </c:forEach>
 <div class="container w-600">
 	<div class="row pt-20">
 		<h2>회원가입 완료</h2>
 	</div>
+	
 	<div class="row pt-20">
 		<h3>선호장르 선택 후<br>
 		 맞춤 정보를 받아보세요!</h3>
@@ -135,6 +141,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	<div class="row pt-30 mt-20">
 		<button type="submit" class=" btn btn-save">선택완료</button>
+		<h3 class="orange">
+			<i class="fa-regular fa-face-laugh-beam fa-5x"></i>
+		</h3>
+	</div>
+	<div class="row pt-10">
+		<h3 class="orange">진심으로 환영합니다!</h3>
+	</div>
+	<div class="row pt-30">
+		<a href="login" class="btn btn-orange">로그인</a> <a href="/main"
+			class="btn btn-navy">메인</a>
 	</div>
 	
 	<!-- 건너뛰기 누르면 자동으로 null값 - 안내 팝업 띄우기 -->

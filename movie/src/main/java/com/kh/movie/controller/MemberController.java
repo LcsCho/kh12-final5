@@ -1,6 +1,7 @@
 package com.kh.movie.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.movie.dao.GenreDao;
 import com.kh.movie.dao.MemberDao;
+import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.PreferGenreDto;
 import com.kh.movie.service.EmailService;
@@ -29,6 +32,9 @@ public class MemberController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private GenreDao genreDao;
 	
 	//회원가입
 	@GetMapping("/join")
@@ -52,6 +58,11 @@ public class MemberController {
 	@PostMapping("/joinFinish2")
 	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
 		return "member/login";
+	@GetMapping("/joinFinish")
+	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
+		List<GenreDto> list = genreDao.selectList();
+		model.addAttribute("list", list);
+		return "member/joinFinish";
 	}
 	
 	//로그인

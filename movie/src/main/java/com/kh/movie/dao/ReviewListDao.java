@@ -2,6 +2,7 @@ package com.kh.movie.dao;
 
 import java.util.List;
 
+import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.vo.ReviewListVO;
 
 public interface ReviewListDao {
@@ -10,4 +11,6 @@ public interface ReviewListDao {
 	List<ReviewListVO> findByLikeDesc(int movieNo);//좋아요순
 	List<ReviewListVO> findByRatingDesc(int movieNo);//평점높은순
 	List<ReviewListVO> findByRatingAsc(int movieNo);//평점낮은순
+	
+	List<MovieSimpleInfoDto> findAll(int movieNo);//영화 정보 조회
 }
