@@ -43,4 +43,15 @@
 	<select id="count" resultType="int">
 		select count(*) from member
 	</select>
+	
+	<!-- 관리자가 회원 등급 수정하는 쿼리문 -->
+	<update id="updateMemberLevel">
+		update member
+		<set>
+			<if test="dto.memberLevel != null">
+				member_level = #{dto.memberLevel}
+			</if>
+		</set>
+		where member_id = #{memberId}
+	</update>
 </mapper>

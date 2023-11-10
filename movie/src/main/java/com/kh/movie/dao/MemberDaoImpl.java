@@ -1,6 +1,10 @@
 package com.kh.movie.dao;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -64,6 +68,17 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.delete("member.remove", memberId) > 0;
 	}
 
-
+	@Override
+	public List<MemberDto> selectList() {
+		return sqlSession.selectList("member.findAll");
+	}
+	
+	@Override
+	public boolean editUnit(MemberDto memberDto, String memberId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("dto", memberDto);
+		params.put("memberId", memberId);
+		return sqlSession.update("member.updateMemberLevel", params) > 0;
+	}
 
 }
