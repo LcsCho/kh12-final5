@@ -48,16 +48,14 @@ public class MemberController {
 		memberDao.insert(memberDto);
 		
 		emailService.sendCelebration(memberDto.getMemberId());
-		return "redirect:joinFinish2";
-	}
-	@GetMapping("/joinFinish2")
-	public String joinFinish() {
-		return "member/joinFinish2";
+		return "redirect:joinFinish";
 	}
 	
-	@PostMapping("/joinFinish2")
+	@PostMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
 		return "member/login";
+	}
+	
 	@GetMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
 		List<GenreDto> list = genreDao.selectList();
