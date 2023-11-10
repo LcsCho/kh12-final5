@@ -11,40 +11,38 @@
 
     <!--javascript 작성 공간-->
     <script>
-    
     $(function(){
-        //처음 로딩아이콘 숨김
-       // $(".btn-send").find(".fa-spinner").hide();
+        // 처음 로딩아이콘 숨김
+        $(".fa-spinner").hide();
         $(".cert-wrapper").hide();
 
-        //인증번호 보내기 버튼을 누르면
-        //서버로 비동기 통신을 보내 인증 메일 발송 요청
-        $(".btn-send").click(function(){
+        // 인증번호 보내기 버튼을 누르면 서버로 비동기 통신을 보내 인증 메일 발송 요청
+        $(".btn-send").click(function(e){
+            e.preventDefault(); // 기본 제출 방지
+
             var email = $("[name=memberId]").val();
             if(email.length == 0) return;
 
             $(".btn-send").prop("disabled", true);
-            $(".btn-send").find(".fa-spinner").show();
-            $(".btn-send").find("span").text("전송중");
+            $(".fa-spinner").show();
+            $(".btn-send span").text("전송중");
+
             $.ajax({
-                url:"http://localhost:8080/rest/cert/send",
-                method:"post",
-                data:{certEmail: email},
-                success:function(){
+                url: "http://localhost:8080/rest/cert/send",
+                method: "post",
+                data: { certEmail: email },
+                success: function(){
                     $(".btn-send").prop("disabled", false);
-                     //$(".btn-send").find(".fa-spinner").hide();
-                   $(".btn-send").find("span").text("재전송");
-                    // window.alert("이메일 확인하세요!");
+                    $(".fa-spinner").hide();
+                    $(".btn-send span").text("재전송");
                     $(".cert-wrapper").show();
                     window.email = email;
                 },
-                fail:function(){
-                	console.log("실패");
-                	}
+                error: function(){
+                    console.log("실패");
                 }
             });
         });
-    
 
     </script>
 

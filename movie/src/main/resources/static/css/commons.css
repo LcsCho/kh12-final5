@@ -1,0 +1,720 @@
+/*
+    자주 사용하는 디자인 코드를 모아놓은 파일
+*/
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+/*
+    컨테이너(Container)
+    - 화면의 단위
+    - 가운데 정렬되도록 구현
+    - 내부에 행(row)을 배치하여 원하는 화면을 구성
+*/
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+    자주 사용할 것으로 예상되는 폭을 클래스로 지정
+    - 최소 300px, 최대 1200px까지 100px 단위로 설정
+    - 100부터는 비율(%)로 설정
+*/
+.w-16, .col-6 { width:16.66666%; }
+.w-20, .col-5 { width:20%; }
+.w-25, .col-4 { width:25%; }
+.w-33, .col-3 { width:33.3333%; }
+.w-50, .col-2 { width:50%; }
+.w-75 { width:75%; }
+.w-100 { width:100%; }
+
+.w-300 { width:300px; }
+.w-400 { width:400px; }
+.w-500 { width:500px; }
+.w-600 { width:600px; }
+.w-700 { width:700px; }
+.w-800 { width:800px; }
+.w-900 { width:900px; }
+.w-1000 { width:1000px; }
+.w-1100 { width:1100px; }
+.w-1200 { width:1200px; }
+
+/*
+    컨테이너에 배치할 태그의 자리를 row라고 부른다
+*/
+.row {
+    margin:10px 0px;
+}
+
+/*
+    정렬 스타일
+*/
+.row {
+    text-align: center;
+}
+.left {
+    text-align: left;
+}
+.center {
+    text-align: center;
+}
+.right {
+    text-align: right;
+}
+
+/*
+    입력창 디자인
+    - 글자가 핵심이므로 글자 크기를 정하고 나머지를 비율(em)로 설정
+*/
+.form-input, 
+.btn 
+{
+    /* a 태그 때문에 추가한 속성 */
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: bottom;
+
+    font-size: 20px;
+    padding: 0.5em 1em;
+    outline: none; /*outline은 입력 창 선택 시 강조 효과 */
+    border: 1px solid #636e72;
+    border-radius: 0.1em;
+    line-height: 1.2em;
+}
+.form-input:focus {/*선택된 상태를 focus라 한다 */
+    border-color: #2d3436;
+}
+
+/*
+    입력창의 변형(확장) 스타일
+    - 기본 스타일에 옵션을 추가하듯이 추가 클래스를 작성하여 적용
+*/
+
+/* 
+    2개 클래스가 모두 적용된 경우만 디자인하도록 설정
+*/
+.form-input.form-underline {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/*
+    입력창 변형 스타일
+    - 배경이미지를 포함하는 입력창
+    - background-image 속성 사용
+*/
+
+.form-input.form-image {
+    padding-left: 2em;
+
+    /* background-image: url("./images/email-icon.png"); */
+    background-size: 1.25em;
+    background-repeat: no-repeat;
+    background-position-x: 0.35em;
+    /* background-position-y: 50%; */
+    background-position-y: center;
+}
+
+/*
+    textarea는 크기 조정을 resize라는 속성으로 제어한다
+*/
+textarea.form-input {
+    resize: vertical;
+    min-height:6em;
+}
+textarea.form-input.fixed {
+    resize: none;
+}
+
+/*
+    버튼은 입력창과 동일하게 구현
+    글자를 두껍게 보여주도록 처리(bold)
+*/
+.btn {
+    font-weight: bold;
+    border-color: #2d3436;
+    background-color: white;
+    color: #2d3436;
+    cursor: pointer;
+}
+.btn:hover { /*마우스가 버튼에 올라가면 배경을 조금 더 어둡게*/
+    filter:brightness(98%);
+}
+
+/*
+    버튼은 역할에 따라 구분
+    - 긍정버튼 - 페이지의 목적을 달성할 수 있도록 하는 버튼
+    - 중립버튼 - 페이지의 목적과 아무 상관 없는 버튼(기본값)
+    - 부정버튼 - 페이지의 목적을 달성할 수 없도록 하는 버튼
+*/
+.btn.btn-positive {
+    border-color: #0984e3;
+    background-color: #0984e3;
+    color: white;
+}
+.btn.btn-negative {
+    border-color: #e17055;
+    background-color: #e17055;
+    color: white;
+}
+
+/*
+    간격 스타일(spacing)
+    - margin, padding을 자주 사용하는 것들 위주로 클래스화
+    - 기본 간격은 10px이며 10px 단위로 설정 가능하도록 구현
+    - margin은 m, padding은 p로 설정
+*/
+
+.m-10 { margin: 10px; }
+.m-20 { margin: 20px; }
+.m-30 { margin: 30px; }
+.m-40 { margin: 40px; }
+.m-50 { margin: 50px; }
+
+.mh-10 { margin:0px 10px; }
+.mh-20 { margin:0px 20px; }
+.mh-30 { margin:0px 30px; }
+.mh-40 { margin:0px 40px; }
+.mh-50 { margin:0px 50px; }
+
+.mv-10 { margin:10px 0px; }
+.mv-20 { margin:20px 0px; }
+.mv-30 { margin:30px 0px; }
+.mv-40 { margin:40px 0px; }
+.mv-50 { margin:50px 0px; }
+
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+.mt-40 { margin-top: 40px; }
+.mt-50 { margin-top: 50px; }
+
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-30 { margin-bottom: 30px; }
+.mb-40 { margin-bottom: 40px; }
+.mb-50 { margin-bottom: 50px; }
+
+.ms-10 { margin-left: 10px; }
+.ms-20 { margin-left: 20px; }
+.ms-30 { margin-left: 30px; }
+.ms-40 { margin-left: 40px; }
+.ms-50 { margin-left: 50px; }
+
+.me-10 { margin-right: 10px;}
+.me-20 { margin-right: 20px;}
+.me-30 { margin-right: 30px;}
+.me-40 { margin-right: 40px;}
+.me-50 { margin-right: 50px;}
+
+
+/*
+    테이블 디자인
+    - 클래스가 table인 항목을 디자인
+    - 연계 선택자를 이용하여 대상을 제한해야 함
+
+    연계 선택자
+    [1] .table th - .table 안에 있는 모든 th를 의미 (후손선택자)
+    [2] .table > thead > tr > th - 직접적인 경로를 알려주어 th를 선택(자식선택자)
+*/
+.table {
+    width:100%;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th, 
+.table > tbody > tr > td, 
+.table > tfoot > tr > th, 
+.table > tfoot > tr > td 
+{
+    padding:0.25em;
+}
+
+/*
+    확장 스타일 - 테두리가 있는 테이블
+*/
+.table.table-border {
+    border: 1px solid #2d3436;
+}
+.table.table-border > thead > tr > th,
+.table.table-border > thead > tr > td,
+.table.table-border > tbody > tr > th, 
+.table.table-border > tbody > tr > td, 
+.table.table-border > tfoot > tr > th, 
+.table.table-border > tfoot > tr > td
+{ 
+    border: 1px solid #2d3436;
+}
+
+/*
+    확장 스타일 - 마우스 반응 테이블
+*/
+.table.table-hover > tbody > tr:hover {
+    background-color: #dfe6e9;
+}
+
+/*
+    확장 스타일 - 줄무늬 테이블
+*/
+.table.table-stripe > thead {
+    background-color: #dfe6e9;
+}
+.table.table-stripe > tbody > tr:nth-child(2n) {
+    background-color: #dfe6e9;
+}
+
+/*
+    확장 스타일 - 옆트임 테이블
+*/
+.table.table-slit {
+    border-top: 1px solid #2d3436;
+    border-bottom: 1px solid #2d3436;
+}
+.table.table-slit > thead {
+    border-bottom: 1px solid #2d3436;
+}
+.table.table-slit > tfoot {
+    border-top: 1px solid #2d3436;
+}
+
+.table.table-slit > tbody > tr :not(tr:last-child) {
+    border-bottom: 1px dotted #2d3436;
+}
+
+
+/*
+    페이지 네비게이터 디자인
+*/
+.page-navigator > a {
+    display:inline-block;
+    font-size: 12px;
+    padding: 0.5em;
+    min-width:2.25em;
+    cursor: pointer;
+    text-decoration: none;
+    /* border:1px solid #2d3436; */
+    box-shadow: 0px 0px 1px 0px #2d3436;
+    color: #2d3436;
+}
+.page-navigator > a.on,
+.page-navigator > a:hover {
+    /* border-color: #0984e3; */
+    box-shadow: 0px 0px 2px 0px #0984e3;
+    color: #0984e3;
+}
+
+/*
+    글자 색상과 관련된 클래스
+    - 아이콘에도 사용 가능
+*/
+.red { color: #d63031; }
+.blue { color:#0984e3; }
+.yellow { color:#fdcb6e; }
+.green { color:#00b894; }
+.gray { color:#b2bec3; }
+.black { color:#2d3436; }
+.white { color:#FFF; }
+
+
+
+/*
+    전체 화면 디자인
+*/
+.backdrop {
+    /*
+        opacity는 현재 태그 뿐 아니라 내부 태그의 투명도도 조절한다
+    */
+
+    background-color: rgba(0, 0, 0, 0.1);
+    /* background-color: black; */
+    /* opacity: 0.1; */
+
+    /* 전체 화면을 덮을 수 있도록 위치 설정 */
+    position: fixed;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+}
+/*
+    화면의 가운데 위치시키는 방법
+    [1] margin을 음수로 부여하는 방법(폭을 알 때)
+        - 모든 브라우저에서 작동하는 코드
+        - 폭을 모를 때는 사용할 수 없다
+
+        .backdrop > .modal {
+            background-color: white;
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            top:50%;
+            left:50%;
+            margin-top: -50px;
+            margin-left: -50px;
+        }
+    [2] 폭을 몰라도 가운데로 배치하는 방법
+    - transform 속성을 사용하여 translate 함수로 이동 처리
+    - translate 함수는 현재 대상을 기준으로 비율을 계산한다
+    .backdrop > .modal {
+        background-color: white;
+        position: fixed;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+    }
+
+    [3] flexible layout을 사용하는 방법
+    .backdrop {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .backdrop > .modal {
+        background-color: white;
+    }
+*/
+
+/* 영역 가운데 위치시키는 필살 클래스(2번 방법 사용) */
+.position-center {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/*
+    메뉴 디자인
+
+    메뉴는 계층형 구조를 가지는 가장 대표적인 도구
+    list tag를 이용하여 구현(ol, ul, li)
+
+    1차메뉴
+        - 2차메뉴
+            - 3차메뉴
+            - 3차메뉴
+        - 2차메뉴
+            - 3차메뉴
+            - 3차메뉴
+            - 3차메뉴
+        - 2차메뉴
+    1차메뉴
+        - 2차메뉴
+            - 3차메뉴
+            - 3차메뉴
+        - 2차메뉴
+            - 3차메뉴
+            - 3차메뉴
+            - 3차메뉴
+        - 2차메뉴    
+
+    ul.menu
+        - li - a
+            - ul
+                - li - a
+                - li - a
+                - li - a
+        - li - a
+            - ul
+                - li - a
+                - li - a
+                - li - a
+*/
+
+/* 디자인 초기화 */
+ul.menu, 
+ul.menu ul
+{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+ul.menu a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 1차 메뉴의 배치를 가로 배치로 변경 */
+ul.menu > li {
+    display: inline-block;
+}
+
+/* 색상 변경 및 크기 설정 */
+ul.menu,
+ul.menu ul
+{
+    font-size: 24px;
+    background-color: #2d3436;
+}
+ul.menu li {
+    color: white;
+    background-color: #2d3436;
+    width: 150px;
+}
+
+/* 메뉴에 마우스가 올라가면 하이라이트 효과 */
+ul.menu li:hover {
+    background-color: #636e72;
+}
+
+/* 
+    1차메뉴의 아래쪽에 2차메뉴가 위치하도록 position 변경
+*/
+ul.menu li {
+    position: relative;
+}
+ul.menu ul {
+    position: absolute;
+    z-index: 99999;
+    top: 100%;
+    left: 0;
+}
+
+/*
+    2차 이상의 메뉴를 숨김 처리
+*/
+ul.menu > li ul {
+    display: none;
+}
+
+/*
+    마우스가 올라간 메뉴 항목의 하위메뉴를 표시
+*/
+ul.menu li:hover > ul {
+    display: block;
+}
+
+/*
+    a 태그에 말줄임표 처리 구현
+*/
+ul.menu a {
+    /*
+        overflow로 인해 발생하는 추가 공간을 해결하기 위해 높이 설정
+        - 추가공간이 생기는 이유는 overflow를 처리하기 위해 내부적으로 생성하는 공간 때문(BFC)
+        - display를 inline-block으로 설정하고 세로 정렬을 지정하면 해결
+        - vertical-align은 어떤 값을 주더라도 문제가 해결된다
+        - 버그에 가깝다
+    */
+    display: inline-block;
+    vertical-align: top;
+    width:100%;
+    padding: 0.5em;
+
+    /* 말줄임표 처리를 위한 디자인(반드시 폭이 있어야 함) */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+/*
+    3차 이상의 메뉴는 하단이 아니라 우측에 나오도록 변경
+*/
+ul.menu > li > ul > li  ul {
+    top:0;
+    left:100%;
+}
+
+/*
+    확장 스타일 : 메뉴를 상단 고정 처리
+*/
+ul.menu.fixed {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+/*
+    추가 : 메뉴 Flex로 변경
+*/
+ul.menu {
+    display: flex;
+}
+ul.menu > .menu-right {
+    margin-left: auto;
+}
+
+/* 
+    링크 스타일
+    - 방문한 링크는 :visited로 선택 가능
+*/
+a.link, 
+a.link:visited 
+{
+    text-decoration: none;
+    color: #2d3436;
+}
+a.link:hover 
+{
+    color: #0984e3;
+}
+
+
+/* 
+    float 요소를 배치할 수 있는 전용 공간
+    - ::before 는 공간 시작 지점을 의미하는 가상 선택자
+    - ::after 는 공간 마지막 지점을 의미하는 가상 선택자
+*/
+.float-container::after {
+    content:"";
+    display: block; /* width:100%도 가능 */
+    clear: both;
+}
+.float-container > .float-left {
+    float: left;
+}
+.float-container > .float-right {
+    float: right;
+}
+.float-container > .col-2,
+.float-container > .col-3,
+.float-container > .col-4,
+.float-container > .col-5,
+.float-container > .col-6
+{ 
+    float:left;
+}
+
+/*
+    flexible 레이아웃 스타일
+    - 영역은 display가 flex 이거나 inline-flex 여야 한다
+    - 영역에 flex-direction을 설정하면 내용의 정렬 방식을 정할 수 있다
+    - 영역에 flex-wrap을 설정하면 내용의 줄 바꿈 허용을 정할 수 있다
+    - 영역에 justify-content를 설정하면 내용의 좌우 정렬을 정할 수 있다
+    - 영역에 align-items를 설정하면 내용의 상하 정렬을 정할 수 있다
+    - 영역 내부에 flex-grow를 설정하면 비어있는 공간의 점유비율을 정할 수 있다
+*/
+
+.flex-container {
+    display: flex;
+}
+.inline-flex-container {
+    display: inline-flex;
+}
+
+.flex-container.auto-width > *,
+.inline-flex-container.auto-width > *
+{
+    flex-grow: 1;
+}
+.flex-container.vertical,
+.inline-flex-container.vertical
+{
+    flex-direction: column;
+}
+.flex-container.align-center,
+.inline-flex-container.align-center
+{
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-container.allow-wrap,
+.inline-flex-container.allow-wrap
+{
+    flex-wrap: wrap;
+}
+
+
+/*
+    이미지 디자인
+*/
+.image.image-circle {
+    border-radius: 50%;
+}
+.image.image-round {
+    border-radius: 4px;
+}
+.image.image-border,
+.image.image-hover:hover
+{
+    /* border: 1px solid #2d3436; */
+    box-shadow: 0 0 0 1px #2d3436;
+}
+
+.image.image-blur {
+    opacity: 0.6;
+}
+.image.image-blur:hover {
+    opacity: 1;
+}
+.image.image-lift {
+    box-shadow: 0 0 2px 0px #2d3436;
+}
+.image.image-leaf {
+    border-top-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+.image.image-invert {
+    filter:invert(100%);
+}
+.image.image-grayscale {
+    filter: grayscale(100%);
+}
+
+/*
+    성공/실패에 대한 스타일 구현
+*/
+.success-feedback {
+    color: #00b894;
+    display: none;
+}
+.fail-feedback,
+.fail2-feedback
+{
+    color: #d63031;
+    display: none;
+}
+.success ~ .success-feedback {
+    display: block;
+}
+.fail ~ .fail-feedback {
+    display: block;
+}
+.fail2 ~ .fail2-feedback {
+    display: block;
+}
+.success {
+    /* important는 우선순위를 최상위로 올린다 */
+    border-color: #00b894 !important;
+    background-image: url("../images/valid.png");
+    background-repeat: no-repeat;
+    background-position: center right 1em;
+    background-size: 1em;
+}
+.fail, 
+.fail2
+{
+    border-color: #d63031 !important;
+    background-image: url("../images/invalid.png");
+    background-repeat: no-repeat;
+    background-position: center right 1em;
+    background-size: 1em;
+}
+
+/*
+    진행바 디자인
+*/
+.progressbar {
+    width: 100%;
+    height: 5px;
+}
+.progressbar > .guage {
+    width: 0%;
+    height: 100%;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    /* 스르륵 */
+    transition: width 0.1s ease-out;
+}

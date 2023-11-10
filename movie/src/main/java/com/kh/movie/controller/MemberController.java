@@ -19,6 +19,7 @@ import com.kh.movie.dao.GenreDao;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
+import com.kh.movie.dto.PreferGenreDto;
 import com.kh.movie.service.EmailService;
 //import com.kh.movie.service.EmailService;
 
@@ -47,8 +48,16 @@ public class MemberController {
 		memberDao.insert(memberDto);
 		
 		emailService.sendCelebration(memberDto.getMemberId());
-		return "redirect:joinFinish";
+		return "redirect:joinFinish2";
 	}
+	@GetMapping("/joinFinish2")
+	public String joinFinish() {
+		return "member/joinFinish2";
+	}
+	
+	@PostMapping("/joinFinish2")
+	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
+		return "member/login";
 	@GetMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
 		List<GenreDto> list = genreDao.selectList();
@@ -69,7 +78,7 @@ public class MemberController {
 			return "redirect:login?error";
 		}
 		else { //정보 설정 후 메인 또는 기존 페이지로 이동
-			return "redirect:login?success";
+			return "redirect:change";
 		}
 	}
 	//개인정보 변경
