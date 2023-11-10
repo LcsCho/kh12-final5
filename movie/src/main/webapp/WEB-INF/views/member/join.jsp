@@ -11,6 +11,40 @@
 
     <!--javascript 작성 공간-->
     <script>
+    
+    $(function(){
+        //처음 로딩아이콘 숨김
+       // $(".btn-send").find(".fa-spinner").hide();
+        $(".cert-wrapper").hide();
+
+        //인증번호 보내기 버튼을 누르면
+        //서버로 비동기 통신을 보내 인증 메일 발송 요청
+        $(".btn-send").click(function(){
+            var email = $("[name=memberId]").val();
+            if(email.length == 0) return;
+
+            $(".btn-send").prop("disabled", true);
+            $(".btn-send").find(".fa-spinner").show();
+            $(".btn-send").find("span").text("전송중");
+            $.ajax({
+                url:"http://localhost:8080/rest/cert/send",
+                method:"post",
+                data:{certEmail: email},
+                success:function(){
+                    $(".btn-send").prop("disabled", false);
+                     //$(".btn-send").find(".fa-spinner").hide();
+                   $(".btn-send").find("span").text("재전송");
+                    // window.alert("이메일 확인하세요!");
+                    $(".cert-wrapper").show();
+                    window.email = email;
+                },
+                fail:function(){
+                	console.log("실패");
+                	}
+                }
+            });
+        });
+    
 
     </script>
 
@@ -33,7 +67,7 @@
 
                     <div class="row w-75 pr-30 left">
                         <input type="email" name="memberId" placeholder="예: test@kh.com" class="form-input w-70">
-   					<button class="btn-send btn btn-navy">
+   					<button type="button" class="btn-send btn btn-navy">
     			<i class="fa-solid fa-spinner fa-spin"></i>
     					<span>인증</span>
 								</button>

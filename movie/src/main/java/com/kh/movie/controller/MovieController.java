@@ -1,7 +1,5 @@
 package com.kh.movie.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +15,13 @@ public class MovieController {
 	
 	@Autowired
 	private ReviewListDao reviewListDao;
-
+	
+	//리뷰 목록
 	@RequestMapping("/review/list")
-	public String reviewList(Model model,  @RequestParam(value = "sortType", defaultValue = "findByDateDesc") String sortType) {
-	    List<ReviewListVO> reviewList = reviewListDao.complexSearch(sortType);
-	    model.addAttribute("reviewList", reviewList);
-	    return "reviewList";
-
+	public String reviewList(@RequestParam int movieNo, Model model) {
+		ReviewListVO reviewListVO = (ReviewListVO) reviewListDao.findByDateDesc(movieNo);
+		model.addAttribute("review", reviewListVO);
+		return "movie/review/list?movieNo=" + movieNo;
 	}
 
 }

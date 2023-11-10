@@ -7,5 +7,7 @@ public interface MemberDao {
 	MemberDto selectOne(String memberId);
 	MemberDto login(MemberDto memberDto);
 	int getCount();
+	void updateMemberInfo(MemberDto inputDto);
+	void delete(String memberId);
 
 }

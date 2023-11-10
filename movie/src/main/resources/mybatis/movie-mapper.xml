@@ -112,6 +112,6 @@
 
 	<!-- 관리자용 영화 목록 조회 -->
 	<select id="adminMovieList" resultType="AdminMovieListVO">
-		SELECT * from admin_movie_list
+		select * from admin_movie_list
 	</select>
 </mapper>

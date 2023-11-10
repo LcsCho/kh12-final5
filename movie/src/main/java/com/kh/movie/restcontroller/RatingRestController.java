@@ -21,7 +21,7 @@ public class RatingRestController {
 	@Autowired
 	private RatingDao ratingDao;
 	
-	@GetMapping("/ratingCount/{ratingCount}")
+	@GetMapping("/ratingCount")
 	public int count() {
 		return ratingDao.getCount();
 	}

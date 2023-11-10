@@ -6,4 +6,32 @@
     
 <mapper namespace="reply">
 
+	<!-- 등록 -->
+	<insert id="save">
+		insert into reply (
+			reply_no, review_no, member_nickname, 
+			reply_content, reply_date
+		) values (
+			reply_seq.nextval, #{reviewNo}, #{memberNickname}, 
+			#{replyContent}, #{replyDate}
+		)
+	</insert>
+	
+	<!-- 조회 -->
+	<select id="findAll">
+		select * from reply order by reply_no desc
+	</select>
+	
+	<!-- 수정 -->
+	<update id="edit">
+		update reply
+			set reply_content = #{replyContent}
+			where reply_no = #{replyNo}
+	</update>
+
+	<!-- 삭제 -->
+	<delete id="delete">
+		delete reply where reply_no = #{replyNo}
+	</delete>
+	
 </mapper>

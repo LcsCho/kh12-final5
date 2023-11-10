@@ -40,7 +40,7 @@ public class GenreDaoImpl implements GenreDao{
 	}
 
 	@Override
-	public GenreDto selectOne(int genreNo) {
+	public GenreDto findByGenreNo(int genreNo) {
 		return sqlSession.selectOne("genre.findByGenreNo",genreNo);
 	}
 

@@ -53,4 +53,15 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.count");
 	}
 
+	@Override
+	public void updateMemberInfo(MemberDto inputDto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String memberId) {
+		
+	}
+
 }
