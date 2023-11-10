@@ -22,6 +22,9 @@
         <div class="row">
             <a class="btn w-100" href="join">회원가입</a>
         </div>
+        <div class="row">
+            <a class="btn w-100" href="change">정보 수정</a>
+        </div>
     </div>
 </form>
 

@@ -1,0 +1,53 @@
+/*
+ 사이드바가 있는 레이아웃 스타일
+*/
+
+@charset "UTF-8";
+
+main{
+    width:1100px;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+/*
+    헤더는 좌/중/우 3개로 구분하여 작성
+    -좌 - 로고 등을 배치
+    -중 - 검색창이나 타이틀을 배치
+    -우 - ?
+*/
+header{
+    display: flex;
+    flex-wrap: nowrap;
+    min-height: 80px;
+}
+header > .logo{
+    width:25%; 
+}
+header > .title{
+    flex-grow: 1;
+}
+header > .etc{
+    width:25%;
+}
+header > .logo,
+header > .title,
+header > .etc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+nav{
+    position: relative;
+}
+section{
+    min-height: 400px;
+    display: flex;
+}
+section > aside{
+    width: 200px;
+}
+section > article{
+    flex-grow: 1;
+    padding-bottom: 40px;
+}

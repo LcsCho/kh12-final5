@@ -18,68 +18,70 @@
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
-	  // 최대 5개의 체크박스만 선택되도록 제한
-	  const checkboxes = document.querySelectorAll('.check-item');
-	  let checkedCount = 0;
+document.addEventListener("DOMContentLoaded", function() {
+    // 최대 5개의 체크박스만 선택되도록 제한
+    const checkboxes = document.querySelectorAll('.check-item');
+    let checkedCount = 0;
 
-	  checkboxes.forEach(function (checkbox) {
-	    checkbox.addEventListener('change', function () {
-	      if (this.checked) {
-	        checkedCount += 1;
-	        if (checkedCount > 5) {
-	          this.checked = false;
-	          checkedCount -= 1;
-	          alert('최대 5개까지만 선택할 수 있습니다.');
-	        }
-	      } else {
-	        checkedCount -= 1;
-	      }
-	    });
-	  });
-	  
-	// 선택완료 버튼 클릭 시 데이터 전송하는 코드
-	    $(".btn.btn-save").click(function() {
-	        // 선택된 선호 장르 가져오기
-	        var selectedGenres = [];
-	        $(".check-item:checked").each(function() {
-	            selectedGenres.push($(this).val());
-	        });
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                checkedCount += 1;
+                if (checkedCount > 5) {
+                    this.checked = false;
+                    checkedCount -= 1;
+                    alert('최대 5개까지만 선택할 수 있습니다.');
+                }
+            } else {
+                checkedCount -= 1;
+            }
+        });
+    });
 
-	        // 회원 닉네임 가져오기 (예시: 서버에서 세션을 통해 제공되는 회원 닉네임 사용)
-	        var memberNickname = getMemberNickname();
+    // "건너뛰기" 버튼을 클릭했을 때 확인 메시지 및 처리
+    const skipButton = document.querySelector('button[type="button"]');
+    skipButton.addEventListener('click', function() {
+        const confirmation = confirm("건너 뛸 시, 선호장르 맞춤 정보는 받을 수 없습니다. 건너뛰시겠습니까?");
+        if (confirmation) {
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+            alert("건너뛰기가 완료되었습니다.");
+        }
+    });
+});
 
-	        // 서버로 데이터 전송
-	        $.ajax({
-	            url: "http://localhost:8080/rest/preferGenre/",
-	            method: "post",
-	            data: {
-	                memberNickname : memberNickname,
-	                genres: selectedGenres
-	            },
-	            success: function(response) {
-	                console.log("데이터가 성공적으로 저장되었습니다.");
-	            },
-	            error: function(error) {
-	                console.error("데이터 저장 중 오류가 발생했습니다.", error);
-	            }
-	        });
-	    });
+</script>
 
+<script>
 
-	
-	  // "건너뛰기" 버튼을 클릭했을 때 확인 메시지 및 처리
-	  const skipButton = document.querySelector('button[type="button"]');
-	  skipButton.addEventListener('click', function () {
-	    const confirmation = confirm("건너 뛸 시, 선호장르 맞춤 정보는 받을 수 없습니다. 건너뛰시겠습니까?");
-	    if (confirmation) {
-	      checkboxes.forEach(function (checkbox) {
-	        checkbox.checked = false;
-	      });
-	      alert("건너뛰기가 완료되었습니다.");
-	    }
-	  });
+// 선택완료 버튼 클릭 시 데이터 전송하는 코드
+$(".btn.btn-save").click(function() {
+    // 선택된 선호 장르 가져오기
+    var  selectedGenres = [];
+    $(".check-item:checked").each(function() {
+        selectedGenres.push($(this).val());
+    });
 
+    // 회원 닉네임 가져오기 (예시: 서버에서 세션을 통해 제공되는 회원 닉네임 사용)
+    var memberNickname = getMemberNickname();
+
+    // 서버로 데이터 전송
+    $.ajax({
+        url: "http://localhost:8080/preferGenre/",
+        method: "post",
+        data: {
+            memberNickname : memberNickname,
+            genreName: selectedGenres
+        },
+        success: function(response) {
+            console.log("데이터가 성공적으로 저장되었습니다.");
+        },
+        error: function(error) {
+            console.error("데이터 저장 중 오류가 발생했습니다.", error);
+        }
+    });
+});
 
 </script>
     
