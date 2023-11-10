@@ -31,7 +31,7 @@ public class MemberController {
 	@GetMapping("/join")
 	public String join() {
 	
-		return "member/join";
+		return "member/join";         
 	}
 	
 	@PostMapping("/join")
@@ -41,6 +41,7 @@ public class MemberController {
 		emailService.sendCelebration(memberDto.getMemberId());
 		return "redirect:joinFinish";
 	}
+	
 	@GetMapping("/joinFinish")
 	public String joinFinish() {
 		return "member/joinFinish";
@@ -62,6 +63,7 @@ public class MemberController {
 			return "redirect:login?success";
 		}
 	}
+	
 	//개인정보 변경
 	@GetMapping("/change")
 	public String name(HttpSession session, Model model) {
