@@ -52,10 +52,8 @@ public class MovieRestController {
 	@Autowired
 	private ImageDao imageDao; 
 	
-	
 	//프로필 업로드 & 다운로드 기능
 
-		
 		//초기 디렉터리 설정
 		@Autowired
 		private FileUploadProperties props;
@@ -67,9 +65,6 @@ public class MovieRestController {
 			dir = new File(props.getHome());
 			dir.mkdirs();
 		}
-	
-	
-	
 	
 	@GetMapping("/")
 	public List<MovieDto> list() {
@@ -117,7 +112,7 @@ public class MovieRestController {
 	}
 	//영화 등록(영화+이미지 같이 등록)
 	@PostMapping(value = "/image/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void upload(@ModelAttribute MovieImageUploadVO vo) throws IllegalStateException, IOException {
+	public void insert(@ModelAttribute MovieImageUploadVO vo) throws IllegalStateException, IOException {
 
 //		log.debug("dto = {}", vo);
 		MovieDto movieDto = vo.getMovieDto();
