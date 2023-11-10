@@ -8,6 +8,6 @@ public interface MemberDao {
 	MemberDto login(MemberDto memberDto);
 	int getCount();
 	void updateMemberInfo(MemberDto inputDto);
-	void delete(String memberId);
+	boolean delete(String memberId);
 
 }

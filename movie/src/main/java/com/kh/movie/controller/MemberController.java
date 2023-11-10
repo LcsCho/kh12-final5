@@ -55,6 +55,7 @@ public class MemberController {
 		return "member/login";
 	}
 	
+
  	@GetMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
 		List<GenreDto> list = genreDao.selectList();
@@ -95,14 +96,14 @@ public class MemberController {
 		return "member/change";
 	}
 	
-//	@PostMapping("/change")
-//	public String change(@ModelAttribute MemberDto inputDto, HttpSession session) {
-//		String memberId = (String) session.getAttribute("name");
-//		
-//		MemberDto findDto = memberDao.selectOne(memberId);
-//			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
-//			return "redirect:changeFinish";
-//	}
+	@PostMapping("/change")
+	public String change(@ModelAttribute MemberDto inputDto, HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		
+		MemberDto findDto = memberDao.selectOne(memberId);
+			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+			return "redirect:changeFinish";
+	}
 	
 	@RequestMapping("/changeFinish")
 	public String changeFinish() {

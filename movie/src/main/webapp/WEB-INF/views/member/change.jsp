@@ -48,12 +48,13 @@
                     </div>
                 </div>
               
-                <div class="row float-container right pr-30" >
-	                        <button class="btn" type="submit">                         
+                 <div class="row float-container right pr-30" >
+	                        <button class="btn btn-edit" type="submit">                         
 	                            회원정보수정
 	                        </button>
-	                       
+	                        <a class="btn" href="exit" >탈퇴하기</a>
                 </div>
+                
         </div> 
     </form>
     
