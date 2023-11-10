@@ -17,10 +17,8 @@
 	</select>
 
 	<insert id="save">
-		insert into actor(actor_no, movie_no, actor_name, 
-		actor_role) 
-		values(actor_seq.nextval, #{movieNo},
-		 #{actorName}, #{actorRole})
+		insert into actor(actor_no, actor_name) 
+		values(actor_seq.nextval,#{actorName})
 	</insert>
 
 	<delete id="deleteByActorNo">
@@ -33,8 +31,7 @@
 		<if test="dto.actorNo > 0">
 			actor_no = #{dto.actorNo}, 
 		</if>
-		actor_name = #{dto.actorName},
-		actor_role = #{dto.actorRole}
+		actor_name = #{dto.actorName}
 		where actor_no = #{actorNo}
 	</update>
 
@@ -45,10 +42,7 @@
 				actor_no = #{dto.actorNo},
 			</if>
 			<if test="dto.actorName != null">
-				actor_name = #{dto.actorName},
-			</if>
-			<if test="dto.actorRole != null">
-				actor_role = #{dto.actorRole}
+				actor_name = #{dto.actorName}
 			</if>
 		</set>
 		where actor_no = #{actorNo}

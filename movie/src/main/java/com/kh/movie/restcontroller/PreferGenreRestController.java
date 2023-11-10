@@ -27,16 +27,19 @@ public class PreferGenreRestController {
 	@Autowired
 	private PreferGenreDao preferGenreDao;
 	
+	//전체 조회
 	@GetMapping("/")
 	public List<PreferGenreDto> list() {
 		return preferGenreDao.selectList();
 	}
 	
+	//등록
 	@PostMapping("/")
 	public void insert(@RequestBody PreferGenreDto preferGenreDto) {
 		preferGenreDao.insert(preferGenreDto);
 	}
 	
+	//삭제
 	@DeleteMapping("/memberNickname/{memberNickname}/genreName/{genreName}")
 	public ResponseEntity<String> delete(@PathVariable String memberNickname, @PathVariable String genreName) {
 		boolean result = preferGenreDao.delete(memberNickname, genreName);
@@ -44,6 +47,7 @@ public class PreferGenreRestController {
 		else return ResponseEntity.status(404).build();
 	}
 	
+	//닉네임으로 리스트 조회
 	@GetMapping("/memberNickname/{memberNickname}")
 	public ResponseEntity<List<PreferGenreDto>> findByMemberNickname(@PathVariable String memberNickname){
 		List<PreferGenreDto> list = preferGenreDao.selectListByMemberNickname(memberNickname);
