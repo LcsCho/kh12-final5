@@ -40,7 +40,7 @@ public class MemberController {
 	@GetMapping("/join")
 	public String join() {
 	
-		return "member/join";
+		return "member/join";         
 	}
 	// throws MessagingException, IOException
 	@PostMapping("/join")
@@ -56,7 +56,7 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@GetMapping("/joinFinish")
+ 	@GetMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
@@ -79,6 +79,7 @@ public class MemberController {
 			return "redirect:change";
 		}
 	}
+	
 	//개인정보 변경
 	@GetMapping("/change")
 	public String name(HttpSession session, Model model) {

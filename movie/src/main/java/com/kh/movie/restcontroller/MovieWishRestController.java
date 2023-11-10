@@ -27,16 +27,19 @@ public class MovieWishRestController {
 	@Autowired
 	private MovieWishDao movieWishDao;
 	
+	//전체 조회
 	@GetMapping("/")
 	public List<MovieWishDto> list() {
 		return movieWishDao.selectList();
 	}
 	
+	//등록
 	@PostMapping("/")
 	public void insert(@RequestBody MovieWishDto movieWishDto) {
 		movieWishDao.insert(movieWishDto);
 	}
 	
+	//삭제
 	@DeleteMapping("/{wishNo}")
 	public ResponseEntity<String> delete(@PathVariable int wishNo) {
 		boolean result = movieWishDao.delete(wishNo);
@@ -44,6 +47,7 @@ public class MovieWishRestController {
 		else return ResponseEntity.status(404).build();
 	}
 	
+	//찜번호로 상세 조회
 	@GetMapping("/{wishNo}")
 	public ResponseEntity<MovieWishDto> findByWishNo(@PathVariable int wishNo) {
 		MovieWishDto movieWishDto = movieWishDao.selectOne(wishNo);
