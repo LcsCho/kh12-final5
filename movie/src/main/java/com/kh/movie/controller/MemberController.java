@@ -42,28 +42,28 @@ public class MemberController {
 	
 		return "member/join";
 	}
-	// throws MessagingException, IOException
+
 	@PostMapping("/join")
 	public String join(@ModelAttribute MemberDto memberDto)throws MessagingException, IOException{
 		memberDao.insert(memberDto);
 		
 		emailService.sendCelebration(memberDto.getMemberId());
-		return "redirect:joinFinish2";
-	}
-	@GetMapping("/joinFinish2")
-	public String joinFinish() {
-		return "member/joinFinish2";
+		return "redirect:joinFinish";
 	}
 	
-	@PostMapping("/joinFinish2")
-	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
-		return "member/login";
 	@GetMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
 		return "member/joinFinish";
 	}
+	
+	@PostMapping("/joinFinish")
+	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
+		return "member/login";
+		
+	}	
+	
 	
 	//로그인
 	@GetMapping("/login")
