@@ -64,8 +64,8 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public void delete(String memberId) {
-		
+	public boolean delete(String memberId) {
+		return sqlSession.delete("member.remove", memberId) > 0;
 	}
 
 	@Override

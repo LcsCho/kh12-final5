@@ -30,38 +30,44 @@ public class GenreRestController {
 	@Autowired
 	private GenreDao genreDao;
 	
-	@GetMapping("/") //전체조회
+	//전체조회
+	@GetMapping("/") 
 	public List<GenreDto> list(){
 		return genreDao.selectList();
 	}
 	
-	@PostMapping("/") //등록
+	//등록
+	@PostMapping("/") 
 	public void insert(@RequestBody GenreDto genreDto) {
 		genreDao.insert(genreDto);
 	}
 	
-	@DeleteMapping("/{genreNo}") //삭제
+	//삭제
+	@DeleteMapping("/{genreNo}") 
 	public ResponseEntity<String> delete(@PathVariable int genreNo){
 		boolean result = genreDao.delete(genreNo);
 		if(result) return ResponseEntity.status(200).build();
 		else return ResponseEntity.status(404).build(); 
 	}
 	
-	@GetMapping("/{genreNo}") //상세 조회
+	//장르번호로 상세 조회
+	@GetMapping("/{genreNo}") 
 	public ResponseEntity<GenreDto> findByGenreNo(@PathVariable int genreNo) {
 		GenreDto genreDto = genreDao.findByGenreNo(genreNo);
 		if(genreDto != null) 	return ResponseEntity.ok().body(genreDto);
 		else return ResponseEntity.notFound().build();
 	}
 	
-	@PutMapping("/{genreNo}") //전체수정 
+	//전체수정
+	@PutMapping("/{genreNo}") 
 	public ResponseEntity<String> edit(@PathVariable int genreNo ,
 			@RequestBody GenreDto genreDto) {
 		boolean result = genreDao.edit(genreNo, genreDto);
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
-	@PatchMapping("/{genreNo}") //개별수정
+	//개별수정
+	@PatchMapping("/{genreNo}") 
 	public ResponseEntity<String> editUnit(@PathVariable int genreNo ,
 			@RequestBody GenreDto genreDto){
 		if(genreDto.isEmpty()) {

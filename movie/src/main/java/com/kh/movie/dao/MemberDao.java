@@ -13,5 +13,5 @@ public interface MemberDao {
 	void delete(String memberId);
 	List<MemberDto> selectList();
 	boolean editUnit(MemberDto memberDto, String memberLevel);
-
+	boolean delete(String memberId);
 }

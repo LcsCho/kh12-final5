@@ -40,9 +40,9 @@ public class MemberController {
 	@GetMapping("/join")
 	public String join() {
 	
-		return "member/join";
+		return "member/join";         
 	}
-	// throws MessagingException, IOException
+
 	@PostMapping("/join")
 	public String join(@ModelAttribute MemberDto memberDto)throws MessagingException, IOException{
 		memberDao.insert(memberDto);
@@ -50,18 +50,25 @@ public class MemberController {
 		emailService.sendCelebration(memberDto.getMemberId());
 		return "redirect:joinFinish";
 	}
-	
 	@PostMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
 		return "member/login";
 	}
 	
-	@GetMapping("/joinFinish")
+
+ 	@GetMapping("/joinFinish")
 	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
 		return "member/joinFinish";
 	}
+	
+	@PostMapping("/joinFinish")
+	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
+		return "member/login";
+		
+	}	
+	
 	
 	//로그인
 	@GetMapping("/login")
@@ -79,6 +86,7 @@ public class MemberController {
 			return "redirect:change";
 		}
 	}
+	
 	//개인정보 변경
 	@GetMapping("/change")
 	public String name(HttpSession session, Model model) {
@@ -88,14 +96,14 @@ public class MemberController {
 		return "member/change";
 	}
 	
-//	@PostMapping("/change")
-//	public String change(@ModelAttribute MemberDto inputDto, HttpSession session) {
-//		String memberId = (String) session.getAttribute("name");
-//		
-//		MemberDto findDto = memberDao.selectOne(memberId);
-//			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
-//			return "redirect:changeFinish";
-//	}
+	@PostMapping("/change")
+	public String change(@ModelAttribute MemberDto inputDto, HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		
+		MemberDto findDto = memberDao.selectOne(memberId);
+			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+			return "redirect:changeFinish";
+	}
 	
 	@RequestMapping("/changeFinish")
 	public String changeFinish() {
