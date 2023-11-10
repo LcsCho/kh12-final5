@@ -3,6 +3,7 @@ package com.kh.movie.restcontroller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -113,7 +115,7 @@ public class MovieRestController {
 		boolean result = movieDao.editUnit(movieNo, movieDto);
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
-	
+	//영화 등록(영화+이미지 같이 등록)
 	@PostMapping(value = "/image/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public void upload(@ModelAttribute MovieImageUploadVO vo) throws IllegalStateException, IOException {
 
@@ -168,29 +170,64 @@ public class MovieRestController {
 		
 	}
 	
+	//영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
 	@GetMapping("/image/{movieNo}")
-	public ResponseEntity<ByteArrayResource>download(@PathVariable int movieNo) throws IOException{
+	public ResponseEntity<ByteArrayResource>downloadMainImage(@PathVariable int movieNo) throws IOException{
 		
-		log.debug("movieNo={}",movieNo);
-		ImageDto imageDto = movieDao.findMainImage(movieNo);
-		log.debug("imageDto={}",imageDto);
-//		if(imageDto ==null) {
-//			return ResponseEntity.notFound().build();//404
-//			
-//		}
-		File target = new File(dir,String.valueOf(imageDto.getImageNo()));
+
+		ImageDto imageMainDto = movieDao.findMainImage(movieNo);
+
+		if(imageMainDto ==null) {
+			return ResponseEntity.notFound().build();//404
+			
+		}
+		File target = new File(dir,String.valueOf(imageMainDto.getImageNo()));
 		byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기
 		ByteArrayResource resource=new ByteArrayResource(data);
 		
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
-				.contentLength(imageDto.getImageSize())
-				.header(HttpHeaders.CONTENT_TYPE,imageDto.getImageType())
+				.contentLength(imageMainDto.getImageSize())
+				.header(HttpHeaders.CONTENT_TYPE,imageMainDto.getImageType())
 				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header("Content-Disposition","attachment;filename="+imageDto.getImageName())
+				.header("Content-Disposition","attachment;filename="+imageMainDto.getImageName())
 
 				.body(resource);
+		
+	
+		
+		
 	}
+	
+	//영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
+		@GetMapping("/images/{imageNo}")
+		public ResponseEntity<ByteArrayResource>downloadImage(@PathVariable int imageNo) throws IOException{
+			
+
+			ImageDto imageDto = movieDao.findImage(imageNo);
+			log.debug("imageNo={}",imageNo);
+			log.debug("imageDto={}",imageDto);
+
+//			if(imageDetailDto ==null) {
+//				return ResponseEntity.notFound().build();//404
+//				
+//			}
+			File target = new File(dir,String.valueOf(imageDto.getImageNo()));
+			byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기
+			ByteArrayResource resource=new ByteArrayResource(data);
+			
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+					.contentLength(imageDto.getImageSize())
+					.header(HttpHeaders.CONTENT_TYPE,imageDto.getImageType())
+					.contentType(MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition","attachment;filename="+imageDto.getImageName())
+
+					.body(resource);
+			
+		}
+	
+
 		
 	
 	
