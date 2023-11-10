@@ -6,11 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.vo.ReviewListVO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 public class ReviewListDaoImpl implements ReviewListDao {
 
@@ -46,6 +44,13 @@ public class ReviewListDaoImpl implements ReviewListDao {
     @Override
     public List<ReviewListVO> findByRatingAsc(int movieNo) {
         return sqlSession.selectList("reviewList.findByRatingAsc", movieNo);
+    }
+    
+    
+    //영화 정보 조회
+    @Override
+    public List<MovieSimpleInfoDto> findAll(int movieNo) {
+    	return sqlSession.selectList("movieSimpleInfo.findAll", movieNo);
     }
     
 }

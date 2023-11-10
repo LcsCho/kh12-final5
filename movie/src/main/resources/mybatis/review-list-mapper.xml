@@ -30,6 +30,12 @@
 	<select id="findByRatingAsc" resultType="ReviewListVO">
 		select * from review_list where movie_no = #{movieNo}  order by rating_score asc
 	</select>
+	
+	
+	<!-- 상세조회 -->
+	<select id="findByReviewNo" resultType="ReviewListVO">
+		select * from review_list where review_no = #{reviewNo}
+	</select>
 
 
 </mapper>

@@ -10,11 +10,9 @@
             <hr>
 
                 <div class="row flex-container pt-20">
-                    <div class="row w-25 left">
-                        <label>아이디</label>
-                    </div>
+                    
                     <div class="row w-75 pr-30">
-                        <input type="text" name="memberId" value="${memberDto.memberId}"
+                        <input type="hidden" name="memberId" value="${memberDto.memberId}"
                             class="form-input w-100" readonly>
                     </div>
                 </div>

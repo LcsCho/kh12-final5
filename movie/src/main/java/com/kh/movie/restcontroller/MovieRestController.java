@@ -2,9 +2,15 @@ package com.kh.movie.restcontroller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,12 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
-import com.kh.movie.vo.MovieUploadVO;
 import com.kh.movie.vo.AdminMovieListVO;
+import com.kh.movie.vo.MovieImageUploadVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +50,25 @@ public class MovieRestController {
 	@Autowired
 	private ImageDao imageDao; 
 	
+	
+	//프로필 업로드 & 다운로드 기능
+
+		
+		//초기 디렉터리 설정
+		@Autowired
+		private FileUploadProperties props;
+		
+		private File dir;
+		
+		@PostConstruct
+		public void init() {
+			dir = new File(props.getHome());
+			dir.mkdirs();
+		}
+	
+	
+	
+	
 	@GetMapping("/")
 	public List<MovieDto> list() {
 		return movieDao.selectList();
@@ -53,10 +79,10 @@ public class MovieRestController {
 		return movieDao.getCount();
 	}
 	
-	@PostMapping("/")
-	public void insert(@RequestBody MovieDto movieDto) {
-		movieDao.insert(movieDto);
-	}
+//	@PostMapping("/")
+//	public void insert(@RequestBody MovieDto movieDto) {
+//		movieDao.insert(movieDto);
+//	}
 	
 	@DeleteMapping("/{movieNo}")
 	public ResponseEntity<String> delete(@PathVariable int movieNo) {
@@ -89,26 +115,23 @@ public class MovieRestController {
 	}
 	
 	@PostMapping(value = "/image/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void upload(@ModelAttribute MovieUploadVO vo) throws IllegalStateException, IOException {
-//		ObjectMapper mapper = new ObjectMapper();
-//		MovieDto dto = mapper.readValue(movieDto, MovieDto.class);
-		log.debug("dto = {}", vo);
-		MovieDto moviedto = vo.getMovieDto();
+	public void upload(@ModelAttribute MovieImageUploadVO vo) throws IllegalStateException, IOException {
+
+//		log.debug("dto = {}", vo);
+		MovieDto movieDto = vo.getMovieDto();
 		
 		int movieNo = movieDao.sequence();
-		log.debug("movieNo={}",movieNo);
+//		log.debug("movieNo={}",movieNo);
 		
-		moviedto.setMovieNo(movieNo);
-		log.debug("movieNo={}",moviedto.getMovieNo());
-		movieDao.insert(moviedto);
+		movieDto.setMovieNo(movieNo);
+//		log.debug("movieNo={}",moviedto.getMovieNo());
+		movieDao.insert(movieDto);
 		
+		//////////////////////////////////////////
+		//영화 메인 이미지 등록
 		MultipartFile attach =vo.getAttach();
-		
 		int imageNo = imageDao.sequence();
-		
-		String home = System.getProperty("user.home");
-		File dir = new File(home,"upload");
-		dir.mkdir();
+		log.debug("imageNo={}",imageNo);
 		File target = new File(dir,String.valueOf(imageNo));
 		attach.transferTo(target);
 		
@@ -118,12 +141,59 @@ public class MovieRestController {
 		imageDto.setImageSize(attach.getSize());
 		imageDto.setImageType(attach.getContentType());	
 		imageDao.insert(imageDto);
+		//////////////////////////////////////////
+		movieDao.connectMainImage(movieDto.getMovieNo(),imageNo);
 		
-		movieDao.connectMainImage(moviedto.getMovieNo(),imageNo);
-		log.debug("attach = {}", attach);
-		
+		//////////////////////////////////////////
+		//영화 상세 이미지 등록
+		List<MultipartFile> list =vo.getList();
+
+		for(MultipartFile attachs : list) {
+			imageNo =imageDao.sequence();
+			log.debug("imageNo={}",imageNo);
+		    target = new File(dir, String.valueOf(imageNo));
+		    attachs.transferTo(target);
+		    
+		    imageDto.setImageNo(imageNo);
+		    imageDto.setImageName(attachs.getOriginalFilename());
+			imageDto.setImageSize(attachs.getSize());
+			imageDto.setImageType(attachs.getContentType());
+			
+			log.debug("imageDto={}",imageDto);
+			imageDao.insert(imageDto);
+			
+			movieDao.connectDetailImage(movieDto.getMovieNo(),imageNo);
+		}
+		//////////////////////////////////////////
 		
 	}
+	
+	@GetMapping("/image/{movieNo}")
+	public ResponseEntity<ByteArrayResource>download(@PathVariable int movieNo) throws IOException{
+		
+		log.debug("movieNo={}",movieNo);
+		ImageDto imageDto = movieDao.findMainImage(movieNo);
+		log.debug("imageDto={}",imageDto);
+//		if(imageDto ==null) {
+//			return ResponseEntity.notFound().build();//404
+//			
+//		}
+		File target = new File(dir,String.valueOf(imageDto.getImageNo()));
+		byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기
+		ByteArrayResource resource=new ByteArrayResource(data);
+		
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+				.contentLength(imageDto.getImageSize())
+				.header(HttpHeaders.CONTENT_TYPE,imageDto.getImageType())
+				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header("Content-Disposition","attachment;filename="+imageDto.getImageName())
+
+				.body(resource);
+	}
+		
+	
+	
 	
 
 }

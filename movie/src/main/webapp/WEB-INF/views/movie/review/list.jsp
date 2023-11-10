@@ -12,7 +12,7 @@
 <script>
 $(function(){ 
 	var params = new URLSearchParams(location.search);
-	var no = params.get("movieNo");
+    var movieNo = params.get("movieNo");
 	
 	$(document).ready(function () {
         // 페이지가 로드될 때 최신순 조회 함수 호출
@@ -22,17 +22,23 @@ $(function(){
 	//최신순 조회
 	$(".ByDateDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByDateDesc?movieNo=" + no,
-			method: "get",
+			url: "http://localhost:8080/rest/review/list/findByDateDesc?movieNo=" + movieNo,
+			method: "post",
 			data: {
-				data:{movieNo : movieNo},
+				imageNo : "review.reviewNo",
+				memberNickname : "review.memberNickname",
+				ratingScore : "review.ratingScore",
+				reviewCount : "review.reviewContent",
+				reviewLikeCount : "review.reviewLikeCount",
+				sortType: "ByDateAsc"
 			},
 			success: function(response){
 				$(".review-list").empty();
 
 			   for (var i = 0; i < response.length; i++) {
 			       var review = response[i];
-			       var reviewItem = '<div class="review-item">' +
+			       var reviewItem = 
+			    	   '<div class="review-item">' +
 			           '<span class="reviewNo">' + review.reviewNo + '</span><br>' +
 			           '<span class="memberNickname">' + review.memberNickname + '</span><br>' +
 			           '<span class="ratingScore">' + review.ratingScore + '</span><br>' +
@@ -50,8 +56,8 @@ $(function(){
 	//오래된순 조회
 	$(".ByDateAsc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByDateAsc" + no,
-			method: "get",
+			url: "http://localhost:8080/rest/review/list/findByDateAsc?movieNo=" + movieNo,
+			method: "post",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -83,8 +89,8 @@ $(function(){
 	//좋아요순 조회
 	$(".ByLikeDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByLikeDesc" + no,
-			method: "get",
+			url: "http://localhost:8080/rest/review/list/findByLikeDesc?movieNo=" + movieNo,
+			method: "post",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -116,8 +122,8 @@ $(function(){
 	//평점높은순 조회
 	$(".ByRatingDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByRatingDesc" + no,
-			method: "get",
+			url: "http://localhost:8080/rest/review/list/findByRatingDesc?movieNo=" + movieNo,
+			method: "post",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -149,8 +155,8 @@ $(function(){
 	//평점낮은순 조회
 	$(".ByRatingAsc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByRatingAsc" + no,
-			method: "get",
+			url: "http://localhost:8080/rest/review/list/findByRatingAsc?movieNo=" + movieNo,
+			method: "post",
 			data: {
 				imageNo : "review.reviewNo",
 				memberNickname : "review.memberNickname",
@@ -183,7 +189,20 @@ $(function(){
 </script>
 
 <body>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                        
+	<div>
+		이미지 : ${movieSimpleInfo.imageNo} <br>
+		영화번호 : ${movieSimpleInfo.movieNo} <br>
+		제목 : ${movieSimpleInfo.movieName} <br>
+		제작연도 : ${movieSimpleInfo.movieReleaseYear} <br>
+		장르 : ${movieSimpleInfo.genreName} <br>
+		국가 : ${movieSimpleInfo.movieNation} <br>
+		러닝타임 : ${movieSimpleInfo.movieTime} <br>
+		관람연령 : ${movieSimpleInfo.movieLevel} <br>
+	</div>
+    
+    <br><br>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	<div>
 		<div>
 		  <button type="button" class="ByDateDesc">최신순</button>
