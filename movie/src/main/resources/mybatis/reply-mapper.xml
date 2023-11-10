@@ -18,8 +18,8 @@
 	</insert>
 	
 	<!-- 조회 -->
-	<select id="findAll">
-		select * from reply order by reply_no desc
+	<select id="findAll" resultType="ReplyDto">
+		select * from reply where review_no = #{reviewNo} order by reply_date desc
 	</select>
 	
 	<!-- 수정 -->
