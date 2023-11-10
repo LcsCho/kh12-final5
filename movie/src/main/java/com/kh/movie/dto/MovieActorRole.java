@@ -8,12 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class ActorDto {
-	private int actorNo;
-	private String actorName;
+public class MovieActorRole {
+	private int movieNo, actorNo;
+	private String actorRole;
 	
 	@JsonIgnore
 	public boolean isEmpty() {
-		return actorNo == 0 && actorName == null;
+		return actorNo == 0 && movieNo == 0 && actorRole == null;
 	}
 }

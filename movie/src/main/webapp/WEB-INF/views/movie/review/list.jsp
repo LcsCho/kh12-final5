@@ -25,14 +25,20 @@ $(function(){
 			url: "http://localhost:8080/rest/review/list/findByDateDesc?movieNo=" + movieNo,
 			method: "post",
 			data: {
-				data:{movieNo : movieNo},
+				imageNo : "review.reviewNo",
+				memberNickname : "review.memberNickname",
+				ratingScore : "review.ratingScore",
+				reviewCount : "review.reviewContent",
+				reviewLikeCount : "review.reviewLikeCount",
+				sortType: "ByDateAsc"
 			},
 			success: function(response){
 				$(".review-list").empty();
 
 			   for (var i = 0; i < response.length; i++) {
 			       var review = response[i];
-			       var reviewItem = '<div class="review-item">' +
+			       var reviewItem = 
+			    	   '<div class="review-item">' +
 			           '<span class="reviewNo">' + review.reviewNo + '</span><br>' +
 			           '<span class="memberNickname">' + review.memberNickname + '</span><br>' +
 			           '<span class="ratingScore">' + review.ratingScore + '</span><br>' +
