@@ -21,8 +21,11 @@ import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.PreferGenreDto;
 import com.kh.movie.service.EmailService;
+
+import lombok.extern.slf4j.Slf4j;
 //import com.kh.movie.service.EmailService;
 
+@Slf4j
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -47,6 +50,7 @@ public class MemberController {
 	public String join(@ModelAttribute MemberDto memberDto)throws MessagingException, IOException{
 		memberDao.insert(memberDto);
 		
+		
 		emailService.sendCelebration(memberDto.getMemberId());
 		return "redirect:joinFinish";
 	}
@@ -63,12 +67,7 @@ public class MemberController {
 		return "member/joinFinish";
 	}
 	
-//	@PostMapping("/joinFinish")
-//	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
-//		return "member/login";
-//		
-//	}	
-	
+
 	
 	//로그인
 	@GetMapping("/login")
@@ -79,12 +78,21 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(@ModelAttribute MemberDto memberDto) {
 		MemberDto target = memberDao.login(memberDto);
+		log.debug("dto = {}",memberDto);
 		if(target == null) {
 			return "redirect:login?error";
 		}
 		else { //정보 설정 후 메인 또는 기존 페이지로 이동
 			return "redirect:change";
+			
 		}
+	}
+	
+	//로그아웃
+	@RequestMapping("/logout") //로그아웃하려면 로그인된 걸 remove 해주어야 함 - 로그아웃 시,세션값(name) 날라감
+	public String logout(HttpSession session) {
+		session.removeAttribute("name");
+		return "redirect:/main";
 	}
 	
 	//개인정보 변경
@@ -122,17 +130,19 @@ public class MemberController {
 		
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		
-		if(memberDto.getMemberPw().equals(memberPw)) {
+		if( memberDto.getMemberPw().equals(memberPw)) {
 			//삭제
 			memberDao.delete(memberId);
 			//로그아웃
 			session.removeAttribute("name");//세션에서 name의 값을 삭제
 			return "redirect:exitFinish";//탈퇴완료 페이지로 이동
+			
 		}
 		else {//비밀번호 불일치 시,
 			return "redirect:exit?error";//에러페이지
 		}
 	}
+	
 	
 	@RequestMapping("/exitFinish")
 	public String exitFinish() {
