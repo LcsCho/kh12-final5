@@ -3,6 +3,7 @@ package com.kh.movie.dao;
 import java.util.List;
 
 import com.kh.movie.dto.ActorDto;
+import com.kh.movie.vo.ActorViewVO;
 
 public interface ActorDao {
 	int sequence();
@@ -13,5 +14,6 @@ public interface ActorDao {
 	boolean edit(int actorNo, ActorDto actorDto);
 	boolean editUnit(int actorNo, ActorDto actorDto);
 	void connectActorImage(int actorNo, int imageNo);
+	List<ActorViewVO> selectActorList();
 
 }

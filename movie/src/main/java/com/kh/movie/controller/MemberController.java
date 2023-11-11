@@ -63,11 +63,11 @@ public class MemberController {
 		return "member/joinFinish";
 	}
 	
-	@PostMapping("/joinFinish")
-	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
-		return "member/login";
-		
-	}	
+//	@PostMapping("/joinFinish")
+//	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
+//		return "member/login";
+//		
+//	}	
 	
 	
 	//로그인
