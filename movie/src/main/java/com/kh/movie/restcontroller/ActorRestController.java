@@ -71,7 +71,10 @@ public class ActorRestController {
 	@DeleteMapping("/{actorNo}")
 	public ResponseEntity<String> delete(@PathVariable int actorNo) {
 		boolean result = actorDao.delete(actorNo);
-		if (result) return ResponseEntity.status(200).build();
+		if (result) {
+//			imageDao.deleteImageByActorNo(actorNo);
+			return ResponseEntity.status(200).build();
+		}
 		else return ResponseEntity.status(404).build();
 	}
 	

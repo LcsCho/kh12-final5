@@ -12,8 +12,7 @@
 
 
 	<select id="findAll" resultType="ActorDto">
-		select * from actor order by
-		actor_name
+		select * from actor order by actor_no desc
 	</select>
 
 	<select id="findByActorName" resultType="ActorDto">
@@ -30,7 +29,7 @@
 	<delete id="deleteByActorNo">
 		delete from actor where actor_no = #{actorNo}
 	</delete>
-	
+
 	<update id="edit">
 		update actor
 		set 
