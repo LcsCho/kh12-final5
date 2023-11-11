@@ -108,7 +108,7 @@ public class ActorRestController {
 		actorDto.setActorNo(actorNo);
 		actorDao.insert(actorDto);
 		
-		MultipartFile attach =vo.getAttach();
+		MultipartFile attach =vo.getActorImage();
 		int imageNo = imageDao.sequence();
 		File target = new File(dir,String.valueOf(imageNo));
 		attach.transferTo(target);
