@@ -58,10 +58,10 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public void updateMemberInfo(MemberDto inputDto) {
-		// TODO Auto-generated method stub
-		
+	public boolean updateMemberInfo(MemberDto inputDto) {
+		return sqlSession.update("member.edit", inputDto) > 0;
 	}
+
 
 	@Override
 	public boolean delete(String memberId) {
@@ -80,5 +80,6 @@ public class MemberDaoImpl implements MemberDao{
 		params.put("memberId", memberId);
 		return sqlSession.update("member.updateMemberLevel", params) > 0;
 	}
+
 
 }

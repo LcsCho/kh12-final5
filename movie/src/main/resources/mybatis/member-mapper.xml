@@ -16,7 +16,11 @@
 
 	<!-- 수정 -->
 	<update id="edit">
-		update member set member_id = #{memberId}
+		update member set
+		 member_nickname = #{memberNickname},
+		 member_birth = #{memberBirth},
+		 member_contact = #{memberContact} 
+		 where member_id = #{memberId}
 	</update>
 
 	<!-- 비밀번호 변경 -->
