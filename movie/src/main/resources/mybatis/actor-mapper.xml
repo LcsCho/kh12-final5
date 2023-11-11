@@ -59,4 +59,10 @@
 		values(#{actorNo},#{imageNo})
 	</select>
 	
+	<select id="findActorImage" resultType="ImageDto">
+		select * from image where image_no=(
+			select image_no from actor_image
+			where actor_no=#{actorNo})
+		
+	</select>
 </mapper>
