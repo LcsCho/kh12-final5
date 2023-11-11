@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ActorDao;
 import com.kh.movie.dao.ImageDao;
+import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dto.ImageDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,10 +35,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ImageRestController {
 	
 	@Autowired
-	private ImageDao imageDao;
-
-	@Autowired
 	private ActorDao actorDao;
+	
+	@Autowired
+	private MovieDao movieDao;
 	
 	//프로필 업로드 & 다운로드 기능
 
@@ -54,7 +55,7 @@ public class ImageRestController {
 			}
 			
 			
-	@GetMapping("/{actorNo}")
+	@GetMapping("/actor/{actorNo}")
 	public ResponseEntity<ByteArrayResource>downloadActorImage(@PathVariable int actorNo) throws IOException{
 		
 		log.debug("actorNo={}",actorNo);
@@ -73,6 +74,28 @@ public class ImageRestController {
 				.contentType(MediaType.APPLICATION_OCTET_STREAM)
 				.header("Content-Disposition","attachment;filename="+imageActorDto.getImageName())
 
+				.body(resource);
+	}
+	
+	@GetMapping("/movieMain/{movieNo}")
+	public ResponseEntity<ByteArrayResource>downloadMovieMainImage(@PathVariable int movieNo) throws IOException{
+		
+		log.debug("movieNo={}",movieNo);
+		
+		ImageDto movieMainImageDto = movieDao.findMainImage(movieNo);
+		log.debug("movieMainImageDto={}",movieMainImageDto);
+		
+		File target = new File(dir,String.valueOf(movieMainImageDto.getImageNo()));
+		byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기
+		ByteArrayResource resource=new ByteArrayResource(data);
+		
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+				.contentLength(movieMainImageDto.getImageSize())
+				.header(HttpHeaders.CONTENT_TYPE,movieMainImageDto.getImageType())
+				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header("Content-Disposition","attachment;filename="+movieMainImageDto.getImageName())
+				
 				.body(resource);
 	}
 	
