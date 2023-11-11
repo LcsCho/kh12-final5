@@ -59,4 +59,8 @@
 		values(#{actorNo},#{imageNo})
 	</select>
 	
+	<select id="actorList" resultType="ActorViewVO">
+		select * from actor_view
+	</select>
+	
 </mapper>
