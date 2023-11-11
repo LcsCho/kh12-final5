@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.ActorDto;
+import com.kh.movie.dto.ImageDto;
 import com.kh.movie.vo.ActorViewVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,6 +75,10 @@ public class ActorDaoImpl implements ActorDao{
 		params.put("imageNo", imageNo);
 		sqlSession.insert("actor.connectActorImage",params);
 		
+	}
+	@Override
+	public ImageDto findActorImage(int actorNo) {
+		return sqlSession.selectOne("actor.findActorImage",actorNo);
 	}
 
 }
