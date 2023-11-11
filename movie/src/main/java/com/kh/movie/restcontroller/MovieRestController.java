@@ -126,7 +126,7 @@ public class MovieRestController {
 		
 		//////////////////////////////////////////
 		//영화 메인 이미지 등록
-		MultipartFile attach =vo.getAttach();
+		MultipartFile attach =vo.getMovieImage();
 		int imageNo = imageDao.sequence();
 		log.debug("imageNo={}",imageNo);
 		File target = new File(dir,String.valueOf(imageNo));
@@ -143,7 +143,7 @@ public class MovieRestController {
 		
 		//////////////////////////////////////////
 		//영화 상세 이미지 등록
-		List<MultipartFile> list =vo.getList();
+		List<MultipartFile> list =vo.getMovieImageList();
 
 		for(MultipartFile attachs : list) {
 			imageNo =imageDao.sequence();
