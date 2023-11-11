@@ -135,7 +135,7 @@ public class MemberController {
 	@RequestMapping("/logout") //로그아웃하려면 로그인된 걸 remove 해주어야 함 - 로그아웃 시,세션값(name) 날라감
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");
-		return "redirect:/main";
+		return "redirect:member/main";
 	}
 	
 	//개인정보 변경
@@ -176,12 +176,11 @@ public class MemberController {
 	public String exit(HttpSession session, @RequestParam String memberPw) {
 		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		String encrypt = encoder.encode(memberPw);
-		log.debug("{}", encrypt);
-		log.debug("{}", memberDto.getMemberPw());
-		if( memberDto.getMemberPw().equals(encrypt)) {
-			//삭제
-			memberDao.delete(memberId);
+	
+		//log.debug("{}", memberDto.getMemberPw());
+		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
+		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
+			memberDao.delete(memberId);//삭제
 			//로그아웃
 			session.removeAttribute("name");//세션에서 name의 값을 삭제
 			return "redirect:exitFinish";//탈퇴완료 페이지로 이동
