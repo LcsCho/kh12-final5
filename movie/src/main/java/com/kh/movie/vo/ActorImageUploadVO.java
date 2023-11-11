@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class ActorImageUploadVO {
 
-	private MultipartFile attach;
+	private MultipartFile actorImage;
 	
 	private String actorName;
 	

@@ -15,9 +15,9 @@ import lombok.Data;
 @Data
 public class MovieImageUploadVO {
 	
-	private MultipartFile attach;//하나씩 이미지
+	private MultipartFile movieImage;//하나씩 이미지
 	
-	private List<MultipartFile> list;//이미지 여러개
+	private List<MultipartFile> movieImageList;//이미지 여러개
 	
 	private String movieName, movieDirector;
 	private Date movieReleaseDate;
