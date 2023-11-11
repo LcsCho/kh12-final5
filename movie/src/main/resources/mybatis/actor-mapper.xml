@@ -65,4 +65,7 @@
 			where actor_no=#{actorNo})
 		
 	</select>
+	<select id="actorList" resultType="ActorViewVO">
+		select * from actor_view
+	</select>
 </mapper>

@@ -28,6 +28,7 @@ import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dto.ActorDto;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.vo.ActorImageUploadVO;
+import com.kh.movie.vo.ActorViewVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -79,6 +80,11 @@ public class ActorRestController {
 		return actorDao.selectList(actorName);
 	}
 	
+	@GetMapping("/actorList")
+	public List<ActorViewVO> selectActorList() {
+		return actorDao.selectActorList();
+	}
+	
 	@PutMapping("/{actorNo}")
 	public ResponseEntity<String> edit(@RequestBody ActorDto actorDto, @PathVariable int actorNo) {
 		boolean result = actorDao.edit(actorNo, actorDto);
@@ -114,12 +120,6 @@ public class ActorRestController {
 		imageDao.insert(imageDto);
 		
 		actorDao.connectActorImage(actorNo,imageNo);
-		
-		
-		
-		
-		
-		
 	}
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.ActorDto;
 import com.kh.movie.dto.ImageDto;
+import com.kh.movie.vo.ActorViewVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +34,11 @@ public class ActorDaoImpl implements ActorDao{
 	@Override
 	public List<ActorDto> selectList(String actorName) {
 		return sqlSession.selectList("actor.findByActorName", actorName);
+	}
+
+	@Override
+	public List<ActorViewVO> selectActorList() {
+		return sqlSession.selectList("actor.actorList");
 	}
 	
 	@Override
@@ -74,4 +80,5 @@ public class ActorDaoImpl implements ActorDao{
 	public ImageDto findActorImage(int actorNo) {
 		return sqlSession.selectOne("actor.findActorImage",actorNo);
 	}
+
 }
