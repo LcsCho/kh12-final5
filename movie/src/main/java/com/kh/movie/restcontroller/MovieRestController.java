@@ -3,7 +3,6 @@ package com.kh.movie.restcontroller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +10,6 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +29,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MovieDao;
+import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.vo.AdminMovieListVO;
-import com.kh.movie.vo.MovieImageUploadVO;
+import com.kh.movie.vo.MovieUploadVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +48,9 @@ public class MovieRestController {
 	
 	@Autowired
 	private MovieDao movieDao;
+	
+	@Autowired
+	private MovieGenreDao movieGenreDao;
 	
 	@Autowired
 	private ImageDao imageDao; 
@@ -111,8 +114,8 @@ public class MovieRestController {
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	//영화 등록(영화+이미지 같이 등록)
-	@PostMapping(value = "/image/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void insert(@ModelAttribute MovieImageUploadVO vo) throws IllegalStateException, IOException {
+	@PostMapping(value = "/upload/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void insert(@ModelAttribute MovieUploadVO vo) throws IllegalStateException, IOException {
 
 //		log.debug("dto = {}", vo);
 		MovieDto movieDto = vo.getMovieDto();
@@ -123,6 +126,12 @@ public class MovieRestController {
 		movieDto.setMovieNo(movieNo);
 //		log.debug("movieNo={}",moviedto.getMovieNo());
 		movieDao.insert(movieDto);
+		
+		// 해당 영화에 대한 장르 같이 등록 구문
+		MovieGenreDto movieGenreDto = vo.getMovieGenreDto();
+		movieGenreDto.setMovieNo(movieNo);
+		movieGenreDao.insert(movieGenreDto);
+		
 		
 		//////////////////////////////////////////
 		//영화 메인 이미지 등록
