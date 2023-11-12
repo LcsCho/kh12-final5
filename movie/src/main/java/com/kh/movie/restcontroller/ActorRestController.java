@@ -27,7 +27,7 @@ import com.kh.movie.dao.ActorDao;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dto.ActorDto;
 import com.kh.movie.dto.ImageDto;
-import com.kh.movie.vo.ActorImageUploadVO;
+import com.kh.movie.vo.ActorUploadVO;
 import com.kh.movie.vo.ActorViewVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,10 +65,29 @@ public class ActorRestController {
 		return actorDao.selectList();
 	}
 	
-//	@PostMapping("/")
-//	public void insert(@RequestBody ActorDto actorDto) {
-//		actorDao.insert(actorDto);
-//	}
+	@PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void insert(@ModelAttribute ActorUploadVO vo) throws IllegalStateException, IOException {
+		
+		ActorDto actorDto = vo.getActorDto();
+		
+		int actorNo = actorDao.sequence();
+		
+		actorDto.setActorNo(actorNo);
+		actorDao.insert(actorDto);
+		
+		MultipartFile actorImage =vo.getActorImage();
+		int imageNo = imageDao.sequence();
+		File target = new File(dir,String.valueOf(imageNo));
+		actorImage.transferTo(target);
+		ImageDto imageDto = new ImageDto();
+		imageDto.setImageNo(imageNo);
+		imageDto.setImageName(actorImage.getOriginalFilename());
+		imageDto.setImageSize(actorImage.getSize());
+		imageDto.setImageType(actorImage.getContentType());	
+		imageDao.insert(imageDto);
+		
+		actorDao.connectActorImage(actorNo,imageNo);
+	}
 	
 	@DeleteMapping("/{actorNo}")
 	public ResponseEntity<String> delete(@PathVariable int actorNo) {
@@ -98,9 +117,37 @@ public class ActorRestController {
 		return actorDao.selectActorList();
 	}
 	
-	@PutMapping("/{actorNo}")
-	public ResponseEntity<String> edit(@RequestBody ActorDto actorDto, @PathVariable int actorNo) {
+	@PutMapping(value = "/editActor/{actorNo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<String> edit(
+	        @ModelAttribute ActorUploadVO vo,
+	        @PathVariable int actorNo) throws IllegalStateException, IOException {
+		ActorDto actorDto = vo.getActorDto();
+		
 		boolean result = actorDao.edit(actorNo, actorDto);
+		MultipartFile actorImage =vo.getActorImage();
+		if(!actorImage.isEmpty()) {
+			ImageDto imageDto = actorDao.findActorImage(actorNo);
+			log.debug("imageDto={}",imageDto);
+			if(imageDto != null) {
+				imageDao.delete(imageDto.getImageNo());
+				File target =new File(dir,String.valueOf(imageDto.getImageNo()));
+				target.delete();
+			}
+			int imageNo = imageDao.sequence();
+			File insertTarget = new File(dir,String.valueOf(imageNo));
+			actorImage.transferTo(insertTarget);
+			ImageDto insertDto = new ImageDto();
+			insertDto.setImageNo(imageNo);
+			insertDto.setImageName(actorImage.getOriginalFilename());
+			insertDto.setImageSize(actorImage.getSize());
+			insertDto.setImageType(actorImage.getContentType());	
+			imageDao.insert(insertDto);
+			
+			actorDao.connectActorImage(actorNo, imageNo);
+			
+		}
+		
+		
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
@@ -111,28 +158,6 @@ public class ActorRestController {
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
-	@PostMapping(value = "/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void insert(@ModelAttribute ActorImageUploadVO vo) throws IllegalStateException, IOException {
-		
-		ActorDto actorDto = vo.getActorDto();
-		
-		int actorNo = actorDao.sequence();
-		
-		actorDto.setActorNo(actorNo);
-		actorDao.insert(actorDto);
-		
-		MultipartFile attach =vo.getActorImage();
-		int imageNo = imageDao.sequence();
-		File target = new File(dir,String.valueOf(imageNo));
-		attach.transferTo(target);
-		ImageDto imageDto = new ImageDto();
-		imageDto.setImageNo(imageNo);
-		imageDto.setImageName(attach.getOriginalFilename());
-		imageDto.setImageSize(attach.getSize());
-		imageDto.setImageType(attach.getContentType());	
-		imageDao.insert(imageDto);
-		
-		actorDao.connectActorImage(actorNo,imageNo);
-	}
+
 	
 }

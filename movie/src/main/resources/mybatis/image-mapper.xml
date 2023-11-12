@@ -30,6 +30,4 @@
 	<delete id="delete">
 		delete image where image_no = #{imageNo}
 	</delete>
-	
-	
 </mapper>
