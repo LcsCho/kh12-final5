@@ -26,13 +26,10 @@
 	<select id="find" resultType="ImageDto">
 		select * from image where image_no = #{imageNo}
 	</select>
-	<!-- 삭제 -->
+	<!-- 삭제 --> 
 	<delete id="delete">
-		select image where image_no = #{imageNo}
+		delete image where image_no = #{imageNo}
 	</delete>
 	
-	<delete id="deleteImageByActorNo">
-		delete from image where actor_no = #{actorNo}
-	</delete>
 	
 </mapper>

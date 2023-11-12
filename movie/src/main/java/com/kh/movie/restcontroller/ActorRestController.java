@@ -31,7 +31,9 @@ import com.kh.movie.vo.ActorImageUploadVO;
 import com.kh.movie.vo.ActorViewVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "배우 관리", description = "배우 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
@@ -70,9 +72,17 @@ public class ActorRestController {
 	
 	@DeleteMapping("/{actorNo}")
 	public ResponseEntity<String> delete(@PathVariable int actorNo) {
+		ImageDto imageDto = actorDao.findActorImage(actorNo);
+		log.debug("imageDto={}",imageDto);
+		
+		if(imageDto != null) {
+			File target =new File(dir,String.valueOf(imageDto.getImageNo()));
+			target.delete();//실제파일 삭제
+			imageDao.delete(imageDto.getImageNo());//파일정보 삭제
+			
+		}
 		boolean result = actorDao.delete(actorNo);
 		if (result) {
-//			imageDao.deleteImageByActorNo(actorNo);
 			return ResponseEntity.status(200).build();
 		}
 		else return ResponseEntity.status(404).build();
