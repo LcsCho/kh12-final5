@@ -3,6 +3,7 @@ package com.kh.movie.restcontroller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -132,38 +133,50 @@ public class MovieRestController {
 		movieGenreDto.setMovieNo(movieNo);
 		movieGenreDao.insert(movieGenreDto);
 		
+//		// 해당 영화에 대한 장르 같이 여러 개 등록 구문
+//	    List<String> genreNames = vo.getGenreNames();
+//	    if (genreNames != null && !genreNames.isEmpty()) {
+//	        for (String genreName : genreNames) {
+//	            MovieGenreDto movieGenreDto = MovieGenreDto.builder()
+//	                .genreNames(Collections.singletonList(genreName))
+//	                .movieNo(movieNo)
+//	                .build();
+//	            movieGenreDao.insert(movieGenreDto);
+//	        }
+//	    }
+		
 		
 		//////////////////////////////////////////
 		//영화 메인 이미지 등록
-		MultipartFile attach =vo.getMovieImage();
+		MultipartFile movieImage = vo.getMovieImage();
 		int imageNo = imageDao.sequence();
 		log.debug("imageNo={}",imageNo);
 		File target = new File(dir,String.valueOf(imageNo));
-		attach.transferTo(target);
+		movieImage.transferTo(target);
 		
 		ImageDto imageDto = new ImageDto();
 		imageDto.setImageNo(imageNo);
-		imageDto.setImageName(attach.getOriginalFilename());
-		imageDto.setImageSize(attach.getSize());
-		imageDto.setImageType(attach.getContentType());	
+		imageDto.setImageName(movieImage.getOriginalFilename());
+		imageDto.setImageSize(movieImage.getSize());
+		imageDto.setImageType(movieImage.getContentType());	
 		imageDao.insert(imageDto);
 		//////////////////////////////////////////
 		movieDao.connectMainImage(movieDto.getMovieNo(),imageNo);
 		
 		//////////////////////////////////////////
 		//영화 상세 이미지 등록
-		List<MultipartFile> list =vo.getMovieImageList();
+		List<MultipartFile> movieImageList = vo.getMovieImageList();
 
-		for(MultipartFile attachs : list) {
+		for(MultipartFile movieImageLists : movieImageList) {
 			imageNo =imageDao.sequence();
 			log.debug("imageNo={}",imageNo);
 		    target = new File(dir, String.valueOf(imageNo));
-		    attachs.transferTo(target);
+		    movieImageLists.transferTo(target);
 		    
 		    imageDto.setImageNo(imageNo);
-		    imageDto.setImageName(attachs.getOriginalFilename());
-			imageDto.setImageSize(attachs.getSize());
-			imageDto.setImageType(attachs.getContentType());
+		    imageDto.setImageName(movieImageLists.getOriginalFilename());
+			imageDto.setImageSize(movieImageLists.getSize());
+			imageDto.setImageType(movieImageLists.getContentType());
 			
 			log.debug("imageDto={}",imageDto);
 			imageDao.insert(imageDto);
@@ -231,10 +244,4 @@ public class MovieRestController {
 			
 		}
 	
-
-		
-	
-	
-	
-
 }
