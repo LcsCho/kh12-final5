@@ -7,6 +7,7 @@ import com.kh.movie.dto.MovieGenreDto;
 public interface MovieGenreDao {
 	int sequence();
 	void insert(MovieGenreDto movieGenreDto);
+    void insertList(List<MovieGenreDto> movieGenreDtos);
 	boolean delete(int movieNo, String genreName);
 	List<MovieGenreDto> selectList();
 	List<MovieGenreDto> selectListByMovieNo(int movieNo);
