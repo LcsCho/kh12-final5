@@ -9,7 +9,7 @@ import lombok.Data;
 
 //배우 등록을 위해 만든 VO
 @Data
-public class ActorImageUploadVO {
+public class ActorUploadVO {
 
 	private MultipartFile actorImage;
 	

@@ -33,12 +33,10 @@
 	<update id="edit">
 		update actor
 		set 
-		<if test="dto.actorNo > 0">
-			actor_no = #{dto.actorNo}, 
-		</if>
 		actor_name = #{dto.actorName}
 		where actor_no = #{actorNo}
 	</update>
+
 
 	<update id="editUnit">
 		update actor
