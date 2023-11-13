@@ -10,3 +10,5 @@ public class ReviewLikeDto {
 	private int reviewNo;
 	private String memberNickname;
 }
+ 
+

@@ -9,6 +9,9 @@ public interface MemberDao {
 	MemberDto selectOne(String memberId);
 	MemberDto login(MemberDto memberDto);
 	int getCount();
+  
+	//회원 아이디로 회원 닉네임 검색
+	String findNicknameById(String memberId);
 	boolean updateMemberInfo(MemberDto inputDto);
 //	void delete(String memberId);
 	List<MemberDto> selectList();

@@ -13,4 +13,5 @@ public interface ReviewListDao {
 	List<ReviewListVO> findByRatingAsc(int movieNo);//평점낮은순
 	
 	List<MovieSimpleInfoDto> findAll(int movieNo);//영화 정보 조회
+	int findReviewNoByMovie(int movieNo);//영화에 달린 리뷰 조회
 }
