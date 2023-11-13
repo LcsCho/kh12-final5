@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.ActorDto;
+import com.kh.movie.dto.ImageDto;
+import com.kh.movie.vo.ActorViewVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +22,11 @@ public class ActorDaoImpl implements ActorDao{
 	private SqlSession sqlSession;
 
 	@Override
+	public int sequence() {
+		return sqlSession.selectOne("actor.sequence");
+	}
+	
+	@Override
 	public List<ActorDto> selectList() {
 		return sqlSession.selectList("actor.findAll");
 	}
@@ -27,6 +34,11 @@ public class ActorDaoImpl implements ActorDao{
 	@Override
 	public List<ActorDto> selectList(String actorName) {
 		return sqlSession.selectList("actor.findByActorName", actorName);
+	}
+
+	@Override
+	public List<ActorViewVO> selectActorList() {
+		return sqlSession.selectList("actor.actorList");
 	}
 	
 	@Override
@@ -55,4 +67,18 @@ public class ActorDaoImpl implements ActorDao{
 		params.put("dto", actorDto);
 		return sqlSession.update("actor.editUnit", params) > 0;
 	}
+	
+	@Override
+	public void connectActorImage(int actorNo, int imageNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("actorNo", actorNo);
+		params.put("imageNo", imageNo);
+		sqlSession.insert("actor.connectActorImage",params);
+		
+	}
+	@Override
+	public ImageDto findActorImage(int actorNo) {
+		return sqlSession.selectOne("actor.findActorImage",actorNo);
+	}
+
 }

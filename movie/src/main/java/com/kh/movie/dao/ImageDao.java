@@ -8,5 +8,4 @@ public interface ImageDao {
 	ImageDto selectOne(int imageNo);
 	boolean delete(int imageNo);
 	int sequence();
-	
 }

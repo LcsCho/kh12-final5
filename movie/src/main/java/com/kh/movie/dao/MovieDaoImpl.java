@@ -88,15 +88,24 @@ public class MovieDaoImpl implements MovieDao{
 		
 	}
 	
+	
+	
 	@Override
 	public int getCount() {
 		return sqlSession.selectOne("movie.count");
 	}
 	
+	
+	//메인 이미지 찾기(이미지 다운로드를 위해 만들음)
 	@Override
-	public ImageDto findMainImage(int movieNo) {
-		
+	public ImageDto findMainImage(int movieNo) {	
 		return sqlSession.selectOne("movie.findMainImage",movieNo);
+	}
+	
+	@Override
+	public ImageDto findImage(int ImageNo) {
+		
+		return sqlSession.selectOne("movie.findImage",ImageNo);
 	}
 
 }

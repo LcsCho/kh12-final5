@@ -7,22 +7,25 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.dto.MovieGenreDto;
 
 import lombok.Data;
 
 
 //영화 대표 이미지 등록을 위해 만든 VO
 @Data
-public class MovieImageUploadVO {
+public class MovieUploadVO {
 	
-	private MultipartFile attach;//하나씩 이미지
+	private MultipartFile movieImage;//하나씩 이미지
 	
-	private List<MultipartFile> list;//이미지 여러개
+	private List<MultipartFile> movieImageList;//이미지 여러개
 	
 	private String movieName, movieDirector;
 	private Date movieReleaseDate;
 	private int movieTime;
 	private String movieLevel, movieNation, movieContent;
+	
+	private String genreName;
 	
 	@JsonIgnore
 	public MovieDto getMovieDto() {
@@ -35,5 +38,12 @@ public class MovieImageUploadVO {
 					.movieNation(movieNation)
 					.movieContent(movieContent)
 				.build();
+	}
+	
+	@JsonIgnore
+	public MovieGenreDto getMovieGenreDto() {
+		return MovieGenreDto.builder()
+							.genreName(genreName)
+							.build();
 	}
 }
