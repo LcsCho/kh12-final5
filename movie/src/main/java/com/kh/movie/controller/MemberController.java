@@ -1,7 +1,10 @@
 package com.kh.movie.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.movie.dao.GenreDao;
 import com.kh.movie.dao.MemberDao;
+import com.kh.movie.dao.PreferGenreDao;
 import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.PreferGenreDto;
@@ -36,6 +40,9 @@ public class MemberController {
 	@Autowired
 	private GenreDao genreDao;
 	
+	@Autowired
+	private PreferGenreDao preferGenreDao;
+	
 	//회원가입
 	@GetMapping("/join")
 	public String join() {
@@ -44,30 +51,38 @@ public class MemberController {
 	}
 
 	@PostMapping("/join")
-	public String join(@ModelAttribute MemberDto memberDto)throws MessagingException, IOException{
+	public String join(@ModelAttribute MemberDto memberDto, HttpSession session)throws MessagingException, IOException{
 		memberDao.insert(memberDto);
 		
 		emailService.sendCelebration(memberDto.getMemberId());
-		return "redirect:joinFinish";
-	}
-	@PostMapping("/joinFinish")
-	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
-		return "member/login";
+		session.setAttribute("memberId", memberDto.getMemberId());
+		return "redirect:/member/joinFinish";
 	}
 	
  	@GetMapping("/joinFinish")
-	public String joinFinish(@ModelAttribute GenreDto genreDto, String memberNickname, Model model) {
+	public String joinFinish(Model model, HttpSession session) {
+ 		String memberId = (String) session.getAttribute("memberId");
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
+		model.addAttribute("memberId", memberId);
 		return "member/joinFinish";
 	}
 	
-	@PostMapping("/joinFinish")
-	public String joinFinish(@ModelAttribute PreferGenreDto preferGenreDto) {
-		return "member/login";
-		
-	}	
-	
+ 	@PostMapping("/joinFinish")
+	public String joinFinish(@RequestParam(value = "selectedGenres", required = false) List<String> selectedGenres, 
+										HttpSession session) {
+		String memberId = (String) session.getAttribute("memberId");
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		// 선택한 장르를 DB에 저장
+	    for (String genreName : selectedGenres) {
+	        PreferGenreDto preferGenreDto = new PreferGenreDto();
+	        preferGenreDto.setMemberNickname(memberDto.getMemberNickname());
+	        preferGenreDto.setGenreName(genreName);
+	        preferGenreDao.insert(preferGenreDto);
+	    }
+		session.removeAttribute("memberId");
+		return "redirect:/";
+	}
 	
 	//로그인
 	@GetMapping("/login")
