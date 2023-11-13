@@ -115,6 +115,8 @@ public class ActorRestController {
 	@GetMapping("/findByActorNo/{actorNo}")
 	public ResponseEntity<ActorDto> findByActorNo(@PathVariable int actorNo){
 		ActorDto actorDto = actorDao.findByActorNo(actorNo);
+		ImageDto imageDto = actorDao.findActorImage(actorNo);
+		log.debug("imageDto={}",imageDto);
 //		log.debug("actorDto={}",actorDto);
 		if(actorDto != null) {
 			return ResponseEntity.ok(actorDto);
@@ -137,7 +139,8 @@ public class ActorRestController {
 		
 		boolean result = actorDao.edit(actorNo, actorDto);
 		MultipartFile actorImage =vo.getActorImage();
-		if(!actorImage.isEmpty()) {
+		log.debug("actorImage={}",actorImage);
+		if(actorImage != null && !actorImage.isEmpty()) {
 			ImageDto imageDto = actorDao.findActorImage(actorNo);
 //			log.debug("imageDto={}",imageDto);
 			if(imageDto != null) {
