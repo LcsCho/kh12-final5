@@ -42,6 +42,11 @@ public class MovieGenreDaoImpl implements MovieGenreDao{
 		params.put("genreName", genreName);
 		return sqlSession.delete("movieGenre.delete", params) > 0;
 	}
+	
+	@Override
+	public MovieGenreDto findMovieGenres(int movieNo) {
+		return sqlSession.selectOne("movieGenre.findMovieGenres", movieNo);
+	}
 
 	@Override
 	public List<MovieGenreDto> selectList() {

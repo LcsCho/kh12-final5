@@ -2,6 +2,8 @@ package com.kh.movie.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,12 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.movie.dao.MovieDao;
+import com.kh.movie.dao.MovieGenreDao;
+import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.ReviewDetailDao;
 import com.kh.movie.dao.ReviewListDao;
+import com.kh.movie.dto.MovieDto;
+import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.vo.ReviewListVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/movie")
 public class MovieController {
@@ -24,6 +34,15 @@ public class MovieController {
 	
 	@Autowired
 	private ReviewDetailDao reviewDetailDao;
+	
+	@Autowired
+	private MovieDao movieDao;
+	
+	@Autowired
+	private MovieGenreDao movieGenreDao;
+	
+	@Autowired
+	private MovieWishDao movieWishDao;
 	
 	//리뷰 목록
 	@GetMapping("/review/list")
@@ -64,5 +83,14 @@ public class MovieController {
 		}
 	    
 	    return "movie/review/detail";
+	}
+	
+	@RequestMapping("/detail")
+	public String detail(@RequestParam int movieNo, HttpSession session, Model model) {
+		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
+		List<MovieGenreDto> list = movieGenreDao.selectListByMovieNo(movieNo);
+		model.addAttribute("movieDto", movieDto);
+		model.addAttribute("list", list);
+		return "movie/detail";
 	}
 }
