@@ -1,6 +1,10 @@
 package com.kh.movie.dao;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,14 +58,27 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public void updateMemberInfo(MemberDto inputDto) {
-		// TODO Auto-generated method stub
-		
+	public boolean updateMemberInfo(MemberDto inputDto) {
+		return sqlSession.update("member.edit", inputDto) > 0;
+	}
+
+
+	@Override
+	public boolean delete(String memberId) {
+		return sqlSession.delete("member.remove", memberId) > 0;
 	}
 
 	@Override
-	public void delete(String memberId) {
-		
+	public List<MemberDto> selectList() {
+		return sqlSession.selectList("member.findAll");
+	}
+	
+	@Override
+	public boolean editUnit(MemberDto memberDto, String memberId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("dto", memberDto);
+		params.put("memberId", memberId);
+		return sqlSession.update("member.updateMemberLevel", params) > 0;
 	}
 	
 	//회원 아이디로 회원 닉네임 찾기
@@ -69,5 +86,6 @@ public class MemberDaoImpl implements MemberDao{
 	public String findNicknameById(String memberId) {
 		return sqlSession.selectOne("member.findNicknameById", memberId);
 	}
+
 
 }

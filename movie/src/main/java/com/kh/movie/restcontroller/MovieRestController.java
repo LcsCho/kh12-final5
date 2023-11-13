@@ -3,6 +3,7 @@ package com.kh.movie.restcontroller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -29,10 +30,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MovieDao;
+import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.vo.AdminMovieListVO;
-import com.kh.movie.vo.MovieImageUploadVO;
+import com.kh.movie.vo.MovieUploadVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -48,12 +51,13 @@ public class MovieRestController {
 	private MovieDao movieDao;
 	
 	@Autowired
-	private ImageDao imageDao; 
+	private MovieGenreDao movieGenreDao;
 	
+	@Autowired
+	private ImageDao imageDao; 
 	
 	//프로필 업로드 & 다운로드 기능
 
-		
 		//초기 디렉터리 설정
 		@Autowired
 		private FileUploadProperties props;
@@ -65,9 +69,6 @@ public class MovieRestController {
 			dir = new File(props.getHome());
 			dir.mkdirs();
 		}
-	
-	
-	
 	
 	@GetMapping("/")
 	public List<MovieDto> list() {
@@ -113,9 +114,9 @@ public class MovieRestController {
 		boolean result = movieDao.editUnit(movieNo, movieDto);
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
-	
-	@PostMapping(value = "/image/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void upload(@ModelAttribute MovieImageUploadVO vo) throws IllegalStateException, IOException {
+	//영화 등록(영화+이미지 같이 등록)
+	@PostMapping(value = "/upload/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void insert(@ModelAttribute MovieUploadVO vo) throws IllegalStateException, IOException {
 
 //		log.debug("dto = {}", vo);
 		MovieDto movieDto = vo.getMovieDto();
@@ -127,37 +128,55 @@ public class MovieRestController {
 //		log.debug("movieNo={}",moviedto.getMovieNo());
 		movieDao.insert(movieDto);
 		
+		// 해당 영화에 대한 장르 같이 등록 구문
+		MovieGenreDto movieGenreDto = vo.getMovieGenreDto();
+		movieGenreDto.setMovieNo(movieNo);
+		movieGenreDao.insert(movieGenreDto);
+		
+//		// 해당 영화에 대한 장르 같이 여러 개 등록 구문
+//	    List<String> genreNames = vo.getGenreNames();
+//	    if (genreNames != null && !genreNames.isEmpty()) {
+//	        for (String genreName : genreNames) {
+//	            MovieGenreDto movieGenreDto = MovieGenreDto.builder()
+//	                .genreNames(Collections.singletonList(genreName))
+//	                .movieNo(movieNo)
+//	                .build();
+//	            movieGenreDao.insert(movieGenreDto);
+//	        }
+//	    }
+		
+		
 		//////////////////////////////////////////
 		//영화 메인 이미지 등록
-		MultipartFile attach =vo.getAttach();
+		MultipartFile movieImage = vo.getMovieImage();
 		int imageNo = imageDao.sequence();
 		log.debug("imageNo={}",imageNo);
 		File target = new File(dir,String.valueOf(imageNo));
-		attach.transferTo(target);
+		movieImage.transferTo(target);
 		
 		ImageDto imageDto = new ImageDto();
 		imageDto.setImageNo(imageNo);
-		imageDto.setImageName(attach.getOriginalFilename());
-		imageDto.setImageSize(attach.getSize());
-		imageDto.setImageType(attach.getContentType());	
+		imageDto.setImageName(movieImage.getOriginalFilename());
+		imageDto.setImageSize(movieImage.getSize());
+		imageDto.setImageType(movieImage.getContentType());	
 		imageDao.insert(imageDto);
 		//////////////////////////////////////////
 		movieDao.connectMainImage(movieDto.getMovieNo(),imageNo);
 		
 		//////////////////////////////////////////
 		//영화 상세 이미지 등록
-		List<MultipartFile> list =vo.getList();
+		List<MultipartFile> movieImageList = vo.getMovieImageList();
 
-		for(MultipartFile attachs : list) {
+		for(MultipartFile movieImageLists : movieImageList) {
 			imageNo =imageDao.sequence();
 			log.debug("imageNo={}",imageNo);
 		    target = new File(dir, String.valueOf(imageNo));
-		    attachs.transferTo(target);
+		    movieImageLists.transferTo(target);
 		    
 		    imageDto.setImageNo(imageNo);
-		    imageDto.setImageName(attachs.getOriginalFilename());
-			imageDto.setImageSize(attachs.getSize());
-			imageDto.setImageType(attachs.getContentType());
+		    imageDto.setImageName(movieImageLists.getOriginalFilename());
+			imageDto.setImageSize(movieImageLists.getSize());
+			imageDto.setImageType(movieImageLists.getContentType());
 			
 			log.debug("imageDto={}",imageDto);
 			imageDao.insert(imageDto);
@@ -168,32 +187,61 @@ public class MovieRestController {
 		
 	}
 	
+	//영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
 	@GetMapping("/image/{movieNo}")
-	public ResponseEntity<ByteArrayResource>download(@PathVariable int movieNo) throws IOException{
+	public ResponseEntity<ByteArrayResource>downloadMainImage(@PathVariable int movieNo) throws IOException{
 		
-		log.debug("movieNo={}",movieNo);
-		ImageDto imageDto = movieDao.findMainImage(movieNo);
-		log.debug("imageDto={}",imageDto);
-//		if(imageDto ==null) {
-//			return ResponseEntity.notFound().build();//404
-//			
-//		}
-		File target = new File(dir,String.valueOf(imageDto.getImageNo()));
+
+		ImageDto imageMainDto = movieDao.findMainImage(movieNo);
+
+		if(imageMainDto ==null) {
+			return ResponseEntity.notFound().build();//404
+			
+		}
+		File target = new File(dir,String.valueOf(imageMainDto.getImageNo()));
 		byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기
 		ByteArrayResource resource=new ByteArrayResource(data);
 		
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
-				.contentLength(imageDto.getImageSize())
-				.header(HttpHeaders.CONTENT_TYPE,imageDto.getImageType())
+				.contentLength(imageMainDto.getImageSize())
+				.header(HttpHeaders.CONTENT_TYPE,imageMainDto.getImageType())
 				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header("Content-Disposition","attachment;filename="+imageDto.getImageName())
+				.header("Content-Disposition","attachment;filename="+imageMainDto.getImageName())
 
 				.body(resource);
-	}
 		
 	
+		
+		
+	}
 	
-	
+	//영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
+		@GetMapping("/images/{imageNo}")
+		public ResponseEntity<ByteArrayResource>downloadImage(@PathVariable int imageNo) throws IOException{
+			
 
+			ImageDto imageDto = movieDao.findImage(imageNo);
+			log.debug("imageNo={}",imageNo);
+			log.debug("imageDto={}",imageDto);
+
+//			if(imageDetailDto ==null) {
+//				return ResponseEntity.notFound().build();//404
+//				
+//			}
+			File target = new File(dir,String.valueOf(imageDto.getImageNo()));
+			byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기
+			ByteArrayResource resource=new ByteArrayResource(data);
+			
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+					.contentLength(imageDto.getImageSize())
+					.header(HttpHeaders.CONTENT_TYPE,imageDto.getImageType())
+					.contentType(MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition","attachment;filename="+imageDto.getImageName())
+
+					.body(resource);
+			
+		}
+	
 }

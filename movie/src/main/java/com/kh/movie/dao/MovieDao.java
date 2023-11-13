@@ -19,5 +19,8 @@ public interface MovieDao {
 	void connectDetailImage(int movieNo, int imageNo);
 	int getCount();
 	ImageDto findMainImage(int movieNo);
+	ImageDto findImage(int ImageNo);
+	
+	
 
 }

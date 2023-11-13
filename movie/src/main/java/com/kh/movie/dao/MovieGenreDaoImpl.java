@@ -28,6 +28,12 @@ public class MovieGenreDaoImpl implements MovieGenreDao{
 	public void insert(MovieGenreDto movieGenreDto) {
 		sqlSession.insert("movieGenre.add", movieGenreDto);
 	}
+	
+	@Override
+	public void insertList(List<MovieGenreDto> movieGenreDtos) {
+		sqlSession.insert("movieGenre.add", movieGenreDtos);
+		
+	}
 
 	@Override
 	public boolean delete(int movieNo, String genreName) {
@@ -55,4 +61,6 @@ public class MovieGenreDaoImpl implements MovieGenreDao{
 		params.put("movieGenreDto", movieGenreDto);
 		return sqlSession.update("movieGenre.editUnit", params) > 0;
 	}
+
+
 }

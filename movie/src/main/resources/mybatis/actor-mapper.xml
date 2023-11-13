@@ -5,9 +5,14 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="actor">
+
+	<select id="sequence" resultType="int">
+		select actor_seq.nextval from dual
+	</select>
+
+
 	<select id="findAll" resultType="ActorDto">
-		select * from actor order by
-		actor_name
+		select * from actor order by actor_no desc
 	</select>
 
 	<select id="findByActorName" resultType="ActorDto">
@@ -18,22 +23,20 @@
 
 	<insert id="save">
 		insert into actor(actor_no, actor_name) 
-		values(actor_seq.nextval,#{actorName})
+		values(#{actorNo},#{actorName})
 	</insert>
 
 	<delete id="deleteByActorNo">
 		delete from actor where actor_no = #{actorNo}
 	</delete>
-	
+
 	<update id="edit">
 		update actor
 		set 
-		<if test="dto.actorNo > 0">
-			actor_no = #{dto.actorNo}, 
-		</if>
 		actor_name = #{dto.actorName}
 		where actor_no = #{actorNo}
 	</update>
+
 
 	<update id="editUnit">
 		update actor
@@ -47,4 +50,19 @@
 		</set>
 		where actor_no = #{actorNo}
 	</update>
+	
+	<select id="connectActorImage">
+		insert into actor_image(actor_no,image_no) 
+		values(#{actorNo},#{imageNo})
+	</select>
+	
+	<select id="findActorImage" resultType="ImageDto">
+		select * from image where image_no=(
+			select image_no from actor_image
+			where actor_no=#{actorNo})
+		
+	</select>
+	<select id="actorList" resultType="ActorViewVO">
+		select * from actor_view
+	</select>
 </mapper>

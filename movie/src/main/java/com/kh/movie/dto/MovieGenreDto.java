@@ -1,5 +1,7 @@
 package com.kh.movie.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class MovieGenreDto {
+//	private List<String> genreNames;
 	private String genreName;
 	private int movieNo;
 	

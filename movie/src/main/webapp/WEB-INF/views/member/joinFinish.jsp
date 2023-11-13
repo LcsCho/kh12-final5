@@ -1,160 +1,207 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
- 	 <!--css 파일을 불러오는 코드-->
- 
- 	 <!-- 내가 만든 css 파일 -->
-     <link rel="stylesheet" type="text/css" href="./css/reset.css">
-     <link rel="stylesheet" type="text/css" href="./css/commons.css">
-     <!-- <link rel="stylesheet" type="text/css" href="./css/test.css"> -->
-
-<style>
-
-</style>
-
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sandstone/bootstrap.min.css" rel="stylesheet">
 
+<style></style>
+
+<!-- 모달 창 스크립트 -->
 <script>
+    $(document).ready(function () {
+        const checkboxes = $('.check-item');
+        let checkedCount = 0;
 
-document.addEventListener("DOMContentLoaded", function () {
-	  // 최대 5개의 체크박스만 선택되도록 제한
-	  const checkboxes = document.querySelectorAll('.check-item');
-	  let checkedCount = 0;
+        checkboxes.change(function () {
+            if (this.checked) {
+                checkedCount += 1;
+                if (checkedCount > 5) {
+                    this.checked = false;
+                    checkedCount -= 1;
+                    // 모달 창 표시 - 체크박스 5개 이상 선택 불가능 메시지
+                    $('#limitWarningModal').modal('show');
+                }
+            } else {
+                checkedCount -= 1;
+            }
+        });
 
-	  checkboxes.forEach(function (checkbox) {
-	    checkbox.addEventListener('change', function () {
-	      if (this.checked) {
-	        checkedCount += 1;
-	        if (checkedCount > 5) {
-	          this.checked = false;
-	          checkedCount -= 1;
-	          alert('최대 5개까지만 선택할 수 있습니다.');
-	        }
-	      } else {
-	        checkedCount -= 1;
-	      }
-	    });
-	  });
-	  
-	// 선택완료 버튼 클릭 시 데이터 전송하는 코드
-	    $(".btn.btn-save").click(function() {
-	        // 선택된 선호 장르 가져오기
-	        var selectedGenres = [];
-	        $(".check-item:checked").each(function() {
-	            selectedGenres.push($(this).val());
-	        });
+        $(".btn-save").click(function () {
+            // 체크박스를 1개 이상 선택했는지 확인
+            if ($("[name=selectedGenres]:checked").length === 0) {
+                // 모달 창 표시 - 체크박스 1개 이상 선택 필요 메시지
+                $('#selectAtLeastOneModal').modal('show');
+                return false;
+            }
 
-	        // 회원 닉네임 가져오기 (예시: 서버에서 세션을 통해 제공되는 회원 닉네임 사용)
-	        var memberNickname = getMemberNickname();
+            // 모달 창 표시 - 선택 완료 메시지
+            $('#selectionCompleteModal').modal('show');
+            return false; // 페이지 이동을 막기 위해 false 반환
+        });
 
-	        // 서버로 데이터 전송
-	        $.ajax({
-	            url: "http://localhost:8080/rest/preferGenre/",
-	            method: "post",
-	            data: {
-	                memberNickname : memberNickname,
-	                genres: selectedGenres
-	            },
-	            success: function(response) {
-	                console.log("데이터가 성공적으로 저장되었습니다.");
-	            },
-	            error: function(error) {
-	                console.error("데이터 저장 중 오류가 발생했습니다.", error);
-	            }
-	        });
-	    });
+        $(".btn-pass").click(function () {
+            // 모달 창 표시 - 건너뛰기 확인 메시지
+            $('#skipConfirmationModal').modal('show');
+        });
 
+        // 확인 버튼을 눌렀을 때의 동작
+        $("#skipConfirmBtn").click(function () {
+            // 페이지 이동
+            window.location.href = "/";
+        });
 
-	
-	  // "건너뛰기" 버튼을 클릭했을 때 확인 메시지 및 처리
-	  const skipButton = document.querySelector('button[type="button"]');
-	  skipButton.addEventListener('click', function () {
-	    const confirmation = confirm("건너 뛸 시, 선호장르 맞춤 정보는 받을 수 없습니다. 건너뛰시겠습니까?");
-	    if (confirmation) {
-	      checkboxes.forEach(function (checkbox) {
-	        checkbox.checked = false;
-	      });
-	      alert("건너뛰기가 완료되었습니다.");
-	    }
-	  });
+        // 선택 완료 모달 확인 버튼 클릭 시 페이지 이동
+        $(".close-choose-complete").click(function () {
+            // 페이지 이동
+            window.location.href = "/";
+        });
 
+        // 각각의 모달창 닫기
+        $(".close-choose-one").click(function () {
+            $('#selectAtLeastOneModal').modal('hide');
+        });
+        $(".close-choose-five").click(function () {
+            $('#limitWarningModal').modal('hide');
+        });
+        $(".close-skip").click(function () {
+            $('#skipConfirmationModal').modal('hide');
+        });
 
+    });
 </script>
+
+<!-- 추가된 부분: Bootstrap JavaScript 라이브러리 로드 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<form action="joinFinish" method="post" autocomplete="off">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+        
+            <div class="row mt-4">
+                <div class="col">
+                   <h1>회원가입 완료</h1>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col">
+                   <h3>선호장르 선택 후 맞춤 정보를 받아보세요!</h3>
+                </div>
+            </div>
     
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-          <c:forEach var="genreDto" items="${list}" varStatus="status">
-       		<input type="checkbox" value=${genreDto.genreName}>${genreDto.genreName} <br>
-          </c:forEach>
-<div class="container w-600">
-	<div class="row pt-20">
-		<h2>회원가입 완료</h2>
-	</div>
-	
-	<div class="row pt-20">
-		<h3>선호장르 선택 후<br>
-		 맞춤 정보를 받아보세요!</h3>
-	</div>
-	
-	<!-- 장르 체크박스 (최대 5개만 가능) -->
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 코미디
+            <!-- 장르 체크박스 (최대 5개만 가능) -->
+            <c:forEach var="genreDto" items="${list}" varStatus="status">
+                <div class="row mt-4 genre-name">
+                    <div class="col">
+                        <input type="checkbox" class="check-item" name="selectedGenres"
+                            value="${genreDto.genreName}"> ${genreDto.genreName} <br>
+                    </div>
+                </div>
+            </c:forEach>
+    
+            <div class="row mt-4">
+               <div class="col">
+                  <button type="submit" class="btn btn-secondary btn-save">
+                    선택완료
+                  </button>
+                  <button type="button" class="btn btn-primary btn-pass">건너뛰기</button>
+               </div>
+            </div>
+            <!-- 건너뛰기 누르면 자동으로 null값 - 안내 팝업 띄우기 -->
+    
         </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 로맨스 코미디
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 추리 / 미스터리
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 액션
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> SF
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 판타지
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 애니메이션
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 범죄 / 공포 / 스릴러
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 음악 / 뮤지컬
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 드라마 / 다큐멘터리
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 전쟁
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 사극
-        </div>
-	<div class="row left">
-            <input type="checkbox" class="check-item"> 스포츠
-        </div>
-	
-	<div class="row pt-30 mt-20">
-		<button type="submit" class=" btn btn-save">선택완료</button>
-		<h3 class="orange">
-			<i class="fa-regular fa-face-laugh-beam fa-5x"></i>
-		</h3>
-	</div>
-	<div class="row pt-10">
-		<h3 class="orange">진심으로 환영합니다!</h3>
-	</div>
-	<div class="row pt-30">
-		<a href="login" class="btn btn-orange">로그인</a> <a href="/main"
-			class="btn btn-navy">메인</a>
-	</div>
-	
-	<!-- 건너뛰기 누르면 자동으로 null값 - 안내 팝업 띄우기 -->
-	<div class="row pt-30 mt-10">
-		<button type="button">건너뛰기 ></button>
-		</div>
+    </div>
 </div>
+</form>
+
+<!-- 선택 완료 알림 모달 -->
+<div class="modal fade" id="selectionCompleteModal" tabindex="-1" 
+    role="dialog" aria-labelledby="selectionCompleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectionCompleteModalLabel">알림</h5>
+                <button type="button" class="btn-close close-choose-complete" 
+                    data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                선호 장르 선택 완료!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-choose-complete" 
+                    data-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 체크박스 1개 이상 선택 필요 모달 -->
+<div class="modal fade" id="selectAtLeastOneModal" tabindex="-1" 
+    role="dialog" aria-labelledby="selectAtLeastOneModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectAtLeastOneModalLabel">경고!</h5>
+                <button type="button" class="btn-close close-choose-one" 
+                    data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                선호 장르를 1개 이상 선택하세요.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-choose-one" 
+                    data-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 체크박스 5개 이상 선택 불가능 모달 -->
+<div class="modal fade" id="limitWarningModal" tabindex="-1" 
+    role="dialog" aria-labelledby="limitWarningModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="limitWarningModalLabel">경고!</h5>
+                <button type="button" class="btn-close close-choose-five" 
+                    data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                선호 장르는 5개 이하만 선택이 가능합니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-choose-five" 
+                    data-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 건너뛰기 모달 창 -->
+<div class="modal fade" id="skipConfirmationModal" tabindex="-1" 
+    role="dialog" aria-labelledby="skipConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="skipConfirmationModalLabel">알림</h5>
+                <button type="button" class="btn-close close-skip" 
+                    data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                정말 건너뛰시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-skip" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="skipConfirmBtn">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery 로드 부분 추가 -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Bootstrap JavaScript 로드 부분 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

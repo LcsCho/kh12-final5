@@ -16,9 +16,19 @@
 	delete cert where cert_email = #{certEmail}
 </delete>
 
-<select id="find" resultType="CertDto">
+<select id="findByCertEmail" resultType="CertDto">
 	select * from cert where cert_email = #{certEmail}
 </select>
 
+<select id="selectOneIn5min" resultType="CertDto">
+	 select * from cert
+        where cert_email = #{certEmail} and cert_time between sysdate-5/24/60 and sysdate
+</select>
+
+<delete id="deleteOver5min">
+ <![CDATA[
+  	delete from cert where cert_time < sysdate-5/24/60
+  	 ]]>
+</delete>
 
 </mapper>
