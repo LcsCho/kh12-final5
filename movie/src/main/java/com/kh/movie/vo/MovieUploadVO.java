@@ -1,11 +1,13 @@
 package com.kh.movie.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kh.movie.dto.MovieActorRoleDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 
@@ -25,7 +27,13 @@ public class MovieUploadVO {
 	private int movieTime;
 	private String movieLevel, movieNation, movieContent;
 	
-	private String genreName;
+//	private String genreName;
+	// 장르 리스트
+	private List<String> genreNameList; // 여러 장르를 저장하는 리스트
+	
+	// 배우 리스트
+	private List<Integer> actorNoList; // 배우 번호 저장하는 리스트
+	private List<String> actorRoleList; // 여러 배우를 저장하는 리스트
 	
 	@JsonIgnore
 	public MovieDto getMovieDto() {
@@ -40,10 +48,34 @@ public class MovieUploadVO {
 				.build();
 	}
 	
-	@JsonIgnore
-	public MovieGenreDto getMovieGenreDto() {
-		return MovieGenreDto.builder()
-							.genreName(genreName)
-							.build();
-	}
+
+    @JsonIgnore
+    public List<MovieGenreDto> getMovieGenreDtoList() {
+        return genreNameList.stream()
+                .map(genreName -> MovieGenreDto.builder()
+                        .genreName(genreName)
+                        .build())
+                .toList();
+    }
+    
+    @JsonIgnore
+    public List<MovieActorRoleDto> getMovieActorRoleDtoList() {
+        List<MovieActorRoleDto> actorRoleDtoList = new ArrayList<>();
+
+        for (int i = 0; i < actorNoList.size(); i++) {
+            int actorNo = actorNoList.get(i);
+            String actorRole = actorRoleList.get(i);
+
+            MovieActorRoleDto actorRoleDto = MovieActorRoleDto.builder()
+                    .movieNo(getMovieDto().getMovieNo())
+                    .actorNo(actorNo)
+                    .actorRole(actorRole)
+                    .build();
+
+            actorRoleDtoList.add(actorRoleDto);
+        }
+
+        return actorRoleDtoList;
+    }
+    
 }
