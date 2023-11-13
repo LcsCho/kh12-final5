@@ -15,10 +15,14 @@
 		select * from actor order by actor_no desc
 	</select>
 
-	<select id="findByActorName" resultType="ActorDto">
+	<select id="findListByActorName" resultType="ActorDto">
 		select * from actor
 		where instr(actor_name, #{actorName}) > 0
 		order by actor_name desc
+	</select>
+	<select id="findByActorNo" resultType="ActorDto">
+		select * from actor 
+		where actor_no = #{actorNo}
 	</select>
 
 	<insert id="save">
