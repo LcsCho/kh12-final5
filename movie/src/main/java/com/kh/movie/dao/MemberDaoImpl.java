@@ -63,5 +63,11 @@ public class MemberDaoImpl implements MemberDao{
 	public void delete(String memberId) {
 		
 	}
+	
+	//회원 아이디로 회원 닉네임 찾기
+	@Override
+	public String findNicknameById(String memberId) {
+		return sqlSession.selectOne("member.findNicknameById", memberId);
+	}
 
 }

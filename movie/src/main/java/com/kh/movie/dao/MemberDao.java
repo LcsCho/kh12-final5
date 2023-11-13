@@ -10,4 +10,6 @@ public interface MemberDao {
 	void updateMemberInfo(MemberDto inputDto);
 	void delete(String memberId);
 
+	//회원 아이디로 회원 닉네임 검색
+	String findNicknameById(String memberId);
 }
