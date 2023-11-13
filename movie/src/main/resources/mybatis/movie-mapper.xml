@@ -21,13 +21,15 @@
 		order by movie_release_date
 		desc
 	</select>
+	
+	<select id="findByMovieNo" resultType="MovieDto">
+		select * from movie where movie_no = #{movieNo}
+	</select>
 
 	<!-- 영화 수 출력 쿼리문 -->
 	<select id="count" resultType="int">
 		select count(*) from movie
 	</select>
-
-
 	
 	<insert id="save">
 		insert into movie(movie_no, movie_name, movie_director, movie_release_date, 

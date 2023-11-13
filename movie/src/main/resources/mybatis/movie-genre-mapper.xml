@@ -18,6 +18,15 @@
 		select * from movie_genre where movie_no = #{movieNo}
 	</select>
 	
+	<select id="findMovieGenres" resultType="movieGenreDto">
+		SELECT 
+		    movie_no,
+		    LISTAGG(genre_name, '/') WITHIN GROUP (ORDER BY genre_name) AS movie_genre
+		FROM movie_genre
+		where movie_no = #{movieNo} 
+		GROUP BY movie_no
+	</select>
+	
 	<insert id="add">
 		insert into movie_genre(genre_name, movie_no) values(#{genreName}, #{movieNo})
 	</insert>

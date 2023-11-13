@@ -8,6 +8,7 @@ import com.kh.movie.vo.AdminMovieListVO;
 
 public interface MovieDao {
 	int sequence();
+	MovieDto findByMovieNo(int movieNo);
 	List<MovieDto> selectList();
 	List<AdminMovieListVO> selectAdminMovieList();
 	List<MovieDto> selectList(String movieName);

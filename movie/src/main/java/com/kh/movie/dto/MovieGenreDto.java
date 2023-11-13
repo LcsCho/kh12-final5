@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 public class MovieGenreDto {
 //	private List<String> genreNames;
 	private String genreName;
+	
+	// jsp 반환을 위한 복수개의 장르
+	private String genreNames;
 	private int movieNo;
 	
 	@JsonIgnore 

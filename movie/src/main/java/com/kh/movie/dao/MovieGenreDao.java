@@ -9,6 +9,7 @@ public interface MovieGenreDao {
 	void insert(MovieGenreDto movieGenreDto);
     void insertList(List<MovieGenreDto> movieGenreDtos);
 	boolean delete(int movieNo, String genreName);
+	MovieGenreDto findMovieGenres(int movieNo);
 	List<MovieGenreDto> selectList();
 	List<MovieGenreDto> selectListByMovieNo(int movieNo);
 	boolean editUnit(int movieNo, String genreName, MovieGenreDto movieGenreDto);
