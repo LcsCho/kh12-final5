@@ -56,7 +56,7 @@ public class MemberDaoImpl implements MemberDao{
 	public int getCount() {
 		return sqlSession.selectOne("member.count");
 	}
-
+	//회원정보수정
 	@Override
 	public boolean updateMemberInfo(MemberDto inputDto) {
 		return sqlSession.update("member.edit", inputDto) > 0;
@@ -85,6 +85,18 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public String findNicknameById(String memberId) {
 		return sqlSession.selectOne("member.findNicknameById", memberId);
+	}
+
+	//마지막 로그인 시각 갱신
+	@Override
+	public boolean updateMemberLastLogin(String memberId) {
+		return sqlSession.update("member.lastLogin", memberId) > 0;
+	}
+
+	//마지막 정보수정 시각 갱신
+	@Override
+	public boolean lastUpdate(String memberId) {
+		return sqlSession.update("member.lastUpdate", memberId) > 0;
 	}
 
 

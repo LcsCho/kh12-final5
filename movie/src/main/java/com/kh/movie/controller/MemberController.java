@@ -106,33 +106,25 @@ public class MemberController {
 		}
 		
 		//boolean isCorrectPw = 입력한비밀번호와 DB비밀번호가 같나?
-		boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+//		boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+		boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
 		
 		//[3] 비밀번호가 일치하면 메인페이지로 이동
-//		if(isCorrectPw) {
-			//(주의) 만약 차단된 회원이라면 추가 작업을 중지하고 오류 발생
-//			MemberBlockDto blockDto = 
-//					memberDao.selectBlockOne(findDto.getMemberId());
-			
-			//if(차단된 회원이라면) {
-//			if(blockDto != null) {
-//				//return "redirect:오류페이지";
-//				throw new AuthorityException("차단된 회원");
-//			}
-			
+		if(isCorrectPw ) {
 			//세션에 아이디+등급 저장
 			session.setAttribute("name", findDto.getMemberId());
 			session.setAttribute("level", findDto.getMemberLevel());
 			//로그인시간 갱신
-//			memberDao.updateMemberLogin(inputDto.getMemberId());
+			memberDao.updateMemberLastLogin(inputDto.getMemberId());			
 			//메인페이지로 이동
 			return "redirect:change";
-		}
+			}			
+			
 		//[4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
-//		else {
-//			return "redirect:login?error";
-//		}
-//	}
+		else {
+			return "redirect:login?error";
+		}
+	}
 	
 //	@PostMapping("/login")
 //	public String login(@ModelAttribute MemberDto memberDto) {
@@ -151,7 +143,7 @@ public class MemberController {
 	@RequestMapping("/logout") //로그아웃하려면 로그인된 걸 remove 해주어야 함 - 로그아웃 시,세션값(name) 날라감
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");
-		return "redirect:member/main";
+		return "redirect:/main";
 	}
 	
 	//개인정보 변경
@@ -169,6 +161,8 @@ public class MemberController {
 		
 		MemberDto findDto = memberDao.selectOne(memberId);
 			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+			//마지막 정보 수정 시각 갱신
+			memberDao.lastUpdate(inputDto.getMemberId());			
 			return "redirect:changeFinish";
 	}
 	
