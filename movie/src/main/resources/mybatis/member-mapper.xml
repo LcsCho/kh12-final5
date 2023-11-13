@@ -43,6 +43,24 @@
 		delete member where member_id = #{memberId}
 	</delete>
 	
+	<!-- 마지막 로그인 시간 갱신 -->
+	<update id="lastLogin">
+		update member
+		<set>
+		member_last_login = sysdate 
+		</set>
+		where member_id = #{memberId}
+	</update>
+	
+	<!-- 마지막 정보 수정일 갱신 -->
+	<update id="lastUpdate">
+		update member
+		<set>
+		member_last_update = sysdate
+		</set>
+		where member_id = #{memberId}
+	</update>
+	
 	<!-- 회원 수 출력 쿼리문 -->
 	<select id="count" resultType="int">
 		select count(*) from member

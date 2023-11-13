@@ -10,8 +10,11 @@ public interface MemberDao {
 	MemberDto login(MemberDto memberDto);
 	int getCount();
 	boolean updateMemberInfo(MemberDto inputDto);
-//	void delete(String memberId);
+	
 	List<MemberDto> selectList();
 	boolean editUnit(MemberDto memberDto, String memberLevel);
 	boolean delete(String memberId);
+	
+	boolean updateMemberLastLogin(String memberId);
+	boolean lastUpdate(String memberId);
 }
