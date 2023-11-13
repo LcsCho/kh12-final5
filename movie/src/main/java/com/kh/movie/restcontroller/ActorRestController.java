@@ -92,7 +92,7 @@ public class ActorRestController {
 	@DeleteMapping("/{actorNo}")
 	public ResponseEntity<String> delete(@PathVariable int actorNo) {
 		ImageDto imageDto = actorDao.findActorImage(actorNo);
-		log.debug("imageDto={}",imageDto);
+//		log.debug("imageDto={}",imageDto);
 		
 		if(imageDto != null) {
 			File target =new File(dir,String.valueOf(imageDto.getImageNo()));
@@ -107,9 +107,21 @@ public class ActorRestController {
 		else return ResponseEntity.status(404).build();
 	}
 	
-	@GetMapping("/{actorName}")
-	public List<ActorDto> find(@PathVariable String actorName) {
-		return actorDao.selectList(actorName);
+	@GetMapping("/findListByActorName/{actorName}")
+	public List<ActorDto> findListByActorName(@PathVariable String actorName) {
+		return actorDao.findListByActorName(actorName);
+	}
+	
+	@GetMapping("/findByActorNo/{actorNo}")
+	public ResponseEntity<ActorDto> findByActorNo(@PathVariable int actorNo){
+		ActorDto actorDto = actorDao.findByActorNo(actorNo);
+//		log.debug("actorDto={}",actorDto);
+		if(actorDto != null) {
+			return ResponseEntity.ok(actorDto);
+		}
+		else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 	@GetMapping("/actorList")
@@ -127,7 +139,7 @@ public class ActorRestController {
 		MultipartFile actorImage =vo.getActorImage();
 		if(!actorImage.isEmpty()) {
 			ImageDto imageDto = actorDao.findActorImage(actorNo);
-			log.debug("imageDto={}",imageDto);
+//			log.debug("imageDto={}",imageDto);
 			if(imageDto != null) {
 				imageDao.delete(imageDto.getImageNo());
 				File target =new File(dir,String.valueOf(imageDto.getImageNo()));
@@ -151,12 +163,12 @@ public class ActorRestController {
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
-	@PatchMapping("/{actorNo}")
-	public ResponseEntity<String> editUnit(@RequestBody ActorDto actorDto, @PathVariable int actorNo) {
-		if (actorDto.isEmpty()) return ResponseEntity.badRequest().build();
-		boolean result = actorDao.editUnit(actorNo, actorDto);
-		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-	}
+//	@PatchMapping("/{actorNo}")
+//	public ResponseEntity<String> editUnit(@RequestBody ActorDto actorDto, @PathVariable int actorNo) {
+//		if (actorDto.isEmpty()) return ResponseEntity.badRequest().build();
+//		boolean result = actorDao.editUnit(actorNo, actorDto);
+//		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+//	}
 	
 
 	

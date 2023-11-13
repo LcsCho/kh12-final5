@@ -8,10 +8,10 @@
 
 	<!-- 등록(가입) -->
 	<insert id="join">
-		insert into member(member_id, member_pw, member_nickname, member_birth,
-		member_gender, member_contact) values(
-		#{memberId}, #{memberPw},
-		#{memberNickname}, #{memberBirth},#{memberGender}, #{memberContact})
+		insert into member(
+		member_id, member_pw, member_nickname, member_birth, member_gender, member_contact) 
+		values(
+		#{memberId}, #{memberPw},#{memberNickname}, #{memberBirth},#{memberGender}, #{memberContact})
 	</insert>
 
 	<!-- 수정 -->
@@ -66,7 +66,12 @@
 		select count(*) from member
 	</select>
 	
-	<!-- 관리자가 회원 등급 수정하는 쿼리문 -->
+	<!-- 회원 아이디로 회원 닉네임 검색 -->
+	<select id="findNicknameById" resultType="MemberDto">
+		select member_nickname from member where member_id = #{memberId}
+	</select>
+
+  <!-- 관리자가 회원 등급 수정하는 쿼리문 -->
 	<update id="updateMemberLevel">
 		update member
 		<set>

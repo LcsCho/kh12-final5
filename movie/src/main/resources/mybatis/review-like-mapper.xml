@@ -8,14 +8,31 @@
 
 	<!-- 등록 -->
 	<insert id="save">
-		insert into review_like values (#{reviewNo}, #{member_nickname})
+		insert into review_like (
+			review_no, member_nickname
+		) values (
+			#{reviewNo}, #{memberNickname}
+		)
 	</insert>
 	
 	<!-- 삭제 -->
-	<delete id="edit">
-		delete review_like 
-			where review_no = #{reviewNo} 
-				and meber_nickname = #{memberNickname} 
+	<delete id="delete">
+		delete from review_like
+			where review_no = #{reviewNo}
+				and member_nickname = #{memberNickname}
 	</delete>
+	
+	<!-- 조회(좋아요 체크 여부 조회) -->	
+	<select id="findLikeCheck" resultType="boolean">
+        select count(*) > 0
+        from review_like
+        where review_no = #{reviewNo}
+        and member_nickname = #{memberNickname}
+    </select>
+	
+	<!-- 조회(좋아요 수 조회) -->
+	<select id="findLikeCount" resultType="int">
+        select count(*) from review_like where review_no = #{reviewNo}
+    </select>
 	
 </mapper>

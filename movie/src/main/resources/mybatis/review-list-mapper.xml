@@ -37,5 +37,9 @@
 		select * from review_list where review_no = #{reviewNo}
 	</select>
 
+	<!-- 영화에 달린 리뷰 조회 -->
+	<select id="findReviewNoByMovie" resultType="ReviewListVO">
+		select review_no from review_list where movie_no = #{movieNo}
+	</select>
 
 </mapper>
