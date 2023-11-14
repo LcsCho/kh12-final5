@@ -69,4 +69,50 @@ public class CertRestController {
 				return Map.of("result", false);
 			}
 	
+	//비밀번호 재설정 메서드 추가
+	//인증번호 생성 & 전송
+	@PostMapping("/resetPassword")
+	public void resetPassword(@RequestParam String certEmail) {
+	    sendPwResetEmail(certEmail);
+	}
+
+	private void sendPwResetEmail(String certEmail) {
+		Random r = new Random();
+	    int no = r.nextInt(1000000);
+	    DecimalFormat fm = new DecimalFormat("000000");
+	    String certNo = fm.format(no);
+
+	    // 발송
+	    SimpleMailMessage message = new SimpleMailMessage();
+	    message.setTo(certEmail);
+	    message.setSubject("[MVC] 비밀번호 재설정 안내");
+	    message.setText("인증번호 [ " + certNo + " ]");
+	    sender.send(message);
+
+	    // 기존 인증번호 삭제 및 새로운 인증번호 저장
+	    certDao.delete(certEmail);
+	    CertDto certDto = new CertDto();
+	    certDto.setCertEmail(certEmail);
+	    certDto.setCertNo(certNo);
+	    certDao.insert(certDto);
+	}
+	
+	
+		//전송받은 인증번호 체크
+	 @PostMapping("/checkEmail")
+	    public Map<String, Object> checkEmail(@ModelAttribute CertDto certDto) {
+	        CertDto findDto = certDao.selectOne(certDto.getCertEmail());
+	        if (findDto != null) {
+	            boolean isValid = findDto.getCertNo().equals(certDto.getCertNo());
+	            if (isValid) {
+	                certDao.delete(certDto.getCertEmail());
+	                return Map.of("result", true);
+	            }
+	        }
+	        return Map.of("result", false);
+	    }
+
+	
+
+	
 }
