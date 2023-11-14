@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kh.movie.dto.MovieActorRoleDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
@@ -16,6 +17,7 @@ import lombok.Data;
 
 //영화 대표 이미지 등록을 위해 만든 VO
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieUploadVO {
 	
 	private MultipartFile movieImage;//하나씩 이미지
@@ -27,7 +29,6 @@ public class MovieUploadVO {
 	private int movieTime;
 	private String movieLevel, movieNation, movieContent;
 	
-//	private String genreName;
 	// 장르 리스트
 	private List<String> genreNameList; // 여러 장르를 저장하는 리스트
 	

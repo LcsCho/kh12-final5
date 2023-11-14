@@ -9,13 +9,9 @@
     <!-- 아이콘 사용을 위한 Font Awesome 6 CDN -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<style>
+<style></style>
 
-</style>
-
-<script>
-
-</script>
+<script></script>
 	
 	<form action="login" method="post" autocomplete="off">
     <div class="container w-300">

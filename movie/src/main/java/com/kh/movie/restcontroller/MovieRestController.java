@@ -126,7 +126,7 @@ public class MovieRestController {
 	@PostMapping(value = "/upload/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public void insert(@ModelAttribute MovieUploadVO vo) throws IllegalStateException, IOException {
 
-//		log.debug("dto = {}", vo);
+		log.debug("vo = {}", vo);
 		MovieDto movieDto = vo.getMovieDto();
 
 		int movieNo = movieDao.sequence();
