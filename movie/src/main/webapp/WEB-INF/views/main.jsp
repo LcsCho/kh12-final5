@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -16,7 +17,7 @@
         $('#loginModal').on('hidden.bs.modal', function () {
             // 여기에 모달이 닫힌 후 실행되는 코드 추가
             // 예: 로그인이 완료되면 메인 페이지로 리다이렉트
-            window.location.href = '/main'; // your_main_page에는 실제 메인 페이지 경로를 입력하세요
+            window.location.href = '/'; // your_main_page에는 실제 메인 페이지 경로를 입력하세요
         });
 
         // 비밀번호 찾기 모달 표시를 위한 이벤트 처리
@@ -87,3 +88,4 @@
         </div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
