@@ -32,12 +32,14 @@
 	</select>
 	
 	<insert id="save">
-		insert into movie(movie_no, movie_name, movie_director, movie_release_date, 
-		movie_time, movie_level, movie_nation, movie_content) 
-		values(#{movieNo}, #{movieName}, 
-		#{movieDirector}, #{movieReleaseDate}, #{movieTime},
-		#{movieLevel}, #{movieNation},
-		#{movieContent})
+		insert into movie(
+			movie_no, movie_name, movie_director, movie_release_date, 
+			movie_time, movie_level, movie_nation, movie_content
+		) 
+		values(
+			#{movieNo}, #{movieName},#{movieDirector}, #{movieReleaseDate}, 
+			#{movieTime}, #{movieLevel}, #{movieNation}, #{movieContent}
+		)
 	</insert>
 
 	<delete id="deleteByMovieNo">
