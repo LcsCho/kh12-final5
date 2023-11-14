@@ -33,8 +33,8 @@
     $(document).ready(function () {
         $('#loginModal').on('hidden.bs.modal', function () {
             // 여기에 모달이 닫힌 후 실행되는 코드 추가
-            // 예: 로그인이 완료되면 로그인 했던 페이지로 돌아감
-            window.history.back(); // your_main_page에는 실제 메인 페이지 경로를 입력하세요
+            // 예: 로그인이 완료되면 메인 페이지로 돌아감
+             window.location.href = '/'; // your_main_page에는 실제 메인 페이지 경로를 입력하세요
         });
 
         // 비밀번호 찾기 모달 표시를 위한 이벤트 처리
@@ -161,8 +161,16 @@
                                                 <input class="form-control me-sm-2 custom-search" type="search" placeholder="콘텐츠, 인물, 유저를 검색해보세요">
                                                 <button class="btn btn-secondary my-2 my-sm-0 custom-search-btn" type="submit">검색</button>
                                             </form>
-                                            <a href="#" class="btn btn-navy ms-4" data-bs-toggle="modal" data-bs-target="#loginModal">로그인하기</a>
-                                            <button class="btn">가입회원</button>
+                                            <c:choose>
+                                            	<c:when test="${sessionScope.name !=null}">
+                                            		<a href="/member/logout" class="btn">로그아웃</a>
+                                            		<a href="/member/mypage" class="btn">마이페이지</a>
+                                            	</c:when>
+                                            	<c:otherwise>
+		                                            <a href="#" class="btn btn-navy ms-4" data-bs-toggle="modal" data-bs-target="#loginModal">로그인하기</a>
+		                                            <a href="/member/join" class="btn">회원가입</a>
+                                            	</c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
 

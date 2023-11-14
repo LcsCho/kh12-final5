@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 </section>
 <hr>
                     <footer>
@@ -26,6 +27,16 @@
 
                     </footer>
 
+		<c:if test="${sessionScope.name !=null}">
+			<h1>아이디:${sessionScope.name}</h1>		
+		</c:if>
+		<c:if test="${sessionScope.level != null}">
+			<h1>등급:${sessionScope.level}</h1>
+		</c:if>
+	
+		
+
+	
                 </div>
             </div>
         </div>
