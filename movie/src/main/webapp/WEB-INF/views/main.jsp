@@ -60,6 +60,7 @@
             });
         });
 
+        
         //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
         $(".btn-cert").click(function(){
             // var email = $("[name=memberEmail]").val();
@@ -87,17 +88,90 @@
                         $(".btn-send").prop("disabled", true);
                         $(".cert-wrapper").hide();
                         
+                     // '비밀번호 재설정하러가기' 버튼 생성
+                     	if (!$('#resetPasswordButton').length) {
+                        var resetPasswordButton = $('<button/>', {
+                            type: 'button',
+                            class: 'btn btn-primary',
+                            text: '비밀번호 재설정하러가기',
+                            id: 'resetPasswordButton'
+                        });
+
+                        // 클릭 이벤트 추가
+                        resetPasswordButton.click(function () {
+                            // 비밀번호 재설정 모달 띄우기
+                            $('#resetPasswordModal').modal('show');
+                            // 추가로 필요한 초기화 또는 설정 작업을 수행할 수 있습니다.
+                        });
+
+                        // 버튼을 특정 위치에 추가 (예: 모달 바디의 끝에 추가)
+                        $(".modal-body").append(resetPasswordButton);
+                        
+                     }
                     }
-                    
                     else{
                         $(".cert-input").removeClass("success fail")
                                         .addClass("fail");
-                        //상태객체에 상태 저장하는 코드
+                        alert(response.error);
                     }
                 },
             });
         });
+        
+        // '비밀번호 재설정하러가기' 버튼 클릭 시 이벤트 처리
+        $(document).on('click', '#resetPasswordButton', function () {
+            // 비밀번호 재설정 모달 띄우기
+            $('#resetPasswordModal').modal('show');
+            // 추가로 필요한 초기화 또는 설정 작업을 수행할 수 있습니다.
+        });
     });
+	
+	 $(document).ready(function () {
+	        // '비밀번호 재설정하러가기' 버튼 클릭 이벤트 처리
+	        $(document).on('click', '#resetPasswordButton', function () {
+	            // 비밀번호 재설정 모달을 띄움
+	            $('#resetPasswordModal').modal('show');
+	        });
+
+	        // 비밀번호 재설정 폼 제출 이벤트 처리
+	        $("#resetPasswordForm").submit(function (event) {
+	            // 폼의 기본 동작을 막음
+	            event.preventDefault();
+
+	            // 새로운 비밀번호와 비밀번호 확인을 가져옴
+	            var newPassword = $("#newPassword").val();
+	            var confirmPassword = $("#confirmPassword").val();
+
+	            // 비밀번호 일치 여부 확인
+	            if (newPassword !== confirmPassword) {
+	                alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	                return;
+	            }
+
+	            // 서버로 비밀번호 변경 요청을 보냄
+	            $.ajax({
+	                url: "member/changePw", // 실제 서버의 비밀번호 변경 엔드포인트에 맞게 수정
+	                method: "POST",
+	                data: {
+	                    memberPw: newPassword
+	                },
+	                success: function (response) {
+	                    // 비밀번호 변경 성공 시 처리
+	                    alert("비밀번호 재설정이 완료되었습니다.");
+
+	                    // 모달을 닫음
+	                    $('#resetPasswordModal').modal('hide');
+
+	                    // 페이지 이동
+	                    window.location.href = "/main";
+	                },
+	                error: function (xhr, status, error) {
+	                    // 비밀번호 변경 실패 시 처리
+	                    alert("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+	                }
+	            });
+	        });
+	    });
    
     </script>
 
@@ -143,8 +217,8 @@
     </div>
 </div>
 
-	<!-- 비밀번호 재설정 모달 -->
-<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+	<!-- 비밀번호-재설정 이메일 인증 모달 -->
+	<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -155,7 +229,7 @@
                 <div class="row mb-3">
                     <p>비밀번호를 잊으셨나요?</p><br>
                     <p>가입했던 이메일을 적어주세요.</p><br>
-                    <p>입력하신 이메일 주소로 비밀번호 변경 메일을 보내드릴게요.</p><br>
+                    <p>입력하신 이메일 주소로 인증번호를 보내드릴게요.</p><br>
                 </div>
                 <!-- 비밀번호 찾기 폼 추가 -->
                 <form id="forgotPasswordForm" action="" method="post">
@@ -167,13 +241,37 @@
                         <i class="fa-solid fa-spinner fa-spin"></i>
                         <span>이메일 보내기</span>
                     </button>
-
                     <div class="cert-wrapper pt-10">
-                        <input type="text" class="cert-input form-input w-70">
-                        <button type="button" class="btn-cert btn btn-navy">확인완료</button>
+    <input type="text" class="cert-input form-input w-70">
+    <button type="button" class="btn-cert btn btn-navy">확인완료</button>
+		</div>
+			<div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
+			<div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+	
+	<!-- 비밀번호 재설정 모달 -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetPasswordModalLabel">비밀번호 재설정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 비밀번호 재설정 폼 추가 -->
+                <form id="resetPasswordForm" action="member/changePw" method="post">
+                    <!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
+                    <div class="mb-3">
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="새로운 비밀번호" required>
                     </div>
-                    <div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
-                    <div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">비밀번호 재설정</button>
                 </form>
             </div>
         </div>

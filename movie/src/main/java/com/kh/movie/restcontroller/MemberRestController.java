@@ -2,8 +2,11 @@ package com.kh.movie.restcontroller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,6 +30,9 @@ public class MemberRestController {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 //	@GetMapping("/memberCount/{memberCount}")
 //	public int count() {
@@ -74,5 +80,25 @@ public class MemberRestController {
 		}
 	}
 
-	//회원 등급별 인원 수 데이터 반환 매핑
+	@PostMapping("/changePw")
+    public String changePassword(HttpSession session, String memberPw) {
+        String memberId = (String) session.getAttribute("name");
+
+        if (memberId != null && memberPw != null) {
+            // 새로운 비밀번호 암호화
+            String encryptedPassword = encoder.encode(memberPw);
+
+            // 회원 정보 업데이트
+            MemberDto memberDto = new MemberDto();
+            memberDto.setMemberId(memberId);
+            memberDto.setMemberPw(encryptedPassword);
+
+            memberDao.updatePassword(memberDto); //DB에 비밀번호를 업데이트하는 메서드
+
+            return "redirect:/main"; // 비밀번호 변경 후 이동할 페이지 지정
+        } else {
+            // 오류 처리
+            return "redirect:/error"; // 적절한 오류 페이지로 리다이렉트
+        }
+    }
 }
