@@ -53,6 +53,7 @@
 	                            회원정보수정
 	                        </button>
 	                        <a class="btn" href="exit" >탈퇴하기</a>
+	                        <a class="btn" href="mypage" >마이페이지로</a>
                 </div>
                 
         </div> 
