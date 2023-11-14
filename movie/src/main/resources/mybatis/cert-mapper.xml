@@ -31,4 +31,19 @@
   	 ]]>
 </delete>
 
+<!-- 비밀번호 찾기 이메일 발송 -->
+<insert id="addPwReset">
+    insert into cert(cert_email, cert_no)
+    values(#{certEmail}, #{certNo})
+</insert>
+
+<delete id="removePwReset">
+    delete from cert where cert_email = #{certEmail}
+</delete>
+
+<select id="findByPwReset" resultType="CertDto">
+    select * from cert where cert_email = #{certEmail}
+</select>
+
+
 </mapper>
