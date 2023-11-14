@@ -61,6 +61,11 @@
 		where member_id = #{memberId}
 	</update>
 	
+	<!-- 회원 닉네임 조회 -->
+	<select id="nickCheck" resultType="MemberDto">
+		select * from member where member_nickname = #{memberNickname}
+	</select>
+	
 	<!-- 회원 수 출력 쿼리문 -->
 	<select id="count" resultType="int">
 		select count(*) from member

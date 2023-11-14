@@ -26,12 +26,89 @@
     });
 </script>
 
+ <script>
+	//비밀번호 재설정 이메일 발송 코드
+	
+	$(function(){
+        //처음 로딩아이콘 숨김
+        $(".btn-send").find(".fa-spinner").hide();
+        $(".cert-wrapper").hide();
+
+        //인증번호 보내기 버튼을 누르면
+        //서버로 비동기 통신을 보내 인증 메일 발송 요청
+        $(".btn-send").click(function(){
+        	var email = $("#email").val();
+            //var email = $("[name=memberId]").val();
+            if(email.length == 0) return;
+
+            $(".btn-send").prop("disabled", true);
+            $(".btn-send").find(".fa-spinner").show();
+            $(".btn-send").find("span").text("이메일발송중");
+            $.ajax({
+                url:"http://localhost:8080/rest/cert/resetPassword",
+                method:"post",
+                data:{certEmail: email},
+                success:function(){
+                    $(".btn-send").prop("disabled", false);
+                    $(".btn-send").find(".fa-spinner").hide();
+                    $(".btn-send").find("span").text("인증번호 보내기");
+                    // window.alert("이메일 확인하세요!");
+
+                    $(".cert-wrapper").show();
+                    window.email = email;
+                },
+            });
+        });
+
+        //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
+        $(".btn-cert").click(function(){
+            // var email = $("[name=memberEmail]").val();
+            var email = window.email;
+            var no = $(".cert-input").val();
+            if(email.length == 0 || no.length == 0) return;
+
+            $.ajax({
+                url:"http://localhost:8080/rest/cert/checkEmail",
+                method:"post",
+                data:{
+                    certEmail:email,
+                    certNo:no
+                },
+                success:function(response){
+                    // console.log(response);
+                    if(response.result){ //인증성공
+                        $(".cert-input").removeClass("success fail")
+                                        .addClass("success");
+                        $(".btn-cert").prop("disabled", true);
+                        //상태객체에 상태 저장하는 코드
+                        
+                     // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
+                        $(".btn-send").find("span").text("인증완료!");
+                        $(".btn-send").prop("disabled", true);
+                        $(".cert-wrapper").hide();
+                        
+                    }
+                    
+                    else{
+                        $(".cert-input").removeClass("success fail")
+                                        .addClass("fail");
+                        //상태객체에 상태 저장하는 코드
+                    }
+                },
+            });
+        });
+    });
+   
+    </script>
+
+
 <style>
     /* 추가적인 스타일이 필요하다면 여기에 추가 */
     .modal-dialog{
     width:400px;
     height:300px;
     }
+
 </style>
 
 <h1 class="text-center">환영합니다! MVC 입니다.</h1>
@@ -66,7 +143,7 @@
     </div>
 </div>
 
-<!-- 비밀번호 재설정 모달 -->
+	<!-- 비밀번호 재설정 모달 -->
 <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -75,15 +152,31 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div class="row mb-3">
+                    <p>비밀번호를 잊으셨나요?</p><br>
+                    <p>가입했던 이메일을 적어주세요.</p><br>
+                    <p>입력하신 이메일 주소로 비밀번호 변경 메일을 보내드릴게요.</p><br>
+                </div>
                 <!-- 비밀번호 찾기 폼 추가 -->
-                <form action="forgotPassword" method="post">
+                <form id="forgotPasswordForm" action="" method="post">
                     <!-- 비밀번호 찾기 폼 요소들을 여기에 추가 -->
                     <div class="mb-3">
                         <input type="email" class="form-control" id="email" name="memberId" placeholder="이메일" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">이메일 보내기</button>
+                    <button type="button" class="btn-send btn btn-primary">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <span>이메일 보내기</span>
+                    </button>
+
+                    <div class="cert-wrapper pt-10">
+                        <input type="text" class="cert-input form-input w-70">
+                        <button type="button" class="btn-cert btn btn-navy">확인완료</button>
+                    </div>
+                    <div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
+                    <div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+	

@@ -20,4 +20,5 @@ public interface MemberDao {
 	
 	boolean updateMemberLastLogin(String memberId);
 	boolean lastUpdate(String memberId);
+	MemberDto selectOneByNickname(String memberNickname);
 }

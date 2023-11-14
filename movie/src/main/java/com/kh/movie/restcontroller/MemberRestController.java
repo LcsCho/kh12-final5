@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.MemberDao;
@@ -47,4 +49,30 @@ public class MemberRestController {
 	public List<MemberDto> list() {
 		return memberDao.selectList();
 	}
+	
+	//아이디 체크(이메일주소)
+	@PostMapping("/idCheck")
+	public String idCheck(@RequestParam String memberId) {
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		if(memberDto == null) { //아이디가 없으면
+			return "Y";
+		}
+		else { //아이디가 있으면
+			return "N";
+		}	
+	}
+	
+	//닉네임 체크
+	@PostMapping("/nicknameCheck")
+	public String snicknameCheck(@RequestParam String memberNickname) {
+		MemberDto memberDto = memberDao.selectOneByNickname(memberNickname);
+		if(memberDto == null) { 
+			return "Y";
+		}
+		else {
+			return "N";
+		}
+	}
+
+	//회원 등급별 인원 수 데이터 반환 매핑
 }

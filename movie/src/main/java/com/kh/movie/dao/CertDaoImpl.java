@@ -41,4 +41,23 @@ public class CertDaoImpl implements CertDao{
 	public CertDto selectOneIn5min(String certEmail) {
 		return sqlSession.selectOne("cert.selectOneIn5min",certEmail);
 	}
+
+	//비밀번호 재설정 관련
+	@Override
+	public void addPwReset(CertDto certDto) {
+		sqlSession.insert("cert.addPwReset", certDto);
+	}
+
+	@Override
+	public boolean removePwReset(String certEmail) {
+		return sqlSession.delete("cert.removePwReset",certEmail) > 0;
+	}
+
+	@Override
+	public CertDto findByPwReset(String certEmail) {
+		CertDto certDto = sqlSession.selectOne("cert.findByPwReset", certEmail);
+		return certDto;
+	}
+
+
 }
