@@ -143,6 +143,7 @@ public class MemberController {
 	@RequestMapping("/logout") //로그아웃하려면 로그인된 걸 remove 해주어야 함 - 로그아웃 시,세션값(name) 날라감
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");
+		session.removeAttribute("level");
 		return "redirect:/";
 	}
 	

@@ -145,7 +145,7 @@
                                     <div class="row align-items-center">
 
                                             <div class="col-4 mt-2 mb-2">
-                                                <img src="./images/mvc.png" width="150">
+                                                <img src="../images/mvc.png" width="150">
                                             </div>
 
                                         
