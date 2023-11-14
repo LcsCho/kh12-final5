@@ -105,5 +105,11 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.nickCheck",memberNickname);
 	}
 
+	//비밀번호 재설정
+	@Override
+	public void updatePassword(MemberDto memberDto) {
+		sqlSession.update("member.editByPw", memberDto);
+	}
+
 
 }

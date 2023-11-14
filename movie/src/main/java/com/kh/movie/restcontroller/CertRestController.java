@@ -98,19 +98,38 @@ public class CertRestController {
 	}
 	
 	
-		//전송받은 인증번호 체크
-	 @PostMapping("/checkEmail")
-	    public Map<String, Object> checkEmail(@ModelAttribute CertDto certDto) {
-	        CertDto findDto = certDao.selectOne(certDto.getCertEmail());
-	        if (findDto != null) {
-	            boolean isValid = findDto.getCertNo().equals(certDto.getCertNo());
-	            if (isValid) {
-	                certDao.delete(certDto.getCertEmail());
-	                return Map.of("result", true);
-	            }
+	
+//	 @PostMapping("/checkEmail")
+//	    public Map<String, Object> checkEmail(@ModelAttribute CertDto certDto) {
+//	        CertDto findDto = certDao.selectOne(certDto.getCertEmail());
+//	        if (findDto != null) {
+//	            boolean isValid = findDto.getCertNo().equals(certDto.getCertNo());
+//	            if (isValid) {
+//	                certDao.delete(certDto.getCertEmail());
+//	                return Map.of("result", true);
+//	            }
+//	        }
+//	        return Map.of("result", false);
+//	    }
+	@PostMapping("/checkEmail")
+	public Map<String, Object> checkEmail(@ModelAttribute CertDto certDto) {
+	    // 이메일이 DB에 존재하는지 확인
+	    CertDto findDto = certDao.selectOne(certDto.getCertEmail());
+	    if (findDto != null) {
+	        boolean isValid = findDto.getCertNo().equals(certDto.getCertNo());
+	        if (isValid) {
+	            // 인증 성공한 경우
+	            certDao.delete(certDto.getCertEmail());
+	            return Map.of("result", true);
+	        } else {
+	            // 인증 실패한 경우
+	            return Map.of("result", false, "error", "인증번호가 일치하지 않습니다.");
 	        }
-	        return Map.of("result", false);
+	    } else {
+	        // 이메일이 DB에 존재하지 않는 경우
+	        return Map.of("result", false, "error", "등록되지 않은 이메일 주소입니다.");
 	    }
+	}
 
 	
 
