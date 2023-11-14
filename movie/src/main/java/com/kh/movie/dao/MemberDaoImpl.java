@@ -99,5 +99,11 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.update("member.lastUpdate", memberId) > 0;
 	}
 
+	//닉네임 체크
+	@Override
+	public MemberDto selectOneByNickname(String memberNickname) {
+		return sqlSession.selectOne("member.nickCheck",memberNickname);
+	}
+
 
 }
