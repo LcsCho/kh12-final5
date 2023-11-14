@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/sandstone/bootstrap.min.css" rel="stylesheet">
 
 <head>
     <meta charset="UTF-8">
@@ -22,6 +20,42 @@
             padding-top: 56px;
         }
     </style>
+<script>
+$(function(){
+	var params = new URLSearchParams(location.search);
+	var movieNo = params.get("movieNo");
+
+	$.ajax({
+		url:"/movieWish/check",
+		method:"post",
+		data:{movieNo : movieNo},
+		success:function(response) {
+			if(response.check) {
+				$(".fa-bookmark").removeClass("fa-solid fa-regular").addClass("fa-solid");
+			}
+			else{
+				$(".fa-bookmark").removeClass("fa-solid fa-regular").addClass("fa-regular");
+			}
+		}
+	});
+	
+	$(".fa-bookmark").click(function(){
+		$.ajax({
+			url:"/movieWish/action",
+			method:"post",
+			data: {movieNo : movieNo},
+			success:function(response){
+				if(response.check) {
+					$(".fa-bookmark").removeClass("fa-solid fa-regular").addClass("fa-solid");
+				}
+				else{
+					$(".fa-bookmark").removeClass("fa-solid fa-regular").addClass("fa-regular");
+				}
+			}
+		});
+	});
+});
+</script>
 </head>
 <body>
     <!-- Navbar -->
@@ -47,7 +81,7 @@
             </div>
             <!-- Movie Information -->
             <div class="col-md-8">
-                <h2>${movieDto.movieName}</h2>
+                <h2>${movieDto.movieName} <i class="fa-regular fa-bookmark"></i></h2>
                 <p><strong>출시년도:</strong> <fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" /></p>
                 <p><strong>영화 장르:</strong>
                 <c:forEach var="movieGenreDto" items="${list}" varStatus="loopStatus">
@@ -61,26 +95,20 @@
 
                 <!-- Review Section -->
                 <h3 class="mt-4">후기</h3>
-                <!-- Add your review form and list here -->
 
                 <!-- Rating Section -->
                 <h3 class="mt-4">별점</h3>
-                <!-- Add your rating component here -->
 
                 <!-- Cast Section -->
-                <h3 class="mt-4">출연자 리스트</h3>
-                <!-- Add your cast list here -->
+                <h3 class="mt-4">출연자</h3>
 
                 <!-- Still Cut Section -->
-                <h3 class="mt-4">영화 스틸컷 리스트</h3>
-                <!-- Add your still cut list here -->
+                <h3 class="mt-4">영화 스틸컷</h3>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Your custom scripts go here -->
-
 </body>
 </html>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
