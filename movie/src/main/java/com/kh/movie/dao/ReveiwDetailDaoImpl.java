@@ -21,9 +21,5 @@ public class ReveiwDetailDaoImpl implements ReviewDetailDao {
 		return sqlSession.selectList("reviewList.findByReviewNo", reviewNo);
 	}
 	
-	//댓글 조회
-	@Override
-	public List<ReplyDto> findAll(int reviewNo){
-		return sqlSession.selectList("reply.findAll", reviewNo);
-	}
+	
 }

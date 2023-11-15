@@ -7,5 +7,4 @@ import com.kh.movie.vo.ReviewListVO;
 
 public interface ReviewDetailDao {
 	List<ReviewListVO> findByReviewNo(int reviewNo);//리뷰 상세 조회
-	List<ReplyDto> findAll(int reviewNo);//댓글 조회
 }

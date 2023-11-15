@@ -44,12 +44,12 @@ public class MovieWishRestController {
 	}
 	
 	//삭제
-	@DeleteMapping("/{wishNo}")
-	public ResponseEntity<String> delete(@PathVariable int wishNo) {
-		boolean result = movieWishDao.delete(wishNo);
-		if (result) return ResponseEntity.status(200).build();
-		else return ResponseEntity.status(404).build();
-	}
+//	@DeleteMapping("/{wishNo}")
+//	public ResponseEntity<String> delete(@PathVariable int wishNo) {
+//		boolean result = movieWishDao.delete(wishNo);
+//		if (result) return ResponseEntity.status(200).build();
+//		else return ResponseEntity.status(404).build();
+//	}
 	
 	//찜번호로 상세 조회
 	@GetMapping("/{wishNo}")
@@ -60,22 +60,18 @@ public class MovieWishRestController {
 	}
 	
 	@RequestMapping("/action")
-	public MovieWishVO action(@ModelAttribute MovieWishDto movieWishDto, HttpSession session) {
+	public MovieWishVO action(@ModelAttribute MovieWishDto movieWishDto, 
+											HttpSession session) {
 		int wishNo = movieWishDao.sequence();
-		String memberId = (String) session.getAttribute("memberId");
+		String memberId = (String) session.getAttribute("name");
 		movieWishDto.setWishNo(wishNo);
 		movieWishDto.setMemberId(memberId);
-		boolean isCheck = movieWishDao.check(wishNo);
-		System.out.println("wishNo: " + wishNo);
-		System.out.println("movieNo: " + movieWishDto.getMovieNo());
-		System.out.println("memberId: " + memberId);
-		if(isCheck) {
-			movieWishDao.delete(wishNo);
-		}
-		else {
-			movieWishDao.insert(movieWishDto);
-		}
+		
+		boolean isCheck = movieWishDao.check(movieWishDto);
+		if(isCheck) movieWishDao.delete(movieWishDto);
+		else movieWishDao.insert(movieWishDto);
 		int count = movieWishDao.count(wishNo);
+		
 		MovieWishVO vo = new MovieWishVO();
 		vo.setCheck(!isCheck);
 		vo.setCount(count);
@@ -84,13 +80,12 @@ public class MovieWishRestController {
 	
 	@RequestMapping("/check")
 	public MovieWishVO check(@ModelAttribute MovieWishDto movieWishDto, HttpSession session) {
-		String memberId = (String) session.getAttribute("memberId");
+		String memberId = (String) session.getAttribute("name");
 		movieWishDto.setMemberId(memberId);
-		boolean isCheck = movieWishDao.check(movieWishDto.getWishNo());
+		
+		boolean isCheck = movieWishDao.check(movieWishDto);
 		int count = movieWishDao.count(movieWishDto.getWishNo());
-		System.out.println("wishNo: " + movieWishDto.getWishNo());
-		System.out.println("movieNo: " + movieWishDto.getMovieNo());
-		System.out.println("memberId: " + memberId);
+		
 		MovieWishVO vo = new MovieWishVO();
 		vo.setCheck(isCheck);
 		vo.setCount(count);

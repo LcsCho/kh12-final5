@@ -20,8 +20,8 @@ public class ReplyRest {
 	private ReviewDetailDao reviewDetailDao;
 	
 	//댓글 조회
-	@PostMapping("/findAll")
-	public List<ReplyDto> findAll(int reviewNo){
-		return reviewDetailDao.findAll(reviewNo);
-	}
+//	@PostMapping("/findAll")
+//	public List<ReplyDto> findAll(int reviewNo){
+//		return reviewDetailDao.findAll(reviewNo);
+//	}
 }

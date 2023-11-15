@@ -15,11 +15,12 @@
 	</select>
 	
 	<select id="findAllList" resultType="movieWishListVO">
-		select * from movie_wish_list where member_nickname = #{memberNickname} order by wish_date desc
+		select * from movie_wish_list 
+		where member_nickname = #{memberNickname} order by wish_date desc
 	</select>
 	
 	<select id="findByWishNo" resultType="movieWishDto">
-		select * from movie_wish where wish_no = #{wishNo}
+		select * from movie_wish where movie_no = #{movieNo} and member_id = #{memberId}
 	</select>
 	
 	<insert id="add">
@@ -28,11 +29,12 @@
 	</insert>
 	
 	<delete id="delete">
-		delete movie_wish where wish_no = #{wishNo}
+		delete movie_wish where movie_no = #{movieNo} and member_id = #{memberId}
 	</delete>
 	
-	<select id="countWish" resultType="movieWishDto">
-		select count(*) from movie_wish where wish_no = #{wishNo}
+	<select id="countWish" resultType="int">
+		select count(*) from movie_wish 
+		where movie_no = #{movieNo} and member_id = #{memberId}
 	</select>
 	
 </mapper>

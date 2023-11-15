@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dao.MovieWishDao;
+import com.kh.movie.dao.ReplyDao;
+import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dao.ReviewDetailDao;
 import com.kh.movie.dao.ReviewListDao;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReplyDto;
+import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.ReviewListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +46,12 @@ public class MovieController {
 	
 	@Autowired
 	private MovieWishDao movieWishDao;
+	
+	@Autowired
+	private ReviewDao reviewDao;
+	
+	@Autowired
+	private ReplyDao replyDao;
 	
 	//리뷰 목록
 	@GetMapping("/review/list")
@@ -77,7 +86,7 @@ public class MovieController {
 		}
 		
 		//댓글 조회
-		List<ReplyDto> replyList = reviewDetailDao.findAll(reviewNo);
+		List<ReplyDto> replyList = replyDao.findAll(reviewNo);
 		if (!replyList.isEmpty()) {
 			model.addAttribute("reply", replyList.get(0));
 		}
@@ -88,9 +97,11 @@ public class MovieController {
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int movieNo, HttpSession session, Model model) {
 		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
-		List<MovieGenreDto> list = movieGenreDao.selectListByMovieNo(movieNo);
+		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
+		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
 		model.addAttribute("movieDto", movieDto);
-		model.addAttribute("list", list);
+		model.addAttribute("movieGenreList", movieGenreList);
+		model.addAttribute("reviewList", reviewList);
 		return "movie/detail";
 	}
 }
