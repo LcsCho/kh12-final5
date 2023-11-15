@@ -7,7 +7,53 @@
 <%-- <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
  --%>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
- 
+
+<script>
+$(function(){
+	//변경 버튼 누르면 이미지를 업로드 하고 이미지 교체
+	$(".image-chooser").change(function(){
+		
+		var input =this;
+		console.log(input);
+		console.log(input.files[0]);
+		if(input.files.length == 0) return;
+		
+		//ajax로 multipart업로드
+		var form = new FormData();
+		console.log(form);
+		form.append("image",input.files[0]);
+		$.ajax({
+			url: contextPath+"/member/upload",
+			method:"post",
+			processData:false,
+			contentType:false,
+			data:form,
+			success:function(imageNo){
+				console.log(imageNo);
+				//회원 이미지 교체
+				$(".member-image").attr("src","/image/" +imageNo);
+			},
+			error:function(){
+				alert("통신 오류 발생 \n잠시 후 다시 시도해주세요");
+			},
+		});
+	});
+	$(".image-delete").click(function(){
+		
+		var choice = window.confirm("정말 이미지를 지우시겠습니까?");
+		if(choice == false) return;
+		
+		$.ajax({
+			url:contextPath+"/member/delete",
+			method:"delete",
+			
+			success:function(response){
+				$(".member-image").attr("src","/images/user.jpg");
+			}
+		});
+	});
+});
+</script> 
 
 
 
@@ -17,14 +63,13 @@
 
 	<div class="row mv-30">
 	<c:choose>
-	<c:when test="${profile == null}">
+	<c:when test="${memberImage == null}">
 		<img src="${pageContext.request.contextPath}/images/user.jpg" style="width:200px; height:200px;"
-		class="img-fluid rounded-circle profile-image">
+		class="img-fluid rounded-circle member-image">
 	</c:when>
 	<c:otherwise>
-	<img src="${pageContext.request.contextPath}/rest/member/download?imageNo=${profile}"
-		width="150" height="150" 
-		class="image image-circle profile-image">
+	<img src="${pageContext.request.contextPath}/image/${memberImage}" style="width:200px; height:200px;"
+		class="img-fluid rounded-circle member-image">
 	</c:otherwise>
 	</c:choose>
 	
@@ -42,11 +87,11 @@
 		
 		<!-- 라벨을 만들고 파일선택창을 숨김 -->
 		<label>
-			<input type="file" class="profile-chooser" accept="image/*" 
+			<input type="file" class="image-chooser" accept="image/*" 
 														style="display:none;">
 		<i class="fa-solid fa-camera blue fa-2x"></i>
 		</label>	
-		<i class="fa-solid fa-trash-can red fa-2x profile-delete"></i>
+		<i class="fa-solid fa-trash-can red fa-2x image-delete"></i>
 	</div>
 	
 	

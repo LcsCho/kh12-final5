@@ -248,5 +248,10 @@ public class MovieRestController {
 				.body(resource);
 
 	}
+	
+	@GetMapping("/adminSearch/{movieName}")
+	public List<AdminMovieListVO> adminSearch(String movieName) {
+		return movieDao.selectAdminMovieList(movieName);
+	}
 
 }

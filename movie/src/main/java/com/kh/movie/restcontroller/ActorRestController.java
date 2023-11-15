@@ -27,6 +27,7 @@ import com.kh.movie.dao.ActorDao;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dto.ActorDto;
 import com.kh.movie.dto.ImageDto;
+import com.kh.movie.dto.MemberDto;
 import com.kh.movie.vo.ActorUploadVO;
 import com.kh.movie.vo.ActorViewVO;
 
@@ -164,6 +165,11 @@ public class ActorRestController {
 		
 		
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/adminSearch/{actorName}")
+	public List<ActorDto> adminSearch(String actorName) {
+		return actorDao.selectList(actorName);
 	}
 	
 //	@PatchMapping("/{actorNo}")

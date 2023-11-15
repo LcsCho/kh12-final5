@@ -4,22 +4,28 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영화 상세페이지</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Your custom styles go here -->
-    <style>
-        /* Add your custom styles here */
-        body {
-            padding-top: 56px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영화 상세페이지</title>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Your custom styles go here -->
+<style>
+    body {
+        padding-top: 30px;
+    }
+     .review-container {
+         margin-top: 20px;
+     }
+
+     .review-item {
+         border: 1px solid #ccc;
+         padding: 10px;
+         margin-bottom: 10px;
+         border-radius : 5px;
+     }
+</style>
 <script>
 $(function(){
 	var params = new URLSearchParams(location.search);
@@ -58,57 +64,64 @@ $(function(){
 </script>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">영화 상세페이지</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Add your navigation links here -->
-            </div>
-        </div>
-    </nav>
 
     <!-- Movie Details Section -->
     <div class="container mt-4">
         <div class="row">
             <!-- Movie Poster -->                                                                                                                                                                                                                                                                                                                                                                        
-            <div class="col-md-4">
+            <div class="col-md-4 text-center">
                 <img src="https://via.placeholder.com/300" alt="Movie Poster" class="img-fluid">
+                <!-- Rating Section -->
+                <h4 class="mt-4">별점</h4>
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
             </div>
             <!-- Movie Information -->
             <div class="col-md-8">
                 <h2>${movieDto.movieName} <i class="fa-regular fa-bookmark"></i></h2>
                 <p><strong>출시년도:</strong> <fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" /></p>
                 <p><strong>영화 장르:</strong>
-                <c:forEach var="movieGenreDto" items="${list}" varStatus="loopStatus">
+                <c:forEach var="movieGenreDto" items="${movieGenreList}" varStatus="loopStatus">
 	                   	${movieGenreDto.genreName}
 	                   <c:if test="${not loopStatus.last}">/</c:if>
-	                   </c:forEach></p>
+	            </c:forEach></p>
                 <p><strong>영화제작 국가:</strong> ${movieDto.movieNation}</p>
                 <p><strong>영화 상영시간:</strong> ${movieDto.movieTime} 분</p>
                 <p><strong>영화 등급:</strong> ${movieDto.movieLevel}</p>
                 <p><strong>영화 줄거리:</strong> ${movieDto.movieContent}</p>
-
-                <!-- Review Section -->
-                <h3 class="mt-4">후기</h3>
-
-                <!-- Rating Section -->
-                <h3 class="mt-4">별점</h3>
-
-                <!-- Cast Section -->
-                <h3 class="mt-4">출연자</h3>
-
-                <!-- Still Cut Section -->
-                <h3 class="mt-4">영화 스틸컷</h3>
+                
             </div>
+            
+            <!-- Cast Section -->
+             <h4 class="mt-3">출연자</h4>
+                
+            <!-- Still Cut Section -->
+             <h4 class="mt-3">영화 스틸컷</h4>
+                
+            <!-- Review Section -->
+          <div class="container">
+          <div class="row">
+          	<div class="col d-flex">
+        		<h4 class="mt-3">리뷰</h4>
+        		<div class="ms-auto mt-3">더보기 ></div>
+          	</div>
+          </div>
+        <div class="row row-cols-1 row-cols-md-5 g-4 review-container">
+            <c:forEach var="reviewDto" items="${reviewList}">
+                <div class="col">
+                    <div class="review-item">
+                        <strong>${reviewDto.memberNickname}</strong>
+                        <p>${reviewDto.reviewContent}</p>
+                        <p>좋아요 수: ${reviewDto.reviewLikeCount}</p>
+                        <p>댓글수</p>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

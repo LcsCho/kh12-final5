@@ -110,6 +110,25 @@ public class MemberDaoImpl implements MemberDao{
 	public void updatePassword(MemberDto memberDto) {
 		sqlSession.update("member.editByPw", memberDto);
 	}
+	@Override
+	public void insertMemberImage(String memberId, int imageNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberId", memberId);
+		params.put("imageNo", imageNo);
+		sqlSession.insert("member.insertMemberImage",params);
+		
+	}
+
+	@Override
+	public Integer findMemberImage(String memberId) {
+		
+		return sqlSession.selectOne("member.findMemberImage",memberId);
+	}
+
+	@Override
+	public List<MemberDto> selectList(String memberNickname) {
+		return sqlSession.selectList("member.adminSearch", memberNickname);
+	}
 
 
 }

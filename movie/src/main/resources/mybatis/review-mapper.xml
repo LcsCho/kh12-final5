@@ -6,13 +6,18 @@
     
 <mapper namespace="review">
 	
+	<select id="sequence" resultType="int">
+		select review_seq.nextval from dual
+	</select>
+	
 	<!-- 등록 -->
 	<insert id="save">
 		insert into review (
 			review_no, member_id, member_nickname, 
 			movie_no, review_content
-		) values (
-			review_seq.nextval, #{memberNo}, #{memberNickname}, 
+		) 
+		values (
+			#{reviewNo}, #{memberId}, #{memberNickname}, 
 			#{movieNo}, #{reviewContent}
 		)
 	</insert>
@@ -20,13 +25,24 @@
 	<!-- 수정 -->
 	<update id="edit">
 		update review 
-			set review_content = #{reviewContent}
-			where review_no = #{reviewNo}
+		<set>
+			<if test="reviewDto.reviewContent !=null"> review_content = #{reviewContent},</if>
+		</set> 
+		where review_no = #{reviewNo}
 	</update>
 	
 	<!-- 삭제 -->
 	<delete id="delete">
 		delete review where review_no = #{reviewNo}
 	</delete>
+	
+	<!-- 영화 번호로 리스트 조회 -->
+	<select id="findAllByMovieNo" resultType="reviewDto">
+		select * from (
+			select rownum rn, TMP.* from(
+				select * from review where movie_no = #{movieNo} order by review_like_count desc
+			)TMP
+		) where rn between 1 and 10
+	</select>
 	
 </mapper>
