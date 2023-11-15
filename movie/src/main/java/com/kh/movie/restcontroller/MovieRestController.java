@@ -253,5 +253,10 @@ public class MovieRestController {
 	public List<AdminMovieListVO> adminSearch(String movieName) {
 		return movieDao.selectAdminMovieList(movieName);
 	}
+	
+	@GetMapping("/imageNoList/{movieNo}")
+	public List<Integer> ImageNoList(@PathVariable int movieNo){
+		return movieDao.findDetailImageNoByMovieNo(movieNo);
+	}
 
 }
