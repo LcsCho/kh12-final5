@@ -101,4 +101,10 @@ public class MemberRestController {
             return "redirect:/error"; // 적절한 오류 페이지로 리다이렉트
         }
     }
+	
+	@GetMapping("/adminSearch/{memberNickname}")
+	public List<MemberDto> adminSearch(String memberNickname) {
+		return memberDao.selectList(memberNickname);
+	}
+	
 }

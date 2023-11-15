@@ -69,4 +69,10 @@
 	<select id="actorList" resultType="ActorViewVO">
 		select * from actor_view
 	</select>
+	
+	<select id="adminSearch" parameterType="String" resultType="ActorDto">
+		SELECT * 
+    	FROM actor
+    	WHERE INSTR(LOWER(actor_name), LOWER(#{actorName})) > 0
+	</select>
 </mapper>

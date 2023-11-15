@@ -122,4 +122,10 @@
 	<select id="adminMovieList" resultType="AdminMovieListVO">
 		select * from admin_movie_list
 	</select>
+	
+	<select id="adminSearch" parameterType="String" resultType="AdminMovieListVO">
+		SELECT * 
+    	FROM admin_movie_list 
+    	WHERE INSTR(LOWER(movie_name), LOWER(#{movieName})) > 0
+	</select>
 </mapper>
