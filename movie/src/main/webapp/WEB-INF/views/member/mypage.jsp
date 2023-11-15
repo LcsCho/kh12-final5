@@ -18,13 +18,13 @@
 	<div class="row mv-30">
 	<c:choose>
 	<c:when test="${profile == null}">
-		<img src="${pageContext.request.contextPath}/images/user.jpg" width="150" height="150" 
-		class="image image-circle image-border profile-image">
+		<img src="${pageContext.request.contextPath}/images/user.jpg" style="width:200px; height:200px;"
+		class="img-fluid rounded-circle profile-image">
 	</c:when>
 	<c:otherwise>
 	<img src="${pageContext.request.contextPath}/rest/member/download?imageNo=${profile}"
 		width="150" height="150" 
-		class="image image-circle image-border profile-image">
+		class="image image-circle profile-image">
 	</c:otherwise>
 	</c:choose>
 	
