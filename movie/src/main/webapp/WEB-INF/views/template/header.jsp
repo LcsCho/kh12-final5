@@ -205,9 +205,24 @@ $(document).ready(function () {
     .custom-search {
     background-color: #e6dcdc;
     border: none;    
-    width: 500px; /* 또는 다른 너비를 지정하세요 */
-}
-
+    width: 450px;
+	}
+	
+	.form-group {
+    margin-bottom: 10px;
+	}
+	
+	.form-control {
+	    height: 40px;
+	    border: 1px solid #ccc;
+	    border-radius: 5px;
+	}
+	
+	.btn { 
+	    width: 60px; 
+ 	    height: 40px; 
+	    border-radius: 5px; 
+ 	} 
 </style>
 </head>
 
@@ -218,47 +233,49 @@ $(document).ready(function () {
                 <div class="col">
 
 		            <header>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-10 offset-md-1">
-                                    <div class="row align-items-center">
+                        <div class="container-float">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="row align-items-center me-3 mt-3">
 
-                                            <div class="col-4 mt-2 mb-2">
-                                                <img src="../images/mvc.png" width="150">
-                                            </div>
+                    <div class="col-4 mb-2">
+                        <img src="../images/mvc.png" width="150">
+                    </div>
 
-                                        
-                                            <!-- <div class="col">
-                                                <form class="d-flex">
-                                                    <input class="form-control me-sm-2" type="search" placeholder="Search">
-                                                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                                                </form>
-                                            </div> -->
-
-                                        <div class="d-flex col-8 justify-content-end">
-                                            <form class="d-flex">
-                                                <input class="form-control me-sm-2 custom-search" type="search" placeholder="콘텐츠, 인물, 유저를 검색해보세요">
-                                                <button class="btn btn-secondary my-2 my-sm-0 custom-search-btn" type="submit">검색</button>
-                                            </form>
-                                            <c:choose>
-                                            	<c:when test="${sessionScope.name !=null}">
-                                            		<a href="/member/logout" class="btn">로그아웃</a>
-                                            		<a href="/member/mypage" class="btn">마이페이지</a>
-                                            	</c:when>
-                                            	<c:otherwise>
-		                                            <a href="#" class="btn btn-navy ms-4" data-bs-toggle="modal" data-bs-target="#loginModal">로그인하기</a>
-		                                            <a href="/member/join" class="btn">회원가입</a>
-                                            	</c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-8 d-flex justify-content-end">
+                        <form class="d-flex">
+                            <input class="form-control me-sm-2 custom-search" type="search"
+                                placeholder="콘텐츠, 인물, 유저를 검색해보세요" style="height: fit-content;">
+                            <button class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
+                                type="submit" style="height: fit-content;">검색</button>
+                        </form>
+                        <c:choose>
+                            <c:when test="${sessionScope.name !=null}">
+                                <a href="/member/logout" class="btn c-btn ms-5" style="height: fit-content;">
+                                	<i class="fa fa-sign-out-alt fa-2xl"></i>
+                                </a>
+                                <a href="/member/mypage" class="btn c-btn" style="height: fit-content;">
+                                	<i class="fa-solid fa-user fa-2xl"></i>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="#" class="btn c-btn ms-5" data-bs-toggle="modal"
+                                data-bs-target="#loginModal" style="height: fit-content;">
+                                    <i class="fa-solid fa-right-to-bracket fa-2xl"></i>
+                                </a>
+                                <a href="/member/join" class="btn c-btn" style="height: fit-content;">
+                                    <i class="fa fa-user-plus fa-2xl"></i>
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
                             <!-- 로그인 모달 -->
-                        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="loginModal" tabindex="-1" 
+                        	aria-labelledby="loginModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -270,10 +287,12 @@ $(document).ready(function () {
                                         <form action="member/login" method="post">
                                             <!-- 로그인 폼 요소들을 여기에 추가 -->
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" id="username" name="memberId" placeholder="이메일" required>
+                                                <input type="text" class="form-control" id="username" 
+                                                	name="memberId" placeholder="이메일" required>
                                             </div>
                                             <div class="mb-3">
-                                                <input type="password" class="form-control" id="password" name="memberPw" placeholder="비밀번호" required>
+                                                <input type="password" class="form-control" id="password" 
+                                                	name="memberPw" placeholder="비밀번호" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">로그인</button>
                                             <!-- 비밀번호 찾기 버튼 추가 -->
@@ -285,7 +304,8 @@ $(document).ready(function () {
                         </div>
 
 							<!-- 비밀번호-재설정 이메일 인증 모달 -->
-						<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+						<div class="modal fade" id="forgotPasswordModal" tabindex="-1" 
+							aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
 						    <div class="modal-dialog">
 						        <div class="modal-content">
 						            <div class="modal-header">
@@ -302,7 +322,8 @@ $(document).ready(function () {
 						                <form id="forgotPasswordForm" action="" method="post">
 						                    <!-- 비밀번호 찾기 폼 요소들을 여기에 추가 -->
 						                    <div class="mb-3">
-						                        <input type="email" class="form-control" id="email" name="memberId" placeholder="이메일" required>
+						                        <input type="email" class="form-control" id="email" 
+						                        	name="memberId" placeholder="이메일" required>
 						                    </div>
 						                    <button type="button" class="btn-send btn btn-primary">
 						                        <i class="fa-solid fa-spinner fa-spin"></i>
@@ -321,7 +342,8 @@ $(document).ready(function () {
 						</div>
 							
 							<!-- 비밀번호 재설정 모달 -->
-						<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+						<div class="modal fade" id="resetPasswordModal" tabindex="-1" 
+							aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
 						    <div class="modal-dialog">
 						        <div class="modal-content">
 						            <div class="modal-header">
@@ -333,10 +355,12 @@ $(document).ready(function () {
 						                <form id="resetPasswordForm" action="member/changePw" method="post">
 						                    <!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
 						                    <div class="mb-3">
-						                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="새로운 비밀번호" required>
+						                        <input type="password" class="form-control" id="newPassword" 
+						                        	name="newPassword" placeholder="새로운 비밀번호" required>
 						                    </div>
 						                    <div class="mb-3">
-						                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인" required>
+						                        <input type="password" class="form-control" id="confirmPassword" 
+						                        	name="confirmPassword" placeholder="비밀번호 확인" required>
 						                    </div>
 						                    <button type="submit" class="btn btn-primary">비밀번호 재설정</button>
 						                </form>
