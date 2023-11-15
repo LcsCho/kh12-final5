@@ -1,6 +1,7 @@
 package com.kh.movie.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,6 +37,11 @@ public class MovieActorRoleDaoImpl implements MovieActorRoleDao {
 	@Override
 	public int sequence() {
 		return sqlSession.selectOne("movieActorRole.sequence");
+	}
+	
+	@Override
+	public List<MovieActorRoleDto> findByMovieNo(int movieNo) {
+		return sqlSession.selectList("movieActorRole.findByMovieNo", movieNo);
 	}
 
 }
