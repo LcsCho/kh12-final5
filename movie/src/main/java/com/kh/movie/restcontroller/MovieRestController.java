@@ -207,54 +207,54 @@ public class MovieRestController {
 
 	}
 
-	// 영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
-	@GetMapping("/image/{movieNo}")
-	public ResponseEntity<ByteArrayResource> downloadMainImage(@PathVariable int movieNo) throws IOException {
+//	// 영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
+//	@GetMapping("/image/{movieNo}")
+//	public ResponseEntity<ByteArrayResource> downloadMainImage(@PathVariable int movieNo) throws IOException {
+//
+//		ImageDto imageMainDto = movieDao.findMainImage(movieNo);
+//
+//		if (imageMainDto == null) {
+//			return ResponseEntity.notFound().build();// 404
+//
+//		}
+//		File target = new File(dir, String.valueOf(imageMainDto.getImageNo()));
+//		byte[] data = FileUtils.readFileToByteArray(target);// 실제파일정보 불러오기
+//		ByteArrayResource resource = new ByteArrayResource(data);
+//
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+//				.contentLength(imageMainDto.getImageSize())
+//				.header(HttpHeaders.CONTENT_TYPE, imageMainDto.getImageType())
+//				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+//				.header("Content-Disposition", "attachment;filename=" + imageMainDto.getImageName())
+//
+//				.body(resource);
+//
+//	}
 
-		ImageDto imageMainDto = movieDao.findMainImage(movieNo);
-
-		if (imageMainDto == null) {
-			return ResponseEntity.notFound().build();// 404
-
-		}
-		File target = new File(dir, String.valueOf(imageMainDto.getImageNo()));
-		byte[] data = FileUtils.readFileToByteArray(target);// 실제파일정보 불러오기
-		ByteArrayResource resource = new ByteArrayResource(data);
-
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
-				.contentLength(imageMainDto.getImageSize())
-				.header(HttpHeaders.CONTENT_TYPE, imageMainDto.getImageType())
-				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header("Content-Disposition", "attachment;filename=" + imageMainDto.getImageName())
-
-				.body(resource);
-
-	}
-
-	// 영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
-	@GetMapping("/images/{imageNo}")
-	public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable int imageNo) throws IOException {
-
-		ImageDto imageDto = movieDao.findImage(imageNo);
-		log.debug("imageNo={}", imageNo);
-		log.debug("imageDto={}", imageDto);
-
-//			if(imageDetailDto ==null) {
-//				return ResponseEntity.notFound().build();//404
-//				
-//			}
-		File target = new File(dir, String.valueOf(imageDto.getImageNo()));
-		byte[] data = FileUtils.readFileToByteArray(target);// 실제파일정보 불러오기
-		ByteArrayResource resource = new ByteArrayResource(data);
-
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
-				.contentLength(imageDto.getImageSize()).header(HttpHeaders.CONTENT_TYPE, imageDto.getImageType())
-				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header("Content-Disposition", "attachment;filename=" + imageDto.getImageName())
-
-				.body(resource);
-
-	}
+//	// 영화 이미지 다운로드(등록한걸 페이지에서 보여주기)
+//	@GetMapping("/images/{imageNo}")
+//	public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable int imageNo) throws IOException {
+//
+//		ImageDto imageDto = movieDao.findImage(imageNo);
+//		log.debug("imageNo={}", imageNo);
+//		log.debug("imageDto={}", imageDto);
+//
+////			if(imageDetailDto ==null) {
+////				return ResponseEntity.notFound().build();//404
+////				
+////			}
+//		File target = new File(dir, String.valueOf(imageDto.getImageNo()));
+//		byte[] data = FileUtils.readFileToByteArray(target);// 실제파일정보 불러오기
+//		ByteArrayResource resource = new ByteArrayResource(data);
+//
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+//				.contentLength(imageDto.getImageSize()).header(HttpHeaders.CONTENT_TYPE, imageDto.getImageType())
+//				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+//				.header("Content-Disposition", "attachment;filename=" + imageDto.getImageName())
+//
+//				.body(resource);
+//
+//	}
 	
 	@GetMapping("/adminSearch/{movieName}")
 	public List<AdminMovieListVO> adminSearch(String movieName) {
@@ -263,6 +263,7 @@ public class MovieRestController {
 	
 	@GetMapping("/imageNoList/{movieNo}")
 	public List<Integer> ImageNoList(@PathVariable int movieNo){
+		log.debug("movieNo={}",movieNo);
 		return movieDao.findDetailImageNoByMovieNo(movieNo);
 	}
 

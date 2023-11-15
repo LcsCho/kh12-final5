@@ -116,7 +116,7 @@ public class MovieDaoImpl implements MovieDao{
 	}
 	@Override
 	public List<Integer> findDetailImageNoByMovieNo(int movieNo) {
-		return sqlSession.selectList("movie.findImageNoByMovieNo",movieNo);
+		return sqlSession.selectList("movie.findDetailImageNoByMovieNo",movieNo);
 	}
 
 }
