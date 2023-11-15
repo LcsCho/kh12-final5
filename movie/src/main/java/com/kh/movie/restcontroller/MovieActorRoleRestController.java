@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.movie.dao.MovieActorRoleDao;
 import com.kh.movie.dto.MovieActorRoleDto;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "영화 배우 역할 관리", description = "영화 배우 관리를 위한 컨트롤러")
@@ -43,8 +44,9 @@ public class MovieActorRoleRestController {
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping("/{movieNo}")
-	public List<MovieActorRoleDto> findByMovieNo(int movieNo) {
+	@GetMapping("/movieNo/{movieNo}")
+	//public List<MovieActorRoleDto> findByMovieNo(@PathVariable Integer movieNo) {
+	public List<MovieActorRoleDto> findByMovieNo(@PathVariable int movieNo) {
 		return movieActorRoleDao.findByMovieNo(movieNo);
 	}
 }
