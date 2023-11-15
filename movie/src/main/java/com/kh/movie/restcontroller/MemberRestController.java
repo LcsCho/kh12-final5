@@ -128,7 +128,7 @@ public class MemberRestController {
         }
     }
 
-}
+
 	@PostMapping(value ="/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Integer> upload(@RequestPart MultipartFile image,HttpSession session) throws IllegalStateException, IOException {
 		
