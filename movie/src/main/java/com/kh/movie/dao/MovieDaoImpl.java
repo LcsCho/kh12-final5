@@ -114,5 +114,9 @@ public class MovieDaoImpl implements MovieDao{
 	public List<AdminMovieListVO> selectAdminMovieList(String movieName) {
 		return sqlSession.selectList("movie.adminSearch", movieName);
 	}
+	@Override
+	public List<Integer> findDetailImageNoByMovieNo(int movieNo) {
+		return sqlSession.selectList("movie.findImageNoByMovieNo",movieNo);
+	}
 
 }

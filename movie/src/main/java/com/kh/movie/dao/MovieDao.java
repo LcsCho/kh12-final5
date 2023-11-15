@@ -22,6 +22,7 @@ public interface MovieDao {
 	ImageDto findMainImage(int movieNo);
 	ImageDto findImage(int ImageNo);
 	List<AdminMovieListVO> selectAdminMovieList(String movieName);
+	List<Integer> findDetailImageNoByMovieNo(int movieNo);
 	
 	
 
