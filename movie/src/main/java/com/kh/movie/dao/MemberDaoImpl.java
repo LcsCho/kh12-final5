@@ -111,5 +111,10 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("member.editByPw", memberDto);
 	}
 
+	@Override
+	public List<MemberDto> selectList(String memberNickname) {
+		return sqlSession.selectList("member.adminSearch", memberNickname);
+	}
+
 
 }

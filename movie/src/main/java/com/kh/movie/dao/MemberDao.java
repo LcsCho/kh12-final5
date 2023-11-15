@@ -22,4 +22,5 @@ public interface MemberDao {
 	boolean lastUpdate(String memberId);
 	MemberDto selectOneByNickname(String memberNickname);
 	void updatePassword(MemberDto memberDto);
+	List<MemberDto> selectList(String memberNickname);
 }

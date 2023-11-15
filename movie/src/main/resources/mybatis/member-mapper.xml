@@ -86,4 +86,10 @@
 		</set>
 		where member_id = #{memberId}
 	</update>
+	
+	<select id="adminSearch" parameterType="String" resultType="MemberDto">
+		SELECT * 
+    	FROM member 
+    	WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
+	</select>
 </mapper>
