@@ -86,5 +86,10 @@ public class ActorDaoImpl implements ActorDao{
 	public ImageDto findActorImage(int actorNo) {
 		return sqlSession.selectOne("actor.findActorImage",actorNo);
 	}
+	
+	@Override
+	public List<ActorDto> selectList(String actorName) {
+		return sqlSession.selectList("actor.adminSearch", actorName);
+	}
 
 }

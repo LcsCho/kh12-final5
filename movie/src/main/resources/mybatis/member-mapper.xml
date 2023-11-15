@@ -95,6 +95,10 @@
 		select image_no from member_image 
 		where member_id =#{memberId}
 	</select>
-	
-	
+
+	<select id="adminSearch" parameterType="String" resultType="MemberDto">
+		SELECT * 
+    	FROM member 
+    	WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
+	</select>
 </mapper>

@@ -21,6 +21,7 @@ public interface MovieDao {
 	int getCount();
 	ImageDto findMainImage(int movieNo);
 	ImageDto findImage(int ImageNo);
+	List<AdminMovieListVO> selectAdminMovieList(String movieName);
 	
 	
 

@@ -175,26 +175,11 @@ public class MemberRestController {
 			else {
 				return ResponseEntity.notFound().build();
 			}
+	}	
+	@GetMapping("/adminSearch/{memberNickname}")
+	public List<MemberDto> adminSearch(String memberNickname) {
+		return memberDao.selectList(memberNickname);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
-
-
-
-
-
-
-
-
 

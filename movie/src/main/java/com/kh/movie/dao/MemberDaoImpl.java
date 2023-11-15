@@ -125,5 +125,10 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.findMemberImage",memberId);
 	}
 
+	@Override
+	public List<MemberDto> selectList(String memberNickname) {
+		return sqlSession.selectList("member.adminSearch", memberNickname);
+	}
+
 
 }

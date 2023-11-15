@@ -24,4 +24,6 @@ public interface MemberDao {
 	void updatePassword(MemberDto memberDto);
 	void insertMemberImage(String memberId, int imageNo);
 	Integer findMemberImage(String memberId);
+	List<MemberDto> selectList(String memberNickname);
+
 }
