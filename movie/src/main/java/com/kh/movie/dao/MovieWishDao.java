@@ -7,11 +7,11 @@ import com.kh.movie.vo.MovieWishListVO;
 
 public interface MovieWishDao {
 	int sequence();
-	void insert(MovieWishDto moviewishDto);
-	boolean delete(int wishNo);
+	void insert(MovieWishDto movieWishDto);
+	boolean delete(MovieWishDto movieWishDto);
 	List<MovieWishDto> selectList();
 	List<MovieWishListVO> selectList(String memberNickname);
 	MovieWishDto selectOne(int wishNo);
-	boolean check(int wishNo);
+	boolean check(MovieWishDto movieWishDto);
 	int count(int wishNo);
 }

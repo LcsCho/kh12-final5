@@ -24,13 +24,13 @@ public class MovieWishDaoImpl implements MovieWishDao{
 	}
 
 	@Override
-	public void insert(MovieWishDto moviewishDto) {
-		sqlSession.insert("movieWish.add", moviewishDto);
+	public void insert(MovieWishDto movieWishDto) {
+		sqlSession.insert("movieWish.add", movieWishDto);
 	}
 
 	@Override
-	public boolean delete(int wishNo) {
-		return sqlSession.delete("movieWish.delete", wishNo) > 0;
+	public boolean delete(MovieWishDto movieWishDto) {
+		return sqlSession.delete("movieWish.delete", movieWishDto) > 0;
 	}
 
 	@Override
@@ -49,10 +49,8 @@ public class MovieWishDaoImpl implements MovieWishDao{
 	}
 	
 	@Override
-	public boolean check(int wishNo) {
-	    Integer result = sqlSession.selectOne("movieWish.findByWishNo", wishNo);
-	    // result가 null이거나 0 이하인 경우에는 false를 반환
-	    return result != null && result.intValue() > 0;
+	public boolean check(MovieWishDto movieWishDto) {
+	    return sqlSession.selectOne("movieWish.findByWishNo", movieWishDto) != null;
 	}
 	
 	@Override

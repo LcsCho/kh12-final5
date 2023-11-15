@@ -66,17 +66,17 @@ public class MemberController {
 
  	@GetMapping("/joinFinish")
 	public String joinFinish(Model model, HttpSession session) {
- 		String memberId = (String) session.getAttribute("memberId");
+ 		String memberId = (String) session.getAttribute("name");
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
-		model.addAttribute("memberId", memberId);
+		model.addAttribute("name", memberId);
 		return "member/joinFinish";
 	}
 	
  	@PostMapping("/joinFinish")
 	public String joinFinish(@RequestParam(value = "selectedGenres", required = false) List<String> selectedGenres, 
 										HttpSession session) {
-		String memberId = (String) session.getAttribute("memberId");
+		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		// 선택한 장르를 DB에 저장
 	    for (String genreName : selectedGenres) {
@@ -85,7 +85,7 @@ public class MemberController {
 	        preferGenreDto.setGenreName(genreName);
 	        preferGenreDao.insert(preferGenreDto);
 	    }
-		session.removeAttribute("memberId");
+		session.removeAttribute("name");
 		return "redirect:/";
 	}
 	
