@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,13 +109,11 @@ public class MemberRestController {
 	}
 
 	@PostMapping("/changePw")
-    public String changePassword(HttpSession session, String memberPw) {
-        String memberId = (String) session.getAttribute("name");
-
+    public String changePassword(HttpSession session, String memberId, String memberPw) {
         if (memberId != null && memberPw != null) {
             // 새로운 비밀번호 암호화
             String encryptedPassword = encoder.encode(memberPw);
-
+            
             // 회원 정보 업데이트
             MemberDto memberDto = new MemberDto();
             memberDto.setMemberId(memberId);
@@ -122,12 +121,14 @@ public class MemberRestController {
 
             memberDao.updatePassword(memberDto); //DB에 비밀번호를 업데이트하는 메서드
 
-            return "redirect:/main"; // 비밀번호 변경 후 이동할 페이지 지정
+            return "redirect:/"; // 비밀번호 변경 후 이동할 페이지 지정
         } else {
             // 오류 처리
             return "redirect:/error"; // 적절한 오류 페이지로 리다이렉트
         }
     }
+
+}
 	@PostMapping(value ="/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Integer> upload(@RequestPart MultipartFile image,HttpSession session) throws IllegalStateException, IOException {
 		

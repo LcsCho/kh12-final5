@@ -157,10 +157,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/change")
-	public String change(@ModelAttribute MemberDto inputDto, HttpSession session) {
-		String memberId = (String) session.getAttribute("name");
-		
-		MemberDto findDto = memberDao.selectOne(memberId);
+	public String change(@ModelAttribute MemberDto inputDto) {
 			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
 			//마지막 정보 수정 시각 갱신
 			memberDao.lastUpdate(inputDto.getMemberId());			

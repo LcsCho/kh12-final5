@@ -107,7 +107,7 @@ $(function(){
                        $(".cert-wrapper").hide();
                        
                     // '비밀번호 재설정하러가기' 버튼 생성
-                    	if (!$('#resetPasswordButton').length) {
+                    	//if (!$('#resetPasswordButton').length) {
                        var resetPasswordButton = $('<button/>', {
                            type: 'button',
                            class: 'btn btn-primary',
@@ -126,7 +126,7 @@ $(function(){
                        $(".modal-body").append(resetPasswordButton);
                        
                     }
-                   }
+                   
                    else{
                        $(".cert-input").removeClass("success fail")
                                        .addClass("fail");
@@ -150,8 +150,8 @@ $(document).ready(function () {
             // 비밀번호 재설정 모달을 띄움
             $('#resetPasswordModal').modal('show');
         });
-
-        // 비밀번호 재설정 폼 제출 이벤트 처리
+        
+     // 비밀번호 재설정 폼 제출 이벤트 처리
         $("#resetPasswordForm").submit(function (event) {
             // 폼의 기본 동작을 막음
             event.preventDefault();
@@ -159,6 +159,7 @@ $(document).ready(function () {
             // 새로운 비밀번호와 비밀번호 확인을 가져옴
             var newPassword = $("#newPassword").val();
             var confirmPassword = $("#confirmPassword").val();
+            var memberId = $("#email").val();
 
             // 비밀번호 일치 여부 확인
             if (newPassword !== confirmPassword) {
@@ -171,7 +172,8 @@ $(document).ready(function () {
                 url: "member/changePw", // 실제 서버의 비밀번호 변경 엔드포인트에 맞게 수정
                 method: "POST",
                 data: {
-                    memberPw: newPassword
+                    memberId: memberId,
+                	memberPw: newPassword
                 },
                 success: function (response) {
                     // 비밀번호 변경 성공 시 처리
@@ -181,7 +183,7 @@ $(document).ready(function () {
                     $('#resetPasswordModal').modal('hide');
 
                     // 페이지 이동
-                    window.location.href = "/main";
+                    window.location.href = "/";
                 },
                 error: function (xhr, status, error) {
                     // 비밀번호 변경 실패 시 처리
@@ -189,6 +191,9 @@ $(document).ready(function () {
                 }
             });
         });
+
+
+        
     });
   
 </script>

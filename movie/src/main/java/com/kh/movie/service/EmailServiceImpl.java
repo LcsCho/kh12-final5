@@ -39,13 +39,13 @@ public class EmailServiceImpl implements EmailService{
         target.text(email);
 
         //로그인 링크 작성
-        Element link = doc.getElementById("login-link");
+        Element link = doc.getElementById("main-link");
 //        link.attr("href","/scure/login");//절대경로지만 안됨(다른 사이트에서 실행하기 때문)
 
         //주소를 현재 상황에 맞게 생성하는 도구 사용
         //http://localhost/8080 까지 알아서 자동 생성
         String href = ServletUriComponentsBuilder.fromCurrentContextPath()//현재의 context path에서
-                                                    .path("/member/login")//세부 경로를 더하고
+                                                    .path("/")//세부 경로를 더하고
                                                     .build()//만든 다음
                                                     .toUriString();//문자열로 바꿔라
         link.attr("href",href);
