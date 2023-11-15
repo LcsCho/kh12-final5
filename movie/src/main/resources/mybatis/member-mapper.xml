@@ -86,4 +86,15 @@
 		</set>
 		where member_id = #{memberId}
 	</update>
+	
+	<insert id="insertMemberImage">
+		insert into member_image(member_id,image_no) values(#{memberId},#{imageNo})
+	</insert>
+	
+	<select id="findMemberImage" resultType="int">
+		select image_no from member_image 
+		where member_id =#{memberId}
+	</select>
+	
+	
 </mapper>

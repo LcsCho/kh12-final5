@@ -40,6 +40,9 @@ public class ImageRestController {
 	@Autowired
 	private MovieDao movieDao;
 	
+	@Autowired
+	private ImageDao imageDao;
+	
 	//프로필 업로드 & 다운로드 기능
 
 			//초기 디렉터리 설정
@@ -99,6 +102,25 @@ public class ImageRestController {
 				
 				.body(resource);
 	}
+	
+	@GetMapping("/{imageNo}")
+	public ResponseEntity<ByteArrayResource>downloadImage(@PathVariable int imageNo) throws IOException{
+		
+		ImageDto imageDto = imageDao.selectOne(imageNo);
+		
+		File target = new File(dir,String.valueOf(imageNo));
+		byte[] data=FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource=new ByteArrayResource(data);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+				.contentLength(imageDto.getImageSize())
+				.header(HttpHeaders.CONTENT_TYPE,imageDto.getImageType())
+				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header("Content-Disposition","attachment;filename="+imageDto.getImageName())
+				
+				.body(resource);
+	}
+	
 	
 
 	
