@@ -14,29 +14,30 @@ $(function(){
         },
     };
     
-        $("[name=memberId]").blur(function(e) {
-    var emailValue = $(this).val();
-    var isValid = false;
+   $("[name=memberId]").blur(function(e) {
+	    var emailValue = $(this).val();
+	    var isValid = false;
 
-    // 이메일 형식 검사
-    if (emailValue) {
-        var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
-        isValid = regex.test(emailValue);
-    }
+	    // 이메일 형식 검사
+	    if (emailValue) {
+	        var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
+	        isValid = regex.test(emailValue);
+	    }
 
-    // 클래스 제거
-    $(e.target).removeClass("success fail fail2");
+	    // 클래스 제거
+	    $(e.target).removeClass("success fail fail2");
 
-    // 이메일 형식이 유효하고 null이 아니면 success 클래스 추가
-    if (isValid) {
-        $(e.target).addClass("success");
-        status.memberId = true;
-    } else {
-        // 이메일 형식이 유효하지 않거나 null이면 fail 클래스 추가
-        $(e.target).addClass("fail");
-        status.memberId = false;
-    }
-});
+	    // 이메일 형식이 유효하고 null이 아니면 success 클래스 추가
+	    if (isValid) {
+	        $(e.target).addClass("success");
+	        status.memberId = true;
+	    } 
+	    else {
+	        // 이메일 형식이 유효하지 않거나 null이면 fail 클래스 추가
+	        $(e.target).addClass("fail");
+	        status.memberId = false;
+	    }
+	});
 
     $("[name=memberId]").blur(function(e){
         var regex =  /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
@@ -44,7 +45,7 @@ $(function(){
         
         if(isValid){//형식이 유효하다면
 			$.ajax({
-				url:"http://localhost:8080/member/IdCheck",
+				url:"http://localhost:8080/member/idCheck",
 				method:"post",
 				data : {memberId : $(e.target).val()},
 				success: function(response){
