@@ -219,7 +219,7 @@ public class MemberController {
 		//[3]조회한 정보를 모델에 첨부한다
 		model.addAttribute("memberDto", memberDto);
 		//[5]이 회원의 프로필 이미지 번호를 첨부한다
-//		model.addAttribute("profile", memberDao.findProfile(memberId));
+		model.addAttribute("memberImage", memberDao.findMemberImage(memberId));
 		
 		
 		return "member/mypage";	
