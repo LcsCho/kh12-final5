@@ -102,6 +102,13 @@ public class MovieRestController {
 	public List<MovieDto> find(@PathVariable String movieName) {
 		return movieDao.selectList(movieName);
 	}
+	
+	@GetMapping("/movieNo/{movieNo}")
+	public ResponseEntity<MovieDto> findByMovieNo(@PathVariable int movieNo) {
+		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
+		if(movieDto != null) return ResponseEntity.ok().body(movieDto);
+		else return ResponseEntity.notFound().build();
+	}
 
 	@GetMapping("/adminMovieList")
 	public List<AdminMovieListVO> adminMovieList() {

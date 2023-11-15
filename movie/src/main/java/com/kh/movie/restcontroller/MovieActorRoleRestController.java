@@ -1,8 +1,11 @@
 package com.kh.movie.restcontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,5 +41,10 @@ public class MovieActorRoleRestController {
 		}
 		boolean result = movieActorRoleDao.editUnit(movieNo, actorNo, movieActorRoleDto);
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/{movieNo}")
+	public List<MovieActorRoleDto> findByMovieNo(int movieNo) {
+		return movieActorRoleDao.findByMovieNo(movieNo);
 	}
 }

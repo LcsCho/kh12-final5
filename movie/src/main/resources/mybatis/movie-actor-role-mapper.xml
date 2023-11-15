@@ -24,5 +24,9 @@
 		</set>
 		where movie_no = #{movieNo} and actor_no = #{actorNo}
 	</update>
+	
+	<select id="findByMovieNo" resultType="movieActorRoleDto">
+		select * from movie_actor_role where movie_no = #{movieNo}
+	</select>
 
 </mapper>
