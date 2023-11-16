@@ -63,12 +63,12 @@
 	
 	<!-- 평점높은순 -->
 	<select id="findByRatingDesc" resultType="ReviewListVO">
-		select * from review_list where movie_no = #{movieNo}  order by rating_score desc
+		select * from review_list where movie_no = #{movieNo}  order by COALESCE(rating_score, 0) desc
 	</select>
 	
 	<!-- 평점낮은순 -->
 	<select id="findByRatingAsc" resultType="ReviewListVO">
-		select * from review_list where movie_no = #{movieNo}  order by rating_score asc
+		select * from review_list where movie_no = #{movieNo}  order by COALESCE(rating_score, 0) asc
 	</select>
 	
 	<!-- 상세조회 -->

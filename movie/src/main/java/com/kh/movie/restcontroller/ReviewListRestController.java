@@ -71,21 +71,21 @@ public class ReviewListRestController {
 	public List<ReviewLikeVO> findReviewLike(@RequestParam int movieNo, HttpSession session){
 	    // memberId로 memberNickname 가져오기
 	    String memberId = (String) session.getAttribute("name");
-	    log.debug(memberId.toString());
+//	    log.debug(memberId.toString());
 	    String memberNickname = memberDao.findNicknameById(memberId);
 
 	    
 	    // 영화에 달린 리뷰 번호 가져오기
 	    List<ReviewListVO> reviewNos = reviewDao.findReviewNoByMovie(movieNo);
-	    log.debug("reviewNos = {}", reviewNos);//29,31
+//	    log.debug("reviewNos = {}", reviewNos);//29,31
 	    List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
 	    ///////////////////////////////////////
 	    for (ReviewListVO review : reviewNos) {
 	    	int reviewNo = review.getReviewNo();
-	    	log.debug("reviewNo = {}", reviewNo);
+//	    	log.debug("reviewNo = {}", reviewNo);
             String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
             
-            log.debug("reviewLike = {}", reviewLike);
+//            log.debug("reviewLike = {}", reviewLike);
             
             ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
                 .check(reviewLike)
@@ -97,7 +97,7 @@ public class ReviewListRestController {
 
 	   ////////////////////////////////////////////////////
 	   
-	    log.debug("reviewLikeVOList = {}", reviewLikeVOList);
+//	    log.debug("reviewLikeVOList = {}", reviewLikeVOList);
 
 	    return reviewLikeVOList;
 	}
