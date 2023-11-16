@@ -3,18 +3,14 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<link rel="stylesheet" type="text/css" href="../css/commons.css">
-<!-- 아이콘 사용을 위한 Font Awesome 6 CDN -->
+<!-- <link rel="stylesheet" type="text/css" href="../css/commons.css"> -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 <style>
-	.flex-container {
-	    display: flex;
-	    flex-direction: column;
-	}
+
 </style>
 
-<script src="/js/join.js"></script>
+	<!-- <script src="/js/join.js"></script>  -->
 	 
 <script>
     $(function(){
@@ -87,114 +83,116 @@
     });
     
 </script>
+<div class="row my-5 py-5" style="min-height: 400px;">
+    <div class="col-md-4 offset-md-4 col-sm-10 offset-sm-1">
 
-<form class="join-form" action="join" method="post" autocomplete="off">
+        <form action="#" method="post" autocomplete="off">
 
-        <div class="row container w-600 navy text-center">
+            <!-- 제목 -->
             <div class="row">
-                <h2 >회원가입</h2>
+                <div class="col">
+                    <h3 class="text-center">회원 가입</h3>
+                    <hr>
+                </div>
             </div>
-            <div class="row right">
-                <span><span class="red">*</span>필수입력사항</span>
+
+            <!-- 아이디 입력창 -->
+            <div class="row mt-4">
+                <div class="col">
+                    <label class="form-label">
+                        아이디
+                        <i class="fa-solid fa-asterisk text-danger"></i>
+                    </label>
+                    <input type="text" name="memberId" class="form-control" placeholder="이메일 형식으로 입력하세요">
+                    <div class="valid-feedback">올바른 이메일 주소입니다</div>
+                    <div class="invalid-feedback">아이디가 형식에 맞지 않습니다</div>
+                </div>
             </div>
-            <hr class="navy">
 
-                <div class="row flex-container">
-                
-                    <div class="row w-25 left">
-                        <label>아이디<span class="red">*</span></label>
-                    </div>
+            <!-- 비밀번호 입력창-->
+            <div class="row mt-4">
+                <div class="col">
+                    <label class="form-label">
+                        비밀번호
+                        <i class="fa-solid fa-asterisk text-danger"></i>
+                    </label>
+                    <input type="text" name="memberPw" class="form-control"
+                        placeholder="영문 대/소문자, 숫자, 특수문자 반드시 포함한 8~16자">
+                    <div class="valid-feedback">비밀번호가 안전한 형식입니다!</div>
+                    <div class="invalid-feedback">비밀번호가 올바르지 않습니다</div>
+                </div>
+            </div>
 
-                    <div class="row w-75 pr-30 left">
-                        <input type="email" name="memberId" 
-                        	placeholder="예: test@kh.com" class="form-control w-70">
-   					<button type="button" class="btn-send btn btn-navy">
-    			<i class="fa-solid fa-spinner fa-spin"></i>
-    					<span>인증</span>
-								</button>
-                        <div class="cert-wrapper pt-10">
-       					 <input type="text" class="cert-input form-control w-70">
-       					 <button type="button" class="btn-cert btn btn-navy">확인완료</button>
-   					</div>
-   					 <div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
-                      <div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
-   					
+            <!-- 비밀번호 확인 입력창 -->
+            <div class="row mt-4">
+                <div class="col">
+                    <label class="form-label">
+                        비밀번호 확인
+                        <i class="fa-solid fa-asterisk text-danger"></i>
+                    </label>
+                    <input type="password" id="password-check" class="form-control" placeholder="비밀번호를 한번 더 입력하세요">
+                    <div class="valid-feedback">비밀번호가 일치합니다</div>
+                    <div class="invalid-feedback">비밀번호가 일치하지 않습니다</div>
                 </div>
-                
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>비밀번호<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="text" name="memberPw" 
-                             placeholder="비밀번호를 입력해주세요"
-                            class="form-control w-100">
-                             <div class="success-feedback left"></div>
-                        <div class="fail-feedback left">영문,숫자,특수문자(!@#$) 반드시 1개 이상 포함 8~16자</div>
-                    </div>
-                </div>
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>비밀번호 확인<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="text" id="password-check" placeholder="비밀번호 한 번 더 입력해주세요"
-                                    class="form-control w-100">
-                        <div class="success-feedback"></div>
-                        <div class="fail-feedback left">동일한 비밀번호를 입력하세요</div>
-                        <div class="fail2-feedback left">비밀번호를 먼저 작성하세요</div>
-                    </div>
-                </div>
-               
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>닉네임<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="text" name="memberNickname" 
-                         class="form-control w-100">
-                    </div>
-                </div>
+            </div>
 
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>생년월일</label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="date" name="memberBirth" 
-                        class="form-control w-100">
-                         <div class="fail-feedback left">잘못된 날짜를 선택하셨습니다</div>
-                    </div>
+            <!-- 닉네임 입력창 -->
+            <div class="row mt-4">
+                <div class="col">
+                    <label class="form-label">
+                        닉네임
+                        <i class="fa-solid fa-asterisk text-danger"></i>
+                    </label>
+                    <input type="text" name="memberNickname" class="form-control" placeholder="한글 또는 숫자 2~10글자 이내">
+                    <div class="valid-feedback">사용 가능한 닉네임입니다</div>
+                    <div class="invalid-feedback">사용할 수 없는 닉네임입니다</div>
                 </div>
+            </div>
 
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>휴대폰<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="tel" name="memberContact" placeholder="01012341234(-없이)"
-                                class="form-control w-100">
-                                <div class="fail-feedback left">휴대폰 번호를 입력해주세요</div>
-                    </div>
+
+            <!-- 연락처 입력창 -->
+            <div class="row mt-4">
+                <div class="col">
+                    <label class="form-label">
+                        연락처
+                    </label>
+                    <input type="tel" name="memberContact" class="form-control" placeholder="01000000000 (-제외)">
                 </div>
-                  <div class="row flex-container">
-                
-                    <div class="row w-25 left">
-                        <label>성별<span class="red">*</span></label>
-                    </div>
+            </div>
 
-                    <div class="row w-75 pr-30 left">
-                        <input type="radio" name="memberGender" class="form-radio w-70"> 남자
-                        <input type="radio" name="memberGender" class="form-radio w-70"> 여자
-   					</div>
-   					
+            <!-- 생년월일 입력창 -->
+            <div class="row mt-4">
+                <div class="col">
+                    <label class="form-label">
+                        생년월일
+                    </label>
+                    <input type="date" name="memberBirth" class="form-control">
+                    <div class="invalid-feedback">잘못된 날짜 형식입니다</div>
                 </div>
+            </div>
 
-                <div class="row pt-10 text-center">
-                    <button type="submit" class="btn btn-orange">가입하기</button>
+            <!-- 성별 선택 -->
+            <div class="row mt-4">
+                <div class="col">
+
+                    <input type="radio" name="memberGender" class="form-radio w-70"> 남자
+                    <input type="radio" name="memberGender" class="form-radio w-70"> 여자
                 </div>
+            </div>
 
-        </div>
-       </div>
-</form>
+
+            <!-- 가입 버튼 -->
+            <div class="row mt-4">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary w-100">
+<!--                         <i class="fa-solid fa-right-to-bracket"></i> -->
+                        회원가입
+                    </button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

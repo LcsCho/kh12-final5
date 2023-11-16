@@ -88,56 +88,44 @@ public class MemberController {
 		session.removeAttribute("name");
 		return "redirect:/";
 	}
-	
+//	
 	//로그인
-	@GetMapping("/login")
-	public String login() {
-		return "member/login";
-	}
-	
-	@PostMapping("/login")
-	public String login(@ModelAttribute MemberDto inputDto, 
-										HttpSession session) {
-		//[1] 사용자가 입력한 아이디로 데이터베이스에서 정보를 조회
-		MemberDto findDto = memberDao.selectOne(inputDto.getMemberId());
-		//[2] 1번에서 정보가 있다면 비밀번호를 검사(없으면 차단)
-		if(findDto == null) {
-			return "redirect:login?error";//redirect는 무조건 GetMapping으로 간다
-		}
-		
-		//boolean isCorrectPw = 입력한비밀번호와 DB비밀번호가 같나?
-//		boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
-		boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
-		
-		//[3] 비밀번호가 일치하면 메인페이지로 이동
-		if(isCorrectPw ) {
-			//세션에 아이디+등급 저장
-			session.setAttribute("name", findDto.getMemberId());
-			session.setAttribute("level", findDto.getMemberLevel());
-			//로그인시간 갱신
-			memberDao.updateMemberLastLogin(inputDto.getMemberId());			
-			//메인페이지로 이동
-			return "redirect:/";
-			}			
-			
-		//[4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
-		else {
-			return "redirect:login?error";
-		}
-	}
-	
+//	@GetMapping("/login")
+//	public String login() {
+//		return "member/login";
+//	}
+//	
 //	@PostMapping("/login")
-//	public String login(@ModelAttribute MemberDto memberDto) {
-//		MemberDto target = memberDao.login(memberDto);
-//		log.debug("dto = {}",memberDto);
-//		if(target == null) {
+//	public String login(@ModelAttribute MemberDto inputDto, 
+//										HttpSession session) {
+//		//[1] 사용자가 입력한 아이디로 데이터베이스에서 정보를 조회
+//		MemberDto findDto = memberDao.selectOne(inputDto.getMemberId());
+//		//[2] 1번에서 정보가 있다면 비밀번호를 검사(없으면 차단)
+//		if(findDto == null) {
+//			return "redirect:login?error";//redirect는 무조건 GetMapping으로 간다
+//		}
+//		
+//		//boolean isCorrectPw = 입력한비밀번호와 DB비밀번호가 같나?
+////		boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+//		boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
+//		
+//		//[3] 비밀번호가 일치하면 메인페이지로 이동
+//		if(isCorrectPw ) {
+//			//세션에 아이디+등급 저장
+//			session.setAttribute("name", findDto.getMemberId());
+//			session.setAttribute("level", findDto.getMemberLevel());
+//			//로그인시간 갱신
+//			memberDao.updateMemberLastLogin(inputDto.getMemberId());			
+//			//메인페이지로 이동
+//			return "redirect:/";
+//			}			
+//			
+//		//[4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
+//		else {
 //			return "redirect:login?error";
 //		}
-//		else { //정보 설정 후 메인 또는 기존 페이지로 이동
-//			return "redirect:change";
-//			
-//		}
 //	}
+
 	
 	//로그아웃
 	@RequestMapping("/logout") //로그아웃하려면 로그인된 걸 remove 해주어야 함 - 로그아웃 시,세션값(name) 날라감
