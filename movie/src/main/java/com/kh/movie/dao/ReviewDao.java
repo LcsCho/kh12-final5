@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReviewDto;
+import com.kh.movie.vo.AdminReviewListVO;
 import com.kh.movie.vo.ReviewListVO;
 
 public interface ReviewDao {
@@ -12,6 +13,7 @@ public interface ReviewDao {
 	boolean delete(int reviewNo);
 	boolean edit(int reviewNo, String reviewContent);
 	List<ReviewDto> selectList(int movieNo);
+	List<AdminReviewListVO> selectAdminReviewList();
 	List<ReviewListVO> findByReviewNo(int reviewNo); //리뷰 상세 조회
 	
 	List<ReviewListVO> findByDateDesc(int movieNo);//최신순
