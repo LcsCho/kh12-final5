@@ -24,5 +24,5 @@ public interface ReviewDao {
 	
 	List<MovieSimpleInfoDto> findAll(int movieNo);//영화 정보 조회
 	List<ReviewListVO> findReviewNoByMovie(int movieNo);//영화에 달린 리뷰 조회
-	int findReviewLikeCount(int reviewNo);//좋아요 개수 조회
+	int findReviewLikeCount(int reviewNo);
 }

@@ -104,4 +104,6 @@ public class ReviewDaoImpl implements ReviewDao{
   	public int findReviewLikeCount(int reviewNo) {
   		return sqlSession.selectOne("review.findReviewLikeCount", reviewNo);
   	}
+  	
+  	
 }
