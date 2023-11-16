@@ -38,7 +38,7 @@ public class ReviewLikeDaoImpl implements ReviewLikeDao{
         parameters.put("memberNickname", memberNickname);
         
         log.debug("parameters = {]", parameters);
-        return sqlSession.selectOne("findReviewLike", parameters);
+        return sqlSession.selectOne("reviewLike.findReviewLike", parameters);
 	}
 	
 }
