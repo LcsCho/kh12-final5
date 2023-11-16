@@ -31,7 +31,7 @@ $(function(){
 	        success: function(response){
 	        	console.log(response);
 	        	
-	        	//for (let i = 0; i < response.length; i++) {
+	        	for (let i = 0; i < response.length; i++) {
 	                var check = response[i].check;
 	                
 	                console.log(check);
@@ -41,7 +41,7 @@ $(function(){
 	                } else {
 	                    $(".review-list .fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
 	                }
-	            //}
+	            }
 	        }
 	    });
 	}
@@ -80,39 +80,10 @@ $(function(){
 								'</div>' +
 							'</div>'
 					);
-					
-					$(".review-list [data-reviewNo='" + reviewNo + "'] .likeButton").click(function () {
-			            var clickedReviewNo = $(this).data("reviewno");
-			            
-			            console.log(reviewNo);
-			            
-			            $.ajax({
-			                url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
-			                method: "post",
-			                data: {
-			                    movieNo: movieNo,
-			                    reviewNo: reviewNo
-			                },
-			                success: function (response) {
-			                    if (response.check) {
-			                        $(".review-list [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up")
-			                            .removeClass("fa-regular fa-solid")
-			                            .addClass("fa-regular");
-			                    } else {
-			                        $(".review-list [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up")
-			                            .removeClass("fa-regular fa-solid")
-			                            .addClass("fa-solid");
-			                    }
-			                    $(".review-list [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up")
-			                        .next("label.thumbs-up")
-			                        .text(response.count);
-			                }
-			            });
-			    	});
-			    	loadReviewLike(movieNo);
 				}
 			}
-        });
+		});
+		loadReviewLike(movieNo);
 	});
 	
 	//오래된순 조회

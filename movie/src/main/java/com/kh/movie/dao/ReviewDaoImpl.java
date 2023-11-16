@@ -13,9 +13,6 @@ import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.AdminReviewListVO;
 import com.kh.movie.vo.ReviewListVO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 public class ReviewDaoImpl implements ReviewDao{
 
@@ -91,14 +88,20 @@ public class ReviewDaoImpl implements ReviewDao{
         return sqlSession.selectList("review.findByRatingAsc", movieNo);
     }
     
-    //영화 정보 조회
+  //영화 정보 조회
     @Override
     public List<MovieSimpleInfoDto> findAll(int movieNo) {
     	return sqlSession.selectList("movieSimpleInfo.findAll", movieNo);
     }
     
-    //영화에 달린 리뷰 조희
-    public int findReviewNoByMovie(int movieNo) {
-    	return sqlSession.selectOne("review.findReviewNoByMovie", movieNo);
+    // 영화에 달린 리뷰 조회
+    public List<ReviewListVO> findReviewNoByMovie(int movieNo) {
+        return sqlSession.selectList("review.findReviewNoByMovie", movieNo);
     }
+    
+  //좋아요 개수 조회
+  	@Override
+  	public int findReviewLikeCount(int reviewNo) {
+  		return sqlSession.selectOne("review.findReviewLikeCount", reviewNo);
+  	}
 }

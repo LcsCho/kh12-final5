@@ -77,8 +77,13 @@
 	</select>
 
 	<!-- 영화에 달린 리뷰 조회 -->
-	<select id="findReviewNoByMovie" resultType="ReviewListVO">
-		select review_no from review_list where movie_no = #{movieNo}
+	<select id="findReviewNoByMovie" resultType="int">
+	    select review_no from review_list where movie_no = #{movieNo}
+	</select>
+	
+	<!-- 좋아요 개수 조회 -->
+	<select id="findReviewLikeCount" resultType="int">
+		select count(*) from review_like where review_no = #{reviewNo}
 	</select>
 	<!-- 관리자 리뷰 리스트 조회 -->
 	<select id="adminReviewList" resultType="AdminReviewListVO">
