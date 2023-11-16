@@ -63,55 +63,55 @@ public class ReviewListRestController {
 	}
 	
 	//좋아요 여부
-	@RequestMapping("/like/check")
-	public ReviewLikeVO likeCount(@ModelAttribute ReviewLikeDto reviewLikeDto, HttpSession session, int movieNo) {
-	    String memberId = (String)session.getAttribute("name");
-	    
-	    //회원 아이디로 회원 닉네임을 찾은 후 Dto에 저장
-		String memberNickname = memberDao.findNicknameById(memberId);
-		reviewLikeDto.setMemberNickname(memberNickname);
-		
-		//영화 번호로 리뷰 번호를 찾아 Dto에 저장
-		int reviewNo = reviewDao.findReviewNoByMovie(movieNo);
-		reviewLikeDto.setReviewNo(reviewNo);
-	    
-	    
-	    //좋아요 여부 확인, 좋아요 갯수 확인
-	    boolean isCheck = reviewLikeDao.check(reviewLikeDto);
-	    int count = reviewLikeDao.count(reviewLikeDto.getReviewNo());
-	    
-	    ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
-	    reviewLikeVO.setCheck(isCheck);
-	    reviewLikeVO.setCount(count);
-	    
-	    return reviewLikeVO;
-	}
+//	@RequestMapping("/like/check")
+//	public ReviewLikeVO likeCount(@ModelAttribute ReviewLikeDto reviewLikeDto, HttpSession session, int movieNo) {
+//	    String memberId = (String)session.getAttribute("name");
+//	    
+//	    //회원 아이디로 회원 닉네임을 찾은 후 Dto에 저장
+//		String memberNickname = memberDao.findNicknameById(memberId);
+//		reviewLikeDto.setMemberNickname(memberNickname);
+//		
+//		//영화 번호로 리뷰 번호를 찾아 Dto에 저장
+//		int reviewNo = reviewDao.findReviewNoByMovie(movieNo);
+//		reviewLikeDto.setReviewNo(reviewNo);
+//	    
+//	    
+//	    //좋아요 여부 확인, 좋아요 갯수 확인
+//	    boolean isCheck = reviewLikeDao.check(reviewLikeDto);
+//	    int count = reviewLikeDao.count(reviewLikeDto.getReviewNo());
+//	    
+//	    ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
+//	    reviewLikeVO.setCheck(isCheck);
+//	    reviewLikeVO.setCount(count);
+//	    
+//	    return reviewLikeVO;
+//	}
 	
 	//좋아요
-	@RequestMapping("/like/action")
-	public ReviewLikeVO likeAction(@ModelAttribute ReviewLikeDto reviewLikeDto, HttpSession session, int movieNo) {
-		String memberId = (String)session.getAttribute("name");
-	    
-	    //회원 아이디로 회원 닉네임을 찾은 후 Dto에 저장
-		String memberNickname = memberDao.findNicknameById(memberId);
-	    reviewLikeDto.setMemberNickname(memberNickname);
-	    
-	    //영화 번호로 리뷰 번호를 찾아 Dto에 저장
-	    int reviewNo = reviewDao.findReviewNoByMovie(movieNo);
-	    reviewLikeDto.setReviewNo(reviewNo);
-	    
-	    boolean isCheck = reviewLikeDao.check(reviewLikeDto);
-	    if(isCheck) {//좋아요가 되어 있다면
-	    	reviewLikeDao.delete(reviewLikeDto);//체크해제
-	    }else {//아니라면
-	    	reviewLikeDao.insert(reviewLikeDto);//체크
-	    }
-	    int count = reviewLikeDao.count(reviewLikeDto.getReviewNo());
-	    
-	    ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
-	    reviewLikeVO.setCheck(isCheck);
-	    reviewLikeVO.setCount(count);
-	    
-	    return reviewLikeVO;
-	}
+//	@RequestMapping("/like/action")
+//	public ReviewLikeVO likeAction(@ModelAttribute ReviewLikeDto reviewLikeDto, HttpSession session, int movieNo) {
+//		String memberId = (String)session.getAttribute("name");
+//	    
+//	    //회원 아이디로 회원 닉네임을 찾은 후 Dto에 저장
+//		String memberNickname = memberDao.findNicknameById(memberId);
+//	    reviewLikeDto.setMemberNickname(memberNickname);
+//	    
+//	    //영화 번호로 리뷰 번호를 찾아 Dto에 저장
+//	    int reviewNo = reviewDao.findReviewNoByMovie(movieNo);
+//	    reviewLikeDto.setReviewNo(reviewNo);
+//	    
+//	    boolean isCheck = reviewLikeDao.check(reviewLikeDto);
+//	    if(isCheck) {//좋아요가 되어 있다면
+//	    	reviewLikeDao.delete(reviewLikeDto);//체크해제
+//	    }else {//아니라면
+//	    	reviewLikeDao.insert(reviewLikeDto);//체크
+//	    }
+//	    int count = reviewLikeDao.count(reviewLikeDto.getReviewNo());
+//	    
+//	    ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
+//	    reviewLikeVO.setCheck(isCheck);
+//	    reviewLikeVO.setCount(count);
+//	    
+//	    return reviewLikeVO;
+//	}
 }
