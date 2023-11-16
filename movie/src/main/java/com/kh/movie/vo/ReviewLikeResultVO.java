@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class ReviewLikeVO {
-	private String check;
-	private int count;
+public class ReviewLikeResultVO {
+	private int reviewNo;
+	private String reviewLike;
 }

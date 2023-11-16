@@ -23,17 +23,19 @@
 				and member_nickname = #{memberNickname}
 	</delete>
 	
-	<!-- 조회(좋아요 체크 여부 조회) -->	
-	<select id="findLikeCheck" resultType="boolean">
-        select count(*) > 0
-        from review_like
-        where review_no = #{reviewNo}
-        and member_nickname = #{memberNickname}
-    </select>
+
+	<!-- 좋아요 체크 여부 -->
+	<select id="findReviewLike" resultType="String">
+		SELECT nvl2(rlike.member_nickname, 'Y', 'N') AS REVIEW_LIKE
+		FROM review_list rlist
+		LEFT OUTER JOIN (
+    		SELECT review_no, MEMBER_NICKNAME, count(*) FROM review_like
+    		WHERE member_nickname = #{memberNickname}
+    		GROUP BY review_no, MEMBER_NICKNAME
+		) rlike ON rlist.REVIEW_NO = rlike.REVIEW_NO
+		WHERE rlist.REVIEW_NO = #{reviewNo} AND (rlike.MEMBER_NICKNAME = #{memberNickname} OR rlike.MEMBER_NICKNAME IS NULL)
+	</select>
+
 	
-	<!-- 조회(좋아요 수 조회) -->
-	<select id="findLikeCount" resultType="int">
-        select count(*) from review_like where review_no = #{reviewNo}
-    </select>
 	
 </mapper>

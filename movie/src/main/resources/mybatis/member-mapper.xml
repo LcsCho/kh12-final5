@@ -72,7 +72,7 @@
 	</select>
 	
 	<!-- 회원 아이디로 회원 닉네임 검색 -->
-	<select id="findNicknameById" resultType="MemberDto">
+	<select id="findNicknameById" resultType="String">
 		select member_nickname from member where member_id = #{memberId}
 	</select>
 

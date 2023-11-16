@@ -1,6 +1,7 @@
 package com.kh.movie.dao;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,13 @@ public class ReviewLikeDaoImpl implements ReviewLikeDao{
 		sqlSession.delete("reviewLike.delete", reviewLikeDto);
 	}
 	
-	//좋아요 여부 체크
+	//좋아요 체크 여부
 	@Override
-	public boolean check(ReviewLikeDto reviewLikeDto) {
-		return sqlSession.selectOne("reivewLike.findLikeCheck", reviewLikeDto);
+	public String findReviewLike(int reivewNo, String memberNickname) {
+		Map<String, Object> parameters = new HashMap<>();
+        parameters.put("reviewNo", reivewNo);
+        parameters.put("memberNickname", memberNickname);
+        return sqlSession.selectOne("findReviewLike", parameters);
 	}
 	
-	//좋아요 갯수
-	@Override
-	public int count(int reviewNo) {
-		return sqlSession.selectOne("reviewLike.findLikeCount", reviewNo);
-	}
 }
