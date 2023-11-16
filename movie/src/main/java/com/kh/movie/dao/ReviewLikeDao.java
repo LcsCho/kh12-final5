@@ -1,10 +1,12 @@
 package com.kh.movie.dao;
 
+import java.util.List;
+
 import com.kh.movie.dto.ReviewLikeDto;
 
 public interface ReviewLikeDao {
-	boolean check(ReviewLikeDto reviewLikeDto);
-	int count(int reviewNo);
-	void insert(ReviewLikeDto reviewLikeDto);
-	void delete(ReviewLikeDto reviewLikeDto);
+	void insert(ReviewLikeDto reviewLikeDto);//좋아요 등록
+	void delete(ReviewLikeDto reviewLikeDto);//좋아요 삭제
+	
+	String findReviewLike(int reivewNo, String memberNickname);//좋아요 체크 여부
 }

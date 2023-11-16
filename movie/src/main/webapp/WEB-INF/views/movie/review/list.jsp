@@ -8,9 +8,7 @@
 <title>리뷰 목록 페이지</title>
 </head>
 
-<!-- 아이콘 사용을 위한 Font Awesome 6 CDN -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 $(function(){ 
@@ -18,9 +16,34 @@ $(function(){
     var movieNo = params.get("movieNo");
 	
 	$(document).ready(function () {
-        // 페이지가 로드될 때 최신순 조회 함수 호출
         $(".ByDateDesc").click();
     });
+	
+	//좋아요 체크
+	function loadReviewLike(movieNo){
+	    $.ajax({
+	        url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
+	        method: "post",
+	        data: {
+	            movieNo : movieNo,
+	        },
+	        success: function(response){
+	        	console.log(response);
+	        	
+	        	//for (let i = 0; i < response.length; i++) {
+	                var check = response[i].check;
+	                
+	                console.log(check);
+
+	                if (check == "Y") {
+	                    $(".review-list .fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid");
+	                } else {
+	                    $(".review-list .fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
+	                }
+	            //}
+	        }
+	    });
+	}
 	
 	//최신순 조회
 	$(".ByDateDesc").click(function(){
@@ -28,34 +51,67 @@ $(function(){
 			url: "http://localhost:8080/rest/review/list/findByDateDesc?movieNo=" + movieNo,
 			method: "post",
 			data: {
-				sortType: "ByDateAsc"
+				movieNo : movieNo,
+				sortType: "findByDateDesc"
 			},
 			success: function(response) {
 			    $(".review-list").empty();
 
 			    for (var i = 0; i < response.length; i++) {
 					var memberNickname = response[i].memberNickname;
-					var memberRatingScore = response[i].ratingScore;
+					var ratingScore = response[i].ratingScore;
 					var reviewContent = response[i].reviewContent;
 					var reviewLikeCount = response[i].reviewLikeCount;
-
+					var reviewNo = response[i].reviewNo;
+					
 					$(".review-list").append(
+							'<div data-reviewNo="' + reviewNo + '">' +
 							'<div>' + 
 								'<div>' + 
-									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + memberRatingScore + 
+									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + ratingScore + 
 								'</div>' +
 								'<div>' + 
 									reviewContent + 
 								'</div>' +
 								'<div>' +
-									'<button class="likeButton"><i class="fa-regular fa-thumbs-up"></i> <label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
+								 '<button class="likeButton" data-reviewNo="' + reviewNo + '"><i class="fa-regular fa-thumbs-up"></i><label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
 									'<button class="commentButton"><i class="fa-regular fa-comment"></i> <label class="comment">' + 0 + '</label></button>' +
-								'<div>' +
-							'<div>'
+								'</div>' +
+							'</div>'
 					);
+					
+					$(".review-list [data-reviewNo='" + reviewNo + "'] .likeButton").click(function () {
+			            var clickedReviewNo = $(this).data("reviewno");
+			            
+			            console.log(reviewNo);
+			            
+			            $.ajax({
+			                url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+			                method: "post",
+			                data: {
+			                    movieNo: movieNo,
+			                    reviewNo: reviewNo
+			                },
+			                success: function (response) {
+			                    if (response.check) {
+			                        $(".review-list [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up")
+			                            .removeClass("fa-regular fa-solid")
+			                            .addClass("fa-regular");
+			                    } else {
+			                        $(".review-list [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up")
+			                            .removeClass("fa-regular fa-solid")
+			                            .addClass("fa-solid");
+			                    }
+			                    $(".review-list [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up")
+			                        .next("label.thumbs-up")
+			                        .text(response.count);
+			                }
+			            });
+			    	});
+			    	loadReviewLike(movieNo);
 				}
 			}
-		});
+        });
 	});
 	
 	//오래된순 조회
@@ -64,34 +120,38 @@ $(function(){
 			url: "http://localhost:8080/rest/review/list/findByDateAsc?movieNo=" + movieNo,
 			method: "post",
 			data: {
+				movieNo : movieNo,
 				sortType: "ByDateAsc"
 			},
-		    success: function(response) {
+			success: function(response) {
 			    $(".review-list").empty();
 
 			    for (var i = 0; i < response.length; i++) {
 					var memberNickname = response[i].memberNickname;
-					var memberRatingScore = response[i].ratingScore;
+					var ratingScore = response[i].ratingScore;
 					var reviewContent = response[i].reviewContent;
 					var reviewLikeCount = response[i].reviewLikeCount;
-
+					var reviewNo = response[i].reviewNo;
+					
 					$(".review-list").append(
+							'<div data-reviewNo="' + reviewNo + '">' +
 							'<div>' + 
 								'<div>' + 
-									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + memberRatingScore + 
+									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + ratingScore + 
 								'</div>' +
 								'<div>' + 
 									reviewContent + 
 								'</div>' +
 								'<div>' +
-									'<button class="likeButton"><i class="fa-regular fa-thumbs-up"></i> <label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
+								 '<button class="likeButton" data-reviewNo="' + reviewNo + '"><i class="fa-regular fa-thumbs-up"></i><label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
 									'<button class="commentButton"><i class="fa-regular fa-comment"></i> <label class="comment">' + 0 + '</label></button>' +
-								'<div>' +
-							'<div>'
+								'</div>' +
+							'</div>'
 					);
 				}
 			}
 		});
+		loadReviewLike(movieNo);
 	});
 	
 	//좋아요순 조회
@@ -100,6 +160,7 @@ $(function(){
 			url: "http://localhost:8080/rest/review/list/findByLikeDesc?movieNo=" + movieNo,
 			method: "post",
 			data: {
+				movieNo : movieNo,
 				sortType: "ByLikeDesc"
 			},
 			success: function(response) {
@@ -107,27 +168,30 @@ $(function(){
 
 			    for (var i = 0; i < response.length; i++) {
 					var memberNickname = response[i].memberNickname;
-					var memberRatingScore = response[i].ratingScore;
+					var ratingScore = response[i].ratingScore;
 					var reviewContent = response[i].reviewContent;
 					var reviewLikeCount = response[i].reviewLikeCount;
-
+					var reviewNo = response[i].reviewNo;
+					
 					$(".review-list").append(
+							'<div data-reviewNo="' + reviewNo + '">' +
 							'<div>' + 
 								'<div>' + 
-									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + memberRatingScore + 
+									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + ratingScore + 
 								'</div>' +
 								'<div>' + 
 									reviewContent + 
 								'</div>' +
 								'<div>' +
-									'<button class="likeButton"><i class="fa-regular fa-thumbs-up"></i> <label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
+								 '<button class="likeButton" data-reviewNo="' + reviewNo + '"><i class="fa-regular fa-thumbs-up"></i><label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
 									'<button class="commentButton"><i class="fa-regular fa-comment"></i> <label class="comment">' + 0 + '</label></button>' +
-								'<div>' +
-							'<div>'
+								'</div>' +
+							'</div>'
 					);
 				}
 			}
 		});
+		loadReviewLike(movieNo);
 	});
 	
 	//평점높은순 조회
@@ -136,6 +200,7 @@ $(function(){
 			url: "http://localhost:8080/rest/review/list/findByRatingDesc?movieNo=" + movieNo,
 			method: "post",
 			data: {
+				movieNo : movieNo,
 				sortType: "ByRatingDesc"
 			},
 			success: function(response) {
@@ -143,27 +208,30 @@ $(function(){
 
 			    for (var i = 0; i < response.length; i++) {
 					var memberNickname = response[i].memberNickname;
-					var memberRatingScore = response[i].ratingScore;
+					var ratingScore = response[i].ratingScore;
 					var reviewContent = response[i].reviewContent;
 					var reviewLikeCount = response[i].reviewLikeCount;
-
+					var reviewNo = response[i].reviewNo;
+					
 					$(".review-list").append(
+							'<div data-reviewNo="' + reviewNo + '">' +
 							'<div>' + 
 								'<div>' + 
-									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + memberRatingScore + 
+									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + ratingScore + 
 								'</div>' +
 								'<div>' + 
 									reviewContent + 
 								'</div>' +
 								'<div>' +
-									'<button class="likeButton"><i class="fa-regular fa-thumbs-up"></i> <label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
+								 '<button class="likeButton" data-reviewNo="' + reviewNo + '"><i class="fa-regular fa-thumbs-up"></i><label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
 									'<button class="commentButton"><i class="fa-regular fa-comment"></i> <label class="comment">' + 0 + '</label></button>' +
-								'<div>' +
-							'<div>'
+								'</div>' +
+							'</div>'
 					);
 				}
 			}
 		});
+		loadReviewLike(movieNo);
 	});
 	
 	//평점낮은순 조회
@@ -172,6 +240,7 @@ $(function(){
 			url: "http://localhost:8080/rest/review/list/findByRatingAsc?movieNo=" + movieNo,
 			method: "post",
 			data: {
+				movieNo : movieNo,
 				sortType: "ByRatingAsc"
 			},
 			success: function(response) {
@@ -179,67 +248,37 @@ $(function(){
 
 			    for (var i = 0; i < response.length; i++) {
 					var memberNickname = response[i].memberNickname;
-					var memberRatingScore = response[i].ratingScore;
+					var ratingScore = response[i].ratingScore;
 					var reviewContent = response[i].reviewContent;
 					var reviewLikeCount = response[i].reviewLikeCount;
-
+					var reviewNo = response[i].reviewNo;
+					
 					$(".review-list").append(
+							'<div data-reviewNo="' + reviewNo + '">' +
 							'<div>' + 
 								'<div>' + 
-									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + memberRatingScore + 
+									memberNickname + ' | ' + '<i class="fa-solid fa-star"></i>' + ratingScore + 
 								'</div>' +
 								'<div>' + 
 									reviewContent + 
 								'</div>' +
 								'<div>' +
-									'<button class="likeButton"><i class="fa-regular fa-thumbs-up"></i> <label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
+								 '<button class="likeButton" data-reviewNo="' + reviewNo + '"><i class="fa-regular fa-thumbs-up"></i><label class="thumbs-up">' + reviewLikeCount + '</label></button>' +
 									'<button class="commentButton"><i class="fa-regular fa-comment"></i> <label class="comment">' + 0 + '</label></button>' +
-								'<div>' +
-							'<div>'
+								'</div>' +
+							'</div>'
 					);
 				}
 			}
 		});
+		loadReviewLike(movieNo);
 	});
-	
-	//좋아요 체크
-	$.ajax({
-		url: "http://localhost:8080/rest/review/list/like/check?reviewNo=" + reviewNo,
-		method: "post",
-		data: { reviewNo: reviewNo },
-		success:function(response){
-			if(response.check){
-				$(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid")
-			}else{
-				$(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular")
-			}
-			$(".fa-thumbs-up").next("label.thumbs-up").text(response.count);
-		}
-	});
-	
-	//좋아요 설정
-	$(".likeButton").click(function(){
-		$.ajax({
-			url: "http://localhost:8080/rest/review/list/like/action?reviewNo=" + reviewNo,
-			method: "post",
-			data: { reviewNo: reviewNo },
-			success: function(response){
-				if(response.check){
-					$(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid")
-				}else{
-					$(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular")
-				}
-				$(".fa-thumbs-up").next("label.thumbs-up").text(response.count);
-			}
-		});
-	});
-	
 	
 });
 </script>
 
 <body>
-     
+
 	<div>
 		이미지 : ${movieSimpleInfo.imageNo} <br>
 		영화번호 : ${movieSimpleInfo.movieNo} <br>
@@ -252,7 +291,7 @@ $(function(){
 	</div>
     
     <br><br>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 	<div>
 		<div>
 		  <button type="button" class="ByDateDesc">최신순</button>
@@ -261,9 +300,7 @@ $(function(){
 		  <button type="button" class="ByRatingDesc">높은평점순</button>
 		  <button type="button" class="ByRatingAsc">낮은평점순</button>
 		</div>
-	</div>
-	
-	<div>
+		
 		<div class="review-list"></div>
 	</div>
 

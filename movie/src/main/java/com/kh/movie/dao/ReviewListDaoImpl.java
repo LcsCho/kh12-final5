@@ -53,8 +53,14 @@ public class ReviewListDaoImpl implements ReviewListDao {
     	return sqlSession.selectList("movieSimpleInfo.findAll", movieNo);
     }
     
-    //영화에 달린 리뷰 조희
-    public int findReviewNoByMovie(int movieNo) {
-    	return sqlSession.selectOne("reviewList.findReviewNoByMovie", movieNo);
+    // 영화에 달린 리뷰 조회
+    public List<ReviewListVO> findReviewNoByMovie(int movieNo) {
+        return sqlSession.selectList("reviewList.findReviewNoByMovie", movieNo);
     }
+    
+  //좋아요 개수 조회
+  	@Override
+  	public int findReviewLikeCount(int reviewNo) {
+  		return sqlSession.selectOne("reviewList.findReviewLikeCount", reviewNo);
+  	}
 }
