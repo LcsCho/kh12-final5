@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+
+
 </section>
                     <footer>
                         <div class="container-fluid">
                             <div class="row text-center">
                                 <div class="col bg-danger text-white">
-                                    <h3>지금까지 ? 개의 평가가 쌓였어요</h3>
+                                    <h3>지금까지 ${ratingCount}개의 평가가 쌓였어요</h3>
                                 </div>
                             </div>
                             <div class="row bg-info text-white">
