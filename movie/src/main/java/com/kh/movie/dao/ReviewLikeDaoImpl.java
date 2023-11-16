@@ -36,6 +36,8 @@ public class ReviewLikeDaoImpl implements ReviewLikeDao{
 		Map<String, Object> parameters = new HashMap<>();
         parameters.put("reviewNo", reivewNo);
         parameters.put("memberNickname", memberNickname);
+        
+        log.debug("parameters = {]", parameters);
         return sqlSession.selectOne("findReviewLike", parameters);
 	}
 	
