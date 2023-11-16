@@ -52,7 +52,7 @@ public class ReviewDaoImpl implements ReviewDao{
 
 	@Override
 	public List<AdminReviewListVO> selectAdminReviewList() {
-		return sqlSession.selectList("reviewList.adminReviewList");
+		return sqlSession.selectList("review.adminReviewList");
 	}
 	
 	//리뷰 상세 조회

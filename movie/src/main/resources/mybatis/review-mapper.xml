@@ -80,5 +80,9 @@
 	<select id="findReviewNoByMovie" resultType="ReviewListVO">
 		select review_no from review_list where movie_no = #{movieNo}
 	</select>
+	<!-- 관리자 리뷰 리스트 조회 -->
+	<select id="adminReviewList" resultType="AdminReviewListVO">
+		select * from admin_review_list order by review_no desc
+	</select>
 	
 </mapper>
