@@ -78,16 +78,16 @@ $(function(){
             <!-- Movie Information -->
             <div class="col-md-8">
                 <h2>${movieDto.movieName} <i class="fa-regular fa-bookmark"></i></h2>
-                <p><strong>출시년도:</strong> <fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" /></p>
-                <p><strong>영화 장르:</strong>
+                <p><strong>출시년도: </strong> <fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" /></p>
+                <p><strong>영화 장르: </strong>
                 <c:forEach var="movieGenreDto" items="${movieGenreList}" varStatus="loopStatus">
-	                   	${movieGenreDto.genreName}
+	                   	${movieGenreDto.genreName} 
 	                   <c:if test="${not loopStatus.last}">/</c:if>
 	            </c:forEach></p>
-                <p><strong>영화제작 국가:</strong> ${movieDto.movieNation}</p>
-                <p><strong>영화 상영시간:</strong> ${movieDto.movieTime} 분</p>
-                <p><strong>영화 등급:</strong> ${movieDto.movieLevel}</p>
-                <p><strong>영화 줄거리:</strong> ${movieDto.movieContent}</p>
+                <p><strong>영화제작 국가: </strong> ${movieDto.movieNation}</p>
+                <p><strong>영화 상영시간: </strong> ${movieDto.movieTime} 분</p>
+                <p><strong>영화 등급: </strong> ${movieDto.movieLevel}</p>
+                <p><strong>영화 줄거리: </strong> ${movieDto.movieContent}</p>
                 
             </div>
             

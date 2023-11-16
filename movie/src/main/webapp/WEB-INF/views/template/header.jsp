@@ -239,7 +239,9 @@ $(document).ready(function () {
                 <div class="row align-items-center me-3 mt-3">
 
                     <div class="col-4 mb-2">
-                        <img src="../images/mvc.png" width="150">
+                         <a href="http://localhost:8080/">
+                         	<img src="../images/mvc.png" width="150">
+                         </a>
                     </div>
 
                     <div class="col-8 d-flex justify-content-end">

@@ -1,4 +1,4 @@
-package com.kh.movie.rest;
+package com.kh.movie.restcontroller;
 
 import java.util.List;
 
@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.MemberDao;
+import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dao.ReviewLikeDao;
-import com.kh.movie.dao.ReviewListDao;
-import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.ReviewLikeDto;
 import com.kh.movie.vo.ReviewLikeVO;
 import com.kh.movie.vo.ReviewListVO;
@@ -22,10 +21,10 @@ import com.kh.movie.vo.ReviewListVO;
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/review/list")
-public class ReviewListRest {
+public class ReviewListRestController {
 	
 	@Autowired
-	private ReviewListDao reviewListDao;
+	private ReviewDao reviewDao;
 	
 	@Autowired
 	private ReviewLikeDao reviewLikeDao;
@@ -36,33 +35,32 @@ public class ReviewListRest {
 	//최신순 조회
 	@PostMapping("/findByDateDesc")
 	public List<ReviewListVO> findByDateDesc(int movieNo) {
-		return reviewListDao.findByDateDesc(movieNo);
+		return reviewDao.findByDateDesc(movieNo);
 	}
 	
 	//오래된순 조회
 	@PostMapping("/findByDateAsc")
 	public List<ReviewListVO> findByDateAsc(int movieNo) {
-		return reviewListDao.findByDateAsc(movieNo);
+		return reviewDao.findByDateAsc(movieNo);
 	}
 	
 	//좋아요순 조회
 	@PostMapping("/findByLikeDesc")
 	public List<ReviewListVO> findByLikeDesc(int movieNo) {
-		return reviewListDao.findByLikeDesc(movieNo);
+		return reviewDao.findByLikeDesc(movieNo);
 	}
 	
 	//평점높은순
 	@PostMapping("/findByRatingDesc")
 	public List<ReviewListVO> findByRatingDesc(int movieNo) {
-		return reviewListDao.findByRatingDesc(movieNo);
+		return reviewDao.findByRatingDesc(movieNo);
 	}
 	
 	//평점낮은순
 	@PostMapping("/findByRatingAsc")
 	public List<ReviewListVO> findByRatingAsc(int movieNo) {
-		return reviewListDao.findByRatingAsc(movieNo);
+		return reviewDao.findByRatingAsc(movieNo);
 	}
-	
 	
 	//좋아요 여부
 	@RequestMapping("/like/check")
@@ -74,7 +72,7 @@ public class ReviewListRest {
 		reviewLikeDto.setMemberNickname(memberNickname);
 		
 		//영화 번호로 리뷰 번호를 찾아 Dto에 저장
-		int reviewNo = reviewListDao.findReviewNoByMovie(movieNo);
+		int reviewNo = reviewDao.findReviewNoByMovie(movieNo);
 		reviewLikeDto.setReviewNo(reviewNo);
 	    
 	    
@@ -99,7 +97,7 @@ public class ReviewListRest {
 	    reviewLikeDto.setMemberNickname(memberNickname);
 	    
 	    //영화 번호로 리뷰 번호를 찾아 Dto에 저장
-	    int reviewNo = reviewListDao.findReviewNoByMovie(movieNo);
+	    int reviewNo = reviewDao.findReviewNoByMovie(movieNo);
 	    reviewLikeDto.setReviewNo(reviewNo);
 	    
 	    boolean isCheck = reviewLikeDao.check(reviewLikeDto);
