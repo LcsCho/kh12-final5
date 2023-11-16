@@ -34,9 +34,8 @@
 <script>
     $(document).ready(function () {
         $('#loginModal').on('hidden.bs.modal', function () {
-            // 여기에 모달이 닫힌 후 실행되는 코드 추가
-            // 예: 로그인이 완료되면 메인 페이지로 돌아감
-             window.location.href = '/'; // your_main_page에는 실제 메인 페이지 경로를 입력하세요
+            // 모달이 닫힌 후
+             window.location.href = window.location.href;//이용중인 페이지 유지
         });
 
         // 비밀번호 찾기 모달 표시를 위한 이벤트 처리
@@ -45,6 +44,39 @@
         });
     });
 </script>
+
+<script>
+
+$(document).ready(function() {
+    $("#loginForm").submit(function(event) {
+        event.preventDefault();
+		console.log("memberId", $("#memberId").val(), "memberPw", $("#memberPw").val());
+
+        // Ajax를 이용한 비동기 요청
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/member/login",
+            data: {
+            	 memberId: $("#memberId").val(),
+                 memberPw: $("#memberPw").val()
+            },
+            success: function(response) {
+                // 로그인 성공 시의 동작
+            	$("#loginModal").modal("hide");
+            	// if (response && response.redirect) {
+                     //window.location.href = response.redirect;
+                // }
+            },
+            error: function(error) {
+                // 로그인 실패 시의 동작
+                alert("아이디,비밀번호가 일치하지 않습니다.");
+            }
+        });
+    });
+});
+
+</script>	
+	
 
 <script>
 //비밀번호 재설정 이메일 발송 코드
@@ -284,17 +316,17 @@ $(document).ready(function () {
                                     </div>
                                     <div class="modal-body">
                                         <!-- 로그인 폼 추가 -->
-                                        <form action="member/login" method="post">
+                                        <form id="loginForm">
                                             <!-- 로그인 폼 요소들을 여기에 추가 -->
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" id="username" name="memberId"
+                                                <input type="text" class="form-control" id="memberId" name="memberId"
                                                     placeholder="이메일" required>
                                             </div>
                                             <div class="mb-3">
-                                                <input type="password" class="form-control" id="password"
+                                                <input type="password" class="form-control" id="memberPw"
                                                     name="memberPw" placeholder="비밀번호" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">로그인</button>
+                                            <button type="submit" id="loginBtn" class="btn btn-primary">로그인</button>
                                             <!-- 비밀번호 찾기 버튼 추가 -->
                                             <button type="button" class="btn btn-link" id="forgotPasswordLink">비밀번호
                                                 찾기</button>
