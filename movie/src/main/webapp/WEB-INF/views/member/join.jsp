@@ -3,19 +3,16 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<!-- 	<link rel="stylesheet" type="text/css" href="../css/commons.css"> -->
+<link rel="stylesheet" type="text/css" href="../css/commons.css">
 <!-- 아이콘 사용을 위한 Font Awesome 6 CDN -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
 	.flex-container {
 	    display: flex;
 	    flex-direction: column;
 	}
 </style>
-    
-<!--jquery CDN-->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script src="/js/join.js"></script>
 	 
@@ -129,7 +126,7 @@
                         <label>비밀번호<span class="red">*</span></label>
                     </div>
                     <div class="row w-75 pr-30">
-                        <input type="text" name="memberPw"
+                        <input type="text" name="memberPw" 
                              placeholder="비밀번호를 입력해주세요"
                             class="form-control w-100">
                              <div class="success-feedback left"></div>
