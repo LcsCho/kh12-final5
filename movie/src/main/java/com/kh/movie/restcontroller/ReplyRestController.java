@@ -1,4 +1,4 @@
-package com.kh.movie.rest;
+package com.kh.movie.restcontroller;
 
 import java.util.List;
 
@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.movie.dao.ReviewDetailDao;
-import com.kh.movie.dto.ReplyDto;
+import com.kh.movie.dao.ReviewDao;
+import com.kh.movie.dto.MovieSimpleInfoDto;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/reply")
-public class ReplyRest {
+public class ReplyRestController {
 	
 	@Autowired
-	private ReviewDetailDao reviewDetailDao;
+	private ReviewDao reviewDao;
 	
 	//댓글 조회
-//	@PostMapping("/findAll")
-//	public List<ReplyDto> findAll(int reviewNo){
-//		return reviewDetailDao.findAll(reviewNo);
-//	}
+	@PostMapping("/findAll")
+	public List<MovieSimpleInfoDto> findAll(int reviewNo){
+		return reviewDao.findAll(reviewNo);
+	}
 }

@@ -10,7 +10,8 @@
 	<insert id="save">
 		insert into review_like (
 			review_no, member_nickname
-		) values (
+		) 
+		values (
 			#{reviewNo}, #{memberNickname}
 		)
 	</insert>
