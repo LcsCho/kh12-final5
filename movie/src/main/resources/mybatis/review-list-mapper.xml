@@ -46,5 +46,9 @@
 	<select id="findReviewLikeCount" resultType="int">
 		select count(*) from review_like where review_no = #{reviewNo}
 	</select>
+	
+	<select id="adminReviewList" resultType="AdminReviewListVO">
+		select * from admin_review_list order by review_no desc
+	</select>
 
 </mapper>

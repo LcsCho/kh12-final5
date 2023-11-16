@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReviewDto;
+import com.kh.movie.vo.AdminReviewListVO;
 import com.kh.movie.vo.ReviewListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class ReviewDaoImpl implements ReviewDao{
 
 	@Override
 	public boolean delete(int reviewNo) {
-		return sqlSession.delete("review.delete",reviewNo) > 0;
+		return sqlSession.delete("review.deleteByReviewNo", reviewNo) > 0;
 	}
 
 	@Override
@@ -47,6 +48,11 @@ public class ReviewDaoImpl implements ReviewDao{
 	@Override
 	public List<ReviewDto> selectList(int movieNo) {
 		return sqlSession.selectList("review.findAllByMovieNo", movieNo);
+	}
+
+	@Override
+	public List<AdminReviewListVO> selectAdminReviewList() {
+		return sqlSession.selectList("reviewList.adminReviewList");
 	}
 	
 	//리뷰 상세 조회
