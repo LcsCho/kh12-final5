@@ -133,4 +133,12 @@
 	<select id="findDetailImageNoByMovieNo" resultType="int">
 		select image_no from movie_detail_image where movie_no =#{movieNo}
 	</select>
+	
+	<select id="findActorListByMovieNo" resultType="MovieDetailActorVO">
+		select actor.actor_no as actor_no, actor.actor_name as actor_name, Mar.actor_role as actor_role 
+		from actor 
+		join movie_actor_role MAR ON actor.actor_no = MAR.actor_no
+		where MAR.movie_no = #{movieNo}
+
+	</select>
 </mapper>

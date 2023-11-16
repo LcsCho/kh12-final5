@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
+import com.kh.movie.vo.MovieDetailActorVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -117,6 +118,10 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public List<Integer> findDetailImageNoByMovieNo(int movieNo) {
 		return sqlSession.selectList("movie.findDetailImageNoByMovieNo",movieNo);
+	}
+	@Override
+	public List<MovieDetailActorVO> findActorListByMovieNo(int movieNo) {
+		return sqlSession.selectList("movie.findActorListByMovieNo",movieNo);
 	}
 
 }
