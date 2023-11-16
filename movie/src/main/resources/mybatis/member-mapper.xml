@@ -43,6 +43,29 @@
 		delete member where member_id = #{memberId}
 	</delete>
 	
+	<!-- 마지막 로그인 시간 갱신 -->
+	<update id="lastLogin">
+		update member
+		<set>
+		member_last_login = sysdate 
+		</set>
+		where member_id = #{memberId}
+	</update>
+	
+	<!-- 마지막 정보 수정일 갱신 -->
+	<update id="lastUpdate">
+		update member
+		<set>
+		member_last_update = sysdate
+		</set>
+		where member_id = #{memberId}
+	</update>
+	
+	<!-- 회원 닉네임 조회 -->
+	<select id="nickCheck" resultType="MemberDto">
+		select * from member where member_nickname = #{memberNickname}
+	</select>
+	
 	<!-- 회원 수 출력 쿼리문 -->
 	<select id="count" resultType="int">
 		select count(*) from member
@@ -63,4 +86,19 @@
 		</set>
 		where member_id = #{memberId}
 	</update>
+	
+	<insert id="insertMemberImage">
+		insert into member_image(member_id,image_no) values(#{memberId},#{imageNo})
+	</insert>
+	
+	<select id="findMemberImage" resultType="int">
+		select image_no from member_image 
+		where member_id =#{memberId}
+	</select>
+
+	<select id="adminSearch" parameterType="String" resultType="MemberDto">
+		SELECT * 
+    	FROM member 
+    	WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
+	</select>
 </mapper>

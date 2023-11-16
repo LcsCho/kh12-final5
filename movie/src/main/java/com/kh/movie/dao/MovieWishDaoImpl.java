@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.MovieWishDto;
+import com.kh.movie.vo.MovieWishListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,22 +24,37 @@ public class MovieWishDaoImpl implements MovieWishDao{
 	}
 
 	@Override
-	public void insert(MovieWishDto moviewishDto) {
-		sqlSession.insert("movieWish.add", moviewishDto);
+	public void insert(MovieWishDto movieWishDto) {
+		sqlSession.insert("movieWish.add", movieWishDto);
 	}
 
 	@Override
-	public boolean delete(int wishNo) {
-		return sqlSession.delete("movieWish.delete", wishNo) > 0;
+	public boolean delete(MovieWishDto movieWishDto) {
+		return sqlSession.delete("movieWish.delete", movieWishDto) > 0;
 	}
 
 	@Override
 	public List<MovieWishDto> selectList() {
 		return sqlSession.selectList("movieWish.findAll");
 	}
+	
+	@Override
+	public List<MovieWishListVO> selectList(String memberNickname) {
+		return sqlSession.selectList("movieWish.findAllList", memberNickname);
+	}
 
 	@Override
 	public MovieWishDto selectOne(int wishNo) {
-		return sqlSession.selectOne("movieWish.findByWishNo",wishNo);
+		return sqlSession.selectOne("movieWish.findByWishNo", wishNo);
+	}
+	
+	@Override
+	public boolean check(MovieWishDto movieWishDto) {
+	    return sqlSession.selectOne("movieWish.findByWishNo", movieWishDto) != null;
+	}
+	
+	@Override
+	public int count(int wishNo) {
+		return sqlSession.selectOne("movieWish.countWish", wishNo);
 	}
 }

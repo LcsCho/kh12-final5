@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class MovieActorRole {
+public class MovieActorRoleDto {
 	private int movieNo, actorNo;
 	private String actorRole;
 	

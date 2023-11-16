@@ -49,7 +49,7 @@ public class MovieGenreRestController {
 	}
 	
 	//영화번호로 리스트 조회
-	@GetMapping("/movieNo/{movieNo}/")
+	@GetMapping("/movieNo/{movieNo}")
 	public ResponseEntity<List<MovieGenreDto>> findByMovieNo(@PathVariable int movieNo){
 		List<MovieGenreDto> list = movieGenreDao.selectListByMovieNo(movieNo);
 		if(list != null) return ResponseEntity.ok().body(list);

@@ -32,10 +32,16 @@ public class ActorDaoImpl implements ActorDao{
 	}
 
 	@Override
-	public List<ActorDto> selectList(String actorName) {
-		return sqlSession.selectList("actor.findByActorName", actorName);
+	public List<ActorDto> findListByActorName(String actorName) {
+		return sqlSession.selectList("actor.findListByActorName", actorName);
 	}
-
+	
+	@Override
+	public ActorDto findByActorNo(int actorNo) {
+		
+		return sqlSession.selectOne("actor.findByActorNo",actorNo);
+	}
+	
 	@Override
 	public List<ActorViewVO> selectActorList() {
 		return sqlSession.selectList("actor.actorList");
@@ -79,6 +85,11 @@ public class ActorDaoImpl implements ActorDao{
 	@Override
 	public ImageDto findActorImage(int actorNo) {
 		return sqlSession.selectOne("actor.findActorImage",actorNo);
+	}
+	
+	@Override
+	public List<ActorDto> selectList(String actorName) {
+		return sqlSession.selectList("actor.adminSearch", actorName);
 	}
 
 }

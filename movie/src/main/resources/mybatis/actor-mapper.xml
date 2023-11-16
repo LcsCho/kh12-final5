@@ -15,10 +15,14 @@
 		select * from actor order by actor_no desc
 	</select>
 
-	<select id="findByActorName" resultType="ActorDto">
+	<select id="findListByActorName" resultType="ActorDto">
 		select * from actor
 		where instr(actor_name, #{actorName}) > 0
 		order by actor_name desc
+	</select>
+	<select id="findByActorNo" resultType="ActorDto">
+		select * from actor 
+		where actor_no = #{actorNo}
 	</select>
 
 	<insert id="save">
@@ -64,5 +68,11 @@
 	</select>
 	<select id="actorList" resultType="ActorViewVO">
 		select * from actor_view
+	</select>
+	
+	<select id="adminSearch" parameterType="String" resultType="ActorDto">
+		SELECT * 
+    	FROM actor
+    	WHERE INSTR(LOWER(actor_name), LOWER(#{actorName})) > 0
 	</select>
 </mapper>

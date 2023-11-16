@@ -14,6 +14,7 @@
 		select * from movie order by
 		movie_release_date desc
 	</select>
+	
 
 	<select id="findByMovieName" resultType="MovieDto">
 		select * from movie
@@ -21,21 +22,25 @@
 		order by movie_release_date
 		desc
 	</select>
+	
+	<select id="findByMovieNo" resultType="MovieDto">
+		select * from movie where movie_no = #{movieNo}
+	</select>
 
 	<!-- 영화 수 출력 쿼리문 -->
 	<select id="count" resultType="int">
 		select count(*) from movie
 	</select>
-
-
 	
 	<insert id="save">
-		insert into movie(movie_no, movie_name, movie_director, movie_release_date, 
-		movie_time, movie_level, movie_nation, movie_content) 
-		values(#{movieNo}, #{movieName}, 
-		#{movieDirector}, #{movieReleaseDate}, #{movieTime},
-		#{movieLevel}, #{movieNation},
-		#{movieContent})
+		insert into movie(
+			movie_no, movie_name, movie_director, movie_release_date, 
+			movie_time, movie_level, movie_nation, movie_content
+		) 
+		values(
+			#{movieNo}, #{movieName},#{movieDirector}, #{movieReleaseDate}, 
+			#{movieTime}, #{movieLevel}, #{movieNation}, #{movieContent}
+		)
 	</insert>
 
 	<delete id="deleteByMovieNo">
@@ -117,5 +122,23 @@
 	<!-- 관리자용 영화 목록 조회 -->
 	<select id="adminMovieList" resultType="AdminMovieListVO">
 		select * from admin_movie_list
+	</select>
+	
+	<select id="adminSearch" parameterType="String" resultType="AdminMovieListVO">
+		SELECT * 
+    	FROM admin_movie_list 
+    	WHERE INSTR(LOWER(movie_name), LOWER(#{movieName})) > 0
+	</select>
+	
+	<select id="findDetailImageNoByMovieNo" resultType="int">
+		select image_no from movie_detail_image where movie_no =#{movieNo}
+	</select>
+	
+	<select id="findActorListByMovieNo" resultType="MovieDetailActorVO">
+		select actor.actor_no as actor_no, actor.actor_name as actor_name, Mar.actor_role as actor_role 
+		from actor 
+		join movie_actor_role MAR ON actor.actor_no = MAR.actor_no
+		where MAR.movie_no = #{movieNo}
+
 	</select>
 </mapper>

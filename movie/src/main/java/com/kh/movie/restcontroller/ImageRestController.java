@@ -40,6 +40,9 @@ public class ImageRestController {
 	@Autowired
 	private MovieDao movieDao;
 	
+	@Autowired
+	private ImageDao imageDao;
+	
 	//프로필 업로드 & 다운로드 기능
 
 			//초기 디렉터리 설정
@@ -58,10 +61,10 @@ public class ImageRestController {
 	@GetMapping("/actor/{actorNo}")
 	public ResponseEntity<ByteArrayResource>downloadActorImage(@PathVariable int actorNo) throws IOException{
 		
-		log.debug("actorNo={}",actorNo);
+//		log.debug("actorNo={}",actorNo);
 		
 		ImageDto imageActorDto = actorDao.findActorImage(actorNo);
-		log.debug("imageActorDto={}",imageActorDto);
+//		log.debug("imageActorDto={}",imageActorDto);
 		
 		File target = new File(dir,String.valueOf(imageActorDto.getImageNo()));
 		byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기
@@ -83,6 +86,7 @@ public class ImageRestController {
 		log.debug("movieNo={}",movieNo);
 		
 		ImageDto movieMainImageDto = movieDao.findMainImage(movieNo);
+		
 		log.debug("movieMainImageDto={}",movieMainImageDto);
 		
 		File target = new File(dir,String.valueOf(movieMainImageDto.getImageNo()));
@@ -98,6 +102,27 @@ public class ImageRestController {
 				
 				.body(resource);
 	}
+	
+	@GetMapping("/{imageNo}")
+	public ResponseEntity<ByteArrayResource>downloadImage(@PathVariable int imageNo) throws IOException{
+		
+		ImageDto imageDto = imageDao.selectOne(imageNo);
+		
+		File target = new File(dir,String.valueOf(imageNo));
+		byte[] data=FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource=new ByteArrayResource(data);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+				.contentLength(imageDto.getImageSize())
+				.header(HttpHeaders.CONTENT_TYPE,imageDto.getImageType())
+				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header("Content-Disposition","attachment;filename="+imageDto.getImageName())
+				
+				.body(resource);
+	}
+	
+
+	
 	
 
 	

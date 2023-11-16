@@ -66,17 +66,17 @@ public class MemberController {
 
  	@GetMapping("/joinFinish")
 	public String joinFinish(Model model, HttpSession session) {
- 		String memberId = (String) session.getAttribute("memberId");
+ 		String memberId = (String) session.getAttribute("name");
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
-		model.addAttribute("memberId", memberId);
+		model.addAttribute("name", memberId);
 		return "member/joinFinish";
 	}
 	
  	@PostMapping("/joinFinish")
 	public String joinFinish(@RequestParam(value = "selectedGenres", required = false) List<String> selectedGenres, 
 										HttpSession session) {
-		String memberId = (String) session.getAttribute("memberId");
+		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		// 선택한 장르를 DB에 저장
 	    for (String genreName : selectedGenres) {
@@ -85,7 +85,7 @@ public class MemberController {
 	        preferGenreDto.setGenreName(genreName);
 	        preferGenreDao.insert(preferGenreDto);
 	    }
-		session.removeAttribute("memberId");
+		session.removeAttribute("name");
 		return "redirect:/";
 	}
 	
@@ -106,33 +106,25 @@ public class MemberController {
 		}
 		
 		//boolean isCorrectPw = 입력한비밀번호와 DB비밀번호가 같나?
-		boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+//		boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+		boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
 		
 		//[3] 비밀번호가 일치하면 메인페이지로 이동
-//		if(isCorrectPw) {
-			//(주의) 만약 차단된 회원이라면 추가 작업을 중지하고 오류 발생
-//			MemberBlockDto blockDto = 
-//					memberDao.selectBlockOne(findDto.getMemberId());
-			
-			//if(차단된 회원이라면) {
-//			if(blockDto != null) {
-//				//return "redirect:오류페이지";
-//				throw new AuthorityException("차단된 회원");
-//			}
-			
+		if(isCorrectPw ) {
 			//세션에 아이디+등급 저장
 			session.setAttribute("name", findDto.getMemberId());
 			session.setAttribute("level", findDto.getMemberLevel());
 			//로그인시간 갱신
-//			memberDao.updateMemberLogin(inputDto.getMemberId());
+			memberDao.updateMemberLastLogin(inputDto.getMemberId());			
 			//메인페이지로 이동
-			return "redirect:change";
-		}
+			return "redirect:/";
+			}			
+			
 		//[4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
-//		else {
-//			return "redirect:login?error";
-//		}
-//	}
+		else {
+			return "redirect:login?error";
+		}
+	}
 	
 //	@PostMapping("/login")
 //	public String login(@ModelAttribute MemberDto memberDto) {
@@ -151,7 +143,8 @@ public class MemberController {
 	@RequestMapping("/logout") //로그아웃하려면 로그인된 걸 remove 해주어야 함 - 로그아웃 시,세션값(name) 날라감
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");
-		return "redirect:member/main";
+		session.removeAttribute("level");
+		return "redirect:/";
 	}
 	
 	//개인정보 변경
@@ -164,11 +157,10 @@ public class MemberController {
 	}
 	
 	@PostMapping("/change")
-	public String change(@ModelAttribute MemberDto inputDto, HttpSession session) {
-		String memberId = (String) session.getAttribute("name");
-		
-		MemberDto findDto = memberDao.selectOne(memberId);
+	public String change(@ModelAttribute MemberDto inputDto) {
 			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+			//마지막 정보 수정 시각 갱신
+			memberDao.lastUpdate(inputDto.getMemberId());			
 			return "redirect:changeFinish";
 	}
 	
@@ -212,4 +204,22 @@ public class MemberController {
 	public String exitFinish() {
 		return "member/exitFinish";
 	}
+	
+	//마이페이지
+	@RequestMapping("/mypage")
+	public String mypage(HttpSession session, Model model) {
+		//[1]세션에서 사용자의 아이디를 꺼낸다
+		// -세션은 값을 Object로 저장한다(아무거나 넣어야 하니까)
+		String memberId = (String)session.getAttribute("name");
+		//[2]가져온 아이디로 회원정보를 조회한다
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		//[3]조회한 정보를 모델에 첨부한다
+		model.addAttribute("memberDto", memberDto);
+		//[5]이 회원의 프로필 이미지 번호를 첨부한다
+		model.addAttribute("memberImage", memberDao.findMemberImage(memberId));
+		
+		
+		return "member/mypage";	
+	}
+	
 }

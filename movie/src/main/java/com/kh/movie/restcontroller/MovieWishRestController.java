@@ -2,11 +2,14 @@ package com.kh.movie.restcontroller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dto.MovieWishDto;
+import com.kh.movie.vo.MovieWishVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -40,12 +44,12 @@ public class MovieWishRestController {
 	}
 	
 	//삭제
-	@DeleteMapping("/{wishNo}")
-	public ResponseEntity<String> delete(@PathVariable int wishNo) {
-		boolean result = movieWishDao.delete(wishNo);
-		if (result) return ResponseEntity.status(200).build();
-		else return ResponseEntity.status(404).build();
-	}
+//	@DeleteMapping("/{wishNo}")
+//	public ResponseEntity<String> delete(@PathVariable int wishNo) {
+//		boolean result = movieWishDao.delete(wishNo);
+//		if (result) return ResponseEntity.status(200).build();
+//		else return ResponseEntity.status(404).build();
+//	}
 	
 	//찜번호로 상세 조회
 	@GetMapping("/{wishNo}")
@@ -53,5 +57,38 @@ public class MovieWishRestController {
 		MovieWishDto movieWishDto = movieWishDao.selectOne(wishNo);
 		if(movieWishDto != null) 	return ResponseEntity.ok().body(movieWishDto);
 		else return ResponseEntity.notFound().build();
+	}
+	
+	@RequestMapping("/action")
+	public MovieWishVO action(@ModelAttribute MovieWishDto movieWishDto, 
+											HttpSession session) {
+		int wishNo = movieWishDao.sequence();
+		String memberId = (String) session.getAttribute("name");
+		movieWishDto.setWishNo(wishNo);
+		movieWishDto.setMemberId(memberId);
+		
+		boolean isCheck = movieWishDao.check(movieWishDto);
+		if(isCheck) movieWishDao.delete(movieWishDto);
+		else movieWishDao.insert(movieWishDto);
+		int count = movieWishDao.count(wishNo);
+		
+		MovieWishVO vo = new MovieWishVO();
+		vo.setCheck(!isCheck);
+		vo.setCount(count);
+		return vo;
+	}
+	
+	@RequestMapping("/check")
+	public MovieWishVO check(@ModelAttribute MovieWishDto movieWishDto, HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		movieWishDto.setMemberId(memberId);
+		
+		boolean isCheck = movieWishDao.check(movieWishDto);
+		int count = movieWishDao.count(movieWishDto.getWishNo());
+		
+		MovieWishVO vo = new MovieWishVO();
+		vo.setCheck(isCheck);
+		vo.setCount(count);
+		return vo;
 	}
 }

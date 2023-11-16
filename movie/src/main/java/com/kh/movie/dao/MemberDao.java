@@ -13,8 +13,17 @@ public interface MemberDao {
 	//회원 아이디로 회원 닉네임 검색
 	String findNicknameById(String memberId);
 	boolean updateMemberInfo(MemberDto inputDto);
-//	void delete(String memberId);
+	
 	List<MemberDto> selectList();
 	boolean editUnit(MemberDto memberDto, String memberLevel);
 	boolean delete(String memberId);
+	
+	boolean updateMemberLastLogin(String memberId);
+	boolean lastUpdate(String memberId);
+	MemberDto selectOneByNickname(String memberNickname);
+	void updatePassword(MemberDto memberDto);
+	void insertMemberImage(String memberId, int imageNo);
+	Integer findMemberImage(String memberId);
+	List<MemberDto> selectList(String memberNickname);
+
 }
