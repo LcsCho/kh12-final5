@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
+import com.kh.movie.vo.MovieDetailActorVO;
 
 public interface MovieDao {
 	int sequence();
@@ -23,6 +24,7 @@ public interface MovieDao {
 	ImageDto findImage(int ImageNo);
 	List<AdminMovieListVO> selectAdminMovieList(String movieName);
 	List<Integer> findDetailImageNoByMovieNo(int movieNo);
+	List<MovieDetailActorVO> findActorListByMovieNo(int movieNo);
 	
 	
 

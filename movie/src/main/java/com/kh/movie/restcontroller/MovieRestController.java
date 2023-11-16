@@ -36,6 +36,7 @@ import com.kh.movie.dto.MovieActorRoleDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.vo.AdminMovieListVO;
+import com.kh.movie.vo.MovieDetailActorVO;
 import com.kh.movie.vo.MovieUploadVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -265,6 +266,10 @@ public class MovieRestController {
 	public List<Integer> ImageNoList(@PathVariable int movieNo){
 		log.debug("movieNo={}",movieNo);
 		return movieDao.findDetailImageNoByMovieNo(movieNo);
+	}
+	@GetMapping("/actorInfoList/{movieNo}")
+	public List<MovieDetailActorVO> actorInfoList(@PathVariable int movieNo){
+		return movieDao.findActorListByMovieNo(movieNo);
 	}
 
 }
