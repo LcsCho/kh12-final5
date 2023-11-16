@@ -36,13 +36,49 @@
 		delete from review where review_no = #{reviewNo}
 	</delete>
 	
-	<!-- 영화 번호로 리스트 조회 -->
+	<!-- 영화 번호로 상위 좋아요 10개 조회 (상세 리뷰 리스트 출력용)-->
 	<select id="findAllByMovieNo" resultType="reviewDto">
 		select * from (
 			select rownum rn, TMP.* from(
 				select * from review where movie_no = #{movieNo} order by review_like_count desc
 			)TMP
 		) where rn between 1 and 10
+	</select>
+	
+	<!-- 기준별 리스트 -->
+	<!-- 최신순 -->
+	<select id="findByDateDesc" resultType="ReviewListVO">
+		select * from review_list where movie_no = #{movieNo} order by review_date desc
+	</select>
+	
+	<!-- 오래된순 -->
+	<select id="findByDateAsc" resultType="ReviewListVO">
+		select * from review_list where movie_no = #{movieNo}  order by review_date asc
+	</select>
+	
+	<!-- 좋아요순 -->
+	<select id="findByLikeDesc" resultType="ReviewListVO">
+		select * from review_list where movie_no = #{movieNo}  order by review_like_count desc
+	</select>
+	
+	<!-- 평점높은순 -->
+	<select id="findByRatingDesc" resultType="ReviewListVO">
+		select * from review_list where movie_no = #{movieNo}  order by rating_score desc
+	</select>
+	
+	<!-- 평점낮은순 -->
+	<select id="findByRatingAsc" resultType="ReviewListVO">
+		select * from review_list where movie_no = #{movieNo}  order by rating_score asc
+	</select>
+	
+	<!-- 상세조회 -->
+	<select id="findByReviewNo" resultType="ReviewListVO">
+		select * from review_list where review_no = #{reviewNo}
+	</select>
+
+	<!-- 영화에 달린 리뷰 조회 -->
+	<select id="findReviewNoByMovie" resultType="ReviewListVO">
+		select review_no from review_list where movie_no = #{movieNo}
 	</select>
 	
 </mapper>

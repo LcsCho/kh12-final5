@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.MovieGenreDao;
-import com.kh.movie.dao.MovieWishDao;
+import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.ReplyDao;
 import com.kh.movie.dao.ReviewDao;
-import com.kh.movie.dao.ReviewDetailDao;
-import com.kh.movie.dao.ReviewListDao;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
@@ -33,19 +31,13 @@ import lombok.extern.slf4j.Slf4j;
 public class MovieController {
 	
 	@Autowired
-	private ReviewListDao reviewListDao;
-	
-	@Autowired
-	private ReviewDetailDao reviewDetailDao;
-	
-	@Autowired
 	private MovieDao movieDao;
 	
 	@Autowired
 	private MovieGenreDao movieGenreDao;
 	
 	@Autowired
-	private MovieWishDao movieWishDao;
+	private RatingDao ratingDao;
 	
 	@Autowired
 	private ReviewDao reviewDao;
@@ -60,7 +52,7 @@ public class MovieController {
 		model.addAttribute("movieNo", movieNo);
 	    
 	    //영화 정보 조회
-		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewListDao.findAll(movieNo);
+		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewDao.findAll(movieNo);
 	    if (!movieSimpleInfoList.isEmpty()) {
 	        model.addAttribute("movieSimpleInfo", movieSimpleInfoList.get(0));
 	    }
@@ -74,13 +66,13 @@ public class MovieController {
 												@RequestParam int reviewNo, Model model) {
 		
 		//영화 정보 조회
-		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewListDao.findAll(movieNo);
+		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewDao.findAll(movieNo);
 	    if (!movieSimpleInfoList.isEmpty()) {
 	        model.addAttribute("movieSimpleInfo", movieSimpleInfoList.get(0));
 	    }
 	    
 	    //리뷰 상세 조회
-		List<ReviewListVO> reviewListVO = reviewDetailDao.findByReviewNo(reviewNo);
+		List<ReviewListVO> reviewListVO = reviewDao.findByReviewNo(reviewNo);
 		if (reviewListVO != null && !reviewListVO.isEmpty()) {
 		    model.addAttribute("review", reviewListVO.get(0));
 		}
@@ -99,9 +91,11 @@ public class MovieController {
 		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
 		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
+		int ratingCount = ratingDao.getCount();
 		model.addAttribute("movieDto", movieDto);
 		model.addAttribute("movieGenreList", movieGenreList);
 		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("ratingCount", ratingCount);
 		return "movie/detail";
 	}
 }
