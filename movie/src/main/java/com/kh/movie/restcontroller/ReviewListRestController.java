@@ -2,7 +2,6 @@ package com.kh.movie.restcontroller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -71,35 +70,54 @@ public class ReviewListRestController {
 	public List<ReviewLikeVO> findReviewLike(@RequestParam int movieNo, HttpSession session){
 	    // memberId로 memberNickname 가져오기
 	    String memberId = (String) session.getAttribute("name");
-	    log.debug(memberId.toString());
 	    String memberNickname = memberDao.findNicknameById(memberId);
-
 	    
 	    // 영화에 달린 리뷰 번호 가져오기
 	    List<ReviewListVO> reviewNos = reviewDao.findReviewNoByMovie(movieNo);
-	    log.debug("reviewNos = {}", reviewNos);//29,31
+	    
 	    List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
-	    ///////////////////////////////////////
 	    for (ReviewListVO review : reviewNos) {
 	    	int reviewNo = review.getReviewNo();
-	    	log.debug("reviewNo = {}", reviewNo);
             String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
-            
-            log.debug("reviewLike = {}", reviewLike);
             
             ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
                 .check(reviewLike)
                 .count(reviewDao.findReviewLikeCount(reviewNo))
+                .reviewNo(reviewNo)
+                .memberNickname(memberNickname)
                 .build();
 
             reviewLikeVOList.add(reviewLikeVO);
         }
-
-	   ////////////////////////////////////////////////////
-	   
-	    log.debug("reviewLikeVOList = {}", reviewLikeVOList);
-
 	    return reviewLikeVOList;
+	}
+	
+	//좋아요 설정/해제
+	@PostMapping("/likeAction")
+	public ReviewLikeVO likeAction(@RequestParam int reviewNo, HttpSession session) {
+	    // memberId로 memberNickname 가져오기
+	    String memberId = (String) session.getAttribute("name");
+	    String memberNickname = memberDao.findNicknameById(memberId);
+	    
+	    String check = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+	    int count = reviewDao.findReviewLikeCount(reviewNo);
+
+	    ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
+	    
+	    if ("Y".equals(check)) {
+	    	reviewLikeDao.delete(reviewNo, memberNickname); // 좋아요 해제
+	    	reviewLikeVO.setCheck("N");
+	    	reviewLikeVO.setCount(count - 1);
+	    } else {
+	    	reviewLikeDao.insert(reviewNo, memberNickname); // 좋아요 설정
+	    	reviewLikeVO.setCheck("Y");
+	    	reviewLikeVO.setCount(count + 1);
+	    }
+
+	    reviewLikeVO.setReviewNo(reviewNo);
+	    reviewLikeVO.setMemberNickname(memberNickname);
+
+	    return reviewLikeVO;
 	}
 
 }

@@ -26,7 +26,7 @@
 
 	<!-- 좋아요 체크 여부 -->
 	<select id="findReviewLike" resultType="String">
-		SELECT nvl2(rlike.member_nickname, 'Y', 'N') AS REVIEW_LIKE
+		SELECT DISTINCT nvl2(rlike.member_nickname, 'Y', 'N') AS REVIEW_LIKE
 		FROM review_list rlist
 		LEFT OUTER JOIN (
     		SELECT review_no, MEMBER_NICKNAME, count(*) FROM review_like
