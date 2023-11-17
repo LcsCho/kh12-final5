@@ -130,6 +130,8 @@
     	WHERE INSTR(LOWER(movie_name), LOWER(#{movieName})) > 0
 	</select>
 	
+	
+	
 	<select id="findDetailImageNoByMovieNo" resultType="int">
 		select image_no from movie_detail_image where movie_no =#{movieNo}
 	</select>

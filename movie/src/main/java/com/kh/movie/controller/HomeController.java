@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.MovieListVO;
 
 import lombok.extern.slf4j.Slf4j;
