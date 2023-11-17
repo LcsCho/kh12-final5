@@ -153,6 +153,25 @@ public class MemberRestController {
             return "redirect:/error"; // 적절한 오류 페이지로 리다이렉트
         }
     }
+	
+	@PostMapping("/newPw")
+		public String newPassword(HttpSession session,String memberId, String memberPw) {
+		String loginMemberId = (String) session.getAttribute("name");
+		
+		if(loginMemberId != null && memberPw != null) {
+			String encryptedPassword = encoder.encode(memberPw);
+			
+			MemberDto memberDto = new MemberDto();
+            memberDto.setMemberId(loginMemberId);
+            memberDto.setMemberPw(encryptedPassword);
+
+            memberDao.updatePassword(memberDto);
+            
+            return "redirect:/mypage";
+		} else {
+			return "redirect:/error";
+		}
+	}
 
 
 	@PostMapping(value ="/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
