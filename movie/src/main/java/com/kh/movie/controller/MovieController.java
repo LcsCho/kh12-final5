@@ -98,4 +98,9 @@ public class MovieController {
 		model.addAttribute("ratingCount", ratingCount);
 		return "movie/detail";
 	}
+	
+//	@RequestMapping("/searchList")
+//	public String searchList() {
+//		
+//	}
 }

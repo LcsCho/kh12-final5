@@ -75,4 +75,9 @@
     	FROM actor
     	WHERE INSTR(LOWER(actor_name), LOWER(#{actorName})) > 0
 	</select>
+	
+	<select id="findImageNoByActorName" resultType="int">
+		select image_no from actor_image where actor_no in
+		(select actor_no from actor where actor_name like '%' || #{actorName} || '%')
+	</select>
 </mapper>

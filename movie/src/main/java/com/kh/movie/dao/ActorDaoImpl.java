@@ -91,5 +91,9 @@ public class ActorDaoImpl implements ActorDao{
 	public List<ActorDto> selectList(String actorName) {
 		return sqlSession.selectList("actor.adminSearch", actorName);
 	}
+	@Override
+	public List<Integer> findImageNoByActorName(String actorName) {
+		return sqlSession.selectList("actor.findImageNoByActorName",actorName);
+	}
 
 }
