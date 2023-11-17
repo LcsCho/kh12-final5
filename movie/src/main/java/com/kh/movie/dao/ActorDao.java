@@ -19,5 +19,6 @@ public interface ActorDao {
 	List<ActorViewVO> selectActorList();
 	ActorDto findByActorNo(int actorNo);
 	List<ActorDto> selectList(String actorName);
+	List<Integer> findImageNoByActorName(String actorName);
 
 }
