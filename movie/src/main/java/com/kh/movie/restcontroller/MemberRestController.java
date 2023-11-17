@@ -8,12 +8,14 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,6 +84,31 @@ public class MemberRestController {
 	public List<MemberDto> list() {
 		return memberDao.selectList();
 	}
+	
+	 @PostMapping("/login")
+	    public ResponseEntity<String> login(@RequestParam String memberId,
+	                                        @RequestParam String memberPw,
+	                                        HttpSession session) {
+	        MemberDto findDto = memberDao.selectOne(memberId);
+
+	        if (findDto == null) {
+	            return new ResponseEntity<>("아이디가 없습니다.", HttpStatus.BAD_REQUEST);
+	        }
+
+	        boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
+
+	        if (isCorrectPw) {
+	            session.setAttribute("name", findDto.getMemberId());
+	            session.setAttribute("level", findDto.getMemberLevel());
+	            memberDao.updateMemberLastLogin(memberId);
+	       
+	            return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+	        } else {
+	            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
+	        }
+	    }
+	
+
 	
 	//아이디 체크(이메일주소)
 	@PostMapping("/idCheck")

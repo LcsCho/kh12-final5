@@ -1,6 +1,6 @@
 package com.kh.movie.dao;
 
-import java.util.List;
+import java.util.Map;
 
 import com.kh.movie.dto.ReviewLikeDto;
 

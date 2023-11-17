@@ -12,6 +12,11 @@ import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 
+import com.kh.movie.dao.RatingDao;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class HomeController {
 	
@@ -19,12 +24,14 @@ public class HomeController {
 	private MovieDao movieDao;
 	
 	@Autowired
-	private MovieGenreDao movieGenreDao;
+	private RatingDao ratingDao;
 	
 	@RequestMapping("/")
 	public String main(Model model) {
 		List<MovieDto> movieList = movieDao.selectList();
 		model.addAttribute("movieList", movieList);
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
 		return "main";
 	}
 

@@ -2,6 +2,7 @@ package com.kh.movie.restcontroller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -70,14 +71,33 @@ public class ReviewListRestController {
 	public List<ReviewLikeVO> findReviewLike(@RequestParam int movieNo, HttpSession session){
 	    // memberId로 memberNickname 가져오기
 	    String memberId = (String) session.getAttribute("name");
+//	    log.debug(memberId.toString());
 	    String memberNickname = memberDao.findNicknameById(memberId);
 
+	    
 	    // 영화에 달린 리뷰 번호 가져오기
 	    List<ReviewListVO> reviewNos = reviewDao.findReviewNoByMovie(movieNo);
-	    log.debug("reviewNos = {}", reviewNos);//29,31
-
+//	    log.debug("reviewNos = {}", reviewNos);//29,31
 	    List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
-	    log.debug("reviewLikeVOList = {}", reviewLikeVOList);
+	    ///////////////////////////////////////
+	    for (ReviewListVO review : reviewNos) {
+	    	int reviewNo = review.getReviewNo();
+//	    	log.debug("reviewNo = {}", reviewNo);
+            String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+            
+//            log.debug("reviewLike = {}", reviewLike);
+            
+            ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
+                .check(reviewLike)
+                .count(reviewDao.findReviewLikeCount(reviewNo))
+                .build();
+
+            reviewLikeVOList.add(reviewLikeVO);
+        }
+
+	   ////////////////////////////////////////////////////
+	   
+//	    log.debug("reviewLikeVOList = {}", reviewLikeVOList);
 
 	    return reviewLikeVOList;
 	}
