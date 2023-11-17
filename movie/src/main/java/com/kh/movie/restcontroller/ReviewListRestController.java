@@ -75,12 +75,12 @@ public class ReviewListRestController {
 	    // 영화에 달린 리뷰 번호 가져오기
 	    List<ReviewListVO> reviewNos = reviewDao.findReviewNoByMovie(movieNo);
 	    
-	    List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
+      List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
 	    for (ReviewListVO review : reviewNos) {
 	    	int reviewNo = review.getReviewNo();
-            String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
-            
-            ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
+        String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+
+        ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
                 .check(reviewLike)
                 .count(reviewDao.findReviewLikeCount(reviewNo))
                 .reviewNo(reviewNo)

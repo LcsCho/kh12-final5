@@ -179,6 +179,10 @@ public class ActorRestController {
 //		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 //	}
 	
+	@GetMapping("/findImageNoByActorName/{actorName}")
+	public List<Integer> findImageNoByActorName(@PathVariable String actorName){
+		return actorDao.findImageNoByActorName(actorName);
+	}
 
 	
 }
