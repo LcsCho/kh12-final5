@@ -12,6 +12,7 @@ import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
 import com.kh.movie.vo.MovieDetailActorVO;
+import com.kh.movie.vo.MovieListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -122,6 +123,11 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public List<MovieDetailActorVO> findActorListByMovieNo(int movieNo) {
 		return sqlSession.selectList("movie.findActorListByMovieNo",movieNo);
+	}
+
+	@Override
+	public List<MovieListVO> findAllMovieList() {
+		return sqlSession.selectList("movie.findAllMovieList");
 	}
 
 }

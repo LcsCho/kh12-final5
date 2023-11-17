@@ -8,6 +8,7 @@
  --%>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<!-- 회원 프로필 관련 -->
 <script>
 $(function(){
 	//변경 버튼 누르면 이미지를 업로드 하고 이미지 교체
@@ -55,6 +56,51 @@ $(function(){
 });
 </script> 
 
+<!-- 비밀번호 변경 모달 -->
+<script>
+function openChangePasswordModal() {
+  $('#changePasswordModal').modal('show');
+}
+
+// 비밀번호 변경 처리
+function changePassword() {
+  var newPassword = $('#newPassword').val();
+  var confirmPassword = $('#confirmPassword').val();
+
+  
+  // 비밀번호 일치 여부 확인
+  if (newPassword !== confirmPassword) {
+    alert('비밀번호가 일치하지 않습니다.');
+    return;
+  }
+
+  
+  //비밀번호 변경 요청
+  $.ajax({
+	  url: "member/newPw",
+	  method: "POST",
+	  data: {
+		  memberId : loginMemberId,
+		  memberPw : memberPW
+	  },
+	  success: function(response){
+		  alert("비밀번호 재설정이 완료되었습니다.");
+		  
+		  $('#changePasswordModal').modal('hide');
+		  
+		  window.location.href = "mypage";
+	  },
+	  error : function (xhr, status, error){
+		  alert("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+	  }
+	  
+  });
+
+  // 모달 닫기
+  $('#changePasswordModal').modal('hide');
+}
+
+</script>
 
 
 
@@ -96,11 +142,44 @@ $(function(){
 	
 	
 	<div class="row mt-40">
-		<a class="btn w-100" href="password">
+		<button class="btn w-100" onclick="openChangePasswordModal()">
 			<i class="fa-solid fa-key"></i>
 			비밀번호 변경
-		</a>
+		</button>
 	</div>
+	
+	<!-- 비밀번호 변경 모달 -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changePasswordModal">비밀번호 변경</h5>
+        
+      </div>
+      <div class="modal-body">
+        <!-- 비밀번호 변경 폼 -->
+        <form id="changePasswordForm" action="" method="post" autocomplete="off" onsubmit="changePassword(); return false;">
+          <!-- 비밀번호 입력 -->
+          <div class="form-group">
+            <label for="newPassword">새 비밀번호</label>
+            <input type="password" class="form-control" id="newPassword">
+          </div>
+          <!-- 확인용 비밀번호 입력 -->
+          <div class="form-group">
+            <label for="confirmPassword">비밀번호 확인</label>
+            <input type="password" class="form-control" id="confirmPassword">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="submit" class="btn btn-primary" onclick="changePassword()">변경하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 모달 끝 -->
+	
 	
 	<div class="row">
 		<a class="btn w-100" href="change">

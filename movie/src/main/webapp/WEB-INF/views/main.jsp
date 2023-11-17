@@ -19,20 +19,26 @@
 
                 <!-- 이미지 -->
                 <div class="row">
-                    	<c:forEach var="movieDto" items="${movieList}">
+                    	<c:forEach var="movieListVO" items="${movieList}">
                     <div class="col-sm-6 col-md-4 col-lg-3 p-3">
                     	<div>
-                        	<img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
+                    		<a href="/movie/detail?movieNo=${movieListVO.movieNo}">
+                        		<img src="/image/${movieListVO.imageNo}" class="img-thumbnail"  style="width: 215px; height: 300px">
+                        	</a>
                         </div>
                         <div class="col" style="width: 215px;">
-                        	${movieDto.movieName}
+	                        <a href="/movie/detail?movieNo=${movieListVO.movieNo}">
+	                        	${movieListVO.movieName}
+                        	</a>
                         </div>
                         <div class="col" style="width: 215px;">
-                        	<fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" /> / ${movieDto.movieNation}
+                        	<fmt:formatDate value="${movieListVO.movieReleaseDate}" pattern="yyyy" /> / ${movieListVO.movieNation}
                         </div>
-                        <div class="col" style="width: 215px;">
-                        	평균 <i class="fa-solid fa-star"></i> 3.3점 
-                        </div>
+                        <c:if test="${movieListVO.ratingAvg != 0}">
+	                        <div class="col" style="width: 215px;">
+	                        	평균 <i class="fa-solid fa-star"></i> ${movieListVO.ratingAvg}점 
+	                        </div>
+                        </c:if>
                     </div>
                         </c:forEach>
                 </div>

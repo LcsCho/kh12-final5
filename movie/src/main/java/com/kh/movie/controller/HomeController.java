@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.vo.MovieListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +26,9 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String main(Model model) {
-		List<MovieDto> movieList = movieDao.selectList();
-		model.addAttribute("movieList", movieList);
+		List<MovieListVO> movieList = movieDao.findAllMovieList();
 		int ratingCount = ratingDao.getCount();
+		model.addAttribute("movieList", movieList);
 		model.addAttribute("ratingCount", ratingCount);
 		return "main";
 	}
