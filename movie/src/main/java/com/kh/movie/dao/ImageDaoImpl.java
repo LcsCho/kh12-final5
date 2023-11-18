@@ -33,5 +33,10 @@ public class ImageDaoImpl implements ImageDao{
 	public boolean delete(int imageNo) {
 		return sqlSession.delete("image.delete", imageNo)>0;
 	}
+	
+	@Override
+	public int findActorNoByImageNo(int imageNo) {
+		return sqlSession.selectOne("image.findActorNoByImageNo",imageNo);
+	}
 
 }
