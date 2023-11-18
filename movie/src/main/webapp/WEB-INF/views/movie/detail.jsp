@@ -27,6 +27,7 @@
      }
 </style>
 <script>
+//영화 찜기능
 $(function(){
 	var params = new URLSearchParams(location.search);
 	var movieNo = params.get("movieNo");
@@ -62,6 +63,11 @@ $(function(){
 	});
 });
 </script>
+
+<script>
+//평점 기능
+</script>
+
 </head>
 <body>
 

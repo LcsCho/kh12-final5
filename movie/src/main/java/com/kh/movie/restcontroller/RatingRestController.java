@@ -26,4 +26,5 @@ public class RatingRestController {
 		return ratingDao.getCount();
 	}
 	
+	
 }
