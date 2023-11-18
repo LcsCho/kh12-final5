@@ -96,7 +96,9 @@ public class HomeController {
 //		log.debug("mvcCriticTop10RecommendList = {}", mvcCriticTop10RecommendList);
 		model.addAttribute("mvcCriticTop10RecommendList", mvcCriticTop10RecommendList);
 
-		log.debug("session = {}", session);
+		
+		///////////////////////////////////////////////
+		
 		// 회원 로그인 했을 때 출력
 		if (session.getAttribute("name") != null) {
 			// 세션에서 사용자 아이디를 가져와서 memberId에 저장
@@ -214,7 +216,7 @@ public class HomeController {
 				// 리스트에 추가
 				wishMovieList.add(wishMovieRecommendMovie);
 			}
-			log.debug("wishMovieList = {}", wishMovieList);
+//			log.debug("wishMovieList = {}", wishMovieList);
 			model.addAttribute("wishMovieList", wishMovieList);
 		}
 
