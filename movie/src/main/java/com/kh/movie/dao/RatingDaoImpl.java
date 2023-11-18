@@ -18,37 +18,33 @@ public class RatingDaoImpl implements RatingDao{
 	private SqlSession sqlSession;
 
 	@Override
-	public int getCount() {
-		return sqlSession.selectOne("rating.count");
-	}
-
-	@Override
 	public int sequence() {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("rating.sequence");
 	}
 
 	@Override
 	public void insert(RatingDto ratingDto) {
-		// TODO Auto-generated method stub
-		
+		sqlSession.insert("rating.add", ratingDto);
 	}
 
 	@Override
 	public boolean delete(int ratingNo) {
-		// TODO Auto-generated method stub
-		return false;
+		return sqlSession.delete("rating.delete", ratingNo) > 0;
 	}
 
 	@Override
 	public List<RatingDto> selectList() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("rating.findAll");
 	}
 
 	@Override
 	public RatingDto findByRatingNo(int ratingNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("rating.findByRatingNo", ratingNo);
 	}
+	
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("rating.count");
+	}
+
 }
