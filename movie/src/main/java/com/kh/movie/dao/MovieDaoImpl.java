@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
+import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MovieDetailActorVO;
@@ -141,19 +142,4 @@ public class MovieDaoImpl implements MovieDao{
 		return sqlSession.selectOne("movie.findByMovieNoVO", movieNo);
 	}
 	
-	@Override
-	public List<PreferGenreByMemberRecommendVO> getPreferGenreByMember(String memberNickname) {
-		return sqlSession.selectList("recommend.preferGenreByMember", memberNickname);
-	}
-	
-	@Override
-	public List<AgeGroupRecommendVO> getAgeGroup(String memberBirth) {
-		return sqlSession.selectList("recommend.ageGroup", memberBirth);
-	}
-	
-	@Override
-	public List<GenderRecommendVO> getGender(String memberGender) {
-		return sqlSession.selectList("recommend.gender", memberGender);
-	}
-
 }
