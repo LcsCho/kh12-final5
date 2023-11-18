@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.movie.dao.ReviewDao;
-import com.kh.movie.dto.MovieSimpleInfoDto;
+import com.kh.movie.dao.ReplyDao;
+import com.kh.movie.dto.ReplyDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,11 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ReplyRestController {
 	
 	@Autowired
-	private ReviewDao replyDao;
+	private ReplyDao replyDao;
 	
 	//댓글 조회
 	@PostMapping("/findAll")
-	public List<MovieSimpleInfoDto> findAll(int reviewNo){
+	public List<ReplyDto> findAll(@RequestParam int reviewNo){
 		log.debug("reviewNo = {}", reviewNo);
 		return replyDao.findAll(reviewNo);
 	}

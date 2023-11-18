@@ -29,6 +29,8 @@
 	    		$(".reply-list").empty();
 	    		
 	    		for (var i = 0; i < response.length; i++) {
+	    			console.log(response);
+	    			
 	    			var reply = response[i];
 	    			
 	    			var template = $("#reply-template").html();
@@ -36,7 +38,7 @@
 	    			
 					$(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
 					$(htmlTemplate).find(".replyDate").text(reply.replyDate);
-					$(htmlTemplate).find(".reviewContent").text(reply.replyContent);
+					$(htmlTemplate).find(".replyContent").text(reply.replyContent);
 					
 					$(".reply-list").append(htmlTemplate);
 	    		}
@@ -45,6 +47,12 @@
 	});
 </script>
 <script id="reply-template" type="text/template">
+	<div class="card mt-3">
+		<div class="card-body">
+
+
+
+
 		<div><span class="memberNickname"></span></div>
     	<div><span class="replyDate"></span></div>
     	<div><span class="replyContent"></span></div>
