@@ -30,4 +30,8 @@
 	<delete id="delete">
 		delete image where image_no = #{imageNo}
 	</delete>
+	<select id="findActorNoByImageNo" resultType="int">
+		select actor_no from actor_image where image_no = #{imageNo}
+	</select>
+	
 </mapper>
