@@ -26,6 +26,8 @@
 	<select id="findByMovieNo" resultType="MovieDto">
 		select * from movie where movie_no = #{movieNo}
 	</select>
+	
+
 
 	<!-- 영화 수 출력 쿼리문 -->
 	<select id="count" resultType="int">
@@ -145,6 +147,10 @@
 	
 	<select id="findAllMovieList" resultType="MovieListVO">
 		select * from movie_list order by movie_release_date desc
+	</select>
+	
+	<select id="findByMovieNoVO" resultType="MovieVO">
+		select * from movie_list where movie_no = #{movieNo}
 	</select>
 	
 	<select id="findAllByPageMovieList" resultType="MovieListVO">
