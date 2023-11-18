@@ -99,8 +99,5 @@ public class MovieController {
 		return "movie/detail";
 	}
 	
-//	@RequestMapping("/searchList")
-//	public String searchList() {
-//		
-//	}
+
 }

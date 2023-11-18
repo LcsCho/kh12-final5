@@ -34,7 +34,7 @@
         border-color: rgb(179, 57, 57);
         border-width: 2px;
     }
-    .btn-info:active{
+    .btn-info:hover{
     	background-color: rgb(179, 57, 57);
         color: white;
         font-size: 18px;
@@ -42,7 +42,7 @@
         border-color: rgb(179, 57, 57);
         border-width: 2px;
     }
-    .btn-info:hover{
+    .btn-info:active{
     	background-color: rgb(179, 57, 57);
         color: white;
         font-size: 18px;
@@ -117,20 +117,15 @@ $(function () {
         });
     }
     
-    //선택된 버튼 이벤트
-    function changeButton(click){
-    	var button = document.querySelector('.button');
-    	button = click;
-    	
-	    var button = document.querySelector('.btn-info');
-		var active = document.querySelector('.btn-info.active');
-		
-		if(active){
-			active.classList.remove('active');
-		}
-		
-		clickedButton.classList.add('active');
-    }
+//     //선택된 버튼 이벤트(구현 중)
+//     function changeButton(clickedButton) {
+//         var activeButton = $(".btn-info .active");
+//         if (activeButton) {
+//             activeButton.removeClass('active');
+//         }
+
+//         $(clickedButton).addClass('active');
+//     }
 
     // 최신순 조회
     $(".ByDateDesc").click(function () {
@@ -152,6 +147,7 @@ $(function () {
 				    var htmlTemplate = $.parseHTML(template);
 
 				    $(htmlTemplate).find(".likeButton").attr("data-reviewno", review.reviewNo);
+				    $(htmlTemplate).find(".card").attr("data-reviewno", review.reviewNo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
