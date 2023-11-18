@@ -9,41 +9,47 @@
 <title>리뷰 목록 페이지(+댓글)</title>
 </head>
 
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 	$(function(){
 		var params = new URLSearchParams(location.search);
 	    var reviewNo = params.get("reviewNo");
+	    console.log(reviewNo);
 	    
 	    $.ajax({
 	    	url: "http://localhost:8080/rest/reply/findAll?reviewNo=" + reviewNo,
 	    	method: "post",
 	    	data: {
-	    		memberNickname : "reply.memberNickname",
-	    		replyDate: "reply.replyDate",
-	    		replyContent : "reply.replyContent"
+				reviewNo : reviewNo
 	    	},
 	    	success: function(response){
+	    		console.log(response);
+	    		
 	    		$(".reply-list").empty();
 	    		
 	    		for (var i = 0; i < response.length; i++) {
 	    			var reply = response[i];
 	    			
+	    			var template = $("#reply-template").html();
+	    			var htmlTemplate = $.parseHTML(template);
 	    			
-	    			var replyItem = 
-	    				'<div class="reply-item">' +
-	    				'<span class="memberNickname">' + reply.memberNickname + '</span><br>' +
-	    				'<span class="replyDate">' + reply.replyDate + '</span><br>' +
-	    				'<span class="replyContent">' + reply.replyContent + '</span>' + 
-	    				'<hr>' +
-			           '</div>';
-	    			
-			    	$(".reply-list").append(replyItem);
+					$(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
+					$(htmlTemplate).find(".replyDate").text(reply.replyDate);
+					$(htmlTemplate).find(".reviewContent").text(reply.replyContent);
+					
+					$(".reply-list").append(htmlTemplate);
 	    		}
 	    	}
 	    });
 	});
 </script>
+<script id="reply-template" type="text/template">
+		<div><span class="memberNickname"></span></div>
+    	<div><span class="replyDate"></span></div>
+    	<div><span class="replyContent"></span></div>
+</script>
+
 <body>
 	
 	<div>

@@ -11,17 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/reply")
 public class ReplyRestController {
 	
 	@Autowired
-	private ReviewDao reviewDao;
+	private ReviewDao replyDao;
 	
 	//댓글 조회
 	@PostMapping("/findAll")
 	public List<MovieSimpleInfoDto> findAll(int reviewNo){
-		return reviewDao.findAll(reviewNo);
+		log.debug("reviewNo = {}", reviewNo);
+		return replyDao.findAll(reviewNo);
 	}
 }
