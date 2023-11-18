@@ -5,9 +5,12 @@ import java.util.List;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
+import com.kh.movie.vo.AgeGroupRecommendVO;
+import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MovieDetailActorVO;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieVO;
+import com.kh.movie.vo.PreferGenreByMemberRecommendVO;
 
 public interface MovieDao {
 	int sequence();
@@ -29,6 +32,9 @@ public interface MovieDao {
 	List<MovieDetailActorVO> findActorListByMovieNo(int movieNo);
 	List<MovieListVO> findAllMovieList();
 	MovieVO findByMovieNoVO(int movieNo);
+	List<PreferGenreByMemberRecommendVO> getPreferGenreByMember(String memberNickname);
+	List<AgeGroupRecommendVO> getAgeGroup(String memberBirth);
+	List<GenderRecommendVO> getGender(String memberGender);
 	
 
 }

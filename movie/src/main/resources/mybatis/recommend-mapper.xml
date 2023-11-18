@@ -20,8 +20,8 @@
 	</select>
 	
 	<select id="ageGroup" resultType="AgeGroupRecommendVO">
-		select * from age_group_recomend
-		where age_group = TRUNC((EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(#{memberBirth}, 'YYYY-MM-DD'))) / 10) * 10;
+		select * from age_group_recommend
+		where age_group = TRUNC((EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(#{memberBirth}, 'YYYY-MM-DD'))) / 10) * 10
 	</select>
 	
 	<select id="gender" resultType="GenderRecommendVO">
