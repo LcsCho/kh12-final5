@@ -9,23 +9,26 @@
 	<!-- 등록(가입) -->
 	<insert id="join">
 		insert into member(
-		member_id, member_pw, member_nickname, member_birth, member_gender, member_contact) 
+		member_id, member_pw,
+		member_nickname, member_birth, member_gender, member_contact)
 		values(
-		#{memberId}, #{memberPw},#{memberNickname}, #{memberBirth},#{memberGender}, #{memberContact})
+		#{memberId}, #{memberPw},#{memberNickname},
+		#{memberBirth},#{memberGender}, #{memberContact})
 	</insert>
 
 	<!-- 수정 -->
 	<update id="edit">
 		update member set
-		 member_nickname = #{memberNickname},
-		 member_birth = #{memberBirth},
-		 member_contact = #{memberContact} 
-		 where member_id = #{memberId}
+		member_nickname = #{memberNickname},
+		member_birth = #{memberBirth},
+		member_contact = #{memberContact}
+		where member_id = #{memberId}
 	</update>
 
 	<!-- 비밀번호 변경 -->
 	<update id="editByPw">
-		update member set member_pw = #{memberPw} where member_id = #{memberId}
+		update member set member_pw = #{memberPw} where
+		member_id = #{memberId}
 	</update>
 
 	<!-- 전체 조회 -->
@@ -35,48 +38,51 @@
 
 	<!-- 상세 조회 -->
 	<select id="findByMemberId" resultType="MemberDto">
-		select * from member where member_id = #{memberId}
+		select * from member
+		where member_id = #{memberId}
 	</select>
 
 	<!-- 삭제 -->
 	<delete id="remove">
 		delete member where member_id = #{memberId}
 	</delete>
-	
+
 	<!-- 마지막 로그인 시간 갱신 -->
 	<update id="lastLogin">
 		update member
 		<set>
-		member_last_login = sysdate 
+			member_last_login = sysdate
 		</set>
 		where member_id = #{memberId}
 	</update>
-	
+
 	<!-- 마지막 정보 수정일 갱신 -->
 	<update id="lastUpdate">
 		update member
 		<set>
-		member_last_update = sysdate
+			member_last_update = sysdate
 		</set>
 		where member_id = #{memberId}
 	</update>
-	
+
 	<!-- 회원 닉네임 조회 -->
 	<select id="nickCheck" resultType="MemberDto">
-		select * from member where member_nickname = #{memberNickname}
+		select * from member where
+		member_nickname = #{memberNickname}
 	</select>
-	
+
 	<!-- 회원 수 출력 쿼리문 -->
 	<select id="count" resultType="int">
 		select count(*) from member
 	</select>
-	
+
 	<!-- 회원 아이디로 회원 닉네임 검색 -->
 	<select id="findNicknameById" resultType="String">
-		select member_nickname from member where member_id = #{memberId}
+		select member_nickname
+		from member where member_id = #{memberId}
 	</select>
 
-  <!-- 관리자가 회원 등급 수정하는 쿼리문 -->
+	<!-- 관리자가 회원 등급 수정하는 쿼리문 -->
 	<update id="updateMemberLevel">
 		update member
 		<set>
@@ -86,19 +92,28 @@
 		</set>
 		where member_id = #{memberId}
 	</update>
-	
+
 	<insert id="insertMemberImage">
-		insert into member_image(member_id,image_no) values(#{memberId},#{imageNo})
+		insert into member_image(member_id,image_no)
+		values(#{memberId},#{imageNo})
 	</insert>
-	
+
 	<select id="findMemberImage" resultType="int">
-		select image_no from member_image 
+		select image_no from
+		member_image
 		where member_id =#{memberId}
 	</select>
 
-	<select id="adminSearch" parameterType="String" resultType="MemberDto">
-		SELECT * 
-    	FROM member 
-    	WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
+	<select id="adminSearch" parameterType="String"
+		resultType="MemberDto">
+		SELECT *
+		FROM member
+		WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
+	</select>
+
+	<select id="ageGroup" resultType="MemberAgeGroupVO">
+		SELECT *
+		FROM member_age_group
+		where member_id = #{memberId}
 	</select>
 </mapper>

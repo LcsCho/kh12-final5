@@ -31,7 +31,7 @@
 	<select id="ageGroupGender" resultType="AgeGroupGenderRecommendVO">
 		select * from age_group_gender_recommend
 		where member_gender = #{memberGender}
-		and AGE_group = TRUNC((EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(#{memberBirth}, 'YYYY-MM-DD'))) / 10) * 10;
+		and AGE_group = TRUNC((EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(#{memberBirth}, 'YYYY-MM-DD'))) / 10) * 10
 	</select>
 	
 	<select id="wishMovie" resultType="WishMovieRecommendVO">
