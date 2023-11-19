@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.vo.ActorDetailVO;
 import com.kh.movie.vo.AdminMovieListVO;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
@@ -151,6 +152,11 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public List<MovieDetailVO> getImgs(int movieNo) {
 		return sqlSession.selectList("image.imgNo", movieNo);
+	}
+	
+	@Override
+	public List<ActorDetailVO> getActor(int movieNo) {
+		return sqlSession.selectList("movie.findActorByMovieNo", movieNo);
 	}
 	
 }

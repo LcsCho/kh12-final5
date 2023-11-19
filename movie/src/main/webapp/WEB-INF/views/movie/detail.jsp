@@ -77,61 +77,12 @@ body {
 </script>
 
 <script>
-//평점 기능
-    $(document).ready(function () {
-    	var params = new URLSearchParams(location.search);
-    	var movieNo = params.get("movieNo");
-        // 별 아이콘 클릭 이벤트
-        $('#ratingStars i').on('click', function () {
-            var rating = $(this).data('rating');
-            $('#selectedRating').text('선택된 평점: ' + rating);
-
-           // 여기에 Ajax 요청을 보내서 서버에 평점을 저장하는 로직을 추가할 수 있습니다.
-            $.ajax({
-                url: '/saveRating',
-                method: 'POST',
-                data: { 
-                	rating: rating, 
-                	movieNo: movieNo
-                },
-                success: function (response) {
-                    // 성공적으로 처리된 경우 추가적인 로직을 작성할 수 있습니다.
-                },
-                error: function (error) {
-                    console.error('Error saving rating:', error);
-                }
-            });
-        });
-    });
 	//평점 기능
 </script>
 
 </head>
 <body>
 
-    <!-- Movie Details Section -->
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Movie Poster -->                                                                                                                                                                                                                                                                                                                                                                        
-            <div class="col-md-4 text-center">
-                <img src="https://via.placeholder.com/300" alt="Movie Poster" class="img-fluid">
-                <!-- Rating Section -->
-                <h4 class="mt-4">별점</h4>
-               <div id="ratingStars">
-			        <i class="fa fa-star" data-rating="0.5"></i>
-			        <i class="fa fa-star" data-rating="1"></i>
-			        <i class="fa fa-star" data-rating="1.5"></i>
-			        <i class="fa fa-star" data-rating="2"></i>
-			        <i class="fa fa-star" data-rating="2.5"></i>
-			        <!-- 추가적으로 필요한 만큼의 별 아이콘을 추가합니다 -->
-			    </div>
-     		</div>
-            <!-- Movie Information -->
-            <div class="col-md-8">
-                <h2>${movieDto.movieName} <i class="fa-regular fa-bookmark"></i></h2>
-                <p><strong>출시년도: </strong> <fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" /></p>
-                <p><strong>영화 장르: </strong>
-                <c:forEach var="movieGenreDto" items="${movieGenreList}" varStatus="loopStatus">
 	<!-- Movie Details Section -->
 	<div class="container mt-4">
 		<div class="row">
@@ -158,6 +109,9 @@ body {
 					<i class="fa-regular fa-bookmark"></i>
 				</h2>
 				<p>
+					<strong>영화감독: </strong> ${movieDto.movieDirector}
+				</p>
+				<p>
 					<strong>출시년도: </strong>
 					<fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" />
 				</p>
@@ -183,10 +137,6 @@ body {
 				</p>
 
 			</div>
-
-			<!-- Cast Section -->
-			<h4 class="mt-3">출연자</h4>
-
 			<!-- Still Cut Section -->
 			<h4 class="mt-3">영화 갤러리</h4>
 			<c:if test="${movieDetailList != null}">
@@ -197,6 +147,21 @@ body {
 					</div>
 				</c:forEach>
 			</c:if>
+
+			<!-- Cast Section -->
+			<h4 class="mt-3">출연자</h4>
+			<c:if test="${actorDetailList != null}">
+				<c:forEach var="actorDetailVO" items="${actorDetailList}">
+
+					<div class="col" style="width: 215px;">
+						<p>${actorDetailVO.actorName}</p>
+						<p>${actorDetailVO.actorRole}</p>
+						<img src="/image/${actorDetailVO.actorNo}" class="img-thumbnail"
+							style="width: 215px; height: 300px">
+					</div>
+				</c:forEach>
+			</c:if>
+
 			<!-- Review Section -->
 			<div class="container">
 				<div class="row">
