@@ -48,7 +48,7 @@ public class HomeController {
 	private RecommendDao recommendDao;
 
 	@RequestMapping("/")
-	public String main(Model model, HttpSession session, HttpServletRequest request) {
+	public String main(Model model, HttpSession session) {
 		List<MovieListVO> movieList = movieDao.findAllMovieList();
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("movieList", movieList);
@@ -254,9 +254,6 @@ public class HomeController {
 			///////////////////////////////////////////////////
 			
 		    // 영화 검색 구문
-		    String movieName = request.getParameter("name");
-		    log.debug("movieName = {}", movieName);
-		    return "home";
 		}
 
 		return "main";
