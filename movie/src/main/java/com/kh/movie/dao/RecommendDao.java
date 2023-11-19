@@ -2,6 +2,7 @@ package com.kh.movie.dao;
 
 import java.util.List;
 
+import com.kh.movie.dto.RatingDto;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
@@ -26,5 +27,7 @@ public interface RecommendDao {
 	List<PreferGenreByMemberRecommendVO> getPreferGenreByMember(String memberNickname);
 	// 찜목록 추천
 	List<WishMovieRecommendVO> getWishMovie(String memberId);
+	// 다시보기 추천
+	List<RatingDto> selectList(String memberId);
 
 }

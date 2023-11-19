@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.movie.dao.MemberDao;
@@ -17,6 +16,7 @@ import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
 import com.kh.movie.dto.MemberDto;
+import com.kh.movie.dto.RatingDto;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
@@ -99,6 +99,18 @@ public class HomeController {
 
 		
 		///////////////////////////////////////////////
+		
+		
+		// 오늘의 영화 추천
+		
+		
+		
+		
+		
+		
+		
+		
+		/////////////////////////////
 		
 		// 회원 로그인 했을 때 출력
 		if (session.getAttribute("name") != null) {
@@ -219,6 +231,26 @@ public class HomeController {
 			}
 //			log.debug("wishMovieList = {}", wishMovieList);
 			model.addAttribute("wishMovieList", wishMovieList);
+			
+			// 다시보기 추천
+			List<RatingDto> ratingList = recommendDao.selectList(memberId);
+			List<MovieListVO> againRecommendList = new ArrayList<>();
+			
+			for (RatingDto rating : ratingList) {
+				int movieNo = rating.getMovieNo();
+				MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
+				
+				// MovieListVO 객체 생성
+				MovieListVO againRecommendMovie = new MovieListVO();
+				BeanUtils.copyProperties(movieVO, againRecommendMovie);
+
+				// 리스트에 추가
+				againRecommendList.add(againRecommendMovie);
+			}
+//			log.debug("againRecommendList = {}", againRecommendList);
+			model.addAttribute("againRecommendList", againRecommendList);
+			
+			///////////////////////////////////////////////////
 		}
 
 		return "main";

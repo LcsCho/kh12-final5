@@ -275,10 +275,10 @@
 							<c:otherwise>
 								<c:choose>
 									<c:when test="${memberGender == '남자'}">
-										<h3>${ageGroup}대남성을위한영화를 추천드려요!</h3>
+										<h3>${ageGroup}대남성을위한영화를추천드려요!</h3>
 									</c:when>
 									<c:otherwise>
-										<h3>${ageGroup}대여성을위한영화를 추천드려요!</h3>
+										<h3>${ageGroup}대여성을위한영화를추천드려요!</h3>
 									</c:otherwise>
 								</c:choose>
 							</c:otherwise>
@@ -350,6 +350,43 @@
 							</div>
 						</c:forEach>
 					</div>
+				</c:if>
+
+				<!-- 다시보기 추천 -->
+				<c:if test="${againRecommendList != null and not empty againRecommendList}">
+				<div class="row mt-5">
+					<div class="col">
+						<h3>봤던 영화 다시 보는건 어떠세요!</h3>
+					</div>
+				</div>
+				<div class="row">
+					<c:forEach var="againRecommendVO"
+						items="${againRecommendList}">
+						<div class="col-sm-6 col-md-4 col-lg-3 p-3">
+							<div>
+								<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
+									<img src="/image/${againRecommendVO.imageNo}"
+									class="img-thumbnail" style="width: 215px; height: 300px">
+								</a>
+							</div>
+							<div class="col" style="width: 215px;">
+								<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
+									${againRecommendVO.movieName} </a>
+							</div>
+							<div class="col" style="width: 215px;">
+								<fmt:formatDate value="${againRecommendVO.movieReleaseDate}"
+									pattern="yyyy" />
+								/ ${againRecommendVO.movieNation}
+							</div>
+							<c:if test="${againRecommendVO.ratingAvg != 0}">
+								<div class="col" style="width: 215px;">
+									평균 <i class="fa-solid fa-star"></i>
+									${againRecommendVO.ratingAvg}점
+								</div>
+							</c:if>
+						</div>
+					</c:forEach>
+				</div>
 				</c:if>
 			</c:if>
 
