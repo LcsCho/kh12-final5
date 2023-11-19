@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class MovieDetailVO {
-	private int movieNo, mainImgNo, detailImgNo;
+public class MovieRatingAvgVO {
+	private int movieNo;
+	private float ratingAvg;
+	private String movieName;
 }

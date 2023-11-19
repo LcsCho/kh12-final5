@@ -21,7 +21,7 @@ import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.dto.ReviewDto;
-import com.kh.movie.vo.MovieListVO;
+import com.kh.movie.vo.MovieRatingAvgVO;
 import com.kh.movie.vo.ReviewListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -73,9 +73,9 @@ public class MovieController {
 	    }
 	    
 	    //리뷰 상세 조회
-		List<ReviewListVO> reviewListVO = reviewDao.findByReviewNo(reviewNo);
-		if (reviewListVO != null && !reviewListVO.isEmpty()) {
-		    model.addAttribute("review", reviewListVO.get(0));
+		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
+		if (reviewListVO != null) {
+		    model.addAttribute("review", reviewListVO);
 		}
 		
 		//댓글 조회
@@ -94,6 +94,26 @@ public class MovieController {
 		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
 		List<MovieListVO> movieList = movieDao.findAllMovieList();
 		int ratingCount = ratingDao.getCount();
+		
+		// 영화의 평점 평균을 구하는 코드
+		if (ratingDao.getRatingAvg(movieNo) != null) {
+			MovieRatingAvgVO movieRatingVO = ratingDao.getRatingAvg(movieNo);
+			float ratingAvg = movieRatingVO.getRatingAvg();
+			model.addAttribute("ratingAvg", ratingAvg);
+		}
+		
+		// 영화의 포스터와 갤러리를 구하는 코드
+		if (movieDao.getImgs(movieNo) != null) {
+			List<MovieDetailVO> movieDetailList = movieDao.getImgs(movieNo);
+			int mainImgNo = 0;
+			for (MovieDetailVO movieDetail : movieDetailList) {
+				mainImgNo = movieDetail.getMainImgNo();
+			}
+			model.addAttribute("mainImgNo", mainImgNo);
+			model.addAttribute("movieDetailList", movieDetailList);
+		}
+		
+		// model
 		model.addAttribute("movieDto", movieDto);
 		model.addAttribute("movieGenreList", movieGenreList);
 		model.addAttribute("reviewList", reviewList);
@@ -102,8 +122,17 @@ public class MovieController {
 		return "movie/detail";
 	}
 	
-//	@RequestMapping("/searchList")
-//	public String searchList() {
-//		
-//	}
+	//리뷰 상세 페이지에서 리뷰(+평점) 삭제
+	@RequestMapping("/delete")
+	public String delete(@RequestParam int reviewNo) {
+		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
+		boolean result = reviewDao.delete(reviewNo);
+		if(result) {
+			return "redirect:movie/review/list";
+		}else {
+			return "redirect:에러페이지";
+		}
+	}
+	
+
 }

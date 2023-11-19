@@ -17,6 +17,11 @@ public class ReplyDaoImpl implements ReplyDao{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@Override
+	public int sequene() {
+		return sqlSession.selectOne("reply.sequence");
+	}
+	
 	//댓글 조회
 	@Override
 	public List<ReplyDto> findAll(int reviewNo){

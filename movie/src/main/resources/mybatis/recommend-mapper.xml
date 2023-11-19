@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="recommend">
+
+	<select id="mvcTop10" resultType="MVCTop10RecommendVO">
+		select * from mvc_top_10_recommend
+	</select>
+
+	<select id="mvcCriticTop10" resultType="MVCCriticTop10RecommendVO">
+		select * from mvc_top_10_recommend
+	</select>
+
+	<select id="preferGenreByMember" resultType="PreferGenreByMemberRecommendVO">
+		select distinct * from prefer_genre_by_member_recommend
+		where member_nickname = #{memberNickname}
+	</select>
+	
+	<select id="ageGroup" resultType="AgeGroupRecommendVO">
+		select * from age_group_recommend
+		where age_group = TRUNC((EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(#{memberBirth}, 'YYYY-MM-DD'))) / 10) * 10
+	</select>
+	
+	<select id="gender" resultType="GenderRecommendVO">
+		select * from gender_recommend where member_gender = #{memberGender}
+	</select>
+	
+	<select id="ageGroupGender" resultType="AgeGroupGenderRecommendVO">
+		select * from age_group_gender_recommend
+		where member_gender = #{memberGender}
+		and AGE_group = TRUNC((EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(#{memberBirth}, 'YYYY-MM-DD'))) / 10) * 10
+	</select>
+	
+	<select id="wishMovie" resultType="WishMovieRecommendVO">
+		select * from wish_movie_recommend where member_id = #{memberId}
+	</select>
+	
+	<select id="again" resultType="RatingDto">
+		select * from rating where member_id = #{memberId} and rating_score >= 3.0
+	</select>
+
+</mapper>

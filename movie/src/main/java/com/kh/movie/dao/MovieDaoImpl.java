@@ -11,8 +11,14 @@ import org.springframework.stereotype.Repository;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.vo.AdminMovieListVO;
+import com.kh.movie.vo.AgeGroupGenderRecommendVO;
+import com.kh.movie.vo.AgeGroupRecommendVO;
+import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MovieDetailActorVO;
+import com.kh.movie.vo.MovieDetailVO;
 import com.kh.movie.vo.MovieListVO;
+import com.kh.movie.vo.MovieVO;
+import com.kh.movie.vo.PreferGenreByMemberRecommendVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +38,7 @@ public class MovieDaoImpl implements MovieDao{
 	public MovieDto findByMovieNo(int movieNo) {
 		return sqlSession.selectOne("movie.findByMovieNo", movieNo);
 	}
+
 	
 	@Override
 	public List<MovieDto> selectList() {
@@ -128,6 +135,22 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public List<MovieListVO> findAllMovieList() {
 		return sqlSession.selectList("movie.findAllMovieList");
+	}
+	
+	@Override
+	public List<MovieListVO> getMovieSearch(String movieName) {
+		return sqlSession.selectList("movie.findMovieByMovieName", movieName);
+	}
+	
+	
+	@Override
+	public MovieVO findByMovieNoVO(int movieNo) {
+		return sqlSession.selectOne("movie.findByMovieNoVO", movieNo);
+	}
+	
+	@Override
+	public List<MovieDetailVO> getImgs(int movieNo) {
+		return sqlSession.selectList("image.imgNo", movieNo);
 	}
 	
 }

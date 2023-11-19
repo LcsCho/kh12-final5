@@ -6,6 +6,10 @@
     
 <mapper namespace="reply">
 
+	<select id="sequence" resultType="int">
+		select reply_seq.nextval from dual
+	</select>
+
 	<!-- 등록 -->
 	<insert id="save">
 		insert into reply (

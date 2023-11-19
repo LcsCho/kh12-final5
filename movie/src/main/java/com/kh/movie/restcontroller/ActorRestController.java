@@ -183,6 +183,16 @@ public class ActorRestController {
 	public List<Integer> findImageNoByActorName(@PathVariable String actorName){
 		return actorDao.findImageNoByActorName(actorName);
 	}
+	
+	@GetMapping("/findActorNoByImageNo/{imageNo}")
+	public ResponseEntity<Integer> findActorNoByImageNo(@PathVariable int imageNo) {
+	    int actorNo = imageDao.findActorNoByImageNo(imageNo);
+	    if (actorNo != 0) {
+	        return ResponseEntity.ok(actorNo);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
+	}
 
 	
 }
