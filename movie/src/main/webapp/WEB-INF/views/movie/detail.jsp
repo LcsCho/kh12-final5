@@ -133,6 +133,9 @@ body {
 					<i class="fa-regular fa-bookmark"></i>
 				</h2>
 				<p>
+					<strong>영화감독: </strong> ${movieDto.movieDirector}
+				</p>
+				<p>
 					<strong>출시년도: </strong>
 					<fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" />
 				</p>
@@ -158,10 +161,6 @@ body {
 				</p>
 
 			</div>
-
-			<!-- Cast Section -->
-			<h4 class="mt-3">출연자</h4>
-
 			<!-- Still Cut Section -->
 			<h4 class="mt-3">영화 갤러리</h4>
 			<c:if test="${movieDetailList != null}">
@@ -172,6 +171,21 @@ body {
 					</div>
 				</c:forEach>
 			</c:if>
+
+			<!-- Cast Section -->
+			<h4 class="mt-3">출연자</h4>
+			<c:if test="${actorDetailList != null}">
+				<c:forEach var="actorDetailVO" items="${actorDetailList}">
+
+					<div class="col" style="width: 215px;">
+						<p>${actorDetailVO.actorName}</p>
+						<p>${actorDetailVO.actorRole}</p>
+						<img src="/image/${actorDetailVO.actorNo}" class="img-thumbnail"
+							style="width: 215px; height: 300px">
+					</div>
+				</c:forEach>
+			</c:if>
+
 			<!-- Review Section -->
 			<div class="container">
 				<div class="row">

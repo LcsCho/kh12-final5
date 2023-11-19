@@ -21,6 +21,7 @@ import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.dto.ReviewDto;
+import com.kh.movie.vo.ActorDetailVO;
 import com.kh.movie.vo.MovieDetailVO;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieRatingAvgVO;
@@ -115,6 +116,11 @@ public class MovieController {
 			model.addAttribute("movieDetailList", movieDetailList);
 		}
 		
+		// 영화번호의 배우를 구하는 코드
+		if (movieDao.getActor(movieNo) != null) {
+			List<ActorDetailVO> actorDetailList = movieDao.getActor(movieNo);
+			model.addAttribute("actorDetailList", actorDetailList);
+		}
 		// model
 		model.addAttribute("movieDto", movieDto);
 		model.addAttribute("movieGenreList", movieGenreList);
