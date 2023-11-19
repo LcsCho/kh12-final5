@@ -129,5 +129,5 @@ public class MovieDaoImpl implements MovieDao{
 	public List<MovieListVO> findAllMovieList() {
 		return sqlSession.selectList("movie.findAllMovieList");
 	}
-
+	
 }

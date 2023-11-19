@@ -27,6 +27,5 @@ public interface MovieDao {
 	List<Integer> findDetailImageNoByMovieNo(int movieNo);
 	List<MovieDetailActorVO> findActorListByMovieNo(int movieNo);
 	List<MovieListVO> findAllMovieList();
-	
 
 }

@@ -23,7 +23,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 p-3">
                     	<div>
                     		<a href="/movie/detail?movieNo=${movieListVO.movieNo}">
-                        		<img src="/image/${movieListVO.imageNo}" class="img-thumbnail"  style="width: 215px; height: 300px">
+                        		<img src="/image/movieMain/${movieListVO.movieNo}" class="img-thumbnail"  style="width: 215px; height: 300px">
                         	</a>
                         </div>
                         <div class="col" style="width: 215px;">
