@@ -15,6 +15,7 @@ import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MovieDetailActorVO;
+import com.kh.movie.vo.MovieDetailVO;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieVO;
 import com.kh.movie.vo.PreferGenreByMemberRecommendVO;
@@ -145,6 +146,11 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	public MovieVO findByMovieNoVO(int movieNo) {
 		return sqlSession.selectOne("movie.findByMovieNoVO", movieNo);
+	}
+	
+	@Override
+	public List<MovieDetailVO> getImgs(int movieNo) {
+		return sqlSession.selectList("image.imgNo", movieNo);
 	}
 	
 }

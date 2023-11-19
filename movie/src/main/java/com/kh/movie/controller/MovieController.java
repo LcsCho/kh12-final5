@@ -21,6 +21,8 @@ import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.dto.ReviewDto;
+import com.kh.movie.vo.MovieDetailVO;
+import com.kh.movie.vo.MovieRatingAvgVO;
 import com.kh.movie.vo.ReviewListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -92,6 +94,26 @@ public class MovieController {
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
 		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
 		int ratingCount = ratingDao.getCount();
+		
+		// 영화의 평점 평균을 구하는 코드
+		if (ratingDao.getRatingAvg(movieNo) != null) {
+			MovieRatingAvgVO movieRatingVO = ratingDao.getRatingAvg(movieNo);
+			float ratingAvg = movieRatingVO.getRatingAvg();
+			model.addAttribute("ratingAvg", ratingAvg);
+		}
+		
+		// 영화의 포스터와 갤러리를 구하는 코드
+		if (movieDao.getImgs(movieNo) != null) {
+			List<MovieDetailVO> movieDetailList = movieDao.getImgs(movieNo);
+			int mainImgNo = 0;
+			for (MovieDetailVO movieDetail : movieDetailList) {
+				mainImgNo = movieDetail.getMainImgNo();
+			}
+			model.addAttribute("mainImgNo", mainImgNo);
+			model.addAttribute("movieDetailList", movieDetailList);
+		}
+		
+		// model
 		model.addAttribute("movieDto", movieDto);
 		model.addAttribute("movieGenreList", movieGenreList);
 		model.addAttribute("reviewList", reviewList);

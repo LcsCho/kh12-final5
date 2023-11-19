@@ -20,6 +20,11 @@
 		select * from rating where rating_no = #{ratingNo}
 	</select>
 	
+	<!-- 영화 번호로 해당 영화의 평균 평점 조회 -->
+	<select id="avgByMovieNo" resultType="MovieRatingAvgVO">
+		select * from movie_rating_avg where movie_no = #{movieNo}
+	</select>
+	
 	<!-- 등록 -->
 	<insert id="add">
 		insert into rating(rating_no, movie_no, member_id, rating_score) 

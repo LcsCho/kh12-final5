@@ -34,4 +34,10 @@
 		select actor_no from actor_image where image_no = #{imageNo}
 	</select>
 	
+		
+	<!-- 영화 포스터와 갤러리를 구하는 쿼리문 -->
+	<select id="imgNo" resultType="MovieDetailVO">
+		select * from movie_detail where movie_no = #{movieNo}
+	</select>
+	
 </mapper>
