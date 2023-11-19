@@ -376,12 +376,12 @@
 							<div class="col" style="width: 215px;">
 								<fmt:formatDate value="${againRecommendVO.movieReleaseDate}"
 									pattern="yyyy" />
-								/ ${againRecommendVO.movieNation}
+								/ ${wishMovieVO.movieNation}
 							</div>
-							<c:if test="${againRecommendVO.ratingAvg != 0}">
+							<c:if test="${wishMovieVO.ratingAvg != 0}">
 								<div class="col" style="width: 215px;">
 									평균 <i class="fa-solid fa-star"></i>
-									${againRecommendVO.ratingAvg}점
+									${wishMovieVO.ratingAvg}점
 								</div>
 							</c:if>
 						</div>

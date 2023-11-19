@@ -446,10 +446,10 @@ $(document).ready(function () {
                                         </div>
 
                                         <div class="col-8 d-flex justify-content-end">
-                                            <form action="" method="get" class="d-flex" autocomplete="off">
+                                            <form action="/" method="post" class="d-flex" autocomplete="off">
                                                 <input class="form-control me-sm-2 custom-search" type="search"
                                                     placeholder="영화 제목을 검색해보세요" style="height: fit-content;" 
-                                                    name="keyword" value="">
+                                                    name="name" value="">
                                                 <button class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
                                                     type="submit" style="height: fit-content;">검색</button>
                                             </form>

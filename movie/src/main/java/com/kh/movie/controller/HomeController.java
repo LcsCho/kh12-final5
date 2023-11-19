@@ -3,6 +3,7 @@ package com.kh.movie.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
@@ -47,7 +48,7 @@ public class HomeController {
 	private RecommendDao recommendDao;
 
 	@RequestMapping("/")
-	public String main(Model model, HttpSession session) {
+	public String main(Model model, HttpSession session, HttpServletRequest request) {
 		List<MovieListVO> movieList = movieDao.findAllMovieList();
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("movieList", movieList);
@@ -251,6 +252,11 @@ public class HomeController {
 			model.addAttribute("againRecommendList", againRecommendList);
 			
 			///////////////////////////////////////////////////
+			
+		    // 영화 검색 구문
+		    String movieName = request.getParameter("name");
+		    log.debug("movieName = {}", movieName);
+		    return "home";
 		}
 
 		return "main";
