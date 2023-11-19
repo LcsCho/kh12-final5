@@ -21,6 +21,8 @@ import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.dto.ReviewDto;
+import com.kh.movie.vo.MovieDetailVO;
+import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieRatingAvgVO;
 import com.kh.movie.vo.ReviewListVO;
 

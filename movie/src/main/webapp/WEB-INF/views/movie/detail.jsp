@@ -103,35 +103,10 @@ body {
             });
         });
     });
-	//평점 기능
 </script>
 
 </head>
 <body>
-
-    <!-- Movie Details Section -->
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Movie Poster -->                                                                                                                                                                                                                                                                                                                                                                        
-            <div class="col-md-4 text-center">
-                <img src="https://via.placeholder.com/300" alt="Movie Poster" class="img-fluid">
-                <!-- Rating Section -->
-                <h4 class="mt-4">별점</h4>
-               <div id="ratingStars">
-			        <i class="fa fa-star" data-rating="0.5"></i>
-			        <i class="fa fa-star" data-rating="1"></i>
-			        <i class="fa fa-star" data-rating="1.5"></i>
-			        <i class="fa fa-star" data-rating="2"></i>
-			        <i class="fa fa-star" data-rating="2.5"></i>
-			        <!-- 추가적으로 필요한 만큼의 별 아이콘을 추가합니다 -->
-			    </div>
-     		</div>
-            <!-- Movie Information -->
-            <div class="col-md-8">
-                <h2>${movieDto.movieName} <i class="fa-regular fa-bookmark"></i></h2>
-                <p><strong>출시년도: </strong> <fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" /></p>
-                <p><strong>영화 장르: </strong>
-                <c:forEach var="movieGenreDto" items="${movieGenreList}" varStatus="loopStatus">
 	<!-- Movie Details Section -->
 	<div class="container mt-4">
 		<div class="row">
