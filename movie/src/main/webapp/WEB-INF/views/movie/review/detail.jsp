@@ -53,6 +53,8 @@
 	    			var template = $("#reply-template").html();
 	    			var htmlTemplate = $.parseHTML(template);
 	    			
+	    			$(htmlTemplate).find(".fa-x").attr("data-replyno", reply.replyNo);
+	    			
 					$(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
 					$(htmlTemplate).find(".replyDate").text(reply.replyDate);
 					$(htmlTemplate).find(".replyContent").text(reply.replyContent);
@@ -61,20 +63,25 @@
 	    		}
 	    	}
 	    });
+	    
+	    
 	});
 </script>
 
 <script id="reply-template" type="text/template">
-			<hr>
+	<hr>
 	<div class="row">
-        <div class="col-sm-6 offset-sm-3">
+        <div class="col-8 offset-2">
 			
             <div class="row">
                 <div class="col-3">
                     <span class="memberNickname"></span>
                 </div>
-                <div class="col-8">
+                <div class="col-6">
                     <span class="replyDate"></span>
+                </div>
+				<div class="col-3 d-flex justify-content-end">
+                    <i class="fa-solid fa-x" style="position: relative; top: 10px; right: 20px;"></i>
                 </div>
             </div>
             <div class="row mt-3">
@@ -90,6 +97,7 @@
 		<div class="row">
 			<div class="col-md-10 offset-md-1 mb-5 mt-5">
 	
+				<!-- 영화 정보 -->
 				<div class="row">
 				     <div class="col-2 offset-4 text-right">
 				         <img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
@@ -117,12 +125,15 @@
 				     </div>
 				 </div>
 			
+				<!-- 리뷰 정보 -->
 				<div class="card mt-3">
 					<div class="card-body">
 						<div>
 							<img src="images/user.png" class="userImage">
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
+							<i class="fa-solid fa-pen-to-square fa-lg eidtReview" style="position: absolute; top: 30px; right: 50px;"></i>
+							<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
 						</div>
 						<div class="mt-3 pb-3">
 							<span class="card-text">${review.reviewContent}</span>
@@ -142,7 +153,8 @@
 						</div>
 					</div>
 				</div>
-					
+				
+				<!-- 댓글 -->
 				<div class="row">
 					<div class="reply-list"></div>
 				</div>
