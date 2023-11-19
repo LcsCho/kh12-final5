@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MovieDto;
+import com.kh.movie.vo.ActorDetailVO;
 import com.kh.movie.vo.AdminMovieListVO;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
@@ -41,5 +42,6 @@ public interface MovieDao {
 	
 	// 영화 상세 코드
 	List<MovieDetailVO> getImgs(int movieNo);
+	List<ActorDetailVO> getActor(int movieNo);
 
 }
