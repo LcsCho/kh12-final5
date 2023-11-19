@@ -33,6 +33,7 @@ public interface MovieDao {
 	List<Integer> findDetailImageNoByMovieNo(int movieNo);
 	List<MovieDetailActorVO> findActorListByMovieNo(int movieNo);
 	List<MovieListVO> findAllMovieList();
+	List<MovieListVO> getMovieSearch(String movieName);
 	
 	// 영화 추천 관련 코드
 	MovieVO findByMovieNoVO(int movieNo);
