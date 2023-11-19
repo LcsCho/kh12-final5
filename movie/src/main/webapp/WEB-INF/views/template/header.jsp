@@ -266,319 +266,166 @@ $(document).ready(function () {
 </head>
 
 <body class="center">
-<!-- 	<main> -->
-<!-- 		<div class="container-fluid"> -->
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col"> -->
+	<main>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col">
 
-<!-- 					<header> -->
-<!-- 						<div class="container-float"> -->
-<!-- 							<div class="row"> -->
-<!-- 								<div class="col-md-10 offset-md-1"> -->
-<!-- 									<div class="row align-items-center me-3 mt-3"> -->
+					<header>
+						<div class="container-float">
+							<div class="row">
+								<div class="col-md-10 offset-md-1">
+									<div class="row align-items-center me-3 mt-3">
 
-<!-- 										<div class="col-4"> -->
-<!-- 											<a href="http://localhost:8080/"> <img -->
-<!-- 												src="../images/mvc.png" width="150"> -->
-<!-- 											</a> -->
-<!-- 										</div> -->
+										<div class="col-4">
+											<a href="http://localhost:8080/"> <img
+												src="../images/mvc.png" width="150">
+											</a>
+										</div>
 
-<!-- 										<div class="col-8 d-flex justify-content-end"> -->
-<!-- 											<form class="d-flex"> -->
-<!-- 												<input class="form-control me-sm-2 custom-search" -->
-<!-- 													type="search" placeholder="콘텐츠, 인물, 유저를 검색해보세요" -->
-<!-- 													style="height: fit-content;"> -->
-<!-- 												<button -->
-<!-- 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn" -->
-<!-- 													type="submit" style="height: fit-content;">검색</button> -->
-<!-- 											</form> -->
-<%-- 											<c:choose> --%>
-<%-- 												<c:when test="${sessionScope.name !=null}"> --%>
-<!-- 													<a href="/member/logout" class="btn c-btn ms-5" -->
-<!-- 														style="height: fit-content;"> <i -->
-<!-- 														class="fa fa-sign-out-alt fa-2xl"></i> -->
-<!-- 													</a> -->
-<!-- 													<a href="/member/mypage" class="btn c-btn" -->
-<!-- 														style="height: fit-content;"> <i -->
-<!-- 														class="fa-solid fa-user fa-2xl"></i> -->
-<!-- 													</a> -->
-<%-- 												</c:when> --%>
-<%-- 												<c:otherwise> --%>
-<!-- 													<a href="#" class="btn c-btn ms-5" data-bs-toggle="modal" -->
-<!-- 														data-bs-target="#loginModal" style="height: fit-content;"> -->
-<!-- 														<i class="fa-solid fa-right-to-bracket fa-2xl"></i> -->
-<!-- 													</a> -->
-<!-- 													<a href="/member/join" class="btn c-btn" -->
-<!-- 														style="height: fit-content;"> <i -->
-<!-- 														class="fa fa-user-plus fa-2xl"></i> -->
-<!-- 													</a> -->
-<%-- 												</c:otherwise> --%>
-<%-- 											</c:choose> --%>
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						로그인 모달 -->
-<!-- 						<div class="modal fade" id="loginModal" tabindex="-1" -->
-<!-- 							aria-labelledby="loginModalLabel" aria-hidden="true"> -->
-<!-- 							<div class="modal-dialog"> -->
-<!-- 								<div class="modal-content"> -->
-<!-- 									<div class="modal-header"> -->
-<!-- 										<h5 class="modal-title" id="loginModalLabel">로그인하기</h5> -->
-<!-- 										<button type="button" class="btn-close" -->
-<!-- 											data-bs-dismiss="modal" aria-label="Close"></button> -->
-<!-- 									</div> -->
-<!-- 									<div class="modal-body"> -->
-<!-- 										로그인 폼 추가 -->
-<!-- 										<form id="loginForm"> -->
-<!-- 											로그인 폼 요소들을 여기에 추가 -->
-<!-- 											<div class="mb-3"> -->
-<!-- 												<input type="text" class="form-control" id="memberId" -->
-<!-- 													name="memberId" placeholder="이메일"> -->
-<!-- 											</div> -->
-<!-- 											<div class="mb-3"> -->
-<!-- 												<input type="password" class="form-control" id="memberPw" -->
-<!-- 													name="memberPw" placeholder="비밀번호"> -->
-<!-- 											</div> -->
-<!-- 											<button type="submit" id="loginBtn" class="btn btn-primary">로그인</button> -->
-<!-- 											비밀번호 찾기 버튼 추가 -->
-<!-- 											<button type="button" class="btn btn-link" -->
-<!-- 												id="forgotPasswordLink">비밀번호 찾기</button> -->
-<!-- 										</form> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
+										<div class="col-8 d-flex justify-content-end">
+											<form class="d-flex">
+												<input class="form-control me-sm-2 custom-search"
+													type="search" placeholder="콘텐츠, 인물, 유저를 검색해보세요"
+													style="height: fit-content;">
+												<button
+													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
+													type="submit" style="height: fit-content;">검색</button>
+											</form>
+											<c:choose>
+												<c:when test="${sessionScope.name !=null}">
+													<a href="/member/logout" class="btn c-btn ms-5"
+														style="height: fit-content;"> <i
+														class="fa fa-sign-out-alt fa-2xl"></i>
+													</a>
+													<a href="/member/mypage" class="btn c-btn"
+														style="height: fit-content;"> <i
+														class="fa-solid fa-user fa-2xl"></i>
+													</a>
+												</c:when>
+												<c:otherwise>
+													<a href="#" class="btn c-btn ms-5" data-bs-toggle="modal"
+														data-bs-target="#loginModal" style="height: fit-content;">
+														<i class="fa-solid fa-right-to-bracket fa-2xl"></i>
+													</a>
+													<a href="/member/join" class="btn c-btn"
+														style="height: fit-content;"> <i
+														class="fa fa-user-plus fa-2xl"></i>
+													</a>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 로그인 모달 -->
+						<div class="modal fade" id="loginModal" tabindex="-1"
+							aria-labelledby="loginModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="loginModalLabel">로그인하기</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<!-- 로그인 폼 추가 -->
+										<form id="loginForm">
+											<!-- 로그인 폼 요소들을 여기에 추가 -->
+											<div class="mb-3">
+												<input type="text" class="form-control" id="memberId"
+													name="memberId" placeholder="이메일">
+											</div>
+											<div class="mb-3">
+												<input type="password" class="form-control" id="memberPw"
+													name="memberPw" placeholder="비밀번호">
+											</div>
+											<button type="submit" id="loginBtn" class="btn btn-primary">로그인</button>
+											<!-- 비밀번호 찾기 버튼 추가 -->
+											<button type="button" class="btn btn-link"
+												id="forgotPasswordLink">비밀번호 찾기</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
 
-<!-- 						비밀번호-재설정 이메일 인증 모달 -->
-<!-- 						<div class="modal fade" id="forgotPasswordModal" tabindex="-1" -->
-<!-- 							aria-labelledby="forgotPasswordModalLabel" aria-hidden="true"> -->
-<!-- 							<div class="modal-dialog"> -->
-<!-- 								<div class="modal-content"> -->
-<!-- 									<div class="modal-header"> -->
-<!-- 										<h5 class="modal-title" id="forgotPasswordModalLabel">비밀번호 -->
-<!-- 											찾기</h5> -->
-<!-- 										<button type="button" class="btn-close" -->
-<!-- 											data-bs-dismiss="modal" aria-label="Close"></button> -->
-<!-- 									</div> -->
-<!-- 									<div class="modal-body"> -->
-<!-- 										<div class="row mb-3"> -->
-<!-- 											<p>비밀번호를 잊으셨나요?</p> -->
-<!-- 											<br> -->
-<!-- 											<p>가입했던 이메일을 적어주세요.</p> -->
-<!-- 											<br> -->
-<!-- 											<p>입력하신 이메일 주소로 인증번호를 보내드릴게요.</p> -->
-<!-- 											<br> -->
-<!-- 										</div> -->
-<!-- 										비밀번호 찾기 폼 추가 -->
-<!-- 										<form id="forgotPasswordForm" action="" method="post" autocomplete="off"> -->
-<!-- 											비밀번호 찾기 폼 요소들을 여기에 추가 -->
-<!-- 											<div class="mb-3"> -->
-<!-- 												<input type="email" class="form-control" id="email" -->
-<!-- 													name="memberId" placeholder="이메일"> -->
-<!-- 											</div> -->
-<!-- 											<button type="button" class="btn-send btn btn-primary"> -->
-<!-- 												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일 -->
-<!-- 													보내기</span> -->
-<!-- 											</button> -->
-<!-- 											<div class="cert-wrapper pt-10"> -->
-<!-- 												<input type="text" class="cert-input form-input w-70"> -->
-<!-- 												<button type="button" class="btn-cert btn btn-navy">확인완료</button> -->
-<!-- 											</div> -->
-<!-- 											<div class="fail-feedback left">이메일 입력 후 인증해주세요</div> -->
-<!-- 											<div class="fail2-feedback left">이미 사용중인 이메일입니다</div> -->
-<!-- 										</form> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
+						<!-- 비밀번호-재설정 이메일 인증 모달 -->
+						<div class="modal fade" id="forgotPasswordModal" tabindex="-1"
+							aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="forgotPasswordModalLabel">비밀번호
+											찾기</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div class="row mb-3">
+											<p>비밀번호를 잊으셨나요?</p>
+											<br>
+											<p>가입했던 이메일을 적어주세요.</p>
+											<br>
+											<p>입력하신 이메일 주소로 인증번호를 보내드릴게요.</p>
+											<br>
+										</div>
+										<!-- 비밀번호 찾기 폼 추가 -->
+										<form id="forgotPasswordForm" action="" method="post" autocomplete="off">
+											<!-- 비밀번호 찾기 폼 요소들을 여기에 추가 -->
+											<div class="mb-3">
+												<input type="email" class="form-control" id="email"
+													name="memberId" placeholder="이메일">
+											</div>
+											<button type="button" class="btn-send btn btn-primary">
+												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일
+													보내기</span>
+											</button>
+											<div class="cert-wrapper pt-10">
+												<input type="text" class="cert-input form-input w-70">
+												<button type="button" class="btn-cert btn btn-navy">확인완료</button>
+											</div>
+											<div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
+											<div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
 
-<!-- 						비밀번호 재설정 모달 -->
-<!-- 						<div class="modal fade" id="resetPasswordModal" tabindex="-1" -->
-<!-- 							aria-labelledby="resetPasswordModalLabel" aria-hidden="true"> -->
-<!-- 							<div class="modal-dialog"> -->
-<!-- 								<div class="modal-content"> -->
-<!-- 									<div class="modal-header"> -->
-<!-- 										<h5 class="modal-title" id="resetPasswordModalLabel">비밀번호 -->
-<!-- 											재설정</h5> -->
-<!-- 										<button type="button" class="btn-close" -->
-<!-- 											data-bs-dismiss="modal" aria-label="Close"></button> -->
-<!-- 									</div> -->
-<!-- 									<div class="modal-body"> -->
-<!-- 										비밀번호 재설정 폼 추가 -->
-<!-- 										<form id="resetPasswordForm" action="member/changePw" -->
-<!-- 											method="post" > -->
-<!-- 											비밀번호 재설정 폼 요소들을 여기에 추가 -->
-<!-- 											<div class="mb-3"> -->
-<!-- 												<input type="password" class="form-control" id="newPassword" -->
-<!-- 													name="newPassword" placeholder="새로운 비밀번호" required> -->
-<!-- 											</div> -->
-<!-- 											<div class="mb-3"> -->
-<!-- 												<input type="password" class="form-control" -->
-<!-- 													id="confirmPassword" name="confirmPassword" -->
-<!-- 													placeholder="비밀번호 확인" required> -->
-<!-- 											</div> -->
-<!-- 											<button type="submit" class="btn btn-primary">비밀번호 -->
-<!-- 												재설정</button> -->
-<!-- 										</form> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</header> -->
-<!-- 					<section> -->
-    <main>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col"> 
-
-                    <header>
-                        <div class="container-float">
-                            <div class="row">
-                                <div class="col-md-10 offset-md-1">
-                                    <div class="row align-items-center me-3 mt-3">
-
-                                        <div class="col-4">
-                                            <a href="http://localhost:8080/">
-                                                <img src="../images/mvc.png" width="150">
-                                            </a>
-                                        </div>
-
-                                        <div class="col-8 d-flex justify-content-end">
-                                            <form action="/" method="post" class="d-flex" autocomplete="off">
-                                                <input class="form-control me-sm-2 custom-search" type="search"
-                                                    placeholder="영화 제목을 검색해보세요" style="height: fit-content;" 
-                                                    name="name" value="">
-                                                <button class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
-                                                    type="submit" style="height: fit-content;">검색</button>
-                                            </form>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.name !=null}">
-                                                    <a href="/member/logout" class="btn c-btn ms-5"
-                                                        style="height: fit-content;">
-                                                        <i class="fa fa-sign-out-alt fa-2xl"></i>
-                                                    </a>
-                                                    <a href="/member/mypage" class="btn c-btn"
-                                                        style="height: fit-content;">
-                                                        <i class="fa-solid fa-user fa-2xl"></i>
-                                                    </a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a href="#" class="btn c-btn ms-5" data-bs-toggle="modal"
-                                                        data-bs-target="#loginModal" style="height: fit-content;">
-                                                        <i class="fa-solid fa-right-to-bracket fa-2xl"></i>
-                                                    </a>
-                                                    <a href="/member/join" class="btn c-btn"
-                                                        style="height: fit-content;">
-                                                        <i class="fa fa-user-plus fa-2xl"></i>
-                                                    </a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 로그인 모달 -->
-                        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="loginModalLabel">로그인하기</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- 로그인 폼 추가 -->
-                                        <form id="loginForm">
-                                            <!-- 로그인 폼 요소들을 여기에 추가 -->
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" id="memberId" name="memberId"
-                                                    placeholder="이메일" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <input type="password" class="form-control" id="memberPw"
-                                                    name="memberPw" placeholder="비밀번호" required>
-                                            </div>
-                                            <button type="submit" id="loginBtn" class="btn btn-primary">로그인</button>
-                                            <!-- 비밀번호 찾기 버튼 추가 -->
-                                            <button type="button" class="btn btn-link" id="forgotPasswordLink">비밀번호
-                                                찾기</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 비밀번호-재설정 이메일 인증 모달 -->
-                        <div class="modal fade" id="forgotPasswordModal" tabindex="-1"
-                            aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="forgotPasswordModalLabel">비밀번호 찾기</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row mb-3">
-                                            <p>비밀번호를 잊으셨나요?</p><br>
-                                            <p>가입했던 이메일을 적어주세요.</p><br>
-                                            <p>입력하신 이메일 주소로 인증번호를 보내드릴게요.</p><br>
-                                        </div>
-                                        <!-- 비밀번호 찾기 폼 추가 -->
-                                        <form id="forgotPasswordForm" action="" method="post">
-                                            <!-- 비밀번호 찾기 폼 요소들을 여기에 추가 -->
-                                            <div class="mb-3">
-                                                <input type="email" class="form-control" id="email" name="memberId"
-                                                    placeholder="이메일" required>
-                                            </div>
-                                            <button type="button" class="btn-send btn btn-primary">
-                                                <i class="fa-solid fa-spinner fa-spin"></i>
-                                                <span>이메일 보내기</span>
-                                            </button>
-                                            <div class="cert-wrapper pt-10">
-                                                <input type="text" class="cert-input form-input w-70">
-                                                <button type="button" class="btn-cert btn btn-navy">확인완료</button>
-                                            </div>
-                                            <div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
-                                            <div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 비밀번호 재설정 모달 -->
-                        <div class="modal fade" id="resetPasswordModal" tabindex="-1"
-                            aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="resetPasswordModalLabel">비밀번호 재설정</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- 비밀번호 재설정 폼 추가 -->
-                                        <form id="resetPasswordForm" action="member/changePw" method="post">
-                                            <!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
-                                            <div class="mb-3">
-                                                <input type="password" class="form-control" id="newPassword"
-                                                    name="newPassword" placeholder="새로운 비밀번호" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <input type="password" class="form-control" id="confirmPassword"
-                                                    name="confirmPassword" placeholder="비밀번호 확인" required>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">비밀번호 재설정</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
-                    <section>
+						<!-- 비밀번호 재설정 모달 -->
+						<div class="modal fade" id="resetPasswordModal" tabindex="-1"
+							aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="resetPasswordModalLabel">비밀번호
+											재설정</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<!-- 비밀번호 재설정 폼 추가 -->
+										<form id="resetPasswordForm" action="member/changePw"
+											method="post" >
+											<!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
+											<div class="mb-3">
+												<input type="password" class="form-control" id="newPassword"
+													name="newPassword" placeholder="새로운 비밀번호" required>
+											</div>
+											<div class="mb-3">
+												<input type="password" class="form-control"
+													id="confirmPassword" name="confirmPassword"
+													placeholder="비밀번호 확인" required>
+											</div>
+											<button type="submit" class="btn btn-primary">비밀번호
+												재설정</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</header>
+					<section>
 

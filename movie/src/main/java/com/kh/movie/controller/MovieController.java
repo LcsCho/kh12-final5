@@ -21,7 +21,6 @@ import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.dto.ReviewDto;
-import com.kh.movie.vo.MovieDetailVO;
 import com.kh.movie.vo.MovieRatingAvgVO;
 import com.kh.movie.vo.ReviewListVO;
 
@@ -93,6 +92,7 @@ public class MovieController {
 		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
 		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
+		List<MovieListVO> movieList = movieDao.findAllMovieList();
 		int ratingCount = ratingDao.getCount();
 		
 		// 영화의 평점 평균을 구하는 코드
@@ -117,6 +117,7 @@ public class MovieController {
 		model.addAttribute("movieDto", movieDto);
 		model.addAttribute("movieGenreList", movieGenreList);
 		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("movieList", movieList);
 		model.addAttribute("ratingCount", ratingCount);
 		return "movie/detail";
 	}
