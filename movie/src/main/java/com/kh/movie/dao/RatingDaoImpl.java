@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.RatingDto;
+import com.kh.movie.vo.MovieRatingAvgVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,5 +54,10 @@ public class RatingDaoImpl implements RatingDao{
 	@Override
 	public int findRatingNoByMemberId(String memberId) {
 		return sqlSession.selectOne("rating.findRatingNoByMemberId", memberId);
+	}
+	
+	@Override
+	public MovieRatingAvgVO getRatingAvg(int movieNo) {
+		return sqlSession.selectOne("rating.avgByMovieNo", movieNo);
 	}
 }

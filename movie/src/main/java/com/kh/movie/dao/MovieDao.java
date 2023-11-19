@@ -9,6 +9,7 @@ import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MovieDetailActorVO;
+import com.kh.movie.vo.MovieDetailVO;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieVO;
 import com.kh.movie.vo.PreferGenreByMemberRecommendVO;
@@ -37,5 +38,8 @@ public interface MovieDao {
 	
 	// 영화 추천 관련 코드
 	MovieVO findByMovieNoVO(int movieNo);
+	
+	// 영화 상세 코드
+	List<MovieDetailVO> getImgs(int movieNo);
 
 }
