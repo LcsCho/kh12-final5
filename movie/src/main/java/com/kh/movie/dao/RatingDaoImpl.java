@@ -22,11 +22,13 @@ public class RatingDaoImpl implements RatingDao{
 		return sqlSession.selectOne("rating.sequence");
 	}
 
+	//등록
 	@Override
 	public void insert(RatingDto ratingDto) {
 		sqlSession.insert("rating.add", ratingDto);
 	}
 
+	//삭제
 	@Override
 	public boolean delete(int ratingNo) {
 		return sqlSession.delete("rating.delete", ratingNo) > 0;
@@ -36,7 +38,7 @@ public class RatingDaoImpl implements RatingDao{
 	public List<RatingDto> selectList() {
 		return sqlSession.selectList("rating.findAll");
 	}
-
+	
 	@Override
 	public RatingDto findByRatingNo(int ratingNo) {
 		return sqlSession.selectOne("rating.findByRatingNo", ratingNo);
@@ -47,4 +49,9 @@ public class RatingDaoImpl implements RatingDao{
 		return sqlSession.selectOne("rating.count");
 	}
 
+	//회원 아이디로 평점 번호 조회
+	@Override
+	public int findRatingNoByMemberId(String memberId) {
+		return sqlSession.selectOne("rating.findRatingNoByMemberId", memberId);
+	}
 }

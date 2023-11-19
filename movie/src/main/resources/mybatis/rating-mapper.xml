@@ -10,25 +10,35 @@
 		select rating_seq.nextval from dual
 	</select>
 	
+	<!-- 조회 -->
 	<select id="findAll" resultType="ratingDto">
 		select * from rating order by rating_score desc
 	</select>
 	
+	<!-- 상세조회 -->
 	<select id="findByRatingNo" resultType="ratingDto">
 		select * from rating where rating_no = #{ratingNo}
 	</select>
 	
+	<!-- 등록 -->
 	<insert id="add">
 		insert into rating(rating_no, movie_no, member_id, rating_score) 
 		values(#{rating_no}, #{movie_no}, #{member_id}, #{rating_score})
 	</insert>
 	
+	<!-- 회원 아이디로 평점 번호 조회 -->
+	<select id="findRatingNoByMemberId" resultType="int">
+		SELECT rating_no FROM rating WHERE member_id = #{memberId};
+	</select>
+	
+	<!-- 삭제 -->
 	<delete id="delete">
 		delete rating where rating_no = #{ratingNo}
 	</delete>
 	
+	<!-- 평점 수 조회 -->
 	<select id="count" resultType="int">
 		select count(*) from rating
 	</select>
-
+	
 </mapper>

@@ -72,9 +72,9 @@ public class MovieController {
 	    }
 	    
 	    //리뷰 상세 조회
-		List<ReviewListVO> reviewListVO = reviewDao.findByReviewNo(reviewNo);
-		if (reviewListVO != null && !reviewListVO.isEmpty()) {
-		    model.addAttribute("review", reviewListVO.get(0));
+		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
+		if (reviewListVO != null) {
+		    model.addAttribute("review", reviewListVO);
 		}
 		
 		//댓글 조회
@@ -97,6 +97,18 @@ public class MovieController {
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("ratingCount", ratingCount);
 		return "movie/detail";
+	}
+	
+	//리뷰 상세 페이지에서 리뷰(+평점) 삭제
+	@RequestMapping("/delete")
+	public String delete(@RequestParam int reviewNo) {
+		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
+		boolean result = reviewDao.delete(reviewNo);
+		if(result) {
+			return "redirect:movie/review/list";
+		}else {
+			return "redirect:에러페이지";
+		}
 	}
 	
 
