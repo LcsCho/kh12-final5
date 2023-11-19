@@ -37,5 +37,9 @@
 	<select id="wishMovie" resultType="WishMovieRecommendVO">
 		select * from wish_movie_recommend where member_id = #{memberId}
 	</select>
+	
+	<select id="again" resultType="RatingDto">
+		select * from rating where member_id = #{memberId} and rating_score >= 3.0
+	</select>
 
 </mapper>

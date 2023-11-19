@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.movie.dto.RatingDto;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
@@ -69,6 +70,11 @@ public class RecommendDaoImpl implements RecommendDao{
 	@Override
 	public List<WishMovieRecommendVO> getWishMovie(String memberId) {
 		return sqlSession.selectList("recommend.wishMovie", memberId);
+	}
+	
+	@Override
+	public List<RatingDto> selectList(String memberId) {
+		return sqlSession.selectList("recommend.again", memberId);
 	}
 	
 }
