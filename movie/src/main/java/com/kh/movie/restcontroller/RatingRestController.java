@@ -1,12 +1,20 @@
 package com.kh.movie.restcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dto.RatingDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -25,5 +33,38 @@ public class RatingRestController {
 	public int count() {
 		return ratingDao.getCount();
 	}
+	//등록
+	@PostMapping("/")
+	public void insert(@RequestBody RatingDto ratingDto) {
+		int ratingNo =ratingDao.sequence();
+		ratingDto.setRatingNo(ratingNo);
+		ratingDao.insert(ratingDto);
+	}
+	//삭제
+	@DeleteMapping("/{ratingNo}")
+	public ResponseEntity<String>delete(@PathVariable int ratingNo){
+		boolean result = ratingDao.delete(ratingNo);
+		if(result) {
+			return ResponseEntity.ok().build();
+		}
+		else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	//수정
+	@PutMapping("/{ratingNo}")
+	public ResponseEntity<String> edit(
+			@PathVariable int ratingNo,@RequestParam float ratingScore){
+		boolean result =ratingDao.update(ratingNo,ratingScore);
+		if(result) return ResponseEntity.ok().build();
+		else {
+			return ResponseEntity.notFound().build();
+		}
+		
+	}
+	
+	
+	
+	
 	
 }

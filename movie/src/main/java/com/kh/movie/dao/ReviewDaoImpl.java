@@ -24,16 +24,20 @@ public class ReviewDaoImpl implements ReviewDao{
 		return sqlSession.selectOne("review.sequence");
 	}
 
+	//리뷰 등록
 	@Override
 	public void insert(ReviewDto reviewDto) {
 		sqlSession.insert("review.save", reviewDto);
 	}
-
+	
+	//리뷰 삭제
 	@Override
 	public boolean delete(int reviewNo) {
 		return sqlSession.delete("review.deleteByReviewNo", reviewNo) > 0;
 	}
+	//리뷰에 달린 평점 삭제
 
+	//리뷰 수정
 	@Override
 	public boolean edit(int reviewNo, String reviewContent) {
 		Map<String, Object> params = new HashMap<>();
@@ -54,8 +58,8 @@ public class ReviewDaoImpl implements ReviewDao{
 	
 	//리뷰 상세 조회
 	@Override
-	public List<ReviewListVO> findByReviewNo(int reviewNo) {
-		return sqlSession.selectList("review.findByReviewNo", reviewNo);
+	public ReviewListVO findByReviewNo(int reviewNo) {
+		return sqlSession.selectOne("review.findByReviewNo", reviewNo);
 	}
 	
 	//최신순 조회
@@ -105,5 +109,15 @@ public class ReviewDaoImpl implements ReviewDao{
   		return sqlSession.selectOne("review.findReviewLikeCount", reviewNo);
   	}
   	
-  	
+  	//리뷰 번호로 회원 아이디 검색
+  	@Override
+  	public String findMemberIdByReviewNo(int reviewNo) {
+  		return sqlSession.selectOne("review.findMemberIdByReviewNo", reviewNo);
+  	}
+  
+  	//댓글 수 조회
+  	@Override
+  	public int findReplyCount(int reviewNo) {
+  		return sqlSession.selectOne("reply.findReplyCount", reviewNo);
+  	}
 }

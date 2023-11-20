@@ -14,7 +14,7 @@ public interface ReviewDao {
 	boolean edit(int reviewNo, String reviewContent);
 	List<ReviewDto> selectList(int movieNo);
 	List<AdminReviewListVO> selectAdminReviewList();
-	List<ReviewListVO> findByReviewNo(int reviewNo); //리뷰 상세 조회
+	ReviewListVO findByReviewNo(int reviewNo); //리뷰 상세 조회
 	
 	List<ReviewListVO> findByDateDesc(int movieNo);//최신순
 	List<ReviewListVO> findByDateAsc(int movieNo);//오래된순
@@ -25,4 +25,7 @@ public interface ReviewDao {
 	List<MovieSimpleInfoDto> findAll(int movieNo);//영화 정보 조회
 	List<ReviewListVO> findReviewNoByMovie(int movieNo);//영화에 달린 리뷰 조회
 	int findReviewLikeCount(int reviewNo);
+	
+	String findMemberIdByReviewNo(int reviewNo);//리뷰 번호로 회원 아이디 검색
+	int findReplyCount(int reviewNo);//댓글 수 조회
 }

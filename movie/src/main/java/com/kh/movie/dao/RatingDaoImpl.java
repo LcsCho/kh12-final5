@@ -1,12 +1,15 @@
 package com.kh.movie.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.RatingDto;
+import com.kh.movie.vo.MovieRatingAvgVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,37 +21,53 @@ public class RatingDaoImpl implements RatingDao{
 	private SqlSession sqlSession;
 
 	@Override
-	public int getCount() {
-		return sqlSession.selectOne("rating.count");
-	}
-
-	@Override
 	public int sequence() {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("rating.sequence");
 	}
 
+	//등록
 	@Override
 	public void insert(RatingDto ratingDto) {
-		// TODO Auto-generated method stub
-		
+		sqlSession.insert("rating.add", ratingDto);
 	}
 
+	//삭제
 	@Override
 	public boolean delete(int ratingNo) {
-		// TODO Auto-generated method stub
-		return false;
+		return sqlSession.delete("rating.delete", ratingNo) > 0;
 	}
 
 	@Override
 	public List<RatingDto> selectList() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("rating.findAll");
 	}
-
+	
 	@Override
 	public RatingDto findByRatingNo(int ratingNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("rating.findByRatingNo", ratingNo);
 	}
+	
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("rating.count");
+	}
+
+	//회원 아이디로 평점 번호 조회
+	@Override
+	public int findRatingNoByMemberId(String memberId) {
+		return sqlSession.selectOne("rating.findRatingNoByMemberId", memberId);
+	}
+	
+	@Override
+	public MovieRatingAvgVO getRatingAvg(int movieNo) {
+		return sqlSession.selectOne("rating.avgByMovieNo", movieNo);
+	}
+	@Override
+	public boolean update(int ratingNo, float ratingScore) {
+		Map<String, Object> params =new HashMap<>();
+		params.put("ratingNo", ratingNo);
+		params.put("ratingScore", ratingScore);
+		return sqlSession.update("rating.update",params)>0;
+	}
+
 }

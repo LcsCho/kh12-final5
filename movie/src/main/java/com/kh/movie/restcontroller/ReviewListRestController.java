@@ -21,7 +21,6 @@ import com.kh.movie.vo.ReviewListVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin
 @RestController
 @RequestMapping("/rest/review/list")
 public class ReviewListRestController {

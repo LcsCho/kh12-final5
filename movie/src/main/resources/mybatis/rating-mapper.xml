@@ -5,9 +5,51 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="rating">
+
+	<select id="sequence" resultType="int">
+		select rating_seq.nextval from dual
+	</select>
 	
+	<!-- 조회 -->
+	<select id="findAll" resultType="ratingDto">
+		select * from rating order by rating_score desc
+	</select>
+	
+	<!-- 상세조회 -->
+	<select id="findByRatingNo" resultType="ratingDto">
+		select * from rating where rating_no = #{ratingNo}
+	</select>
+	
+	<!-- 영화 번호로 해당 영화의 평균 평점 조회 -->
+	<select id="avgByMovieNo" resultType="MovieRatingAvgVO">
+		select * from movie_rating_avg where movie_no = #{movieNo}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="add">
+		insert into rating(rating_no, movie_no, member_id, rating_score) 
+		values(#{ratingNo}, #{movieNo}, #{memberId}, #{ratingScore})
+	</insert>
+	
+	<!-- 회원 아이디로 평점 번호 조회 -->
+	<select id="findRatingNoByMemberId" resultType="int">
+		SELECT rating_no from rating where member_id = #{memberId};
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="delete">
+		delete rating where rating_no = #{ratingNo}
+	</delete>
+	
+	<!-- 평점 수 조회 -->
 	<select id="count" resultType="int">
 		select count(*) from rating
 	</select>
+	
+	<!-- 수정  -->
+	<update id="update">
+		update rating set rating_score = #{ratingScore} where rating_no = #{ratingNo}
+	</update>
+	
 
 </mapper>

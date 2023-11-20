@@ -45,25 +45,24 @@ public class MemberRestController {
 
 	@Autowired
 	private MemberDao memberDao;
-	
+
 	@Autowired
 	private ImageDao imageDao;
-	
+
 	@Autowired
 	private FileUploadProperties props;
-	
+
 	private File dir;
-	
+
 	@PostConstruct
 	public void init() {
 		dir = new File(props.getHome());
 		dir.mkdirs();
 	}
-	
-	
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 //	@GetMapping("/memberCount/{memberCount}")
 //	public int count() {
 //		return memberDao.getCount();
@@ -72,19 +71,20 @@ public class MemberRestController {
 	public int count() {
 		return memberDao.getCount();
 	}
-	
+
 	@PatchMapping("/{memberId}")
-	public ResponseEntity<String> editUnit(@PathVariable String memberId,
-			@RequestBody MemberDto memberDto) {
-		if (memberDto.isEmpty()) return ResponseEntity.badRequest().build();
+	public ResponseEntity<String> editUnit(@PathVariable String memberId, @RequestBody MemberDto memberDto) {
+		if (memberDto.isEmpty())
+			return ResponseEntity.badRequest().build();
 		boolean result = memberDao.editUnit(memberDto, memberId);
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping("/")
 	public List<MemberDto> list() {
 		return memberDao.selectList();
 	}
+
 	
 	 @PostMapping("/login")
 	    public ResponseEntity<String> login(@RequestParam String memberId,
@@ -115,22 +115,20 @@ public class MemberRestController {
 	@PostMapping("/idCheck")
 	public String idCheck(@RequestParam String memberId) {
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		if(memberDto == null) { //아이디가 없으면
+		if (memberDto == null) { // 아이디가 없으면
 			return "Y";
-		}
-		else { //아이디가 있으면
+		} else { // 아이디가 있으면
 			return "N";
-		}	
+		}
 	}
-	
-	//닉네임 체크
+
+	// 닉네임 체크
 	@PostMapping("/nicknameCheck")
 	public String snicknameCheck(@RequestParam String memberNickname) {
 		MemberDto memberDto = memberDao.selectOneByNickname(memberNickname);
-		if(memberDto == null) { 
+		if (memberDto == null) {
 			return "Y";
-		}
-		else {
+		} else {
 			return "N";
 		}
 	}
@@ -196,17 +194,17 @@ public class MemberRestController {
 	
 	//로그인 상태일 때
 	@PostMapping("/newPw")
-		public String newPassword(HttpSession session,String memberPw) {
+	public String newPassword(HttpSession session, String memberId, String memberPw) {
 		String loginMemberId = (String) session.getAttribute("name");
-		
-		if(loginMemberId != null && memberPw != null) {
+
+		if (loginMemberId != null && memberPw != null) {
 			String encryptedPassword = encoder.encode(memberPw);
-			
+
 			MemberDto memberDto = new MemberDto();
 			memberDto.setMemberId(loginMemberId);
-            memberDto.setMemberPw(encryptedPassword);
-
-            memberDao.updatePassword(memberDto);
+      memberDto.setMemberPw(encryptedPassword);
+      
+         memberDao.updatePassword(memberDto);
             
          // 비밀번호 변경 후 로그인 세션 값 제거
             session.removeAttribute("name");
@@ -215,64 +213,64 @@ public class MemberRestController {
             //session.setAttribute("name", loginMemberId);
             
             return "/";
+
 		} else {
 			return "/error";
 		}
 	}
 
+	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Integer> upload(@RequestPart MultipartFile image, HttpSession session)
+			throws IllegalStateException, IOException {
 
-	@PostMapping(value ="/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Integer> upload(@RequestPart MultipartFile image,HttpSession session) throws IllegalStateException, IOException {
-		
-		String memberId=(String) session.getAttribute("name");
-		log.debug("memberId={}",memberId);
-		
-		//기존 아이디가 가지고 있던 이미지의 번호 가져오기
-		log.debug("findImageNo={}",memberDao.findMemberImage(memberId));
-		Integer findImageNo =memberDao.findMemberImage(memberId);
-		
-		if(findImageNo != null && findImageNo>0) {//찾은 이미지가 0보다 크면//이미지가 있으면
+		String memberId = (String) session.getAttribute("name");
+		log.debug("memberId={}", memberId);
+
+		// 기존 아이디가 가지고 있던 이미지의 번호 가져오기
+		log.debug("findImageNo={}", memberDao.findMemberImage(memberId));
+		Integer findImageNo = memberDao.findMemberImage(memberId);
+
+		if (findImageNo != null && findImageNo > 0) {// 찾은 이미지가 0보다 크면//이미지가 있으면
 			imageDao.delete(findImageNo);
-			File target =new File(dir,String.valueOf(findImageNo));
+			File target = new File(dir, String.valueOf(findImageNo));
 			target.delete();
 		}
-		
-		
+
 		int imageNo = imageDao.sequence();
-		log.debug("imageNo={}",imageNo);
+		log.debug("imageNo={}", imageNo);
 		File target = new File(dir, String.valueOf(imageNo));
 		image.transferTo(target);
-		
-		ImageDto insertDto= new ImageDto();
+
+		ImageDto insertDto = new ImageDto();
 		insertDto.setImageNo(imageNo);
 		insertDto.setImageName(image.getOriginalFilename());
 		insertDto.setImageSize(image.getSize());
 		insertDto.setImageType(image.getContentType());
 		imageDao.insert(insertDto);
 		memberDao.insertMemberImage(memberId, imageNo);
-		//ajax에서 imageNo가 필요해서 반환을 함
+		// ajax에서 imageNo가 필요해서 반환을 함
 		return ResponseEntity.ok().body(imageNo);
 	}
+
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> delete(HttpSession session){
-		String memberId=(String) session.getAttribute("name");
+	public ResponseEntity<String> delete(HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
 		log.debug(memberId);
 		int findImageNo = memberDao.findMemberImage(memberId);
-		
-			boolean result = imageDao.delete(findImageNo);
-			File target =new File(dir,String.valueOf(findImageNo));
-			target.delete();
-			if(result) {
-				return ResponseEntity.ok().build();
-			}
-			else {
-				return ResponseEntity.notFound().build();
-			}
-	}	
+
+		boolean result = imageDao.delete(findImageNo);
+		File target = new File(dir, String.valueOf(findImageNo));
+		target.delete();
+		if (result) {
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
 	@GetMapping("/adminSearch/{memberNickname}")
 	public List<MemberDto> adminSearch(String memberNickname) {
 		return memberDao.selectList(memberNickname);
 	}
-	
-}
 
+}

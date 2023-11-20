@@ -4,7 +4,7 @@
 
 
 </section>
-                    <footer>
+                    <footer class="mt-5">
                         <div class="container-fluid">
                             <div class="row text-center">
                                 <div class="col bg-danger text-white">
@@ -25,19 +25,7 @@
                                 </div>
                             </div>
                         </div>
-
                     </footer>
-
-		<c:if test="${sessionScope.name !=null}">
-			<h1>아이디:${sessionScope.name}</h1>		
-		</c:if>
-		<c:if test="${sessionScope.level != null}">
-			<h1>등급:${sessionScope.level}</h1>
-		</c:if>
-	
-		
-
-	
                 </div>
             </div>
         </div>
