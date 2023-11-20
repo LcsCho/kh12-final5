@@ -237,7 +237,7 @@ $(document).ready(function () {
             });
         });
     });
-
+</script>
 <!-- 영화 검색 실시간으로 연관 검색어 출력 -->
 <script>
 var typingTimer;

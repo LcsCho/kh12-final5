@@ -136,39 +136,42 @@ public class MemberRestController {
 	
 	//회원 정보 수정
 	@PostMapping("/change")
-	public String change(@RequestBody MemberDto inputDto) {
-
-		 System.out.println("Received inputDto: " + inputDto);
-			boolean result = memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+	public String change(HttpSession session, @ModelAttribute MemberDto memberDto) {
+		String memberId = (String) session.getAttribute("name");
+		
+		MemberDto findDto = memberDao.selectOne(memberId);
+		
+		memberDto.setMemberId(memberId);
+		 System.out.println("Received inputDto: " + memberDto);
+			boolean result = memberDao.updateMemberInfo(memberDto);//입력받아 정보 변경 처리
 			System.out.println("result = " + result);
 			//마지막 정보 수정 시각 갱신
-			memberDao.lastUpdate(inputDto.getMemberId());
+			memberDao.lastUpdate(memberDto.getMemberId());
 			
 			return "redirect:/mypage";
 	}
 	
 	//회원 탈퇴
 	@PostMapping("/exit")
-	public String exit(HttpSession session, @RequestParam String memberPw) {
+	public String exit(HttpSession session, String memberPw) {
 		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
 	
-		//log.debug("{}", memberDto.getMemberPw());
 		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
+		log.debug("비번" + memberDto.getMemberPw());
 		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
-			memberDao.delete(memberId);//삭제
-			//로그아웃
 			session.removeAttribute("name");//세션에서 name의 값을 삭제
-			return "redirect:/exitFinish";//탈퇴완료 페이지로 이동
+			
+			memberDao.delete(memberId);//삭제
+			
+			//로그아웃
+			return "/";//탈퇴완료-메인페이지로 이동
 			
 		}
 		else {//비밀번호 불일치 시,
-			return "redirect:/mypage";//에러페이지
+			return "redirect:/error";//에러페이지
 		}
 	}
-	
-	
-	
 	
 	
 	//로그아웃 상태일 때 
@@ -202,11 +205,11 @@ public class MemberRestController {
 
 			MemberDto memberDto = new MemberDto();
 			memberDto.setMemberId(loginMemberId);
-      memberDto.setMemberPw(encryptedPassword);
+			memberDto.setMemberPw(encryptedPassword);
       
-         memberDao.updatePassword(memberDto);
+			memberDao.updatePassword(memberDto);
             
-         // 비밀번호 변경 후 로그인 세션 값 제거
+			// 비밀번호 변경 후 로그인 세션 값 제거
             session.removeAttribute("name");
             session.removeAttribute("level");
             
