@@ -161,7 +161,7 @@
 	</select>
 
 	<select id="findByMovieNoVO" resultType="MovieVO">
-		select * from movie_list
+		select DISTINCT * from movie_list
 		where movie_no = #{movieNo}
 	</select>
 
