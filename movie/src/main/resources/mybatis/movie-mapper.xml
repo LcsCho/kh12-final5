@@ -38,12 +38,16 @@
 
 	<insert id="save">
 		insert into movie(
-		movie_no, movie_name, movie_director, movie_release_date,
-		movie_time, movie_level, movie_nation, movie_content
+		movie_no, movie_name,
+		movie_director, movie_release_date,
+		movie_time, movie_level,
+		movie_nation, movie_content
 		)
 		values(
-		#{movieNo}, #{movieName},#{movieDirector}, #{movieReleaseDate},
-		#{movieTime}, #{movieLevel}, #{movieNation}, #{movieContent}
+		#{movieNo},
+		#{movieName},#{movieDirector}, #{movieReleaseDate},
+		#{movieTime},
+		#{movieLevel}, #{movieNation}, #{movieContent}
 		)
 	</insert>
 
@@ -115,7 +119,8 @@
 		select * from image where
 		image_no=(
 		select image_no from movie_main_image
-		where movie_no=#{movieNo})
+		where
+		movie_no=#{movieNo})
 	</select>
 
 	<select id="findImage" resultType="ImageDto">
@@ -135,7 +140,8 @@
 		resultType="AdminMovieListVO">
 		SELECT *
 		FROM admin_movie_list
-		WHERE INSTR(LOWER(movie_name), LOWER(#{movieName})) > 0
+		WHERE INSTR(LOWER(movie_name),
+		LOWER(#{movieName})) > 0
 	</select>
 
 
@@ -150,7 +156,8 @@
 		select actor.actor_no as actor_no, actor.actor_name as
 		actor_name, Mar.actor_role as actor_role
 		from actor
-		join movie_actor_role MAR ON actor.actor_no = MAR.actor_no
+		join
+		movie_actor_role MAR ON actor.actor_no = MAR.actor_no
 		where
 		MAR.movie_no = #{movieNo}
 	</select>
@@ -161,31 +168,43 @@
 	</select>
 
 	<select id="findByMovieNoVO" resultType="MovieVO">
-		select * from movie_list
+		select distinct * from
+		movie_list
 		where movie_no = #{movieNo}
 	</select>
 
 	<select id="findMovieByMovieName" resultType="MovieListVO">
 		select * from (
 		select rownum rn, TMP.* from(
-		select * from movie_list where instr(lower(movie_name), lower(#{movieName}))
+		select * from movie_list where
+		instr(lower(movie_name),
+		lower(#{movieName}))
 		> 0
 		)TMP
 		) where rn between ${begin} and ${end}
 	</select>
 
+	<select id="searchMovieName" resultType="MovieListVO">
+		SELECT *
+		FROM movie_list
+		WHERE lower(movie_name) LIKE lower('%' || #{movieName} || '%')
+	</select>
+
 	<select id="findActorByMovieNo" resultType="ActorDetailVO">
 		SELECT *
-		FROM actor_detail
+		FROM
+		actor_detail
 		WHERE movie_no = #{movieNo}
 		ORDER BY
 		CASE
-		WHEN ACTOR_ROLE = '주연' THEN 1
+		WHEN ACTOR_ROLE =
+		'주연' THEN 1
 		WHEN ACTOR_ROLE = '조연' THEN 2
 		WHEN ACTOR_ROLE = '단역' THEN 3
 		WHEN ACTOR_ROLE = '엑스트라' THEN 4
 		WHEN ACTOR_ROLE = '특별출연' THEN 5
-		WHEN ACTOR_ROLE = '우정출연' THEN 6
+		WHEN
+		ACTOR_ROLE = '우정출연' THEN 6
 		WHEN ACTOR_ROLE = '성우' THEN 7
 		ELSE 8
 		END,

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
@@ -52,12 +53,20 @@ public class HomeController {
 	private Scheduler scheduler;
 
 	@RequestMapping("/")
-	public String main(Model model, HttpSession session) {
-		List<MovieListVO> movieList = movieDao.findAllMovieList();
+	public String main(Model model, HttpSession session, @RequestParam(required = false) String keyword) {
 		int ratingCount = ratingDao.getCount();
-		model.addAttribute("movieList", movieList);
 		model.addAttribute("ratingCount", ratingCount);
-
+		boolean isSearch = keyword != null;
+		log.debug("keyword = {}", keyword);
+		if (isSearch) {
+			List<MovieListVO> movieList = movieDao.searchMovieName(keyword);
+			log.debug("movieList = {}", movieList);
+			model.addAttribute("movieList", movieList);
+		}
+		else {
+			List<MovieListVO> movieList = movieDao.findAllMovieList();
+			model.addAttribute("movieList", movieList);
+		}
 //		log.debug("movieList = {}", movieList);
 
 		// 여기서부터 영화 추천 코드 - 건들지 말 것!
