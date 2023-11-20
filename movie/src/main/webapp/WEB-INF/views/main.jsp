@@ -165,6 +165,19 @@
 						<div class="swiper-button-next custom-next"></div>
 						<div class="swiper-button-prev custom-prev"></div>
 					</div>
+						<c:if test="${todayMovieVO.ratingAvg != 0}">
+							<div class="col">
+								평균 <i class="fa-solid fa-star"></i>
+								${todayMovieVO.ratingAvg}점
+							</div>
+						</c:if>
+           				</div>
+					</div>
+				</c:forEach>
+        	</div>
+        <div class="swiper-button-next custom-next"></div>
+   		<div class="swiper-button-prev custom-prev"></div>
+	</div>
 
 
 					<!-- MVC 평론가 Top 10 -->

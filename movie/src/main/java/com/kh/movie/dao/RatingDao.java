@@ -17,4 +17,7 @@ public interface RatingDao {
 	boolean delete(int ratingNo);//삭제
 
 	MovieRatingAvgVO getRatingAvg(int movieNo);
+
+	boolean update(int ratingNo, float ratingScore);
+
 }
