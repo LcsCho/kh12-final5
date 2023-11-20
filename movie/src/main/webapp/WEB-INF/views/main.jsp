@@ -167,13 +167,13 @@
 								${todayMovieVO.ratingAvg}점
 							</div>
 						</c:if>
-            </div
+           				</div>
 					</div>
 				</c:forEach>
-        </div>
+        	</div>
         <div class="swiper-button-next custom-next"></div>
-   			<div class="swiper-button-prev custom-prev"></div>
-			</div>
+   		<div class="swiper-button-prev custom-prev"></div>
+	</div>
 
             <!-- 회원으로 로그인 할 경우만 출력 -->
             <c:if test="${sessionScope.name != null}">
