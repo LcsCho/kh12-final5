@@ -22,9 +22,27 @@ public class ReplyDaoImpl implements ReplyDao{
 		return sqlSession.selectOne("reply.sequence");
 	}
 	
-	//댓글 조회
+	//등록
+	@Override
+	public void insert(ReplyDto replyDto) {
+		sqlSession.insert("reply.save", replyDto);
+	}
+	
+	//삭제
+	@Override
+	public boolean delete(int replyNo) {
+		return sqlSession.delete("reply.delete", replyNo) > 0;
+	}
+	
+	//댓글 목록 조회
 	@Override
 	public List<ReplyDto> findAll(int reviewNo){
 		return sqlSession.selectList("reply.findAll", reviewNo);
+	}
+	
+	//댓글 상세 조회
+	@Override
+	public ReplyDto findByReplyNo(int replyNo) {
+		return sqlSession.selectOne("reply.fingByReplyNo", replyNo);
 	}
 }
