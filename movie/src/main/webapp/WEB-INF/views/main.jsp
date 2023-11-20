@@ -33,20 +33,8 @@
 /*     .swiper-button-next:hover, */
 /* 	.swiper-button-prev:hover { */
 /* 	  background-color: #2980b9; /* hover 시 버튼 배경색 변경 */
-*
-/
 /* 	  /* 다른 스타일 속성들 추가 가능 */
 
-
- 
-
-
-*
-/
-
-
-
-	
 
 
 }
@@ -68,7 +56,7 @@
 					<!-- 검색결과 -->
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>${movieName}의검색결과</h3>
+							<h3>${movieName}의 검색결과</h3>
 						</div>
 					</div>
 					<div class="swiper row">
@@ -165,19 +153,6 @@
 						<div class="swiper-button-next custom-next"></div>
 						<div class="swiper-button-prev custom-prev"></div>
 					</div>
-						<c:if test="${todayMovieVO.ratingAvg != 0}">
-							<div class="col">
-								평균 <i class="fa-solid fa-star"></i>
-								${todayMovieVO.ratingAvg}점
-							</div>
-						</c:if>
-           				</div>
-					</div>
-				</c:forEach>
-        	</div>
-        <div class="swiper-button-next custom-next"></div>
-   		<div class="swiper-button-prev custom-prev"></div>
-	</div>
 
 
 					<!-- MVC 평론가 Top 10 -->
