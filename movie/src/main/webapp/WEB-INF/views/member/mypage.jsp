@@ -112,22 +112,20 @@ function changePassword() {
   }
 
   function changeInfo() {
-    var memberId = $('#memberId').val();
+
     var memberNickname = $('#memberNickname').val();
     var memberBirth = $('#memberBirth').val();
     var memberContact = $('#memberContact').val();
-
+    
     // AJAX를 통해 서버로 회원 정보 전송
     $.ajax({
       url: "http://localhost:8080/member/change",
-      contentType: "application/json",
       method: "POST",
-      data: JSON.stringify({
-        memberId: memberId,
+      data: {
         memberNickname: memberNickname,
         memberBirth: memberBirth,
         memberContact: memberContact
-      }),
+      },
       success: function(response) {
     	  console.log(response);
         // 성공 시 모달 닫기 및 화면 갱신
@@ -151,19 +149,19 @@ function changePassword() {
 
   // 회원 탈퇴 처리
   function exitMember() {
-    var memberId = '<%= session.getAttribute("name") %>';
     var memberPw = $('#memberPw').val(); // 사용자로부터 입력받은 비밀번호
-
+    console.log(memberPw);
+    
     $.ajax({
       url: "http://localhost:8080/member/exit",
       method: "POST",
       data: {
-        memberId: memberId,
         memberPw: memberPw
       },
       success: function(response) {
     	  console.log(response);
-          window.location.href = "/member/exitFinish";
+    	  alert("탈퇴되었습니다");
+          window.location.href = "/";
         // 모달 닫기
         $('#exitModal').modal('hide');
       },
@@ -269,10 +267,7 @@ function changePassword() {
       <div class="modal-body">
         <!-- 회원정보 변경 폼 -->
         <form id="changeInfoForm" action="" method="post" autocomplete="off" onsubmit="changeInfo();">
-          <!-- 아이디 정보(숨김) -->
-          <div class="form-group">
-            <input type="hidden" class="form-control" name="memberId" id="memberId" value="${memberDto.memberId}" readonly>
-          </div>
+         
           <!-- 닉네임 입력 -->
           <div class="form-group">
             <label for="memberNickname">닉네임</label>
@@ -319,7 +314,7 @@ function changePassword() {
       </div>
       <div class="modal-body">
         <!-- 탈퇴 확인 폼 -->
-        <form id="exitForm" action="" method="post" autocomplete="off" onsubmit="exitMember();">
+        <form id="exitForm" action="/member/exit" method="post" autocomplete="off" onsubmit="exitMember();">
           <p>정말 탈퇴하시겠습니까? 탈퇴 후 모든 정보는 자동으로 삭제됩니다.</p>
           <div class="form-group">
 					<input type="password" name="memberPw" id="memberPw" required class="form-control"
