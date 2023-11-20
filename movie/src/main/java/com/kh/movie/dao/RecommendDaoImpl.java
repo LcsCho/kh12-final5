@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.RatingDto;
+import com.kh.movie.dto.TodayRecommendDto;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MVCCriticTop10RecommendVO;
 import com.kh.movie.vo.MVCTop10RecommendVO;
 import com.kh.movie.vo.PreferGenreByMemberRecommendVO;
+import com.kh.movie.vo.TodayMovieListVO;
 import com.kh.movie.vo.WishMovieRecommendVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -72,9 +74,31 @@ public class RecommendDaoImpl implements RecommendDao{
 		return sqlSession.selectList("recommend.wishMovie", memberId);
 	}
 	
+	// 다시보기 영화 추천
 	@Override
 	public List<RatingDto> selectList(String memberId) {
 		return sqlSession.selectList("recommend.again", memberId);
+	}
+	
+	// 오늘의 영화 추천
+	@Override
+	public List<TodayMovieListVO> getTodayList() {
+		return sqlSession.selectList("recommend.today");
+	}
+	
+	@Override
+	public void deleteRandom() {
+		sqlSession.delete("recommend.deleteRandom");
+	}
+	
+	@Override
+	public void saveRandom(TodayRecommendDto todayRecommendDto) {
+		sqlSession.insert("recommend.saveRandom", todayRecommendDto);
+	}
+	
+	@Override
+	public List<TodayRecommendDto> getRandomList() {
+		return sqlSession.selectList("recommend.findAllList");
 	}
 	
 }

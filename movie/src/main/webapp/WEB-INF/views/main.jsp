@@ -116,6 +116,41 @@
 					</div>
 				</c:forEach>
 			</div>
+			
+			<!-- 오늘의 영화 추천 Top 10 -->
+			<div class="row mt-5">
+				<div class="col">
+					<h3>오늘의 추천!</h3>
+				</div>
+			</div>
+			<div class="row">
+				<c:forEach var="todayMovieVO"
+					items="${todayMovieList}">
+					<div class="col-sm-6 col-md-4 col-lg-3 p-3">
+						<div>
+							<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
+								<img src="/image/${todayMovieVO.imageNo}"
+								class="img-thumbnail" style="width: 215px; height: 300px">
+							</a>
+						</div>
+						<div class="col" style="width: 215px;">
+							<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
+								${todayMovieVO.movieName} </a>
+						</div>
+						<div class="col" style="width: 215px;">
+							<fmt:formatDate value="${todayMovieVO.movieReleaseDate}"
+								pattern="yyyy" />
+							/ ${todayMovieVO.movieNation}
+						</div>
+						<c:if test="${todayMovieVO.ratingAvg != 0}">
+							<div class="col" style="width: 215px;">
+								평균 <i class="fa-solid fa-star"></i>
+								${todayMovieVO.ratingAvg}점
+							</div>
+						</c:if>
+					</div>
+				</c:forEach>
+			</div>
 
 			<!-- 회원으로 로그인 할 경우만 출력 -->
 			<c:if test="${sessionScope.name != null}">
