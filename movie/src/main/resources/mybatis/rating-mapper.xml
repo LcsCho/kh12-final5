@@ -46,4 +46,10 @@
 		select count(*) from rating
 	</select>
 	
+	<!-- 수정  -->
+	<update id="update">
+		update rating set rating_score = #{ratingScore} where rating_no = #{ratingNo}
+	</update>
+	
+
 </mapper>
