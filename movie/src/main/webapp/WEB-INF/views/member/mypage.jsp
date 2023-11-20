@@ -73,22 +73,24 @@ function changePassword() {
     alert('비밀번호가 일치하지 않습니다.');
     return;
   }
-
+  
+  //memberId session 값 불러오기
+  var loginMemberId = '<%= session.getAttribute("name") %>';
   
   //비밀번호 변경 요청
   $.ajax({
-	  url: "member/newPw",
+	  url: "http://localhost:8080/member/newPw",
 	  method: "POST",
 	  data: {
 		  memberId : loginMemberId,
-		  memberPw : memberPW
+		  memberPw : newPassword
 	  },
 	  success: function(response){
 		  alert("비밀번호 재설정이 완료되었습니다.");
 		  
 		  $('#changePasswordModal').modal('hide');
 		  
-		  window.location.href = "mypage";
+		  window.location.href = "/";
 	  },
 	  error : function (xhr, status, error){
 		  alert("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
@@ -102,8 +104,82 @@ function changePassword() {
 
 </script>
 
+<!-- 회원 정보 변경 모달 -->
+<script>
+	
+	function openChangeInfoModal() {
+    $('#changeInfoModal').modal('show');
+  }
 
+  function changeInfo() {
+    var memberId = $('#memberId').val();
+    var memberNickname = $('#memberNickname').val();
+    var memberBirth = $('#memberBirth').val();
+    var memberContact = $('#memberContact').val();
 
+    // AJAX를 통해 서버로 회원 정보 전송
+    $.ajax({
+      url: "http://localhost:8080/member/change",
+      contentType: "application/json",
+      method: "POST",
+      data: JSON.stringify({
+        memberId: memberId,
+        memberNickname: memberNickname,
+        memberBirth: memberBirth,
+        memberContact: memberContact
+      }),
+      success: function(response) {
+    	  console.log(response);
+        // 성공 시 모달 닫기 및 화면 갱신
+        $('#changeInfoModal').modal('hide');
+        window.alert("수정이 완료되었습니다!");
+        // 새로고침
+        location.reload();
+      },
+      error: function(xhr, status, error) {
+        alert("회원 정보 변경에 실패했습니다. 다시 시도해주세요.");
+      }
+    });
+  }
+</script>
+
+<!-- 회원 탈퇴 모달 -->
+<script>
+	function openExitModal() {
+    $('#exitModal').modal('show');
+  }
+
+//회원 탈퇴 처리
+	function exitMember() {
+  var memberId = '<%= session.getAttribute("name") %>';
+  var memberPw = $('#memberPw').val(); // 사용자로부터 입력받은 비밀번호
+  
+  $.ajax({
+    url: "http://localhost:8080/member/exit",
+    method: "POST",
+    data: {
+      memberId: memberId,
+      memberPw: memberPw
+    },
+    success: function(response) {
+      alert("회원 탈퇴가 완료되었습니다.");
+      $.ajax({
+          url: "http://localhost:8080/member/logout",
+          method: "POST",
+          success: function() {
+            // 세션 삭제 후 메인 페이지로 이동
+            window.location.href = "/";
+          }
+        });
+      // 모달 닫기
+      $('#exitModal').modal('hide');
+    },
+    error: function(xhr, status, error) {
+      alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+    }
+  });
+}
+</script>
 
 <div class="container w-500">
 
@@ -162,7 +238,7 @@ function changePassword() {
           <!-- 비밀번호 입력 -->
           <div class="form-group">
             <label for="newPassword">새 비밀번호</label>
-            <input type="password" class="form-control" id="newPassword">
+            <input type="password" class="form-control" name="newPassword" id="newPassword">
           </div>
           <!-- 확인용 비밀번호 입력 -->
           <div class="form-group">
@@ -180,22 +256,91 @@ function changePassword() {
 </div>
 <!-- 모달 끝 -->
 	
-	
+	<!-- 회원정보 수정 모달 -->
 	<div class="row">
-		<a class="btn w-100" href="change">
+		<a class="btn w-100" onclick="openChangeInfoModal()">
 			<i class="fa-solid fa-user"></i>
 			개인정보 수정
 		</a>
 	</div>
 	
+	<div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5>
+      </div>
+      
+      <div class="modal-body">
+        <!-- 회원정보 변경 폼 -->
+        <form id="changeInfoForm" action="" method="post" autocomplete="off" onsubmit="changeInfo();">
+          <!-- 아이디 정보(숨김) -->
+          <div class="form-group">
+            <input type="hidden" class="form-control" name="memberId" id="memberId" value="${memberDto.memberId}" readonly>
+          </div>
+          <!-- 닉네임 입력 -->
+          <div class="form-group">
+            <label for="memberNickname">닉네임</label>
+            <input type="text" class="form-control" name="memberNickname" id="memberNickname" value="${memberDto.memberNickname}">
+          </div>
+          <!-- 생년월일 입력 -->
+          <div class="form-group">
+            <label for="memberBirth">생년월일</label>
+            <input type="date" class="form-control" name="memberBirth" id="memberBirth" value="${memberDto.memberBirth}">
+          </div>
+          <!-- 연락처 입력 -->
+          <div class="form-group">
+            <label for="memberContact">연락처</label>
+            <input type="text" class="form-control" name="memberContact" id="memberContact" value="${memberDto.memberContact}">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="submit" class="btn btn-primary" onclick="changeInfo()">수정하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+
 	<div class="row mb-40">
-		<a class="btn btn-negative w-100" href="exit">
+		<a class="btn btn-negative w-100" onClick="openExitModal()">
 			<i class="fa-solid fa-user-xmark"></i>
 			회원 탈퇴
 		</a>
 		<hr>
 	</div> 
 	</div>
+</div>
+
+
+	<!-- 회원 탈퇴 모달 -->
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exitModalLabel">회원 탈퇴</h5>
+      </div>
+      <div class="modal-body">
+        <!-- 탈퇴 확인 폼 -->
+        <form id="exitForm" action="" method="post" autocomplete="off" onsubmit="exitMember();">
+          <p>정말 탈퇴하시겠습니까? 탈퇴 후 모든 정보는 자동으로 삭제됩니다.</p>
+          <div class="form-group">
+					<input type="password" name="memberPw" required class="form-control"
+								placeholder="비밀번호를 입력해주세요">
+				</div>
+					<c:if test="${param.error != null}">
+					<h4>비밀번호가 일치하지 않습니다</h4>
+					</c:if>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-danger" onclick="exitMember()">탈퇴하기</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%-- <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

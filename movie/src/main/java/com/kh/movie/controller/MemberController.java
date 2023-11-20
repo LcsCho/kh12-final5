@@ -136,57 +136,57 @@ public class MemberController {
 	}
 	
 	//개인정보 변경
-	@GetMapping("/change")
-	public String name(HttpSession session, Model model) {
-		String memberId = (String) session.getAttribute("name");
-		MemberDto memberDto = memberDao.selectOne(memberId);
-		model.addAttribute("memberDto", memberDto);
-		return "member/change";
-	}
+//	@GetMapping("/change")
+//	public String name(HttpSession session, Model model) {
+//		String memberId = (String) session.getAttribute("name");
+//		MemberDto memberDto = memberDao.selectOne(memberId);
+//		model.addAttribute("memberDto", memberDto);
+//		return "member/change";
+//	}
+//	
+//	@PostMapping("/change")
+//	public String change(@ModelAttribute MemberDto inputDto) {
+//			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+//			//마지막 정보 수정 시각 갱신
+//			memberDao.lastUpdate(inputDto.getMemberId());			
+//			return "redirect:changeFinish";
+//	}
+//	
+//	@RequestMapping("/changeFinish")
+//	public String changeFinish() {
+//		return "member/changeFinish";
+//	}
 	
-	@PostMapping("/change")
-	public String change(@ModelAttribute MemberDto inputDto) {
-			memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
-			//마지막 정보 수정 시각 갱신
-			memberDao.lastUpdate(inputDto.getMemberId());			
-			return "redirect:changeFinish";
-	}
-	
-	@RequestMapping("/changeFinish")
-	public String changeFinish() {
-		return "member/changeFinish";
-	}
-	
-	//회원탈퇴
-	@GetMapping("/exit")
-	public String exit() {
-		return "member/exit";
-	}
-	
-	
-
-
-
-		
-	@PostMapping("/exit")
-	public String exit(HttpSession session, @RequestParam String memberPw) {
-		String memberId = (String) session.getAttribute("name");
-		MemberDto memberDto = memberDao.selectOne(memberId);
-	
-		//log.debug("{}", memberDto.getMemberPw());
-		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
-		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
-			memberDao.delete(memberId);//삭제
-			//로그아웃
-			session.removeAttribute("name");//세션에서 name의 값을 삭제
-			return "redirect:exitFinish";//탈퇴완료 페이지로 이동
-			
-		}
-		else {//비밀번호 불일치 시,
-			return "redirect:exit?error";//에러페이지
-		}
-	}
-	
+//	//회원탈퇴
+//	@GetMapping("/exit")
+//	public String exit() {
+//		return "member/exit";
+//	}
+//	
+//	
+//
+//
+//
+//		
+//	@PostMapping("/exit")
+//	public String exit(HttpSession session, @RequestParam String memberPw) {
+//		String memberId = (String) session.getAttribute("name");
+//		MemberDto memberDto = memberDao.selectOne(memberId);
+//	
+//		//log.debug("{}", memberDto.getMemberPw());
+//		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
+//		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
+//			memberDao.delete(memberId);//삭제
+//			//로그아웃
+//			session.removeAttribute("name");//세션에서 name의 값을 삭제
+//			return "redirect:exitFinish";//탈퇴완료 페이지로 이동
+//			
+//		}
+//		else {//비밀번호 불일치 시,
+//			return "redirect:exit?error";//에러페이지
+//		}
+//	}
+//	
 	
 	@RequestMapping("/exitFinish")
 	public String exitFinish() {
