@@ -41,5 +41,24 @@
 	<select id="again" resultType="RatingDto">
 		select * from rating where member_id = #{memberId} and rating_score >= 3.0
 	</select>
+	
+	<select id="today" resultType="TodayMovieListVO">
+		select * from today_movie_list where rating_avg >= 2.5 and rating_count >= 10
+	</select>
+	
+	<delete id="deleteRandom">
+		delete from today_recommend
+	</delete>
+	
+	<insert id="saveRandom">
+		insert into today_recommend(movie_no, movie_name, movie_release_date, 
+		movie_nation, rating_avg, image_no, rating_count)
+		values(#{movieNo}, #{movieName}, #{movieReleaseDate}, #{movieNation}, 
+		#{ratingAvg}, #{imageNo}, #{ratingCount})
+	</insert>
+	
+	<select id="findAllList" resultType="TodayRecommendDto">
+		select * from today_recommend
+	</select>
 
 </mapper>

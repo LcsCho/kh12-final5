@@ -133,6 +133,47 @@
                 <div class="swiper-button-next custom-next"></div>
                 <div class="swiper-button-prev custom-prev"></div>
             </div>
+			
+			<!-- 오늘의 영화 추천 Top 10 -->
+			<div class="row mt-5 p-3">
+				<div class="col">
+					<h3>오늘의 추천!</h3>
+				</div>
+			</div>
+			<div class="swiper row">
+        <div class="swiper-wrapper">
+				<c:forEach var="todayMovieVO"
+					items="${todayMovieList}">
+          <div class="swiper-slide">
+					<div class="col-sm-6 col-md-4 col-lg-3" style="width:250px;">
+						<div>
+							<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
+								<img src="/image/${todayMovieVO.imageNo}"
+								class="img-thumbnail" style="width: 250px; height: 310px">
+							</a>
+						</div>
+						<div class="col">
+							<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
+								${todayMovieVO.movieName} </a>
+						</div>
+						<div class="col">
+							<fmt:formatDate value="${todayMovieVO.movieReleaseDate}"
+								pattern="yyyy" />
+							/ ${todayMovieVO.movieNation}
+						</div>
+						<c:if test="${todayMovieVO.ratingAvg != 0}">
+							<div class="col">
+								평균 <i class="fa-solid fa-star"></i>
+								${todayMovieVO.ratingAvg}점
+							</div>
+						</c:if>
+            </div
+					</div>
+				</c:forEach>
+        </div>
+        <div class="swiper-button-next custom-next"></div>
+   			<div class="swiper-button-prev custom-prev"></div>
+			</div>
 
             <!-- 회원으로 로그인 할 경우만 출력 -->
             <c:if test="${sessionScope.name != null}">

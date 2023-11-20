@@ -3,7 +3,6 @@ package com.kh.movie.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
@@ -18,6 +17,8 @@ import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.RatingDto;
+import com.kh.movie.dto.TodayRecommendDto;
+import com.kh.movie.service.Scheduler;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
@@ -46,6 +47,9 @@ public class HomeController {
 
 	@Autowired
 	private RecommendDao recommendDao;
+	
+	@Autowired
+	private Scheduler scheduler;
 
 	@RequestMapping("/")
 	public String main(Model model, HttpSession session) {
@@ -103,12 +107,9 @@ public class HomeController {
 		
 		
 		// 오늘의 영화 추천
+		List<TodayRecommendDto> todayMovieList = recommendDao.getRandomList();
 		
-		
-		
-		
-		
-		
+		model.addAttribute("todayMovieList", todayMovieList);
 		
 		
 		/////////////////////////////
