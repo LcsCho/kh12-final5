@@ -149,37 +149,32 @@ function changePassword() {
     $('#exitModal').modal('show');
   }
 
-//회원 탈퇴 처리
-	function exitMember() {
-  var memberId = '<%= session.getAttribute("name") %>';
-  var memberPw = $('#memberPw').val(); // 사용자로부터 입력받은 비밀번호
-  
-  $.ajax({
-    url: "http://localhost:8080/member/exit",
-    method: "POST",
-    data: {
-      memberId: memberId,
-      memberPw: memberPw
-    },
-    success: function(response) {
-      alert("회원 탈퇴가 완료되었습니다.");
-      $.ajax({
-          url: "http://localhost:8080/member/logout",
-          method: "POST",
-          success: function() {
-            // 세션 삭제 후 메인 페이지로 이동
-            window.location.href = "/";
-          }
-        });
-      // 모달 닫기
-      $('#exitModal').modal('hide');
-    },
-    error: function(xhr, status, error) {
-      alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
-    }
-  });
-}
+  // 회원 탈퇴 처리
+  function exitMember() {
+    var memberId = '<%= session.getAttribute("name") %>';
+    var memberPw = $('#memberPw').val(); // 사용자로부터 입력받은 비밀번호
+
+    $.ajax({
+      url: "http://localhost:8080/member/exit",
+      method: "POST",
+      data: {
+        memberId: memberId,
+        memberPw: memberPw
+      },
+      success: function(response) {
+    	  console.log(response);
+          window.location.href = "/member/exitFinish";
+        // 모달 닫기
+        $('#exitModal').modal('hide');
+      },
+      error: function(xhr, status, error) {
+        alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+      }
+    });
+  }
 </script>
+
+
 
 <div class="container w-500">
 
@@ -327,7 +322,7 @@ function changePassword() {
         <form id="exitForm" action="" method="post" autocomplete="off" onsubmit="exitMember();">
           <p>정말 탈퇴하시겠습니까? 탈퇴 후 모든 정보는 자동으로 삭제됩니다.</p>
           <div class="form-group">
-					<input type="password" name="memberPw" required class="form-control"
+					<input type="password" name="memberPw" id="memberPw" required class="form-control"
 								placeholder="비밀번호를 입력해주세요">
 				</div>
 					<c:if test="${param.error != null}">
