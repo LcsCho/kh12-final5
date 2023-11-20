@@ -1,6 +1,8 @@
 package com.kh.movie.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +62,12 @@ public class RatingDaoImpl implements RatingDao{
 	public MovieRatingAvgVO getRatingAvg(int movieNo) {
 		return sqlSession.selectOne("rating.avgByMovieNo", movieNo);
 	}
+	@Override
+	public boolean update(int ratingNo, float ratingScore) {
+		Map<String, Object> params =new HashMap<>();
+		params.put("ratingNo", ratingNo);
+		params.put("ratingScore", ratingScore);
+		return sqlSession.update("rating.update",params)>0;
+	}
+
 }

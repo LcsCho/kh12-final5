@@ -28,7 +28,7 @@
 	<!-- 등록 -->
 	<insert id="add">
 		insert into rating(rating_no, movie_no, member_id, rating_score) 
-		values(#{rating_no}, #{movie_no}, #{member_id}, #{rating_score})
+		values(#{ratingNo}, #{movieNo}, #{memberId}, #{ratingScore})
 	</insert>
 	
 	<!-- 회원 아이디로 평점 번호 조회 -->
@@ -46,4 +46,10 @@
 		select count(*) from rating
 	</select>
 	
+	<!-- 수정  -->
+	<update id="update">
+		update rating set rating_score = #{ratingScore} where rating_no = #{ratingNo}
+	</update>
+	
+
 </mapper>
