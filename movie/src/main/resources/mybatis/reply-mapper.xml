@@ -24,7 +24,7 @@
 	
 	<!-- 조회 -->
 	<select id="findAll" resultType="ReplyDto">
-		select * from reply where review_no = #{reviewNo} order by reply_date desc
+		select DISTINCT * from reply where review_no = #{reviewNo}
 	</select>
 	
 	<!-- 수정 -->

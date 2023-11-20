@@ -31,7 +31,6 @@ public class ReplyRestController {
 	//댓글 조회
 	@PostMapping("/findAll")
 	public List<ReplyDto> findAll(@RequestParam int reviewNo){
-		log.debug("reviewNo = {}", reviewNo);
 		return replyDao.findAll(reviewNo);
 	}
 	
