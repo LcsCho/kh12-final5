@@ -17,10 +17,10 @@ import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.ReplyDao;
 import com.kh.movie.dao.ReviewDao;
-import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
+import com.kh.movie.dto.RatingDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.ActorDetailVO;
@@ -98,6 +98,7 @@ public class MovieController {
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int movieNo, HttpSession session, Model model) {
 		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
+//		String memberId = (String) session.getAttribute("name");
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
 		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
 		List<MovieListVO> movieList = movieDao.findAllMovieList();

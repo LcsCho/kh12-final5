@@ -12,7 +12,7 @@
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" type="text/css" href="/css/practice.css">
+<link rel="stylesheet" type="text/css" href="/css/star.css">
 <!-- Your custom styles go here -->
 <style>
 body {
@@ -78,31 +78,57 @@ body {
 </script>
 
 <script>
-//평점 기능
     $(document).ready(function () {
-    	var params = new URLSearchParams(location.search);
-    	var movieNo = params.get("movieNo");
-        // 별 아이콘 클릭 이벤트
-        $('#ratingStars i').on('click', function () {
-            var rating = $(this).data('rating');
-            $('#selectedRating').text('선택된 평점: ' + rating);
-
-           // 여기에 Ajax 요청을 보내서 서버에 평점을 저장하는 로직을 추가할 수 있습니다.
-            $.ajax({
-                url: '/saveRating',
-                method: 'POST',
-                data: { 
-                	rating: rating, 
-                	movieNo: movieNo
-                },
-                success: function (response) {
-                    // 성공적으로 처리된 경우 추가적인 로직을 작성할 수 있습니다.
-                },
-                error: function (error) {
-                    console.error('Error saving rating:', error);
-                }
-            });
+        var params = new URLSearchParams(location.search);
+        var movieNo = params.get("movieNo");
+        console.log(movieNo);
+        
+        // 서버에서 현재 사용자의 평점을 가져오는 AJAX 요청
+        $.ajax({
+            url: '/rating/'+movieNo,
+            method: 'GET',
+            data: { 
+                movieNo: movieNo
+            },
+            success: function (response) {
+            	console.log(response);
+                // 서버에서 받아온 평점을 선택한 상태로 만들기
+                var selectedRating = response.ratingScore;
+                console.log(selectedRating);
+                var numericRating = parseFloat(selectedRating);
+                var escapedRating = numericRating.toString().replace('.', '\\.');
+                $('input[name=rating][value=' + escapedRating  + ']').prop('checked', true);
+                $('#selectedRating').text('선택된 평점: ' + selectedRating);
+            },
+            error: function (error) {
+                console.error('Error getting rating:', error);
+            }
         });
+
+//         // 별 아이콘 클릭 이벤트
+//         $('#ratingStars i').on('click', function () {
+//             var rating = $(this).data('rating');
+//             $('#selectedRating').text('선택된 평점: ' + rating);
+
+//             // 여기에 Ajax 요청을 보내서 서버에 평점을 저장하는 로직을 추가할 수 있습니다.
+//             $.ajax({
+//                 url: '/saveRating',
+//                 method: 'POST',
+//                 data: { 
+//                     rating: rating, 
+//                     movieNo: movieNo
+//                 },
+//                 success: function (response) {
+//                     // 성공적으로 처리된 경우 추가적인 로직을 작성할 수 있습니다.
+//                 },
+//                 error: function (error) {
+//                     console.error('Error saving rating:', error);
+//                 }
+//             });
+//         });
+        
+        
+        
     });
 </script>
 

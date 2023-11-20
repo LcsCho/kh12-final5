@@ -1,5 +1,7 @@
 package com.kh.movie.restcontroller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,8 +37,11 @@ public class RatingRestController {
 	}
 	//등록
 	@PostMapping("/")
-	public void insert(@RequestBody RatingDto ratingDto) {
+	public void insert(@RequestBody RatingDto ratingDto, @RequestParam int movieNo, HttpSession session) {
+		String memberId= (String) session.getAttribute("name");
 		int ratingNo =ratingDao.sequence();
+		ratingDto.setMovieNo(movieNo);
+		ratingDto.setMemberId(memberId);
 		ratingDto.setRatingNo(ratingNo);
 		ratingDao.insert(ratingDto);
 	}
@@ -62,6 +67,21 @@ public class RatingRestController {
 		}
 		
 	}
+	//상세
+	@GetMapping("/{movieNo}")
+	public RatingDto find(@PathVariable int movieNo,HttpSession session){
+		String memberId=(String) session.getAttribute("name");
+		
+		return ratingDao.findDtoByMovieNoAndMemberId(movieNo, memberId);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
