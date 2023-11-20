@@ -95,4 +95,9 @@
 		SELECT member_id FROM review WHERE review_no = #{reviewNo};
 	</select>
 	
+	<!-- 댓글 수 조회 -->
+	<select id="findReplyCount" resultType="int">
+		select review_like_count from review where review_no = #{reviewNo];
+	</select>
+	
 </mapper>

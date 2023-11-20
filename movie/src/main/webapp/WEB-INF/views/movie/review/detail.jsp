@@ -26,6 +26,9 @@
         width: 45px;
         border-radius: 30px;
     }
+    i {
+        color:rgb(179, 57, 57);
+    }
 </style>
 
 <script>
@@ -151,8 +154,13 @@
 	    // 초기 로드
 	    loadReviewLike(movieNo);
 	    
-	    loadReviewLike(movieNo);
-	    
+	    //삭제 시의 안내창
+	    function confirmDelete(reviewNo) {
+	        var result = confirm("정말 삭제하시겠습니까?");
+	        if (result) {
+	            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo;
+	        }
+	    }
 	});
 </script>
 
@@ -168,8 +176,12 @@
                 <div class="col-6">
                     <span class="replyDate"></span>
                 </div>
-				<div class="col-3 d-flex justify-content-end">
-                    <i class="fa-solid fa-x" style="position: relative; top: 10px; right: 20px;"></i>
+					<div class="col-3 d-flex justify-content-end">
+						<c:if test="${sessionScope.name == reviewListVO.memberNickname }">
+							<a href="rest/reply/delete?replyNo=${replyNo}">
+                    			<i class="fa-solid fa-x" style="position: relative; top: 10px; right: 20px;"></i>
+							</a>
+						</c:if>
                 </div>
             </div>
             <div class="row mt-3">
@@ -220,8 +232,15 @@
 							<img src="images/user.png" class="userImage">
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
-							<i class="fa-solid fa-pen-to-square fa-lg eidtReview" style="position: absolute; top: 30px; right: 50px;"></i>
-							<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
+							
+							<!-- 작성자일 때만 수정, 삭제 버튼 표시 -->
+							<c:if test="${sessionScope.name == reviewListVO.memberNickname }">
+								<i class="fa-solid fa-pen-to-square fa-lg eidtReview" style="position: absolute; top: 30px; right: 50px;"></i>
+								<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
+									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
+								</a>
+							</c:if>
+							
 						</div>
 						<div class="mt-3 pb-3">
 							<span class="card-text">${review.reviewContent}</span>

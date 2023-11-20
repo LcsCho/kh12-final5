@@ -114,4 +114,10 @@ public class ReviewDaoImpl implements ReviewDao{
   	public String findMemberIdByReviewNo(int reviewNo) {
   		return sqlSession.selectOne("review.findMemberIdByReviewNo", reviewNo);
   	}
+  
+  	//댓글 수 조회
+  	@Override
+  	public int findReplyCount(int reviewNo) {
+  		return sqlSession.selectOne("reply.findReplyCount", reviewNo);
+  	}
 }

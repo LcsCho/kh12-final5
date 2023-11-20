@@ -43,5 +43,8 @@ public interface MovieDao {
 	// 영화 상세 코드
 	List<MovieDetailVO> getImgs(int movieNo);
 	List<ActorDetailVO> getActor(int movieNo);
+	
+	// 영화 검색
+	List<MovieListVO> searchMovieName(String keyword);
 
 }

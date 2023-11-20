@@ -33,7 +33,7 @@
 	
 	<!-- 회원 아이디로 평점 번호 조회 -->
 	<select id="findRatingNoByMemberId" resultType="int">
-		SELECT rating_no FROM rating WHERE member_id = #{memberId};
+		SELECT rating_no from rating where member_id = #{memberId};
 	</select>
 	
 	<!-- 삭제 -->
