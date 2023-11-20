@@ -43,6 +43,6 @@ public class ReplyDaoImpl implements ReplyDao{
 	//댓글 상세 조회
 	@Override
 	public ReplyDto findByReplyNo(int replyNo) {
-		return sqlSession.selectOne("reply.fingByReplyNo", replyNo);
+		return sqlSession.selectOne("reply.findByReplyNo", replyNo);
 	}
 }
