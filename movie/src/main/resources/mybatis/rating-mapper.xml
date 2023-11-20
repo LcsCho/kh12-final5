@@ -20,6 +20,10 @@
 		select * from rating where rating_no = #{ratingNo}
 	</select>
 	
+	<!-- 아이디,영화번호로 상세조회  -->
+	<select id="findDtoByMovieNoAndMemberId" resultType="RatingDto">
+		select * from rating where movie_no=#{movieNo} and member_id =#{memberId}
+	</select>
 	<!-- 영화 번호로 해당 영화의 평균 평점 조회 -->
 	<select id="avgByMovieNo" resultType="MovieRatingAvgVO">
 		select * from movie_rating_avg where movie_no = #{movieNo}

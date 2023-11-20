@@ -70,4 +70,11 @@ public class RatingDaoImpl implements RatingDao{
 		return sqlSession.update("rating.update",params)>0;
 	}
 
+	@Override
+	public RatingDto findDtoByMovieNoAndMemberId(int movieNo, String memberId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("movieNo", movieNo);
+		params.put("memberId", memberId);
+		return sqlSession.selectOne("rating.findDtoByMovieNoAndMemberId",params);
+	}
 }
