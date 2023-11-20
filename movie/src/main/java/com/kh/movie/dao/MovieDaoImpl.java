@@ -159,4 +159,9 @@ public class MovieDaoImpl implements MovieDao{
 		return sqlSession.selectList("movie.findActorByMovieNo", movieNo);
 	}
 	
+	@Override
+	public List<MovieListVO> searchMovieName(String keyword) {
+		return sqlSession.selectList("movie.searchMovieName", keyword);
+	}
+	
 }

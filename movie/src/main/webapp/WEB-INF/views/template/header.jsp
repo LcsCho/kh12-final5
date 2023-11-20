@@ -285,9 +285,9 @@ $(document).ready(function () {
 										</div>
 
 										<div class="col-8 d-flex justify-content-end">
-											<form class="d-flex">
+											<form action="/" method="post" class="d-flex">
 												<input class="form-control me-sm-2 custom-search"
-													type="search" placeholder="콘텐츠, 인물, 유저를 검색해보세요"
+													type="text" name="keyword" value="" placeholder="영화 제목을 입력해주세요."
 													style="height: fit-content;">
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
