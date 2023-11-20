@@ -84,8 +84,8 @@ $(function(){
         var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,60}$/;
         var isValid = regex.test($(this).val());
         console.log($(this).val());
-        $(this).removeClass("success fail");
-        $(this).addClass(isValid ? "success" : "fail");
+        $(this).removeClass("is-valid is-invalid");
+        $(this).addClass(isValid ? "is-valid" : "is-invalid");
          status.memberPw = isValid;
 
          //비밀번호 확인창에 강제로 blur이벤트를 발생시킨다(트리거)
