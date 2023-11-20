@@ -53,19 +53,15 @@ public class HomeController {
 	private Scheduler scheduler;
 
 	@RequestMapping("/")
-	public String main(Model model, HttpSession session, @RequestParam(required = false) String keyword) {
+	public String main(Model model, HttpSession session, @RequestParam(required = false) String movieName) {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
-		boolean isSearch = keyword != null;
-		log.debug("keyword = {}", keyword);
+		boolean isSearch = movieName != null;
 		if (isSearch) {
-			List<MovieListVO> movieList = movieDao.searchMovieName(keyword);
+			List<MovieListVO> movieList = movieDao.searchMovieName(movieName);
+			model.addAttribute("movieName", movieName);
+			model.addAttribute("movieList", movieList);
 			log.debug("movieList = {}", movieList);
-			model.addAttribute("movieList", movieList);
-		}
-		else {
-			List<MovieListVO> movieList = movieDao.findAllMovieList();
-			model.addAttribute("movieList", movieList);
 		}
 //		log.debug("movieList = {}", movieList);
 
