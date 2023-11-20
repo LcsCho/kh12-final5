@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -90,18 +91,18 @@ public class MemberRestController {
 	                                        @RequestParam String memberPw,
 	                                        HttpSession session) {
 	        MemberDto findDto = memberDao.selectOne(memberId);
-
-	        if (findDto == null) {
-	            return new ResponseEntity<>("아이디가 없습니다.", HttpStatus.BAD_REQUEST);
-	        }
+	        log.debug("password={}", findDto.getMemberPw());
 
 	        boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
+	        log.debug("isCorrectPw = {}",isCorrectPw);
 
 	        if (isCorrectPw) {
 	            session.setAttribute("name", findDto.getMemberId());
 	            session.setAttribute("level", findDto.getMemberLevel());
 	            memberDao.updateMemberLastLogin(memberId);
 	       
+	            log.debug("Login successful. Session attributes: name={}, level={}", session.getAttribute("name"), session.getAttribute("level"));
+	            
 	            return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
 	        } else {
 	            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
@@ -133,7 +134,46 @@ public class MemberRestController {
 			return "N";
 		}
 	}
+	
+	
+	//회원 정보 수정
+	@PostMapping("/change")
+	public String change(@RequestBody MemberDto inputDto) {
 
+		 System.out.println("Received inputDto: " + inputDto);
+			boolean result = memberDao.updateMemberInfo(inputDto);//입력받아 정보 변경 처리
+			System.out.println("result = " + result);
+			//마지막 정보 수정 시각 갱신
+			memberDao.lastUpdate(inputDto.getMemberId());
+			
+			return "redirect:/mypage";
+	}
+	
+	//회원 탈퇴
+	@PostMapping("/exit")
+	public String exit(HttpSession session, @RequestParam String memberPw) {
+		String memberId = (String) session.getAttribute("name");
+		MemberDto memberDto = memberDao.selectOne(memberId);
+	
+		//log.debug("{}", memberDto.getMemberPw());
+		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
+		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
+			memberDao.delete(memberId);//삭제
+			//로그아웃
+			session.removeAttribute("name");//세션에서 name의 값을 삭제
+			return "redirect:/exitFinish";//탈퇴완료 페이지로 이동
+			
+		}
+		else {//비밀번호 불일치 시,
+			return "redirect:/mypage";//에러페이지
+		}
+	}
+	
+	
+	
+	
+	
+	//로그아웃 상태일 때 
 	@PostMapping("/changePw")
     public String changePassword(HttpSession session, String memberId, String memberPw) {
         if (memberId != null && memberPw != null) {
@@ -147,29 +187,36 @@ public class MemberRestController {
 
             memberDao.updatePassword(memberDto); //DB에 비밀번호를 업데이트하는 메서드
 
-            return "redirect:/"; // 비밀번호 변경 후 이동할 페이지 지정
+            return "/"; // 비밀번호 변경 후 이동할 페이지 지정
         } else {
             // 오류 처리
-            return "redirect:/error"; // 적절한 오류 페이지로 리다이렉트
+            return "/error"; // 적절한 오류 페이지로 리다이렉트
         }
     }
 	
+	//로그인 상태일 때
 	@PostMapping("/newPw")
-		public String newPassword(HttpSession session,String memberId, String memberPw) {
+		public String newPassword(HttpSession session,String memberPw) {
 		String loginMemberId = (String) session.getAttribute("name");
 		
 		if(loginMemberId != null && memberPw != null) {
 			String encryptedPassword = encoder.encode(memberPw);
 			
 			MemberDto memberDto = new MemberDto();
-            memberDto.setMemberId(loginMemberId);
+			memberDto.setMemberId(loginMemberId);
             memberDto.setMemberPw(encryptedPassword);
 
             memberDao.updatePassword(memberDto);
             
-            return "redirect:/mypage";
+         // 비밀번호 변경 후 로그인 세션 값 제거
+            session.removeAttribute("name");
+            session.removeAttribute("level");
+            
+            //session.setAttribute("name", loginMemberId);
+            
+            return "/";
 		} else {
-			return "redirect:/error";
+			return "/error";
 		}
 	}
 

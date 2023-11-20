@@ -214,7 +214,7 @@ $(document).ready(function () {
 
             // 서버로 비밀번호 변경 요청을 보냄
             $.ajax({
-                url: "member/changePw", 
+                url: "http://localhost:8080/member/changePw", 
                 method: "POST",
                 data: {
                     memberId: memberId,
@@ -384,7 +384,7 @@ $(document).ready(function () {
 											</button>
 											<div class="cert-wrapper pt-10">
 												<input type="text" class="cert-input form-input w-70">
-												<button type="button" class="btn-cert btn btn-navy">확인완료</button>
+												<button type="button" class="btn btn-cert">확인완료</button>
 											</div>
 											<div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
 											<div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
