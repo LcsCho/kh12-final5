@@ -32,8 +32,13 @@
 	$(function(){
 		var params = new URLSearchParams(location.search);
 	    var reviewNo = params.get("reviewNo");
-	    console.log(reviewNo);
+	    var movieNo = params.get("movieNo");
 	    
+	    $(document).ready(function () {
+			loadReviewLike(movieNo);
+		});
+	    
+	    //댓글 목록
 	    $.ajax({
 	    	url: "http://localhost:8080/rest/reply/findAll?reviewNo=" + reviewNo,
 	    	method: "post",
@@ -41,13 +46,9 @@
 				reviewNo : reviewNo
 	    	},
 	    	success: function(response){
-	    		console.log(response);
-	    		
 	    		$(".reply-list").empty();
 	    		
 	    		for (var i = 0; i < response.length; i++) {
-	    			console.log(response);
-	    			
 	    			var reply = response[i];
 	    			
 	    			var template = $("#reply-template").html();
@@ -64,6 +65,93 @@
 	    	}
 	    });
 	    
+	    //좋아요 체크
+	    function loadReviewLike(movieNo) {
+		    $.ajax({
+	            url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
+	            method: "post",
+	            data: {
+	                movieNo: movieNo,
+	            },
+	            success: function (response) {
+	            	
+	                for (var i = 0; i < response.length; i++) {
+	                    var reviewNo = response[i].reviewNo;
+	                    var check = response[i].check;
+	                    var liked = check == "Y";
+	                    
+	                 	// 해당 리뷰에 대한 좋아요 버튼 선택
+	                    var $likeButton = $(".likeButton[data-reviewNo='" + reviewNo + "']");
+	                    
+	                    // 좋아요 아이콘 선택
+	                    var $likeIcon = $likeButton.find(".fa-thumbs-up");
+
+	                    if (liked) {
+	                        $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-solid");
+	                        $likeButton.find(".likeCount").text(response[i].count);
+	                    } else {
+	                        $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-regular");
+	                        $likeButton.find(".likeCount").text(response[i].count);
+	                    }
+	                }
+	            }
+        	});
+	    }
+	    
+	    //좋아요 설정/해제
+	    function reviewLike(reviewNo) {
+	        $.ajax({
+	            url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+	            method: "post",
+	            data: {
+	                movieNo: movieNo,
+	                reviewNo: reviewNo
+	            },
+	            success: function (response) {
+	            	
+	            	loadReviewLike(movieNo);
+	            	
+	            	var $likeButton = $(".likeButton[data-reviewNo='" + reviewNo + "']");
+	            	var $likeIcon = $likeButton.find(".fa-thumbs-up");
+
+	            	if (response.check == "Y") {
+	            	    $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-solid");
+	            	    $(".reviewLikeCount").text(response.count);
+	            	} else {
+	            	    $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-regular");
+	            	    $(".reviewLikeCount").text(response.count);
+	            	}
+	                
+	                loadReviewLike(movieNo);
+	            }
+	        });
+	    }
+	    
+	    //좋아요 클릭 이벤트
+	    $(".likeButton").on("click", function () {
+	        var clickedReviewNo = $(this).data("reviewno");
+	        reviewLike(clickedReviewNo);
+	    });
+	    
+	    //좋아요 상태 변경
+	    function updateReviewLikeUI(reviewNo, count, check) {
+	        var $likeButton = $(".likeButton[data-reviewNo='" + reviewNo + "']");
+	        var $likeIcon = $likeButton.find(".fa-thumbs-up");
+	        var $likeCount = $likeButton.find(".likeCount");
+
+	        if (check == "Y") {
+	            $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-solid");
+	        } else {
+	            $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-regular");
+	        }
+
+	        $likeCount.text(count);
+	    }
+
+	    // 초기 로드
+	    loadReviewLike(movieNo);
+	    
+	    loadReviewLike(movieNo);
 	    
 	});
 </script>
@@ -141,8 +229,8 @@
 						<hr>
 						<div class="row text-center">
 							<div class="col">
-								<button type="button" class="btn btn-primary btn-link likeButton" data-reviewNo="">
-									<i class="fa-regular fa-thumbs-up"><span>${review.reviewLikeCount}</span></i>
+								<button type="button" class="btn btn-primary btn-link likeButton" data-reviewNo="${review.reviewNo}">
+									<i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount">${review.reviewLikeCount}</span></i>
 								</button>
 							</div>
 							<div class="col">
