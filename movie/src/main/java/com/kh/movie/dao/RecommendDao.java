@@ -3,12 +3,14 @@ package com.kh.movie.dao;
 import java.util.List;
 
 import com.kh.movie.dto.RatingDto;
+import com.kh.movie.dto.TodayRecommendDto;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MVCCriticTop10RecommendVO;
 import com.kh.movie.vo.MVCTop10RecommendVO;
 import com.kh.movie.vo.PreferGenreByMemberRecommendVO;
+import com.kh.movie.vo.TodayMovieListVO;
 import com.kh.movie.vo.WishMovieRecommendVO;
 
 public interface RecommendDao {
@@ -29,5 +31,10 @@ public interface RecommendDao {
 	List<WishMovieRecommendVO> getWishMovie(String memberId);
 	// 다시보기 추천
 	List<RatingDto> selectList(String memberId);
+	// 오늘의 영화 추천
+	List<TodayMovieListVO> getTodayList();
+	void deleteRandom();
+	void saveRandom(TodayRecommendDto todayRecommendDto);
+	List<TodayRecommendDto> getRandomList();
 
 }
