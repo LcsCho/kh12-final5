@@ -238,6 +238,65 @@ $(document).ready(function () {
         });
     });
 
+<!-- 영화 검색 실시간으로 연관 검색어 출력 -->
+<script>
+var typingTimer;
+var doneTypingInterval = 500; // 입력 완료 인터벌 (밀리초)
+
+// 검색 입력란에 이벤트 리스너 추가
+$("#searchInput").on("input", function () {
+    // 이전에 설정된 타이핑 타이머 제거
+    clearTimeout(typingTimer);
+
+    // 새로운 타이핑 타이머 설정
+    typingTimer = setTimeout(function () {
+        // 검색 키워드 가져오기
+        var keyword = $("#searchInput").val();
+
+        // 서버에 Ajax 요청 보내기
+        $.ajax({
+            type: "GET",
+            url: "/search/keyword",
+            data: { "keyword": keyword },
+            
+            success: function (data) {
+                // 받아온 데이터로 연관 검색어 컨테이너 업데이트
+                updateSuggestions(data);
+            },
+            
+            error: function (error) {
+                console.error("연관검색에 대한 오류 발생:", error);
+            }
+        });
+    }, doneTypingInterval);
+});
+
+// 받아온 데이터로 연관 검색어 컨테이너 업데이트하는 함수
+function updateSuggestions(suggestions) {
+    // 연관 검색어 컨테이너 엘리먼트 가져오기
+    var suggestionsContainer = $("#suggestionsContainer");
+
+    // 이전 연관 검색어 제거
+    suggestionsContainer.empty();
+
+    // 새로운 연관 검색어 추가
+    for (var i = 0; i < suggestions.length; i++) {
+        var suggestion = suggestions[i];
+        var suggestionElement = $("<div class='suggestion'>" + suggestion + "</div>");
+
+        // 각 연관 검색어에 클릭 이벤트 추가
+        suggestionElement.click(function () {
+            // 선택된 연관 검색어를 검색 입력란 값으로 설정
+            $("#searchInput").val($(this).text());
+
+            // 연관 검색어 컨테이너 비우기
+            suggestionsContainer.empty();
+        });
+
+        // 연관 검색어 엘리먼트를 컨테이너에 추가
+        suggestionsContainer.append(suggestionElement);
+    }
+}
 </script>
 
 <style>
@@ -272,7 +331,7 @@ $(document).ready(function () {
 				<div class="col">
 
 					<header>
-					
+
 						<div class="container-float">
 							<div class="row">
 								<div class="col-md-10 offset-md-1">
@@ -287,8 +346,10 @@ $(document).ready(function () {
 										<div class="col-8 d-flex justify-content-end">
 											<form action="/" method="post" class="d-flex">
 												<input class="form-control me-sm-2 custom-search"
-													type="text" name="keyword" value="" placeholder="영화 제목을 입력해주세요."
-													style="height: fit-content;">
+													type="text" name="movieName"
+													placeholder="영화 제목을 입력해주세요." style="height: fit-content;"
+													autocomplete="off">
+												<div id="suggestionsContainer"></div>
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
 													type="submit" style="height: fit-content;">검색</button>
@@ -373,7 +434,8 @@ $(document).ready(function () {
 											<br>
 										</div>
 										<!-- 비밀번호 찾기 폼 추가 -->
-										<form id="forgotPasswordForm" action="" method="post" autocomplete="off">
+										<form id="forgotPasswordForm" action="" method="post"
+											autocomplete="off">
 											<!-- 비밀번호 찾기 폼 요소들을 여기에 추가 -->
 											<div class="mb-3">
 												<input type="email" class="form-control" id="email"
@@ -409,7 +471,7 @@ $(document).ready(function () {
 									<div class="modal-body">
 										<!-- 비밀번호 재설정 폼 추가 -->
 										<form id="resetPasswordForm" action="member/changePw"
-											method="post" >
+											method="post">
 											<!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
 											<div class="mb-3">
 												<input type="password" class="form-control" id="newPassword"
@@ -430,4 +492,3 @@ $(document).ready(function () {
 						<hr>
 					</header>
 					<section>
-

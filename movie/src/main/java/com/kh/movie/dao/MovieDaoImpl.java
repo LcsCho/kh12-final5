@@ -160,8 +160,8 @@ public class MovieDaoImpl implements MovieDao{
 	}
 	
 	@Override
-	public List<MovieListVO> searchMovieName(String keyword) {
-		return sqlSession.selectList("movie.searchMovieName", keyword);
+	public List<MovieListVO> searchMovieName(String movieName) {
+		return sqlSession.selectList("movie.searchMovieName", movieName);
 	}
 	
 }
