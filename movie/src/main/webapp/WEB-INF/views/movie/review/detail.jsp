@@ -12,7 +12,7 @@
         color: rgb(179, 57, 57);
         font-size: 18px;
     }
-    .btn-link:hover{
+   	.btn-link:hover{
         background-color: rgb(179, 57, 57, 0.1);
         color: rgb(179, 57, 57);
         font-size: 18px;
@@ -29,6 +29,11 @@
     i {
         color:rgb(179, 57, 57);
     }
+    .btn-success{
+        background-color: rgb(179, 57, 57);
+        border-color: rgb(179, 57, 57);
+        font-size: 16px;
+    }
 </style>
 
 <script>
@@ -36,37 +41,77 @@
 		var params = new URLSearchParams(location.search);
 	    var reviewNo = params.get("reviewNo");
 	    var movieNo = params.get("movieNo");
-	    
-	    $(document).ready(function () {
-			loadReviewLike(movieNo);
-		});
-	    
-	    //댓글 목록
-	    $.ajax({
-	    	url: "http://localhost:8080/rest/reply/findAll?reviewNo=" + reviewNo,
-	    	method: "post",
-	    	data: {
-				reviewNo : reviewNo
-	    	},
-	    	success: function(response){
-	    		$(".reply-list").empty();
-	    		
-	    		for (var i = 0; i < response.length; i++) {
-	    			var reply = response[i];
-	    			
-	    			var template = $("#reply-template").html();
-	    			var htmlTemplate = $.parseHTML(template);
-	    			
-	    			$(htmlTemplate).find(".fa-x").attr("data-replyno", reply.replyNo);
-	    			
-					$(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
-					$(htmlTemplate).find(".replyDate").text(reply.replyDate);
-					$(htmlTemplate).find(".replyContent").text(reply.replyContent);
-					
-					$(".reply-list").append(htmlTemplate);
-	    		}
-	    	}
+
+	    //댓글 목록 조회
+	    loadReplyList();
+		
+	    //좋아요 체크
+	    loadReviewLike(movieNo);
+	
+	    //삭제 버튼 이벤트
+	    $(document).on("click", ".deleteReply", function (e) {
+	        var replyNo = $(this).attr("data-reply-no");
+	
+	        $.ajax({
+	            url: "http://localhost:8080/rest/reply/delete",
+	            method: "post",
+	            data: {
+	                replyNo: replyNo
+	            },
+	            success: function (response) {
+	                loadReplyList();
+	                console.log(response);
+	            }
+	        });
 	    });
+	
+	    // 댓글 목록
+	    function loadReplyList() {
+	        $.ajax({
+	            url: "http://localhost:8080/rest/reply/findAll?reviewNo=" + reviewNo,
+	            method: "post",
+	            data: {
+	                reviewNo: reviewNo
+	            },
+	            success: function (response) {
+	                $(".reply-list").empty();
+	
+	                for (var i = 0; i < response.length; i++) {
+	                    var reply = response[i];
+	
+	                    var template = $("#reply-template").html();
+	                    var htmlTemplate = $.parseHTML(template);
+	
+	                    $(htmlTemplate).find(".fa-x").attr("data-replyno", reply.replyNo);
+	                    $(htmlTemplate).find(".deleteReply").attr("data-reply-no", reply.replyNo);
+	
+	                    $(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
+	                    $(htmlTemplate).find(".replyDate").text(reply.replyDate);
+	                    $(htmlTemplate).find(".replyContent").text(reply.replyContent);
+	
+	                    $(".reply-list").append(htmlTemplate);
+	                }
+	            }
+	        });
+	    }
+	    
+	    //댓글 등록
+	    $(".reply-insert-form").submit(function(e){
+	    	e.preventDefault();
+	    	
+	    	$.ajax({
+	    		url: "http://localhost:8080/rest/reply/insert?reviewNo=" + reviewNo,
+	    		method: "post",
+	    		data: $(e.target).serialize(),
+	    		success: function(response){
+	    			console.log(response);
+	    			
+	    			$("[name=replyContent]").val("");
+	    			loadReplyList();
+	    		}
+	    	});
+	    });
+
 	    
 	    //좋아요 체크
 	    function loadReviewLike(movieNo) {
@@ -154,13 +199,13 @@
 	    // 초기 로드
 	    loadReviewLike(movieNo);
 	    
-	    //삭제 시의 안내창
-	    function confirmDelete(reviewNo) {
-	        var result = confirm("정말 삭제하시겠습니까?");
-	        if (result) {
-	            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo;
-	        }
-	    }
+// 	    //삭제 시의 안내창
+// 	    function confirmDelete(reviewNo) {
+// 	        var result = confirm("정말 삭제하시겠습니까?");
+// 	        if (result) {
+// 	            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo;
+// 	        }
+// 	    }
 	});
 </script>
 
@@ -177,11 +222,9 @@
                     <span class="replyDate"></span>
                 </div>
 					<div class="col-3 d-flex justify-content-end">
-						<c:if test="${sessionScope.name == reviewListVO.memberNickname }">
-							<a href="rest/reply/delete?replyNo=${replyNo}">
-                    			<i class="fa-solid fa-x" style="position: relative; top: 10px; right: 20px;"></i>
-							</a>
-						</c:if>
+					
+                    			<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
+					
                 </div>
             </div>
             <div class="row mt-3">
@@ -234,12 +277,12 @@
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							
 							<!-- 작성자일 때만 수정, 삭제 버튼 표시 -->
-							<c:if test="${sessionScope.name == reviewListVO.memberNickname }">
+<%-- 							<c:if test="${sessionScope.name == memberId }"> --%>
 								<i class="fa-solid fa-pen-to-square fa-lg eidtReview" style="position: absolute; top: 30px; right: 50px;"></i>
 								<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
 									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
 								</a>
-							</c:if>
+<%-- 							</c:if> --%>
 							
 						</div>
 						<div class="mt-3 pb-3">
@@ -260,6 +303,16 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- 댓글 작성 란 -->
+				<div class="row">
+                    <div class="col-8 offset-2 mt-5">
+                        <form class="reply-insert-form">
+                            <textarea name="replyContent" style="width: 92%; height: 100px; resize: none;"></textarea>
+                            <button type="submit" class="btn btn-success" style="position: relative; bottom: 13px; right: 0px;">전송</button>
+                        </form>
+                    </div>
+                </div>
 				
 				<!-- 댓글 -->
 				<div class="row">

@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.ReplyDao;
 import com.kh.movie.dao.ReviewDao;
+import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
@@ -48,6 +50,9 @@ public class MovieController {
 	
 	@Autowired
 	private ReplyDao replyDao;
+	
+	@Autowired
+	private MemberDao memberDao;
 	
 	//리뷰 목록
 	@GetMapping("/review/list")

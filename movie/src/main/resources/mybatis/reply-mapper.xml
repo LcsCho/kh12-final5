@@ -13,12 +13,10 @@
 	<!-- 등록 -->
 	<insert id="save">
 		insert into reply (
-			reply_no, review_no, member_nickname, 
-			reply_content, reply_date
+			reply_no, review_no, member_nickname, reply_content
 		) 
 		values (
-			reply_seq.nextval, #{reviewNo}, #{memberNickname}, 
-			#{replyContent}, #{replyDate}
+			reply_seq.nextval, #{reviewNo}, #{memberNickname}, #{replyContent}
 		)
 	</insert>
 	
