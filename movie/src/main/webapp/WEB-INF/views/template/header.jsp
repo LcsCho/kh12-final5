@@ -272,6 +272,7 @@ $(document).ready(function () {
 				<div class="col">
 
 					<header>
+					
 						<div class="container-float">
 							<div class="row">
 								<div class="col-md-10 offset-md-1">
@@ -426,6 +427,7 @@ $(document).ready(function () {
 								</div>
 							</div>
 						</div>
+						<hr>
 					</header>
 					<section>
 

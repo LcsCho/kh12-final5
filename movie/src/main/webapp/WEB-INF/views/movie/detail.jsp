@@ -130,7 +130,9 @@ body {
 			<!-- Movie Information -->
 			<div class="col-md-8">
 				<h2>${movieDto.movieName}
+					<c:if test="${sessionScope.name != null}">
 					<i class="fa-regular fa-bookmark"></i>
+					</c:if>
 				</h2>
 				<p>
 					<strong>영화감독: </strong> ${movieDto.movieDirector}
