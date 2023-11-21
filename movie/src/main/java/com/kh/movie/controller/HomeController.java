@@ -74,8 +74,9 @@ public class HomeController {
 
 		for (MVCTop10RecommendVO mvcTop10Recommend : mvcTop10RecommendVO) {
 			int movieNo = mvcTop10Recommend.getMovieNo();
+			log.debug("movieNo = {}", movieNo);
 			MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-//		    log.debug("movieVO = {}", movieVO);
+		    log.debug("movieVO = {}", movieVO);
 
 			// MovieListVO 객체 생성
 			MovieListVO mvcTop10RecommendMovie = new MovieListVO();

@@ -3,11 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<%-- <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
- --%>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<link rel="stylesheet" type="text/css" href="/css/test.css">
 <!-- 회원 프로필 관련 -->
 <script>
 $(function(){
@@ -168,8 +165,6 @@ function changePassword() {
     });
   }
 </script>
-
-
 
 <div class="container w-500">
 

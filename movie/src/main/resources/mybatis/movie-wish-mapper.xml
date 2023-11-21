@@ -33,8 +33,7 @@
 	</delete>
 	
 	<select id="countWish" resultType="int">
-		select count(*) from movie_wish 
-		where movie_no = #{movieNo} and member_id = #{memberId}
+		select count(*) from movie_wish where member_id = #{memberId}
 	</select>
 	
 </mapper>
