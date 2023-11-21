@@ -216,6 +216,7 @@ body {
 						<h4 class="mt-4">평점 평균: 0.0</h4>
 					</c:otherwise>
 				</c:choose>
+				<c:if test="${sessionScope.name != null }">
 				<fieldset class="rate">
 				    <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
 				    <input type="radio" id="rating9" name="rating" value="4.5"><label class="half" for="rating9" title="4.5점"></label>
@@ -229,6 +230,7 @@ body {
 				    <input type="radio" id="rating1" name="rating" value="0.5"><label class="half" for="rating1" title="0.5점"></label>
 				
 				</fieldset>
+				</c:if>
 			</div>
 			<!-- Movie Information -->
 			<div class="col-md-8">
