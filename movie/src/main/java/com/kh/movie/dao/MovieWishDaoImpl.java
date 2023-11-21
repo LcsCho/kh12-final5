@@ -54,7 +54,7 @@ public class MovieWishDaoImpl implements MovieWishDao{
 	}
 	
 	@Override
-	public int count(int wishNo) {
-		return sqlSession.selectOne("movieWish.countWish", wishNo);
+	public int count(String memberId) {
+		return sqlSession.selectOne("movieWish.countWish", memberId);
 	}
 }

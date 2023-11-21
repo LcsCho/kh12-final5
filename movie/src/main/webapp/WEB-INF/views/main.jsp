@@ -68,8 +68,9 @@ h3 {
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<a href="/movie/detail?movieNo=${movieVO.movieNo}"> <img
 											src="/image/${movieVO.imageNo}" class="img-thumbnail"
-											style="width: 250px; height: 310px;"> <!--  										<img src="https://picsum.photos/215/300"  -->
-											<!--                                         class="img-thumbnail" style="width:250px; height: 310px;"> -->
+											style="width: 250px; height: 310px;">
+											 <!--<img src="https://picsum.photos/215/300"  -->
+											<!--class="img-thumbnail" style="width:250px; height: 310px;"> -->
 										</a>
 										<div class="col mt-2">
 											<a href="/movie/detail?movieNo=${movieVO.movieNo}">
