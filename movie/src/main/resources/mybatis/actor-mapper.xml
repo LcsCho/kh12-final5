@@ -55,10 +55,10 @@
 		where actor_no = #{actorNo}
 	</update>
 	
-	<select id="connectActorImage">
+	<insert id="connectActorImage">
 		insert into actor_image(actor_no,image_no) 
 		values(#{actorNo},#{imageNo})
-	</select>
+	</insert>
 	
 	<select id="findActorImage" resultType="ImageDto">
 		select * from image where image_no=(
