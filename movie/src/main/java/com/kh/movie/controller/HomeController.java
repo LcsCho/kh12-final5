@@ -1,5 +1,6 @@
 package com.kh.movie.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class HomeController {
 
 	@Autowired
 	private RecommendDao recommendDao;
-	
+
 	@Autowired
 	private Scheduler scheduler;
 
@@ -107,18 +108,49 @@ public class HomeController {
 //		log.debug("mvcCriticTop10RecommendList = {}", mvcCriticTop10RecommendList);
 		model.addAttribute("mvcCriticTop10RecommendList", mvcCriticTop10RecommendList);
 
-		
 		///////////////////////////////////////////////
-		
-		
+
 		// 오늘의 영화 추천
 		List<TodayRecommendDto> todayMovieList = recommendDao.getRandomList();
-		
+
 		model.addAttribute("todayMovieList", todayMovieList);
-		
-		
+
 		/////////////////////////////
+
+		// 계절별 영화 추천
+		// 현재 날짜
+		LocalDate now = LocalDate.now();
 		
+		// 오늘 날짜의 월을 가져오기 (1월부터 12월까지의 값)
+		int currentMonth = now.getMonthValue();
+		model.addAttribute("currentMonth", currentMonth);
+		List<MovieListVO> seasonMovieList = new ArrayList<>(); // 리스트 초기화
+		List<Integer> movieListBySeason = new ArrayList<>();
+		if (currentMonth >= 3 && currentMonth <= 5) {
+		    // 봄
+		    movieListBySeason = recommendDao.getSpringMovies();
+		} else if (currentMonth >= 6 && currentMonth <= 8) {
+		    // 여름
+		    movieListBySeason = recommendDao.getSummerMovies();
+		} else if (currentMonth >= 9 && currentMonth <= 11) {
+		    // 가을
+		    movieListBySeason = recommendDao.getFallMovies();
+		} else {
+		    // 겨울 (12월, 1월, 2월)
+		    movieListBySeason = recommendDao.getWinterMovies();
+		}
+
+		for (Integer movieNo : movieListBySeason) {
+			MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
+			// MovieListVO 객체 생성
+			MovieListVO seasonMovie = new MovieListVO();
+			BeanUtils.copyProperties(movieVO, seasonMovie);
+
+			// 리스트에 추가
+			seasonMovieList.add(seasonMovie);
+		}
+		model.addAttribute("seasonMovieList", seasonMovieList);
+
 		// 회원 로그인 했을 때 출력
 		if (session.getAttribute("name") != null) {
 			// 세션에서 사용자 아이디를 가져와서 memberId에 저장
@@ -129,40 +161,39 @@ public class HomeController {
 			String memberNickname = memberDto.getMemberNickname();
 			String memberGender = memberDto.getMemberGender();
 			String memberBirth = memberDto.getMemberBirth();
-			
+
 			// 회원의 연령대 계산
 			MemberAgeGroupVO memberGroupAgeVO = memberDao.getAgeGroup(memberId);
 			int ageGroup = memberGroupAgeVO.getAgeGroup();
-			
+
 			// 회원의 닉네임, 성별, 연령을 jsp로 보내기
 			model.addAttribute("memberNickname", memberNickname);
 			model.addAttribute("memberGender", memberGender);
 			model.addAttribute("ageGroup", ageGroup);
-			
+
 			// 회원별 선호 장르 추천
-			List<PreferGenreByMemberRecommendVO> preferGenreByMemberRecommendVO
-			= recommendDao.getPreferGenreByMember(memberNickname);
+			List<PreferGenreByMemberRecommendVO> preferGenreByMemberRecommendVO = recommendDao
+					.getPreferGenreByMember(memberNickname);
 			List<MovieListVO> preferGenreByMemberRecommendList = new ArrayList<>();
-			
+
 			for (PreferGenreByMemberRecommendVO preferGenreByMemberRecommend : preferGenreByMemberRecommendVO) {
 				int movieNo = preferGenreByMemberRecommend.getMovieNo();
 				MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-				
+
 				// MovieListVO 객체 생성
 				MovieListVO preferGenreByMemberRecommendMovie = new MovieListVO();
 				BeanUtils.copyProperties(movieVO, preferGenreByMemberRecommendMovie);
 
 				// 리스트에 추가
 				preferGenreByMemberRecommendList.add(preferGenreByMemberRecommendMovie);
-				
+
 			}
 //			log.debug("preferGenreByMemberRecommendList = {}", preferGenreByMemberRecommendList);
 			model.addAttribute("preferGenreByMemberRecommendList", preferGenreByMemberRecommendList);
 			///////////////////////////////////////
-			
+
 			// 회원 연령별 영화 추천
-			List<AgeGroupRecommendVO> ageGroupRecommendVO
-			= recommendDao.getAgeGroup(memberBirth);
+			List<AgeGroupRecommendVO> ageGroupRecommendVO = recommendDao.getAgeGroup(memberBirth);
 			List<MovieListVO> ageGroupRecommendList = new ArrayList<>();
 			for (AgeGroupRecommendVO ageGroupRecommend : ageGroupRecommendVO) {
 				int movieNo = ageGroupRecommend.getMovieNo();
@@ -177,38 +208,38 @@ public class HomeController {
 //			log.debug("ageGroupRecommendList = {}", ageGroupRecommendList);
 			model.addAttribute("ageGroupRecommendList", ageGroupRecommendList);
 			/////////////////////////////////
-			
+
 			// 회원 성별별 영화 추천
 			List<GenderRecommendVO> genderRecommendVO = recommendDao.getGender(memberGender);
 			List<MovieListVO> genderRecommendList = new ArrayList<>();
-			
+
 			for (GenderRecommendVO genderRecommend : genderRecommendVO) {
 				int movieNo = genderRecommend.getMovieNo();
 				MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-				
+
 				// MovieListVO 객체 생성
 				MovieListVO genderRecommendMovie = new MovieListVO();
 				BeanUtils.copyProperties(movieVO, genderRecommendMovie);
 
 				// 리스트에 추가
 				genderRecommendList.add(genderRecommendMovie);
-				
+
 			}
 //			log.debug("genderRecommendList = {}", genderRecommendList);
 			model.addAttribute("genderRecommendList", genderRecommendList);
-			
+
 			/////////////////////////////////////
-			
+
 			// 회원 성별 + 연령별 영화 추천
-			List<AgeGroupGenderRecommendVO> ageGroupGenderRecommendVO =
-			recommendDao.getAgeGroupGender(memberGender, memberBirth);
+			List<AgeGroupGenderRecommendVO> ageGroupGenderRecommendVO = recommendDao.getAgeGroupGender(memberGender,
+					memberBirth);
 			List<MovieListVO> ageGroupGenderRecommendList = new ArrayList<>();
-			
+
 //			log.debug("ageGroupGenderRecommendVO = {}", ageGroupGenderRecommendVO);
 			for (AgeGroupGenderRecommendVO ageGroupGenderRecommend : ageGroupGenderRecommendVO) {
 				int movieNo = ageGroupGenderRecommend.getMovieNo();
 				MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-				
+
 				// MovieListVO 객체 생성
 				MovieListVO ageGroupGenderRecommendMovie = new MovieListVO();
 				BeanUtils.copyProperties(movieVO, ageGroupGenderRecommendMovie);
@@ -218,17 +249,17 @@ public class HomeController {
 			}
 //			log.debug("ageGroupGenderRecommendList = {}", ageGroupGenderRecommendList);
 			model.addAttribute("ageGroupGenderRecommendList", ageGroupGenderRecommendList);
-			
+
 			//////////////////////////////////////////
-			
+
 			// 회원 찜목록 영화 추천
 			List<WishMovieRecommendVO> wishMovieRecommendVO = recommendDao.getWishMovie(memberId);
 			List<MovieListVO> wishMovieList = new ArrayList<>();
-			
+
 			for (WishMovieRecommendVO wishMovieRecommend : wishMovieRecommendVO) {
 				int movieNo = wishMovieRecommend.getMovieNo();
 				MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-				
+
 				// MovieListVO 객체 생성
 				MovieListVO wishMovieRecommendMovie = new MovieListVO();
 				BeanUtils.copyProperties(movieVO, wishMovieRecommendMovie);
@@ -238,15 +269,15 @@ public class HomeController {
 			}
 //			log.debug("wishMovieList = {}", wishMovieList);
 			model.addAttribute("wishMovieList", wishMovieList);
-			
+
 			// 다시보기 추천
 			List<RatingDto> ratingList = recommendDao.selectList(memberId);
 			List<MovieListVO> againRecommendList = new ArrayList<>();
-			
+
 			for (RatingDto rating : ratingList) {
 				int movieNo = rating.getMovieNo();
 				MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-				
+
 				// MovieListVO 객체 생성
 				MovieListVO againRecommendMovie = new MovieListVO();
 				BeanUtils.copyProperties(movieVO, againRecommendMovie);
@@ -256,13 +287,13 @@ public class HomeController {
 			}
 //			log.debug("againRecommendList = {}", againRecommendList);
 			model.addAttribute("againRecommendList", againRecommendList);
-			
+
 			///////////////////////////////////////////////////
-			
-		    // 영화 검색 구문
+
+			// 영화 검색 구문
 		}
 
 		return "main";
 	}
-	
+
 }

@@ -2,6 +2,7 @@ package com.kh.movie.dao;
 
 import java.util.List;
 
+import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.RatingDto;
 import com.kh.movie.dto.TodayRecommendDto;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
@@ -36,5 +37,10 @@ public interface RecommendDao {
 	void deleteRandom();
 	void saveRandom(TodayRecommendDto todayRecommendDto);
 	List<TodayRecommendDto> getRandomList();
+	// 계절별 영화 추천
+	List<Integer> getSpringMovies();
+	List<Integer> getSummerMovies();
+	List<Integer> getFallMovies();
+	List<Integer> getWinterMovies();
 
 }
