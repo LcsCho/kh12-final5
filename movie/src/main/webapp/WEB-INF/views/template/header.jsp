@@ -156,7 +156,7 @@ $(function(){
                            id: 'resetPasswordButton'
                        });
                    		// 버튼을 특정 위치에 추가 (예: 모달 바디의 끝에 추가)
-                       $(".modal-body").append(resetPasswordButton);
+                       $("#cert-modal-body").append(resetPasswordButton);
 
                        // 클릭 이벤트 추가
 //                        resetPasswordButton.click(function () {
@@ -424,7 +424,7 @@ function updateSuggestions(suggestions) {
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
-									<div class="modal-body">
+									<div class="modal-body" id="cert-modal-body">
 										<div class="row mb-3">
 											<p>비밀번호를 잊으셨나요?</p>
 											<br>
@@ -449,8 +449,8 @@ function updateSuggestions(suggestions) {
 												<input type="text" class="cert-input form-input w-70">
 												<button type="button" class="btn btn-cert">확인완료</button>
 											</div>
-											<div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
-											<div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
+											<div class="valid-feedback left">이메일 입력 후 인증해주세요</div>
+											<div class="invalid-feedback left">이미 사용중인 이메일입니다</div>
 										</form>
 									</div>
 								</div>
