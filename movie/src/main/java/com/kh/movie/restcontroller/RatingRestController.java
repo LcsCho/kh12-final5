@@ -36,8 +36,9 @@ public class RatingRestController {
 		return ratingDao.getCount();
 	}
 	//등록
-	@PostMapping("/")
-	public void insert(@RequestBody RatingDto ratingDto, @RequestParam int movieNo, HttpSession session) {
+	@PostMapping("/{movieNo}")
+	public void insert(@RequestBody RatingDto ratingDto, @PathVariable int movieNo, HttpSession session) {
+		log.debug("movieNo={}",movieNo);
 		String memberId= (String) session.getAttribute("name");
 		int ratingNo =ratingDao.sequence();
 		ratingDto.setMovieNo(movieNo);
