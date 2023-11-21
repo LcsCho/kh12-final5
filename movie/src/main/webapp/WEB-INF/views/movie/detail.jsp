@@ -81,7 +81,7 @@ body {
     $(document).ready(function () {
         var params = new URLSearchParams(location.search);
         var movieNo = params.get("movieNo");
-        console.log(movieNo);
+        console.log("movieNo=" + movieNo);
         
         // 서버에서 현재 사용자의 평점을 가져오는 AJAX 요청
         $.ajax({
@@ -94,8 +94,9 @@ body {
             	console.log(response);
                 // 서버에서 받아온 평점을 선택한 상태로 만들기
                 var selectedRating = response.ratingScore;
-                console.log(selectedRating);
+                //float형태로 변형
                 var numericRating = parseFloat(selectedRating);
+                //.을 넣기위해 변형해서
                 var escapedRating = numericRating.toString().replace('.', '\\.');
                 $('input[name=rating][value=' + escapedRating  + ']').prop('checked', true);
                 $('#selectedRating').text('선택된 평점: ' + selectedRating);
@@ -105,12 +106,97 @@ body {
             }
         });
 
+        $(".rate input").on("click", function() {
+            var params = new URLSearchParams(location.search);
+            var movieNo = params.get("movieNo");
 
-        
-        
+            var selectedRating = $('input[name=rating]:checked').val();
+            var numericRating = parseFloat(selectedRating);
+
+            // 기존 별점을 확인하는 Ajax 요청
+            $.ajax({
+                url: '/rating/' + movieNo,
+                method: 'GET',
+                success: function(response) {
+                	console.log(typeof response.ratingScore);
+                    // 기존 별점이 존재한다면 수정
+                    if (Object.keys(response).length > 0) {
+
+                    	
+                        // 이미 매긴 별점과 동일한 경우 삭제 처리
+                        console.log(response.ratingScore=== parseFloat(selectedRating));
+                        if (parseFloat(response.ratingScore) === parseFloat(selectedRating)) {//selectedRating은 String이라 변환
+                        	
+                        	var confirmDelete = confirm("정말로 별점을 삭제하시겠습니까?");
+                            if (confirmDelete) {
+                                // 사용자가 확인한 경우에만 삭제 처리
+                                $.ajax({
+                                    url: '/rating/' + response.ratingNo,
+                                    method: 'DELETE',
+                                    success: function(deleteResponse) {
+                                        console.log('평점이 성공적으로 삭제되었습니다.');
+                                        $('.rate input').prop('checked', false);//삭제했으면 별점 비어있는 형태로 만들기
+                                        // 추가적인 UI 업데이트 로직 작성
+                                    },
+                                    error: function(deleteError) {
+                                        console.error('평점 삭제 중 오류가 발생했습니다:', deleteError);
+                                    }
+                                });
+                            } else {
+                                // 사용자가 취소한 경우 등록된 별점을 선택한 상태로 변경
+                                var numericRating = parseFloat(response.ratingScore);
+                                var escapedRating = numericRating.toString().replace('.', '\\.');
+                                $('input[name=rating][value=' + escapedRating + ']').prop('checked', true);
+                            }
+                        } else {
+                            // 이미 매긴 별점과 동일하지 않은 경우 수정 처리
+                            $.ajax({
+                                url: '/rating/' + response.ratingNo,
+                                method: 'PUT',
+                                data: {
+                                    ratingScore: selectedRating
+                                },
+                                success: function(updateResponse) {
+                                    console.log('평점이 성공적으로 수정되었습니다.');
+                                    // 추가적인 UI 업데이트 로직 작성
+                                },
+                                error: function(updateError) {
+                                    console.error('평점 수정 중 오류가 발생했습니다:', updateError);
+                                }
+                            });
+                        }
+                    } else {
+                        // 기존 별점이 없다면 바로 등록을 수행하는 Ajax 요청
+                        $.ajax({
+                            url: '/rating/' + movieNo,
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                movieNo: movieNo,
+                                ratingScore: selectedRating
+                            }),
+                            success: function(registerResponse) {
+                                console.log('평점이 성공적으로 등록되었습니다.');
+                                // 추가적인 UI 업데이트 로직 작성
+                            },
+                            error: function(registerError) {
+                                console.error('평점 등록 중 오류가 발생했습니다:', registerError);
+                            }
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.error('기존 평점 조회 중 오류가 발생했습니다:', error);
+                }
+            });
+        });
+
+             
         
     });
 </script>
+
+
 
 </head>
 <body>
@@ -199,7 +285,7 @@ body {
 					<div class="col" style="width: 215px;">
 						<p>${actorDetailVO.actorName}</p>
 						<p>${actorDetailVO.actorRole}</p>
-						<img src="/image/${actorDetailVO.actorNo}" class="img-thumbnail"
+						<img src="/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
 							style="width: 215px; height: 300px">
 					</div>
 				</c:forEach>
