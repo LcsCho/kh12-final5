@@ -183,8 +183,8 @@
 		) where rn between ${begin} and ${end}
 	</select>
 
-	<select id="searchMovieName" resultType="MovieListVO">
-		SELECT *
+	<select id="searchMovieName" resultType="String">
+		SELECT distinct movie_name
 		FROM movie_list
 		WHERE lower(movie_name) LIKE lower('%' || #{keyword} || '%')
 	</select>
