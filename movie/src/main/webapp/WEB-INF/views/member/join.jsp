@@ -1,13 +1,38 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-        <script src="/js/join.js"></script>
+<script src="/js/join.js"></script>
+<style>
 
-        <script>
+</style>
 
-            $(function () {
-                //처음 로딩아이콘 숨김
+
+<script>
+
+$(function(){
+    //처음 로딩아이콘 숨김
+    $(".btn-send").find(".fa-spinner").hide();
+    $(".cert-wrapper").hide();
+
+    //인증번호 보내기 버튼을 누르면
+    //서버로 비동기 통신을 보내 인증 메일 발송 요청
+    $(".btn-send").click(function(){
+    	//var email = $("[name=memberId]").val();
+    	console.log("버튼 클릭됨");
+        var memberEmail = $("#memberEmail").val();
+        if(memberEmail.length == 0) return;
+
+        $(".btn-send").prop("disabled", true);
+        $(".btn-send").find(".fa-spinner").show();
+        $(".btn-send").find("span").text("이메일 발송중");
+        $.ajax({
+            url:"http://localhost:8080/rest/cert/send",
+            method:"post",
+            data:{certEmail: memberEmail},
+            success:function(){
+                $(".btn-send").prop("disabled", false);
                 $(".btn-send").find(".fa-spinner").hide();
                 $(".cert-wrapper").hide();
 

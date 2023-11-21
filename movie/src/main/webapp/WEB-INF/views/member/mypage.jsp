@@ -64,8 +64,8 @@ function openChangePasswordModal() {
 
 // 비밀번호 변경 처리
 function changePassword() {
-  var newPassword = $('#newPassword').val();
-  var confirmPassword = $('#confirmPassword').val();
+  var newPassword = $('#newPw').val();
+  var confirmPassword = $('#confirmPw').val();
 
   
   // 비밀번호 일치 여부 확인
@@ -74,15 +74,12 @@ function changePassword() {
     return;
   }
   
-  //memberId session 값 불러오기
-  var loginMemberId = '<%= session.getAttribute("name") %>';
-  
+
   //비밀번호 변경 요청
   $.ajax({
 	  url: "http://localhost:8080/member/newPw",
 	  method: "POST",
 	  data: {
-		  memberId : loginMemberId,
 		  memberPw : newPassword
 	  },
 	  success: function(response){
@@ -149,7 +146,7 @@ function changePassword() {
 
   // 회원 탈퇴 처리
   function exitMember() {
-    var memberPw = $('#memberPw').val(); // 사용자로부터 입력받은 비밀번호
+    var memberPw = $('#inputPw').val(); // 사용자로부터 입력받은 비밀번호
     console.log(memberPw);
     
     $.ajax({
@@ -231,12 +228,12 @@ function changePassword() {
           <!-- 비밀번호 입력 -->
           <div class="form-group">
             <label for="newPassword">새 비밀번호</label>
-            <input type="password" class="form-control" name="newPassword" id="newPassword">
+            <input type="password" class="form-control" name="memberPw" id="newPw">
           </div>
           <!-- 확인용 비밀번호 입력 -->
           <div class="form-group">
             <label for="confirmPassword">비밀번호 확인</label>
-            <input type="password" class="form-control" id="confirmPassword">
+            <input type="password" class="form-control" id="confirmPw">
           </div>
         </form>
       </div>
@@ -317,7 +314,7 @@ function changePassword() {
         <form id="exitForm" action="/member/exit" method="post" autocomplete="off" onsubmit="exitMember();">
           <p>정말 탈퇴하시겠습니까? 탈퇴 후 모든 정보는 자동으로 삭제됩니다.</p>
           <div class="form-group">
-					<input type="password" name="memberPw" id="memberPw" required class="form-control"
+					<input type="password" name="memberPw" id="inputPw" class="form-control"
 								placeholder="비밀번호를 입력해주세요">
 				</div>
 					<c:if test="${param.error != null}">
