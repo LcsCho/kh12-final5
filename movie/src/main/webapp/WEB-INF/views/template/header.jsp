@@ -276,7 +276,7 @@ $(document).ready(function () {
 
                         // 클릭 가능한 링크 생성하고 suggestionsContainer에 추가
                         var movieLink = $("<a>")
-                        	.addClass("no-underline")
+                        	.addClass("link-underline link-underline-opacity-0 link-danger")
                             .attr("href", "/movie/detail?movieNo=" + movieNo)
                             .text(movieName);
 
@@ -332,10 +332,7 @@ $(document).ready(function () {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#suggestionsContainer a.no-underline {
-    text-decoration: none; /* 링크의 밑줄 없애기 */
-    color: inherit; /* 링크의 기본 색상 유지 */
-}
+
 </style>
 </head>
 
