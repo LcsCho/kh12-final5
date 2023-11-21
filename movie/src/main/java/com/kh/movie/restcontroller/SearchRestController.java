@@ -33,18 +33,18 @@ public class SearchRestController {
 //	}
 	
 	@GetMapping("/movieName")
-	public List<MovieNoAndNameVO> searchMovieName(@RequestParam String keyword) {
-	    List<MovieListVO> searchMovieList = searchDao.searchMovieName(keyword);
-	    List<MovieNoAndNameVO> movieInfoList = new ArrayList<>();
+	public List<String> searchMovieName(@RequestParam String keyword) {
+	    List<String> searchMovieList = searchDao.searchMovieName(keyword);
+//	    List<String> movieInfoList = new ArrayList<>();
 
-	    for (MovieListVO movie : searchMovieList) {
-	        MovieNoAndNameVO movieInfo = new MovieNoAndNameVO();
-	        movieInfo.setMovieName(movie.getMovieName());
-	        movieInfo.setMovieNo(movie.getMovieNo());
-	        
-	        movieInfoList.add(movieInfo);
-	    }
+//	    for (MovieListVO movie : searchMovieList) {
+//	        MovieNoAndNameVO movieInfo = new MovieNoAndNameVO();
+//	        movieInfo.setMovieName(movie.getMovieName());
+//	        movieInfo.setMovieNo(movie.getMovieNo());
+//	        
+//	        movieInfoList.add(movieInfo);
+//	    }
 
-	    return movieInfoList;
+	    return searchMovieList;
 	}
 }

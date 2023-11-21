@@ -271,15 +271,15 @@ $(document).ready(function () {
 
                     // 최대 5개까지만 출력
                     for (var i = 0; i < Math.min(response.length, 5); i++) {
-                        var movieName = response[i].movieName;
-                        var movieNo = response[i].movieNo;
-
+                        var movieName = response[i];
+						
                         // 클릭 가능한 링크 생성하고 suggestionsContainer에 추가
                         var movieLink = $("<a>")
-                        	.addClass("link-underline link-underline-opacity-0 link-danger")
-                            .attr("href", "/movie/detail?movieNo=" + movieNo)
+                        	.addClass("link link-underline link-underline-opacity-0 link-danger")
                             .text(movieName);
-
+//                         	.click(function() {
+//                             $("#searchInput").val(movieName); 
+						console.log(movieName);
                         suggestionsContainer.append("<div>").append(movieLink);
                     }
                 },

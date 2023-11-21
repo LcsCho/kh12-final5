@@ -6,6 +6,6 @@ import com.kh.movie.vo.MovieListVO;
 
 public interface SearchDao {
 
-	List<MovieListVO> searchMovieName(String keyword);
+	List<String> searchMovieName(String keyword);
 
 }
