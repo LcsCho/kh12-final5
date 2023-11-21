@@ -26,7 +26,7 @@
 	<update id="edit">
 		update review 
 		<set>
-			<if test="reviewDto.reviewContent !=null"> review_content = #{reviewContent},</if>
+			<if test="reviewContent !=null"> review_content = #{reviewContent},</if>
 		</set> 
 		where review_no = #{reviewNo}
 	</update>
