@@ -187,7 +187,7 @@
 	<select id="searchMovieName" resultType="MovieListVO">
 		SELECT *
 		FROM movie_list
-		WHERE lower(movie_name) LIKE lower('%' || #{movieName} || '%')
+		WHERE lower(movie_name) LIKE lower('%' || #{keyword} || '%')
 	</select>
 
 	<select id="findActorByMovieNo" resultType="ActorDetailVO">
