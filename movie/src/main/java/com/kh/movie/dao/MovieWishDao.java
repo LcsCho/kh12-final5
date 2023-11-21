@@ -13,5 +13,5 @@ public interface MovieWishDao {
 	List<MovieWishListVO> selectList(String memberNickname);
 	MovieWishDto selectOne(int wishNo);
 	boolean check(MovieWishDto movieWishDto);
-	int count(String memberId);
+	int count(int wishNo);
 }
