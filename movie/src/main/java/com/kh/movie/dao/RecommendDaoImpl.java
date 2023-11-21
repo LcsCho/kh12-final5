@@ -101,4 +101,25 @@ public class RecommendDaoImpl implements RecommendDao{
 		return sqlSession.selectList("recommend.findAllList");
 	}
 	
+	// 계절별 영화 추천
+	@Override
+	public List<Integer> getSpringMovies() {
+		return sqlSession.selectList("recommend.spring");
+	}
+	
+	@Override
+	public List<Integer> getSummerMovies() {
+		return sqlSession.selectList("recommend.summer");
+	}
+	
+	@Override
+	public List<Integer> getFallMovies() {
+		return sqlSession.selectList("recommend.fall");
+	}
+	
+	@Override
+	public List<Integer> getWinterMovies() {
+		return sqlSession.selectList("recommend.winter");
+	}
+	
 }

@@ -34,9 +34,6 @@
 /* 	.swiper-button-prev:hover { */
 /* 	  background-color: #2980b9; /* hover 시 버튼 배경색 변경 */
 /* 	  /* 다른 스타일 속성들 추가 가능 */
-
-
-
 }
 </style>
 
@@ -56,7 +53,7 @@
 					<!-- 검색결과 -->
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>${movieName}의 검색결과</h3>
+							<h3>${movieName}의검색결과</h3>
 						</div>
 					</div>
 					<div class="swiper row">
@@ -229,6 +226,59 @@
 											<div class="col">
 												평균 <i class="fa-solid fa-star"></i>
 												${todayMovieVO.ratingAvg}점
+											</div>
+										</c:if>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+						<div class="swiper-button-next custom-next"></div>
+						<div class="swiper-button-prev custom-prev"></div>
+					</div>
+
+					<!-- 계절별 영화 추천 -->
+					<div class="row mt-5 p-3">
+						<div class="col">
+							<c:choose>
+								<c:when test="${currentMonth >= 3 && currentMonth <= 5}">
+									<h3>봄 햇살 속에서 피어나는 영화들, 신선하고 따뜻한 감동을 찾아보세요</h3>
+								</c:when>
+								<c:when test="${currentMonth >= 6 && currentMonth <= 8}">
+									<h3>여름의 열기를 식혀줄 시원한 영화들, 즐거움 가득한 순간을 만나보세요</h3>
+								</c:when>
+								<c:when test="${currentMonth >= 9 && currentMonth <= 11}">
+									<h3>가을의 감성을 공유하는 작품들로 휴식을 취해보세요</h3>
+								</c:when>
+								<c:otherwise>
+									<h3>겨울의 분위기를 느낄 수 있는 작품으로 휴식과 여유를 즐겨보세요</h3>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+					<div class="swiper row">
+						<div class="swiper-wrapper">
+							<c:forEach var="seasonMovieVO" items="${seasonMovieList}">
+								<div class="swiper-slide">
+									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
+										<div>
+											<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
+												<img src="/image/${seasonMovieVO.imageNo}"
+												class="img-thumbnail" style="width: 250px; height: 310px">
+											</a>
+										</div>
+										<div class="col">
+											<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
+												${seasonMovieVO.movieName} </a>
+										</div>
+										<div class="col">
+											<fmt:formatDate value="${seasonMovieVO.movieReleaseDate}"
+												pattern="yyyy" />
+											/ ${seasonMovieVO.movieNation}
+										</div>
+										<c:if test="${seasonMovieVO.ratingAvg != 0}">
+											<div class="col">
+												평균 <i class="fa-solid fa-star"></i>
+												${seasonMovieVO.ratingAvg}점
 											</div>
 										</c:if>
 									</div>
