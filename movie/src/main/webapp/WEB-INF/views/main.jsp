@@ -34,7 +34,10 @@
 /* 	.swiper-button-prev:hover { */
 /* 	  background-color: #2980b9; /* hover 시 버튼 배경색 변경 */
 /* 	  /* 다른 스타일 속성들 추가 가능 */
+h3 {
+	color: rgb(179, 57, 57);
 }
+
 </style>
 
 <!-- swiper cdn -->

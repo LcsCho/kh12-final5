@@ -237,68 +237,61 @@ $(document).ready(function () {
             });
         });
     });
+    
+    
 </script>
 <!-- 영화 검색 실시간으로 연관 검색어 출력 -->
 <script>
-var typingTimer;
-var doneTypingInterval = 500; // 입력 완료 인터벌 (밀리초)
+$(document).ready(function () {
+    var typingTimer;
+    var doneTypingInterval = 500; // 입력 완료 인터벌 (밀리초)
 
-// 검색 입력란에 이벤트 리스너 추가
-$("#searchInput").on("input", function () {
-    // 이전에 설정된 타이핑 타이머 제거
-    clearTimeout(typingTimer);
+    // 검색 입력란에 이벤트 리스너 추가
+    $("#searchInput").on("input", function () {
+        clearTimeout(typingTimer);
+        var keyword = $(this).val();
 
-    // 새로운 타이핑 타이머 설정
-    typingTimer = setTimeout(function () {
-        // 검색 키워드 가져오기
-        var keyword = $("#searchInput").val();
-
-        // 서버에 Ajax 요청 보내기
-        $.ajax({
-            type: "GET",
-            url: "/search/keyword",
-            data: { "keyword": keyword },
-            
-            success: function (data) {
-                // 받아온 데이터로 연관 검색어 컨테이너 업데이트
-                updateSuggestions(data);
-            },
-            
-            error: function (error) {
-                console.error("연관검색에 대한 오류 발생:", error);
+        // 타이머를 이용하여 입력이 완료된 후에 서버에 Ajax 요청 보내기
+        typingTimer = setTimeout(function () {
+            if (keyword.trim() === "") {
+                // 입력이 빈 칸인 경우 추천 목록 비우기
+                $("#suggestionsContainer").empty();
+                return;
             }
-        });
-    }, doneTypingInterval);
+
+            $.ajax({
+                url: "/search/movieName",
+                method: "GET",
+                data: { "keyword": keyword },
+
+                success: function (response) {
+                    var suggestionsContainer = $("#suggestionsContainer");
+
+                    suggestionsContainer.empty();
+
+                    // 최대 5개까지만 출력
+                    for (var i = 0; i < Math.min(response.length, 5); i++) {
+                        var movieName = response[i].movieName;
+                        var movieNo = response[i].movieNo;
+
+                        // 클릭 가능한 링크 생성하고 suggestionsContainer에 추가
+                        var movieLink = $("<a>")
+                        	.addClass("no-underline")
+                            .attr("href", "/movie/detail?movieNo=" + movieNo)
+                            .text(movieName);
+
+                        suggestionsContainer.append("<div>").append(movieLink);
+                    }
+                },
+
+                error: function (error) {
+                    console.error("연관검색에 대한 오류 발생:", error);
+                }
+            });
+        }, doneTypingInterval);
+    });
 });
-
-// 받아온 데이터로 연관 검색어 컨테이너 업데이트하는 함수
-function updateSuggestions(suggestions) {
-    // 연관 검색어 컨테이너 엘리먼트 가져오기
-    var suggestionsContainer = $("#suggestionsContainer");
-
-    // 이전 연관 검색어 제거
-    suggestionsContainer.empty();
-
-    // 새로운 연관 검색어 추가
-    for (var i = 0; i < suggestions.length; i++) {
-        var suggestion = suggestions[i];
-        var suggestionElement = $("<div class='suggestion'>" + suggestion + "</div>");
-
-        // 각 연관 검색어에 클릭 이벤트 추가
-        suggestionElement.click(function () {
-            // 선택된 연관 검색어를 검색 입력란 값으로 설정
-            $("#searchInput").val($(this).text());
-
-            // 연관 검색어 컨테이너 비우기
-            suggestionsContainer.empty();
-        });
-
-        // 연관 검색어 엘리먼트를 컨테이너에 추가
-        suggestionsContainer.append(suggestionElement);
-    }
-}
 </script>
-
 <style>
 .custom-search {
 	background-color: #e6dcdc;
@@ -320,6 +313,28 @@ function updateSuggestions(suggestions) {
 	width: 60px;
 	height: 40px;
 	border-radius: 5px;
+}
+
+<!--
+검색창 안에 스타일 추가 -->.position-relative {
+	position: relative;
+}
+
+#suggestionsContainer {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 1000;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	max-height: 200px;
+	overflow-y: auto;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#suggestionsContainer a.no-underline {
+    text-decoration: none; /* 링크의 밑줄 없애기 */
+    color: inherit; /* 링크의 기본 색상 유지 */
 }
 </style>
 </head>
@@ -345,11 +360,14 @@ function updateSuggestions(suggestions) {
 
 										<div class="col-8 d-flex justify-content-end">
 											<form action="/" method="post" class="d-flex">
-												<input class="form-control me-sm-2 custom-search"
-													type="text" name="movieName"
-													placeholder="영화 제목을 입력해주세요." style="height: fit-content;"
-													autocomplete="off">
-												<div id="suggestionsContainer"></div>
+												<div class="position-relative">
+													<!-- 부모 요소 추가 -->
+													<input class="form-control me-sm-2 custom-search"
+														type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
+														style="height: fit-content;" autocomplete="off"
+														id="searchInput">
+													<div id="suggestionsContainer"></div>
+												</div>
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
 													type="submit" style="height: fit-content;">검색</button>
