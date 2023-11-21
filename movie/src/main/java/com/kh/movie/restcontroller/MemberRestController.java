@@ -158,8 +158,12 @@ public class MemberRestController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 	
 		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
-		log.debug("비번" + memberDto.getMemberPw());
-		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
+		//log.debug("비번" + memberDto.getMemberPw());
+		boolean isCorrectPw = encoder.matches(memberPw, memberDto.getMemberPw());
+		//log.debug("isCorrectPw = {}",isCorrectPw);
+		log.debug("입력PW = {}",memberPw);
+		log.debug("memberPW = {}", memberDto.getMemberPw());
+		if( memberDto != null && isCorrectPw ) {
 			session.removeAttribute("name");//세션에서 name의 값을 삭제
 			
 			memberDao.delete(memberId);//삭제
@@ -176,7 +180,7 @@ public class MemberRestController {
 	
 	//로그아웃 상태일 때 
 	@PostMapping("/changePw")
-    public String changePassword(HttpSession session, String memberId, String memberPw) {
+    public String changePassword(String memberId, String memberPw) {
         if (memberId != null && memberPw != null) {
             // 새로운 비밀번호 암호화
             String encryptedPassword = encoder.encode(memberPw);
@@ -197,12 +201,14 @@ public class MemberRestController {
 	
 	//로그인 상태일 때
 	@PostMapping("/newPw")
-	public String newPassword(HttpSession session, String memberId, String memberPw) {
+	public String newPassword(HttpSession session, @RequestParam String memberPw) {
 		String loginMemberId = (String) session.getAttribute("name");
+		log.debug("입력PW = {}", memberPw);
 
 		if (loginMemberId != null && memberPw != null) {
 			String encryptedPassword = encoder.encode(memberPw);
-
+			log.debug("새로운PW = {}", encryptedPassword);
+			
 			MemberDto memberDto = new MemberDto();
 			memberDto.setMemberId(loginMemberId);
 			memberDto.setMemberPw(encryptedPassword);
