@@ -100,4 +100,8 @@
 		select review_like_count from review where review_no = #{reviewNo]
 	</select>
 	
+	<!-- 리뷰 갯수 -->
+	<select id="countList" resultType="int">
+		select count(*) from review_list
+	</select>
 </mapper>
