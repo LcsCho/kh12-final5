@@ -1,6 +1,5 @@
 package com.kh.movie.restcontroller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.movie.dao.SearchDao;
-import com.kh.movie.vo.MovieListVO;
-import com.kh.movie.vo.MovieNoAndNameVO;
+import com.kh.movie.dao.MovieDao;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchRestController {
 	
 	@Autowired
-	private SearchDao searchDao;
+	private MovieDao movieDao;
 	
 //	@PostMapping("/")
 //	public void insert(@PathVariable String keyword) {
@@ -34,7 +31,7 @@ public class SearchRestController {
 	
 	@GetMapping("/movieName")
 	public List<String> searchMovieName(@RequestParam String keyword) {
-	    List<String> searchMovieList = searchDao.searchMovieName(keyword);
+	    List<String> searchMovieList = movieDao.findMovieNameList(keyword);
 //	    List<String> movieInfoList = new ArrayList<>();
 
 //	    for (MovieListVO movie : searchMovieList) {

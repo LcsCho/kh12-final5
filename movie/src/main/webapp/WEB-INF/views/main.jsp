@@ -100,7 +100,7 @@ h3 {
 				<c:when test="${empty movieList && movieList != null}">
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>검색결과가 없어요!</h3>
+							<h3>${movieName}의 검색결과가 없어요!</h3>
 							<a href="/">메인으로</a>
 						</div>
 					</div>
