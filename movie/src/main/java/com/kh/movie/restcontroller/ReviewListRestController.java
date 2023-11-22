@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dao.ReviewLikeDao;
+import com.kh.movie.vo.PaginationVO;
 import com.kh.movie.vo.ReviewLikeVO;
 import com.kh.movie.vo.ReviewListVO;
 
@@ -37,32 +38,52 @@ public class ReviewListRestController {
 	
 	//최신순 조회
 	@PostMapping("/findByDateDesc")
-	public List<ReviewListVO> findByDateDesc(int movieNo) {
-		return reviewDao.findByDateDesc(movieNo);
+	public List<ReviewListVO> findByDateDesc(Model model,
+			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
+		int count = reviewDao.countList(paginationVO);
+		paginationVO.setCount(count);
+		model.addAttribute("paginationVO", paginationVO);
+		return reviewDao.findByDateDesc(paginationVO, movieNo);
 	}
 	
 	//오래된순 조회
 	@PostMapping("/findByDateAsc")
-	public List<ReviewListVO> findByDateAsc(int movieNo) {
-		return reviewDao.findByDateAsc(movieNo);
+	public List<ReviewListVO> findByDateAsc(Model model,
+			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
+		int count = reviewDao.countList(paginationVO);
+		paginationVO.setCount(count);
+		model.addAttribute("paginationVO", paginationVO);
+		return reviewDao.findByDateAsc(paginationVO, movieNo);
 	}
 	
 	//좋아요순 조회
 	@PostMapping("/findByLikeDesc")
-	public List<ReviewListVO> findByLikeDesc(int movieNo) {
-		return reviewDao.findByLikeDesc(movieNo);
+	public List<ReviewListVO> findByLikeDesc(Model model,
+			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
+		int count = reviewDao.countList(paginationVO);
+		paginationVO.setCount(count);
+		model.addAttribute("paginationVO", paginationVO);
+		return reviewDao.findByLikeDesc(paginationVO, movieNo);
 	}
 	
 	//평점높은순
 	@PostMapping("/findByRatingDesc")
-	public List<ReviewListVO> findByRatingDesc(int movieNo) {
-		return reviewDao.findByRatingDesc(movieNo);
+	public List<ReviewListVO> findByRatingDesc(Model model,
+			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
+		int count = reviewDao.countList(paginationVO);
+		paginationVO.setCount(count);
+		model.addAttribute("paginationVO", paginationVO);
+		return reviewDao.findByRatingDesc(paginationVO, movieNo);
 	}
 	
 	//평점낮은순
 	@PostMapping("/findByRatingAsc")
-	public List<ReviewListVO> findByRatingAsc(int movieNo) {
-		return reviewDao.findByRatingAsc(movieNo);
+	public List<ReviewListVO> findByRatingAsc(Model model,
+			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
+		int count = reviewDao.countList(paginationVO);
+		paginationVO.setCount(count);
+		model.addAttribute("paginationVO", paginationVO);
+		return reviewDao.findByRatingAsc(paginationVO, movieNo);
 	}
 
 	//좋아요 조회(좋아요 체크 여부, 좋아요 개수)
@@ -124,9 +145,6 @@ public class ReviewListRestController {
 	@PostMapping("/editReview")
 	public void edit(@RequestParam int reviewNo, @ModelAttribute ReviewListVO reviewListVO) {
 		String reviewContent = reviewListVO.getReviewContent();
-		log.debug("reviewNo = {}", reviewNo);
-		log.debug("reviewContent = {}", reviewContent);
 		reviewDao.edit(reviewNo, reviewContent);
 	}
-
 }

@@ -260,7 +260,9 @@
 						
 						reviewContainer.show();
 						$(editHtmlTemplate).remove();
+						location.reload();
 					}
+					
 				});
 			});
 

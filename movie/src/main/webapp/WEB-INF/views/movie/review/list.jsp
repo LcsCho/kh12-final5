@@ -42,7 +42,7 @@
         border-color: rgb(179, 57, 57);
         border-width: 2px;
     }
-    .btn-info:active{
+    .btn:active, btn-info:active{
     	background-color: rgb(179, 57, 57);
         color: white;
         font-size: 18px;
@@ -56,10 +56,27 @@
 $(function () {
     var params = new URLSearchParams(location.search);
     var movieNo = params.get("movieNo");
+    
+  	//선택된 버튼 이벤트
+    function changeButton(clickedButton) {
+	    var activeButton = $(".btn-info").filter(function() {
+	        return $(this).hasClass('active');
+	    });
+	
+	    if (activeButton) {
+	        activeButton.removeClass('active');
+	    }
+	
+	    $(clickedButton).addClass('active');
+	}
 
-    $(document).ready(function () {
-        $(".ByDateDesc").click();
-    });
+  	//페이지 로딩 시 최신순 조회(+버튼 이벤트)
+//     $(document).ready(function () {
+        $(".btn-info").on("click", function() {
+            var clickedButton = $(this);
+            changeButton(clickedButton);
+        });
+//     });
 	
     //좋아요 체크
     function loadReviewLike(movieNo) {
@@ -116,16 +133,6 @@ $(function () {
             }
         });
     }
-    
-//     //선택된 버튼 이벤트(구현 중)
-//     function changeButton(clickedButton) {
-//         var activeButton = $(".btn-info .active");
-//         if (activeButton) {
-//             activeButton.removeClass('active');
-//         }
-
-//         $(clickedButton).addClass('active');
-//     }
 
     // 최신순 조회
     $(".ByDateDesc").click(function () {
@@ -333,7 +340,7 @@ $(function () {
             }
 		});
 	});
-	
+
 });
 </script>
 
@@ -365,56 +372,54 @@ $(function () {
 	</div>
 </script>
 
-<body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-10 offset-md-1 mb-5 mt-5">
-				
-				<div class="row">
-		            <div class="col-2 offset-4 text-right">
-		                <img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
-		            </div>
-		            <div class="col-6 text-right">
-		                <div class="row mt-5 pt-5">
-		                    <h2 class="mt-5 pt-4">${movieSimpleInfo.movieName}</h2>
-		                </div>
-		                <div class="row mt-3">
-		                    <div class="col-6">
-		                        <span>${movieSimpleInfo.movieReleaseYear}</span>
-		                        <span> • </span>
-		                        <span>${movieSimpleInfo.genreName}</span>
-		                        <span> • </span>
-		                        <span>${movieSimpleInfo.movieNation}</span>
-		                    </div>
-		                </div>
-		                <div class="row mt-2">
-		                    <div class="col-6">
-		                        <span>${movieSimpleInfo.movieTime}분</span>
-		                        <span> • </span>
-		                        <span>${movieSimpleInfo.movieLevel}</span>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 offset-md-1 mb-5 mt-5">
+			
+			<div class="row">
+	            <div class="col-2 offset-4 text-right">
+	                <img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
+	            </div>
+	            <div class="col-6 text-right">
+	                <div class="row mt-5 pt-5">
+	                    <h2 class="mt-5 pt-4">${movieSimpleInfo.movieName}</h2>
+	                </div>
+	                <div class="row mt-3">
+	                    <div class="col-6">
+	                        <span>${movieSimpleInfo.movieReleaseYear}</span>
+	                        <span> • </span>
+	                        <span>${movieSimpleInfo.genreName}</span>
+	                        <span> • </span>
+	                        <span>${movieSimpleInfo.movieNation}</span>
+	                    </div>
+	                </div>
+	                <div class="row mt-2">
+	                    <div class="col-6">
+	                        <span>${movieSimpleInfo.movieTime}분</span>
+	                        <span> • </span>
+	                        <span>${movieSimpleInfo.movieLevel}</span>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
 
-				<div class="row mt-5">
-					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-						<button type="button" class="btn btn-info ByDateDesc" onclick="changeButton(this)">최신순</button>
-						<button type="button" class="btn btn-info ByDateAsc" onclick="changeButton(this)">오래된순</button>
-						<button type="button" class="btn btn-info ByLikeDesc" onclick="changeButton(this)">좋아요순</button>
-						<button type="button" class="btn btn-info ByRatingDesc" onclick="changeButton(this)">높은평점순</button>
-						<button type="button" class="btn btn-info ByRatingAsc" onclick="changeButton(this)">낮은평점순</button>
-					</div>
+			<div class="row mt-5">
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<button type="button" class="btn btn-info ByDateDesc" onclick="changeButton(this)">최신순</button>
+					<button type="button" class="btn btn-info ByDateAsc" onclick="changeButton(this)">오래된순</button>
+					<button type="button" class="btn btn-info ByLikeDesc" onclick="changeButton(this)">좋아요순</button>
+					<button type="button" class="btn btn-info ByRatingDesc" onclick="changeButton(this)">높은평점순</button>
+					<button type="button" class="btn btn-info ByRatingAsc" onclick="changeButton(this)">낮은평점순</button>
 				</div>
-				
-				<div class="row">
-					<div class="review-list"></div>
-				</div>
-	
 			</div>
-        </div>
-    </div>
-	
-</body>
+					
+			<div class="row">
+				<div class="review-list"></div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
