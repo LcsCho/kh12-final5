@@ -153,24 +153,22 @@ public class MemberRestController {
 	
 	//회원 탈퇴
 	@PostMapping("/exit")
-	public String exit(HttpSession session, String memberPw) {
+	public ResponseEntity<String> exit(HttpSession session, String memberPw) {
 		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
 	
 		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
 		log.debug("입력PW = {}",memberPw);
 		log.debug("memberPW = {}", memberDto.getMemberPw());
+		
 		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
 			session.removeAttribute("name");//세션에서 name의 값을 삭제
-			
 			memberDao.delete(memberId);//삭제
 			
-			//로그아웃
-			return "/";//탈퇴완료-메인페이지로 이동
-			
+			return ResponseEntity.ok("탈퇴되었습니다. 그동안 이용해주셔서 감사합니다.");		
 		}
 		else {//비밀번호 불일치 시,
-			return "redirect:/error";//에러페이지
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("비밀번호가 일치하지 않습니다.");
 		}
 	}
 	

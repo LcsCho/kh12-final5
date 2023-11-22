@@ -157,14 +157,16 @@ function changePassword() {
         memberPw: memberPw
       },
       success: function(response) {
-    	  console.log(response);
-    	  alert("탈퇴되었습니다. 그동안 이용해주셔서 감사합니다.");
-          window.location.href = "/";
+    	  alert(response);
+          if (response.includes("탈퇴")) {
+              window.location.href = "/";
+          }
         // 모달 닫기
         $('#exitModal').modal('hide');
       },
       error: function(xhr, status, error) {
-        alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+    	  console.error(xhr.responseText);
+        alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
       }
     });
   }
