@@ -17,10 +17,10 @@ import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
+import com.kh.movie.dao.SearchDao;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.RatingDto;
 import com.kh.movie.dto.TodayRecommendDto;
-import com.kh.movie.service.Scheduler;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
@@ -49,6 +49,7 @@ public class HomeController {
 
 	@Autowired
 	private RecommendDao recommendDao;
+	
 
 	@RequestMapping("/")
 	public String main(Model model, HttpSession session, @RequestParam(required = false) String movieName) {
@@ -61,7 +62,7 @@ public class HomeController {
 			List<MovieListVO> movieList = movieDao.searchMovieList(movieName);
 			model.addAttribute("movieName", movieName);
 			model.addAttribute("movieList", movieList);
-			log.debug("movieList = {}", movieList);
+//			log.debug("movieList = {}", movieList);
 		}
 //		log.debug("movieList = {}", movieList);
 

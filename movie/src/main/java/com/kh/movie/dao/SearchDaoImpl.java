@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.movie.dto.SearchHistoryDto;
 import com.kh.movie.vo.MovieListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,5 +21,15 @@ public class SearchDaoImpl implements SearchDao{
 	@Override
 	public List<String> searchMovieName(String keyword) {
 		return sqlSession.selectList("movie.searchMovieName", keyword);
+	}
+	
+	@Override
+	public void inputKeyword(String keyword) {
+		sqlSession.insert("search.savePopular", keyword);
+	}
+	
+	@Override
+	public List<SearchHistoryDto> showPopular() {
+		return sqlSession.selectList("search.showPopular");
 	}
 }

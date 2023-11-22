@@ -59,7 +59,10 @@ public class MovieController {
 	//리뷰 목록
 	@GetMapping("/review/list")
 	public String reviewList(@RequestParam int movieNo, Model model) {
-	    //리뷰 목록 조회
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
+		
+		//리뷰 목록 조회
 		model.addAttribute("movieNo", movieNo);
 	    
 	    //영화 정보 조회
@@ -75,6 +78,8 @@ public class MovieController {
 	@GetMapping("/review/detail")
 	public String reviewDetail(@RequestParam int movieNo,
 												@RequestParam int reviewNo, Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
 		
 		//영화 정보 조회
 		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewDao.findAll(movieNo);

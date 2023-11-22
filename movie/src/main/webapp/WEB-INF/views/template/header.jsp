@@ -240,6 +240,9 @@ $(document).ready(function () {
                 $("#suggestionsContainer").empty();
                 return;
             }
+            
+            // 추가된 부분: 입력이 있을 때 popularContainer 숨기기
+            $("#popularContainer").hide();
 
             $.ajax({
                 url: "/search/movieName",
@@ -259,7 +262,7 @@ $(document).ready(function () {
                         var movieLink = $("<a>")
                             .addClass("link link-underline link-underline-opacity-0 link-danger")
                             .text(movieName)
-                            .on("click", function() {
+                            .on("click", function () {
                                 // 클릭한 연관 검색어를 검색 입력란에 설정
                                 $("#searchInput").val($(this).text());
 
@@ -277,7 +280,89 @@ $(document).ready(function () {
             });
         }, doneTypingInterval);
     });
+
+    // 추가된 부분: Form이 제출될 때 추가적인 Ajax 요청
+    $("#movieSearchForm").on("submit", function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var keyword = $("#searchInput").val();
+
+        $.ajax({
+            url: "/search/inputKeyword",
+            method: "POST",
+            data: { "keyword": keyword },
+            success: function (response) {
+                console.log("전송완료", response);
+            },
+            error: function (error) {
+                console.error("에러:", error);
+            }
+        });
+
+        // Continue with the form submission
+        this.submit();
+    });
+    
+    // 추가된 부분: 검색 입력창을 클릭했을 때 인기 검색어 가져오기
+    $("#searchInput").on("click", function () {
+        $.ajax({
+            url: "/search/showPopular",
+            method: "GET",
+            success: function (response) {
+                console.log("인기 검색어:", response);
+
+                var popularContainer = $("#popularContainer");
+                popularContainer.append($("<h3>").text("인기 검색어"));
+
+                // 최대 5개까지만 출력
+                for (var i = 0; i < Math.min(response.length, 5); i++) {
+                    var popularKeyword = response[i].searchHistoryKeyword;
+                    // h3 태그에 인기 검색어 이름 추가
+
+                    // 클릭 가능한 링크 생성하고 popularContainer에 추가
+                    var popularLink = $("<a>")
+                        .addClass("link link-underline link-underline-opacity-0 link-danger")
+                        .text(popularKeyword)
+                        .on("click", function () {
+                            // 클릭한 인기 검색어를 검색 입력란에 설정
+                            $("#searchInput").val($(this).text());
+
+                            // form을 서버로 전송
+                            $("#movieSearchForm").submit();
+                        });
+
+                    popularContainer.append("<div>").append(popularLink);
+                }
+
+                // 인기 검색어가 표시된 상태로 설정
+                popularShown = true;
+
+                // 인기 검색어를 표시
+                popularContainer.show();
+
+            },
+            error: function (error) {
+                console.error("인기 검색어 요청 에러:", error);
+            }
+        });
+    });
+    
+ // 추가된 부분: 다른 곳을 클릭했을 때 popularContainer 숨기기
+    $(document).on("click", function (event) {
+        var target = $(event.target);
+	
+        // 클릭된 요소가 #searchInput 또는 #popularContainer 내부 요소이면 아무것도 하지 않음
+        if (target.closest("#searchInput, #popularContainer").length > 0) {
+            return;
+        }
+
+        var popularContainer = $("#popularContainer");
+        popularContainer.empty();
+        
+    });
 });
+
+
 </script>
 
 <script>
@@ -325,7 +410,7 @@ $(document).ready(function () {
 	position: relative;
 }
 
-#suggestionsContainer {
+#suggestionsContainer, #popularContainer {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -335,6 +420,14 @@ $(document).ready(function () {
 	max-height: 200px;
 	overflow-y: auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#popularContainer {
+	display: none;
+}
+
+#suggestionsContainer a, #popularContainer a {
+	cursor: pointer;
 }
 </style>
 </head>
@@ -367,6 +460,7 @@ $(document).ready(function () {
 														type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
 														style="height: fit-content;" autocomplete="off"
 														id="searchInput">
+													<div id="popularContainer"></div>
 													<div id="suggestionsContainer"></div>
 												</div>
 												<button
