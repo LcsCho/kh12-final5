@@ -60,4 +60,17 @@ public class SearchRestController {
 	public List<SearchHistoryDto> showPopularList() {
 		return searchDao.showPopular();
 	}
+	
+	@PostMapping("/inputKeywordByMember")
+	public void searchKeywordByMember(
+			@RequestParam String keyword,
+			@RequestParam String memberId) {
+		searchDao.inputKeywordByMember(keyword, memberId);
+	}
+	
+	@GetMapping("/showRecent")
+	public List<SearchHistoryDto> showRecentList(@RequestParam String memberId) {
+		return searchDao.showRecent(memberId);
+	}
+	
 }

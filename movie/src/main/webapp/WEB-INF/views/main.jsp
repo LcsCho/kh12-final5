@@ -593,12 +593,12 @@ h3 {
 													<fmt:formatDate
 														value="${againRecommendVO.movieReleaseDate}"
 														pattern="yyyy" />
-													/ ${wishMovieVO.movieNation}
+													/ ${againRecommendVO.movieNation}
 												</div>
-												<c:if test="${wishMovieVO.ratingAvg != 0}">
+												<c:if test="${againRecommendVO.ratingAvg != 0}">
 													<div class="col">
 														평균 <i class="fa-solid fa-star"></i>
-														${wishMovieVO.ratingAvg}점
+														${againRecommendVO.ratingAvg}점
 													</div>
 												</c:if>
 											</div>
