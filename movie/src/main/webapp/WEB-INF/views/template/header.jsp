@@ -237,22 +237,7 @@ $(document).ready(function () {
             });
         });
      
-	function disableButton() {
-	    const searchInput = document.getElementById("searchInput");
-	    const searchButton = document.getElementById("searchButton");
-	
-	    if (searchInput.value === "") {
-	      searchButton.disabled = true;
-	    } else {
-	      searchButton.disabled = false;
-	    }
-	  }
-	
-	  searchInput.addEventListener("input", disableButton); 
 
-     
-     
-    });
     
     
 </script>
@@ -266,7 +251,7 @@ $(document).ready(function () {
     $("#searchInput").on("input", function () {
         clearTimeout(typingTimer);
         var keyword = $(this).val();
-		console.log(keyword);
+
         // 타이머를 이용하여 입력이 완료된 후에 서버에 Ajax 요청 보내기
         typingTimer = setTimeout(function () {
             if (keyword.trim() === "") {
@@ -288,14 +273,19 @@ $(document).ready(function () {
                     // 최대 5개까지만 출력
                     for (var i = 0; i < Math.min(response.length, 5); i++) {
                         var movieName = response[i];
-						
+
                         // 클릭 가능한 링크 생성하고 suggestionsContainer에 추가
                         var movieLink = $("<a>")
-                        	.addClass("link link-underline link-underline-opacity-0 link-danger")
-                            .text(movieName);
-//                         	.click(function() {
-//                             $("#searchInput").val(movieName); 
-						console.log(movieName);
+                            .addClass("link link-underline link-underline-opacity-0 link-danger")
+                            .text(movieName)
+                            .on("click", function() {
+                                // 클릭한 연관 검색어를 검색 입력란에 설정
+                                $("#searchInput").val($(this).text());
+
+                                // form을 서버로 전송
+                                $("#movieSearchForm").submit();
+                            });
+
                         suggestionsContainer.append("<div>").append(movieLink);
                     }
                 },
@@ -308,6 +298,24 @@ $(document).ready(function () {
     });
 });
 </script>
+
+<script>
+$(document).ready(function () {
+    function disableButton() {
+        const searchInput = $("#searchInput");
+        const searchButton = $("#searchButton");
+
+        if (searchInput.val() === "") {
+            searchButton.prop("disabled", true);
+        } else {
+            searchButton.prop("disabled", false);
+        }
+    }
+
+    $("#searchInput").on("input", disableButton);
+});
+</script>
+
 <style>
 .custom-search {
 	background-color: #e6dcdc;
@@ -347,8 +355,6 @@ $(document).ready(function () {
 	overflow-y: auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-
 </style>
 </head>
 
@@ -372,7 +378,8 @@ $(document).ready(function () {
 										</div>
 
 										<div class="col-8 d-flex justify-content-end">
-											<form action="/" method="post" class="d-flex">
+											<form action="/" method="post" class="d-flex"
+												id="movieSearchForm">
 												<div class="position-relative">
 													<!-- 부모 요소 추가 -->
 													<input class="form-control me-sm-2 custom-search"
@@ -383,8 +390,8 @@ $(document).ready(function () {
 												</div>
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
-													id="searchButton" disabled 
-													type="submit" style="height: fit-content;">검색</button>
+													id="searchButton" disabled type="submit"
+													style="height: fit-content;">검색</button>
 											</form>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
