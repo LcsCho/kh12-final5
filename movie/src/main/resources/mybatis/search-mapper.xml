@@ -8,9 +8,15 @@
 	
 	<insert id="savePopular">
 		insert into 
-		search_history(search_history_no, 
-		search_history_keyword) 
-		value(search_history_seq.nextval, #{search_history}, #{search_history_keyword})
+		search_history(search_history_no, search_history_keyword) 
+		values(search_history_seq.nextval, #{keyword})
 	</insert>
+	
+	<select id="showPopular" resultType="SearchHistoryDto">
+		SELECT count(search_history_keyword) AS search_history_keyword_count, search_history_keyword
+		FROM SEARCH_HISTORY GROUP BY search_history_keyword ORDER BY search_history_keyword_count desc
+		fetch first 5 rows only
+	</select>
 
+	
 </mapper>

@@ -8,8 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class SearchHistroyDto {
+public class SearchHistoryDto {
 	private int searchHistoryNo;
+	private int searchHistoryKeywordCount;
 	private Date searchHistoryTime;
 	private String searchHistoryKeyword;
 	private String searchHistoryMemberId;
