@@ -20,6 +20,7 @@ import com.kh.movie.dao.GenreDao;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.PreferGenreDao;
+import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.PreferGenreDto;
@@ -47,6 +48,9 @@ public class MemberController {
 	
 	@Autowired
 	private MovieWishDao movieWishDao; 
+	
+	@Autowired
+	private RatingDao ratingDao;
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -200,6 +204,9 @@ public class MemberController {
 	//마이페이지
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
+		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		int movieWishCount = movieWishDao.count(memberId);
