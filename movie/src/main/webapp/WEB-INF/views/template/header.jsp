@@ -25,8 +25,6 @@
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<script src="/js/header.js"></script>
-
 <!-- 부트스트랩 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -60,20 +58,20 @@
 $(document).ready(function() {
     $("#loginForm").submit(function(event) {
         event.preventDefault();
-		console.log("memberId", $("#memberId").val(), "memberPw", $("#memberPw").val());
+      console.log("memberId", $("#memberId").val(), "memberPw", $("#memberPw").val());
 
         // Ajax를 이용한 비동기 요청
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/member/login",
             data: {
-            	 memberId: $("#memberId").val(),
+                memberId: $("#memberId").val(),
                  memberPw: $("#memberPw").val()
             },
             success: function(response) {
                 // 로그인 성공 시의 동작
-            	$("#loginModal").modal("hide");
-            	// if (response && response.redirect) {
+               $("#loginModal").modal("hide");
+               // if (response && response.redirect) {
                      //window.location.href = response.redirect;
                 // }
             },
@@ -98,7 +96,7 @@ $(function(){
        //인증번호 보내기 버튼을 누르면
        //서버로 비동기 통신을 보내 인증 메일 발송 요청
        $(".btn-send").click(function(){
-       	var email = $("#email").val();
+          var email = $("#email").val();
            //var email = $("[name=memberId]").val();
            if(email.length == 0) return;
            
@@ -152,14 +150,14 @@ $(function(){
                        $(".cert-wrapper").hide();
                        
                     // '비밀번호 재설정하러가기' 버튼 생성
-                    	//if (!$('#resetPasswordButton').length) {
+                       //if (!$('#resetPasswordButton').length) {
                        var resetPasswordButton = $('<button/>', {
                            type: 'button',
                            class: 'btn btn-primary',
                            text: '비밀번호 재설정하러가기',
                            id: 'resetPasswordButton'
                        });
-                   		// 버튼을 특정 위치에 추가 (예: 모달 바디의 끝에 추가)
+                         // 버튼을 특정 위치에 추가 (예: 모달 바디의 끝에 추가)
                        $("#cert-modal-body").append(resetPasswordButton);
                      }
                    
@@ -204,7 +202,7 @@ $(document).ready(function () {
                 method: "POST",
                 data: {
                     memberId: memberId,
-                	memberPw: newPassword
+                   memberPw: newPassword
                 },
                 success: function (response) {
                     // 비밀번호 변경 성공 시 처리
@@ -234,7 +232,7 @@ $(document).ready(function () {
     $("#searchInput").on("input", function () {
         clearTimeout(typingTimer);
         var keyword = $(this).val();
-		console.log(keyword);
+
         // 타이머를 이용하여 입력이 완료된 후에 서버에 Ajax 요청 보내기
         typingTimer = setTimeout(function () {
             if (keyword.trim() === "") {
@@ -256,14 +254,19 @@ $(document).ready(function () {
                     // 최대 5개까지만 출력
                     for (var i = 0; i < Math.min(response.length, 5); i++) {
                         var movieName = response[i];
-						
+
                         // 클릭 가능한 링크 생성하고 suggestionsContainer에 추가
                         var movieLink = $("<a>")
-                        	.addClass("link link-underline link-underline-opacity-0 link-danger")
-                            .text(movieName);
-//                         	.click(function() {
-//                             $("#searchInput").val(movieName); 
-						console.log(movieName);
+                            .addClass("link link-underline link-underline-opacity-0 link-danger")
+                            .text(movieName)
+                            .on("click", function() {
+                                // 클릭한 연관 검색어를 검색 입력란에 설정
+                                $("#searchInput").val($(this).text());
+
+                                // form을 서버로 전송
+                                $("#movieSearchForm").submit();
+                            });
+
                         suggestionsContainer.append("<div>").append(movieLink);
                     }
                 },
@@ -274,28 +277,23 @@ $(document).ready(function () {
             });
         }, doneTypingInterval);
     });
+});
+</script>
 
-	function disableButton() {
-	    const searchInput = document.getElementById("searchInput");
-	    const searchButton = document.getElementById("searchButton");
-	
-	    if (searchInput.value === "") {
-	      searchButton.disabled = true;
-	    } else {
-	      searchButton.disabled = false;
-	    }
-	  }
-	
-	  searchInput.addEventListener("input", disableButton); 
+<script>
+$(document).ready(function () {
+    function disableButton() {
+        const searchInput = $("#searchInput");
+        const searchButton = $("#searchButton");
 
+        if (searchInput.val() === "") {
+            searchButton.prop("disabled", true);
+        } else {
+            searchButton.prop("disabled", false);
+        }
+    }
 
-
-
-
-
-
-
-
+    $("#searchInput").on("input", disableButton);
 });
 </script>
 
@@ -321,6 +319,23 @@ $(document).ready(function () {
 	height: 40px;
 	border-radius: 5px;
 }
+
+<!--
+검색창 안에 스타일 추가 -->.position-relative {
+	position: relative;
+}
+
+#suggestionsContainer {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 1000;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	max-height: 200px;
+	overflow-y: auto;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 </style>
 </head>
 
@@ -344,16 +359,20 @@ $(document).ready(function () {
 										</div>
 
 										<div class="col-8 d-flex justify-content-end">
-											<form action="/" method="post" class="d-flex">
-												<input class="form-control me-sm-2 custom-search"
-													type="text" name="movieName"
-													placeholder="영화 제목을 입력해주세요." style="height: fit-content;"
-													autocomplete="off" id="searchInput">
-												<div id="suggestionsContainer"></div>
+											<form action="/" method="post" class="d-flex"
+												id="movieSearchForm">
+												<div class="position-relative">
+													<!-- 부모 요소 추가 -->
+													<input class="form-control me-sm-2 custom-search"
+														type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
+														style="height: fit-content;" autocomplete="off"
+														id="searchInput">
+													<div id="suggestionsContainer"></div>
+												</div>
 												<button
-													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn" 
-													id="searchButton" disabled 
-													type="submit" style="height: fit-content;">검색</button>
+													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
+													id="searchButton" disabled type="submit"
+													style="height: fit-content;">검색</button>
 											</form>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
@@ -441,10 +460,6 @@ $(document).ready(function () {
 											<div class="mb-3">
 												<input type="email" class="form-control" id="email"
 													name="memberId" placeholder="이메일">
-											<div class="feedback">
-											<div class="valid-feedback left"></div>
-											<div class="invalid-feedback left"></div>
-											</div>
 											</div>
 											<button type="button" class="btn-send btn btn-primary">
 												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일
@@ -454,6 +469,8 @@ $(document).ready(function () {
 												<input type="text" class="cert-input form-input w-70">
 												<button type="button" class="btn btn-cert">확인완료</button>
 											</div>
+											<div class="valid-feedback left">이메일 입력 후 인증해주세요</div>
+											<div class="invalid-feedback left">이미 사용중인 이메일입니다</div>
 										</form>
 									</div>
 								</div>
@@ -477,19 +494,14 @@ $(document).ready(function () {
 											method="post">
 											<!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
 											<div class="mb-3">
-												<input type="password" class="form-control" id="newPw"
-													name="memberPw" placeholder="새로운 비밀번호">
-											<div class="valid-feedback left">올바른 형식입니다</div>
-											<div class="invalid-feedback left">형식이 올바르지 않습니다</div>
-									</div>
-									
+												<input type="password" class="form-control" id="newPassword"
+													name="newPassword" placeholder="새로운 비밀번호" required>
+											</div>
 											<div class="mb-3">
 												<input type="password" class="form-control"
-													id="confirmPw" name="confirmPassword"
-													placeholder="비밀번호 확인">
-											<div class="valid-feedback left"></div>
-											<div class="invalid-feedback left"></div>
-									</div>
+													id="confirmPassword" name="confirmPassword"
+													placeholder="비밀번호 확인" required>
+											</div>
 											<button type="submit" class="btn btn-primary">비밀번호
 												재설정</button>
 										</form>
@@ -499,4 +511,3 @@ $(document).ready(function () {
 						</div>
 						<hr>
 					</header>
-					<section>
