@@ -250,7 +250,7 @@ $(document).ready(function () {
     $("#searchInput").on("input", function () {
         clearTimeout(typingTimer);
         var keyword = $(this).val();
-
+		console.log(keyword);
         // 타이머를 이용하여 입력이 완료된 후에 서버에 Ajax 요청 보내기
         typingTimer = setTimeout(function () {
             if (keyword.trim() === "") {
