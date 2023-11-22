@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -117,6 +118,15 @@ public class ReviewListRestController {
 	    reviewLikeVO.setMemberNickname(memberNickname);
 
 	    return reviewLikeVO;
+	}
+	
+	//리뷰 수정
+	@PostMapping("/editReview")
+	public void edit(@RequestParam int reviewNo, @ModelAttribute ReviewListVO reviewListVO) {
+		String reviewContent = reviewListVO.getReviewContent();
+		log.debug("reviewNo = {}", reviewNo);
+		log.debug("reviewContent = {}", reviewContent);
+		reviewDao.edit(reviewNo, reviewContent);
 	}
 
 }

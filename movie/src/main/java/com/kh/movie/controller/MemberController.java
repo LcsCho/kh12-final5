@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.movie.dao.GenreDao;
 import com.kh.movie.dao.MemberDao;
+import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.PreferGenreDao;
 import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
@@ -43,6 +44,9 @@ public class MemberController {
 	
 	@Autowired
 	private PreferGenreDao preferGenreDao;
+	
+	@Autowired
+	private MovieWishDao movieWishDao; 
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -106,15 +110,12 @@ public class MemberController {
 	//마이페이지
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
-		//[1]세션에서 사용자의 아이디를 꺼낸다
-		// -세션은 값을 Object로 저장한다(아무거나 넣어야 하니까)
 		String memberId = (String)session.getAttribute("name");
-		//[2]가져온 아이디로 회원정보를 조회한다
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		//[3]조회한 정보를 모델에 첨부한다
+		int movieWishCount = movieWishDao.count(memberId);
 		model.addAttribute("memberDto", memberDto);
-		//[5]이 회원의 프로필 이미지 번호를 첨부한다
 		model.addAttribute("memberImage", memberDao.findMemberImage(memberId));
+		model.addAttribute("movieWishCount", movieWishCount);
 		
 		
 		return "member/mypage";	

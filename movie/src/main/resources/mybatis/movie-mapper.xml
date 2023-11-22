@@ -168,8 +168,7 @@
 	</select>
 
 	<select id="findByMovieNoVO" resultType="MovieVO">
-
-		select  distinct * from movie_list 
+		select * from movie_list 
 		where movie_no = #{movieNo}
 	</select>
 
@@ -184,10 +183,16 @@
 		) where rn between ${begin} and ${end}
 	</select>
 
-	<select id="searchMovieName" resultType="MovieListVO">
+	<select id="searchMovieList" resultType="MovieListVO">
 		SELECT *
 		FROM movie_list
-		WHERE lower(movie_name) LIKE lower('%' || #{movieName} || '%')
+		WHERE lower(movie_name) LIKE lower('%' || #{keyword} || '%')
+	</select>
+	
+		<select id="findMovieNameList" resultType="String">
+		SELECT distinct movie_name
+		FROM movie_list
+		WHERE lower(movie_name) LIKE lower('%' || #{keyword} || '%')
 	</select>
 
 	<select id="findActorByMovieNo" resultType="ActorDetailVO">

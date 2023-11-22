@@ -32,7 +32,7 @@
 		delete movie_wish where movie_no = #{movieNo} and member_id = #{memberId}
 	</delete>
 	
-	<select id="countWish" resultType="int">
+	<select id="count" resultType="int">
 		select count(*) from movie_wish 
 		where movie_no = #{movieNo} and member_id = #{memberId}
 	</select>

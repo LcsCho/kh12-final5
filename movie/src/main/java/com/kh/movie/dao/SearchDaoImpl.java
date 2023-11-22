@@ -18,7 +18,7 @@ public class SearchDaoImpl implements SearchDao{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<MovieListVO> searchMovieName(String keyword) {
+	public List<String> searchMovieName(String keyword) {
 		return sqlSession.selectList("movie.searchMovieName", keyword);
 	}
 }

@@ -34,7 +34,10 @@
 /* 	.swiper-button-prev:hover { */
 /* 	  background-color: #2980b9; /* hover 시 버튼 배경색 변경 */
 /* 	  /* 다른 스타일 속성들 추가 가능 */
+h3 {
+	color: rgb(179, 57, 57);
 }
+
 </style>
 
 <!-- swiper cdn -->
@@ -65,8 +68,9 @@
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<a href="/movie/detail?movieNo=${movieVO.movieNo}"> <img
 											src="/image/${movieVO.imageNo}" class="img-thumbnail"
-											style="width: 250px; height: 310px;"> <!--  										<img src="https://picsum.photos/215/300"  -->
-											<!--                                         class="img-thumbnail" style="width:250px; height: 310px;"> -->
+											style="width: 250px; height: 310px;">
+											 <!--<img src="https://picsum.photos/215/300"  -->
+											<!--class="img-thumbnail" style="width:250px; height: 310px;"> -->
 										</a>
 										<div class="col mt-2">
 											<a href="/movie/detail?movieNo=${movieVO.movieNo}">
@@ -96,7 +100,7 @@
 				<c:when test="${empty movieList && movieList != null}">
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>검색결과가 없어요!</h3>
+							<h3>${movieName}의 검색결과가 없어요!</h3>
 							<a href="/">메인으로</a>
 						</div>
 					</div>
@@ -241,16 +245,16 @@
 						<div class="col">
 							<c:choose>
 								<c:when test="${currentMonth >= 3 && currentMonth <= 5}">
-									<h3>봄 햇살 속에서 피어나는 영화들, 신선하고 따뜻한 감동을 찾아보세요</h3>
+									<h3>따스한 봄, 마음이 따뜻해지는 영화를 추천드려요!</h3>
 								</c:when>
 								<c:when test="${currentMonth >= 6 && currentMonth <= 8}">
-									<h3>여름의 열기를 식혀줄 시원한 영화들, 즐거움 가득한 순간을 만나보세요</h3>
+									<h3>뜨거운의 여름의 열기를 식혀줄 시원한 영화들, 시원한 영화를 추천드려요!</h3>
 								</c:when>
 								<c:when test="${currentMonth >= 9 && currentMonth <= 11}">
-									<h3>가을의 감성을 공유하는 작품들로 휴식을 취해보세요</h3>
+									<h3>가을 감성을 자극할 영화를 추천드려요!</h3>
 								</c:when>
 								<c:otherwise>
-									<h3>겨울의 분위기를 느낄 수 있는 작품으로 휴식과 여유를 즐겨보세요</h3>
+									<h3>추운 겨울, 우리의 마음을 녹여줄 영화를 추천드려요!</h3>
 								</c:otherwise>
 							</c:choose>
 						</div>
