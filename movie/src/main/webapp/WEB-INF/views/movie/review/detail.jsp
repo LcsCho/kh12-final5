@@ -319,8 +319,18 @@
 		<div class="row">
 			<div class="col-md-10 offset-md-1 mb-5 mt-5">
 	
-				<!-- 영화 정보 -->
 				<div class="row">
+					<div class="col-3">
+						<a href="list?movieNo=${review.movieNo}">
+							<button type="button" class="btn btn-link">
+								<i class="fa-solid fa-angle-left"></i>영화 상세
+							</button>
+						</a>
+					</div>
+				</div>
+	
+				<!-- 영화 정보 -->
+				<div class="row mt-5">
 				     <div class="col-2 offset-4 text-right">
 				         <img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
 				     </div>
@@ -348,7 +358,7 @@
 				 </div>
 			
 				<!-- 리뷰 정보 -->
-				<div class="card mt-3 view-container">
+				<div class="card mt-5 view-container">
 					<div class="card-body">
 						<div>
 							<img src="images/user.png" class="userImage">

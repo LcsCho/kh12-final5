@@ -71,12 +71,12 @@ $(function () {
 	}
 
   	//페이지 로딩 시 최신순 조회(+버튼 이벤트)
-//     $(document).ready(function () {
+    $(document).ready(function () {
         $(".btn-info").on("click", function() {
             var clickedButton = $(this);
             changeButton(clickedButton);
         });
-//     });
+    });
 	
     //좋아요 체크
     function loadReviewLike(movieNo) {
@@ -155,6 +155,11 @@ $(function () {
 
 				    $(htmlTemplate).find(".likeButton").attr("data-reviewno", review.reviewNo);
 				    $(htmlTemplate).find(".card").attr("data-reviewno", review.reviewNo);
+				    
+	                var reviewNo = review.reviewNo;
+	                
+	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
+	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -197,6 +202,12 @@ $(function () {
 				    var htmlTemplate = $.parseHTML(template);
 
 				    $(htmlTemplate).find(".likeButton").attr("data-reviewno", review.reviewNo);
+				    $(htmlTemplate).find(".card").attr("data-reviewno", review.reviewNo);
+				    
+	                var reviewNo = review.reviewNo;
+	                
+	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
+	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -238,6 +249,12 @@ $(function () {
 				    var htmlTemplate = $.parseHTML(template);
 
 				    $(htmlTemplate).find(".likeButton").attr("data-reviewno", review.reviewNo);
+				    $(htmlTemplate).find(".card").attr("data-reviewno", review.reviewNo);
+				    
+	                var reviewNo = review.reviewNo;
+	                
+	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
+	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -279,6 +296,12 @@ $(function () {
 				    var htmlTemplate = $.parseHTML(template);
 
 				    $(htmlTemplate).find(".likeButton").attr("data-reviewno", review.reviewNo);
+				    $(htmlTemplate).find(".card").attr("data-reviewno", review.reviewNo);
+				    
+	                var reviewNo = review.reviewNo;
+	                
+	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
+	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -320,7 +343,12 @@ $(function () {
 				    var htmlTemplate = $.parseHTML(template);
 
 				    $(htmlTemplate).find(".likeButton").attr("data-reviewno", review.reviewNo);
-
+				    $(htmlTemplate).find(".card").attr("data-reviewno", review.reviewNo);
+				    
+	                var reviewNo = review.reviewNo;
+	                
+	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
+	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
@@ -363,9 +391,11 @@ $(function () {
 					</button>
 				</div>
 				<div class="col">
-					<button type="button" class="btn btn-primary btn-link">
-						<i class="fa-regular fa-comment"></i>
-					</button>
+					<a class="commnetButton">					
+						<button type="button" class="btn btn-primary btn-link">
+							<i class="fa-regular fa-comment"></i>
+						</button>
+					</a>
 				</div>
 			</div>
 		</div>
