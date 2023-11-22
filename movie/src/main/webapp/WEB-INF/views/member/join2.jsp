@@ -3,200 +3,234 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<link rel="stylesheet" type="text/css" href="../css/commons.css">
-<!-- 아이콘 사용을 위한 Font Awesome 6 CDN -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script src="/js/join.js"></script>
 <style>
-	.flex-container {
-	    display: flex;
-	    flex-direction: column;
-	}
+
 </style>
 
-<script src="/js/join.js"></script>
-	 
+
 <script>
-/* 인증번호  */
-$(function() {
-	//처음 로딩아이콘 숨김
-	$(".btn-send").find(".fa-spinner").hide();
-	$(".cert-wrapper").hide();
 
-	// 인증번호 보내기 버튼을 누르면 
-	// 서버로 비동기 통신을 보내 인증 메일 발송 요청
-	$(".btn-send").click(function() {
-		var email = $("[name=memberId]").val();
-		if (email.length == 0)
-			return;
+$(function(){
+    //처음 로딩아이콘 숨김
+    $(".btn-send").find(".fa-spinner").hide();
+    $(".cert-wrapper").hide();
 
-		$(".btn-send").prop("disabled", true);
-		$(".btn-send").find(".fa-spinner").show();
-		$(".btn-send").find("span").text("이메일 발송중");
-		$.ajax({
-			url : "http://localhost:8080/rest/cert/send",
-			method : "post",
-			data : {
-				certEmail : email
-			},
-			success : function() {
-				$(".btn-send").prop("disabled", false);
-				$(".btn-send").find(".fa-spinner").hide();
-				$(".btn-send").find("span").text("보내기");
-				window.alert("이메일 확인하세요");
+    //인증번호 보내기 버튼을 누르면
+    //서버로 비동기 통신을 보내 인증 메일 발송 요청
+    $(".btn-send").click(function(){
+    	//var email = $("[name=memberId]").val();
+    	console.log("버튼 클릭됨");
+        var memberEmail = $("#memberEmail").val();
+        if(memberEmail.length == 0) return;
 
-				$(".cert-wrapper").show();
-				window.email = email;
-			},
-		});
-	});
-	// 확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사 
-	$(".btn-cert").click(
-			function() {
-				//    var email = $("[name=memberEmail]").val();
-				var email = window.email;
-				var number = $(".cert-input").val();
+        $(".btn-send").prop("disabled", true);
+        $(".btn-send").find(".fa-spinner").show();
+        $(".btn-send").find("span").text("이메일 발송중");
+        $.ajax({
+            url:"http://localhost:8080/rest/cert/send",
+            method:"post",
+            data:{certEmail: memberEmail},
+            success:function(){
+                $(".btn-send").prop("disabled", false);
+                $(".btn-send").find(".fa-spinner").hide();
+                $(".cert-wrapper").hide();
 
-				if (email.length == 0 || number.length == 0)
-					return;
+                //인증번호 보내기 버튼을 누르면
+                //서버로 비동기 통신을 보내 인증 메일 발송 요청
+                $(".btn-send").click(function () {
+                    //var email = $("[name=memberId]").val();
+                    console.log("버튼 클릭됨");
+                    var memberEmail = $("#memberEmail").val();
+                    if (memberEmail.length == 0) return;
 
-				$.ajax({
-					url : "http://localhost:8080/rest/cert/check",
-					method : "post",
-					data : {
-						certEmail : email,
-						certNumber : number
-					},
-					success : function(response) {
-						// console.log(response);
-						if (response == 'Y') {//인증성공 
-							$(".cert-input").removeClass("success fail")
-									.addClass("success");
-							$(".btn-cert").prop("disabled", true);
-							//상태객체에 상태 저장하는 코드
-							$(".cert-result").text("인증되었습니다.").css("color",
-									"green");
-						} else {
-							$(".cert-input").removeClass("success fail")
-									.addClass("fail");
-							//상태객체에 상태 저장하는 코드
-							$(".cert-result").text("인증에 실패했습니다.").css(
-									"color", "red");
-						}
-					},
-				});
-			});
-});
-    
-</script>
+                    $(".btn-send").prop("disabled", true);
+                    $(".btn-send").find(".fa-spinner").show();
+                    $(".btn-send").find("span").text("이메일 발송중");
+                    $.ajax({
+                        url: "http://localhost:8080/rest/cert/send",
+                        method: "post",
+                        data: { certEmail: memberEmail },
+                        success: function () {
+                            $(".btn-send").prop("disabled", false);
+                            $(".btn-send").find(".fa-spinner").hide();
+                            $(".btn-send").find("span").text("발송하기");
+                            // window.alert("이메일 확인하세요!");
 
-<form class="join-form" action="join" method="post" autocomplete="off">
+                            $(".cert-wrapper").show();
+                            window.memberEmail = memberEmail;
+                        },
+                    });
+                });
 
-        <div class="row container w-600 navy text-center">
-            <div class="row">
-                <h2 >회원가입</h2>
+
+                //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
+                $(".btn-cert").click(function () {
+                    console.log("버튼클릭");
+                    // var email = $("[name=memberEmail]").val();
+                    var memberEmail = window.memberEmail;
+                    var no = $("#cert-input").val();
+                    if (memberEmail.length == 0 || no.length == 0) return;
+
+                    $.ajax({
+                        url: "http://localhost:8080/rest/cert/check",
+                        method: "post",
+                        data: {
+                            certEmail: memberEmail,
+                            certNo: no
+                        },
+                        success: function (response) {
+                            console.log(response);
+                            if (response.result) { //인증성공
+                                $("#cert-input").removeClass("is-valid is-invalid")
+                                    .addClass("is-valid");
+                                $(".btn-cert").prop("disabled", true);
+                                //상태객체에 상태 저장하는 코드
+
+                                // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
+                                $(".btn-send").find("span").text("인증완료!");
+                                $(".btn-send").prop("disabled", true);
+                                $(".cert-wrapper").hide();
+                            }
+                            else {
+                                $("#cert-input").removeClass("is-valid is-invalid")
+                                    .addClass("is-invalid");
+                                alert(response.error);
+                            }
+                        },
+                    });
+                });
+            });
+
+
+        </script>
+
+        <div class="row my-5 py-5" style="min-height: 400px;">
+            <div class="col-md-4 offset-md-4 col-sm-10 offset-sm-1">
+
+                <form class="join-form" action="join" method="post" autocomplete="off">
+
+                    <!-- 제목 -->
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="text-center">회원 가입</h3>
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="form-floating">
+                                <input type="email" id="memberEmail" class="form-control" placeholder=""
+                                    name="memberId">
+                                <label>아이디</label>
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex align-items-center">
+                            <button type="button" class="btn-send btn btn-secondary form-control">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <span>인증</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-9">
+                            <div class="cert-wrapper">
+                                <input type="text" id="cert-input" class="form-control">
+                                <button type="button" class="btn-cert btn btn-secondary form-control">확인완료</button>
+                            </div>
+                            <div class="feedback">
+					            <div class="valid-feedback"></div>
+					            <div class="invalid-feedback"></div>
+        					</div>
+                        </div>
+                    </div>
+
+                    <!-- 비밀번호 입력창-->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="password" name="memberPw" class="form-control" placeholder=""
+                                    id="memberPassWord">
+                                <label>비밀번호
+                                </label>
+                                <div class="valid-feedback">올바른 형식입니다</div>
+                                <div class="invalid-feedback">형식이 올바르지 않습니다</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 비밀번호 확인 입력창 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="password" id="password-check" class="form-control" placeholder="">
+                                <label>비밀번호 확인</label>
+                                <div class="valid-feedback"></div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 닉네임 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="" name="memberNickname">
+                                <label>닉네임
+                                </label>
+                                <div class="valid-feedback"></div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 연락처 입력창 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="" name="memberContact">
+                                <label>연락처</label>
+                                <div class="valid-feedback">사용 가능한 전화번호입니다</div>
+                                <div class="invalid-feedback">형식이 올바르지 않습니다</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 생년월일 입력창 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="date" name="memberBirth" class="form-control" name="memberBirth">
+                                <label>생년월일</label>
+                                <div class="invalid-feedback">잘못된 날짜 형식입니다</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 성별 선택 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <input type="radio" name="memberGender" value="남자" class="form-radio w-70" checked> 남자
+                            <input type="radio" name="memberGender" value="여자" class="form-radio w-70"> 여자
+                        </div>
+                    </div>
+
+
+                    <!-- 가입 버튼 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary w-100">
+                                회원가입
+                            </button>
+                        </div>
+                    </div>
+
+
+                </form>
             </div>
-            <div class="row right">
-                <span><span class="red">*</span>필수입력사항</span>
-            </div>
-            <hr class="navy">
-
-                <div class="row flex-container">
-                
-                    <div class="row w-25 left">
-                        <label>아이디<span class="red">*</span></label>
-                    </div>
-
-                    <div class="row w-75 pr-30 left">
-                        <input type="email" name="memberId" 
-                        	placeholder="예: test@kh.com" class="form-control w-70">
-   					<button type="button" class="btn-send btn btn-navy">
-    			<i class="fa-solid fa-spinner fa-spin"></i>
-    					<span>인증</span>
-								</button>
-                        <div class="cert-wrapper pt-10">
-       					 <input type="text" class="cert-input form-control w-70">
-       					 <button type="button" class="btn-cert btn btn-navy">확인완료</button>
-   					</div>
-   					 <div class="fail-feedback left">이메일 입력 후 인증해주세요</div>
-                      <div class="fail2-feedback left">이미 사용중인 이메일입니다</div>
-   					
-                </div>
-                
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>비밀번호<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="text" name="memberPw" 
-                             placeholder="비밀번호를 입력해주세요"
-                            class="form-control w-100">
-                             <div class="success-feedback left"></div>
-                        <div class="fail-feedback left">영문,숫자,특수문자(!@#$) 반드시 1개 이상 포함 8~16자</div>
-                    </div>
-                </div>
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>비밀번호 확인<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="text" id="password-check" placeholder="비밀번호 한 번 더 입력해주세요"
-                                    class="form-control w-100">
-                        <div class="success-feedback"></div>
-                        <div class="fail-feedback left">동일한 비밀번호를 입력하세요</div>
-                        <div class="fail2-feedback left">비밀번호를 먼저 작성하세요</div>
-                    </div>
-                </div>
-               
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>닉네임<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="text" name="memberNickname" 
-                         class="form-control w-100">
-                    </div>
-                </div>
-
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>생년월일</label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="date" name="memberBirth" 
-                        class="form-control w-100">
-                         <div class="fail-feedback left">잘못된 날짜를 선택하셨습니다</div>
-                    </div>
-                </div>
-
-                <div class="row flex-container">
-                    <div class="row w-25 left">
-                        <label>휴대폰<span class="red">*</span></label>
-                    </div>
-                    <div class="row w-75 pr-30">
-                        <input type="tel" name="memberContact" placeholder="01012341234(-없이)"
-                                class="form-control w-100">
-                                <div class="fail-feedback left">휴대폰 번호를 입력해주세요</div>
-                    </div>
-                </div>
-                  <div class="row flex-container">
-                
-                    <div class="row w-25 left">
-                        <label>성별<span class="red">*</span></label>
-                    </div>
-
-                    <div class="row w-75 pr-30 left">
-                        <input type="radio" name="memberGender" class="form-radio w-70"> 남자
-                        <input type="radio" name="memberGender" class="form-radio w-70"> 여자
-   					</div>
-   					
-                </div>
-
-                <div class="row pt-10 text-center">
-                    <button type="submit" class="btn btn-orange">가입하기</button>
-                </div>
-
         </div>
-       </div>
-</form>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+        <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
