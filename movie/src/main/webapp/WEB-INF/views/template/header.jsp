@@ -303,64 +303,79 @@ $(document).ready(function () {
         this.submit();
     });
     
-    // 추가된 부분: 검색 입력창을 클릭했을 때 인기 검색어 가져오기
-    $("#searchInput").on("click", function () {
-        $.ajax({
-            url: "/search/showPopular",
-            method: "GET",
-            success: function (response) {
-                console.log("인기 검색어:", response);
-
-                var popularContainer = $("#popularContainer");
-                popularContainer.append($("<h3>").text("인기 검색어"));
-
-                // 최대 5개까지만 출력
-                for (var i = 0; i < Math.min(response.length, 5); i++) {
-                    var popularKeyword = response[i].searchHistoryKeyword;
-                    // h3 태그에 인기 검색어 이름 추가
-
-                    // 클릭 가능한 링크 생성하고 popularContainer에 추가
-                    var popularLink = $("<a>")
-                        .addClass("link link-underline link-underline-opacity-0 link-danger")
-                        .text(popularKeyword)
-                        .on("click", function () {
-                            // 클릭한 인기 검색어를 검색 입력란에 설정
-                            $("#searchInput").val($(this).text());
-
-                            // form을 서버로 전송
-                            $("#movieSearchForm").submit();
-                        });
-
-                    popularContainer.append("<div>").append(popularLink);
-                }
-
-                // 인기 검색어가 표시된 상태로 설정
-                popularShown = true;
-
-                // 인기 검색어를 표시
-                popularContainer.show();
-
-            },
-            error: function (error) {
-                console.error("인기 검색어 요청 에러:", error);
-            }
-        });
-    });
     
- // 추가된 부분: 다른 곳을 클릭했을 때 popularContainer 숨기기
-    $(document).on("click", function (event) {
-        var target = $(event.target);
+ // 입력창이 클릭되었을 때의 이벤트 핸들러
+    $("#searchInput").on("click", function () {
+        console.log("실행");
+    	// 서버에 비동기 요청을 보냄
+    	 var currentText = $(this).val().trim();
+    	 if (currentText === "") {
+	        $.ajax({
+	            url: "/search/showPopular",
+	            method: "GET",
+	            success: function (response) {
+	                console.log(response);
+	            	var popularContainer = $("#popularContainer");
+	                // 받아온 데이터를 popularContainer에 표시
+	                    console.log(response[0].searchHistoryKeyword);
+	                popularContainer.empty();
+	            	popularContainer.append($("<h3>").text("인기 검색어"));
+	                for (var i = 0; i < response.length; i++) {
+	                	var popularItem = $("<div>")
+	                        .addClass("link link-underline link-underline-opacity-0 link-danger")
+	                        .text(response[i].searchHistoryKeyword)
+	                        .on("click", function () {
+	                            // 클릭한 인기 검색어를 검색 입력란에 설정
+	                            $("#searchInput").val($(this).text());
 	
-        // 클릭된 요소가 #searchInput 또는 #popularContainer 내부 요소이면 아무것도 하지 않음
-        if (target.closest("#searchInput, #popularContainer").length > 0) {
-       		$("#popularContainer").empty();
-            return;
+	                            // 폼을 서버로 전송
+	                            $("#movieSearchForm").submit();
+	                        });
+	
+	                    popularContainer.append(popularItem);
+	                }
+	
+	                // 인기 검색어를 표시한 후 popularContainer를 보여줌
+	                popularContainer.show();
+	            },
+	            error: function (error) {
+	                console.error("인기 검색어 불러오기에 실패했습니다.", error);
+	            }
+	        });
+    	} 
+        
+        
+        
+    });
+
+    // 다른 부분에서 입력창이 아닌 곳을 클릭했을 때 popularContainer를 숨김
+    $(document).on("click", function (event) {
+        if (!$(event.target).closest("#searchInput").length) {
+            $("#popularContainer").hide();
         }
     });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 });
-
-
 </script>
+
+
+
+
+
+
 
 <script>
 $(document).ready(function () {
