@@ -353,12 +353,9 @@ $(document).ready(function () {
 	
         // 클릭된 요소가 #searchInput 또는 #popularContainer 내부 요소이면 아무것도 하지 않음
         if (target.closest("#searchInput, #popularContainer").length > 0) {
+       		$("#popularContainer").empty();
             return;
         }
-
-        var popularContainer = $("#popularContainer");
-        popularContainer.empty();
-        
     });
 });
 
