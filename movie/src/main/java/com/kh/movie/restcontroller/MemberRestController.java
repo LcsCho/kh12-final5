@@ -158,12 +158,9 @@ public class MemberRestController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 	
 		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
-		//log.debug("비번" + memberDto.getMemberPw());
-		boolean isCorrectPw = encoder.matches(memberPw, memberDto.getMemberPw());
-		//log.debug("isCorrectPw = {}",isCorrectPw);
 		log.debug("입력PW = {}",memberPw);
 		log.debug("memberPW = {}", memberDto.getMemberPw());
-		if( memberDto != null && isCorrectPw ) {
+		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
 			session.removeAttribute("name");//세션에서 name의 값을 삭제
 			
 			memberDao.delete(memberId);//삭제

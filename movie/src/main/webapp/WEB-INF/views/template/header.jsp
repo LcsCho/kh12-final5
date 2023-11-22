@@ -25,6 +25,8 @@
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<script src="/js/header.js"></script>
+
 <!-- 부트스트랩 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -99,6 +101,7 @@ $(function(){
        	var email = $("#email").val();
            //var email = $("[name=memberId]").val();
            if(email.length == 0) return;
+           
 
            $(".btn-send").prop("disabled", true);
            $(".btn-send").find(".fa-spinner").show();
@@ -110,6 +113,7 @@ $(function(){
                success:function(){
                    $(".btn-send").prop("disabled", false);
                    $(".btn-send").find(".fa-spinner").hide();
+                   $(".cert-wrapper").hide();
                    $(".btn-send").find("span").text("인증번호 보내기");
                    // window.alert("이메일 확인하세요!");
 
@@ -137,8 +141,8 @@ $(function(){
                success:function(response){
                    // console.log(response);
                    if(response.result){ //인증성공
-                       $(".cert-input").removeClass("success fail")
-                                       .addClass("success");
+                       $(".cert-input").removeClass("is-valid is-invalid")
+                                       .addClass("is-valid");
                        $(".btn-cert").prop("disabled", true);
                        //상태객체에 상태 저장하는 코드
                        
@@ -157,42 +161,24 @@ $(function(){
                        });
                    		// 버튼을 특정 위치에 추가 (예: 모달 바디의 끝에 추가)
                        $("#cert-modal-body").append(resetPasswordButton);
-
-                       // 클릭 이벤트 추가
-//                        resetPasswordButton.click(function () {
-//                            // 비밀번호 재설정 모달 띄우기
-//                            $('#resetPasswordModal').modal('show');
-//                            $('#resetPasswordButton').hide();
-//                            // 추가로 필요한 초기화 또는 설정 작업을 수행할 수 있습니다.
-//                        }); 
                      }
                    
                    else{
-                       $(".cert-input").removeClass("success fail")
-                                       .addClass("fail");
+                       $(".cert-input").removeClass("is-valid is-invalid")
+                                       .addClass("is-invalid");
                        alert(response.error);
                    }
                },
            });
        });
-       
-//        // '비밀번호 재설정하러가기' 버튼 클릭 시 이벤트 처리
-//        $(document).on('click', '#resetPasswordButton', function () {
-//            // 비밀번호 재설정 모달 띄우기
-//            $('#resetPasswordModal').modal('show');
-           
-//            // 추가로 필요한 초기화 또는 설정 작업을 수행할 수 있습니다.
-//        });
     });
     
-    
-    
-
 $(document).ready(function () {
         // '비밀번호 재설정하러가기' 버튼 클릭 이벤트 처리
         $(document).on('click', '#resetPasswordButton', function () {
             // 비밀번호 재설정 모달을 띄움
             $('#resetPasswordModal').modal('show');
+            //$('#forgotPasswordModal').modal('hide');
             $('#resetPasswordButton').hide();
         });
         
@@ -202,8 +188,8 @@ $(document).ready(function () {
             event.preventDefault();
 
             // 새로운 비밀번호와 비밀번호 확인을 가져옴
-            var newPassword = $("#newPassword").val();
-            var confirmPassword = $("#confirmPassword").val();
+            var newPassword = $("[name=memberPw]").val();
+            var confirmPassword = $("[name=confirmPassword]").val();
             var memberId = $("#email").val();
 
             // 비밀번호 일치 여부 확인
@@ -440,6 +426,10 @@ function updateSuggestions(suggestions) {
 											<div class="mb-3">
 												<input type="email" class="form-control" id="email"
 													name="memberId" placeholder="이메일">
+											<div class="feedback">
+											<div class="valid-feedback left"></div>
+											<div class="invalid-feedback left"></div>
+											</div>
 											</div>
 											<button type="button" class="btn-send btn btn-primary">
 												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일
@@ -449,8 +439,6 @@ function updateSuggestions(suggestions) {
 												<input type="text" class="cert-input form-input w-70">
 												<button type="button" class="btn btn-cert">확인완료</button>
 											</div>
-											<div class="valid-feedback left">이메일 입력 후 인증해주세요</div>
-											<div class="invalid-feedback left">이미 사용중인 이메일입니다</div>
 										</form>
 									</div>
 								</div>
@@ -474,14 +462,19 @@ function updateSuggestions(suggestions) {
 											method="post">
 											<!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
 											<div class="mb-3">
-												<input type="password" class="form-control" id="newPassword"
-													name="newPassword" placeholder="새로운 비밀번호" required>
-											</div>
+												<input type="password" class="form-control" id="newPw"
+													name="memberPw" placeholder="새로운 비밀번호">
+											<div class="valid-feedback left">올바른 형식입니다</div>
+											<div class="invalid-feedback left">형식이 올바르지 않습니다</div>
+									</div>
+									
 											<div class="mb-3">
 												<input type="password" class="form-control"
-													id="confirmPassword" name="confirmPassword"
-													placeholder="비밀번호 확인" required>
-											</div>
+													id="confirmPw" name="confirmPassword"
+													placeholder="비밀번호 확인">
+											<div class="valid-feedback left"></div>
+											<div class="invalid-feedback left"></div>
+									</div>
 											<button type="submit" class="btn btn-primary">비밀번호
 												재설정</button>
 										</form>

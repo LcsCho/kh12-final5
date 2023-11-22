@@ -8,6 +8,7 @@
  --%>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+ <script src="/js/mypage.js"></script>
 <!-- 회원 프로필 관련 -->
 <script>
 $(function(){
@@ -64,8 +65,8 @@ function openChangePasswordModal() {
 
 // 비밀번호 변경 처리
 function changePassword() {
-  var newPassword = $('#newPw').val();
-  var confirmPassword = $('#confirmPw').val();
+  var newPassword = $('#memberPassword').val();
+  var confirmPassword = $('#password-check').val();
 
   
   // 비밀번호 일치 여부 확인
@@ -83,7 +84,7 @@ function changePassword() {
 		  memberPw : newPassword
 	  },
 	  success: function(response){
-		  alert("비밀번호 재설정이 완료되었습니다.");
+		  alert("비밀번호가 변경되었습니다! 다시 로그인해주세요.");
 		  
 		  $('#changePasswordModal').modal('hide');
 		  
@@ -157,7 +158,7 @@ function changePassword() {
       },
       success: function(response) {
     	  console.log(response);
-    	  alert("탈퇴되었습니다");
+    	  alert("탈퇴되었습니다. 그동안 이용해주셔서 감사합니다.");
           window.location.href = "/";
         // 모달 닫기
         $('#exitModal').modal('hide');
@@ -228,12 +229,16 @@ function changePassword() {
           <!-- 비밀번호 입력 -->
           <div class="form-group">
             <label for="newPassword">새 비밀번호</label>
-            <input type="password" class="form-control" name="memberPw" id="newPw">
+            <input type="password" class="form-control" name="memberPw" id="memberPassword">
+            <div class="valid-feedback">올바른 형식입니다</div>
+            <div class="invalid-feedback">형식이 올바르지 않습니다</div>
           </div>
           <!-- 확인용 비밀번호 입력 -->
           <div class="form-group">
             <label for="confirmPassword">비밀번호 확인</label>
-            <input type="password" class="form-control" id="confirmPw">
+            <input type="password" class="form-control" name="confirmPassword" id="password-check">
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback"></div>
           </div>
         </form>
       </div>
@@ -269,16 +274,21 @@ function changePassword() {
           <div class="form-group">
             <label for="memberNickname">닉네임</label>
             <input type="text" class="form-control" name="memberNickname" id="memberNickname" value="${memberDto.memberNickname}">
+         	<div class="valid-feedback"></div>
+            <div class="invalid-feedback"></div>
           </div>
           <!-- 생년월일 입력 -->
           <div class="form-group">
             <label for="memberBirth">생년월일</label>
             <input type="date" class="form-control" name="memberBirth" id="memberBirth" value="${memberDto.memberBirth}">
+          	<div class="invalid-feedback">잘못된 날짜 형식입니다</div>
           </div>
           <!-- 연락처 입력 -->
           <div class="form-group">
             <label for="memberContact">연락처</label>
             <input type="text" class="form-control" name="memberContact" id="memberContact" value="${memberDto.memberContact}">
+          	<div class="valid-feedback">사용 가능한 전화번호입니다</div>
+            <div class="invalid-feedback">형식이 올바르지 않습니다</div>
           </div>
         </form>
       </div>
