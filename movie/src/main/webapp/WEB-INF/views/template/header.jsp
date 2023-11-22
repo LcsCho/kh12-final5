@@ -465,6 +465,10 @@ $(document).ready(function () {
 													id="searchButton" disabled type="submit"
 													style="height: fit-content;">검색</button>
 											</form>
+												<c:if test="${sessionScope.level == '관리자' }">
+													<a href="http://localhost:3000/" class="btn c-btn ms-5"
+														style="height: fit-content;"><i class="fa-solid fa-screwdriver-wrench fa-2x1"></i></a>
+												</c:if>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
 													<a href="/member/logout" class="btn c-btn ms-5"
