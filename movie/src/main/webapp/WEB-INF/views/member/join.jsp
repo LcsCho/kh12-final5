@@ -16,6 +16,7 @@ $(function(){
     $(".btn-send").find(".fa-spinner").hide();
     $(".cert-wrapper").hide();
     $(".btn-cert").hide();
+    $(".btn-memberJoin").prop("disabled", true);//가입버튼 처음에 비활성화
 
     //인증번호 보내기 버튼을 누르면
     //서버로 비동기 통신을 보내 인증 메일 발송 요청
@@ -69,11 +70,12 @@ $(function(){
                                 $("#cert-input").removeClass("is-valid is-invalid")
                                     .addClass("is-valid");
                                 $(".btn-cert").prop("disabled", true);
-                                //상태객체에 상태 저장하는 코드
+                                console.log("이메일 인증 완료");
 
                                 // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
                                 $(".btn-send").find("span").text("인증완료!");
                                 $(".btn-send").prop("disabled", true);
+                                $(".btn-memberJoin").prop("disabled", false);//인증 성공 후 가입버튼 활성화
                                 $(".cert-wrapper").hide();
                                 $(".btn-cert").hide();
                             }
@@ -87,13 +89,12 @@ $(function(){
                 });
             });
 
-
         </script>
 
         <div class="row my-5 py-5" style="min-height: 400px;">
             <div class="col-md-4 offset-md-4 col-sm-10 offset-sm-1">
 
-                <form class="join-sform" action="join" method="post" autocomplete="off">
+                <form class="join-form" action="join" method="post" autocomplete="off">
 
                     <!-- 제목 -->
                     <div class="row">
@@ -213,7 +214,7 @@ $(function(){
                     <!-- 가입 버튼 -->
                     <div class="row mt-4">
                         <div class="col">
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-primary btn-memberJoin w-100">
                                 회원가입
                             </button>
                         </div>
