@@ -15,6 +15,7 @@ $(function(){
     //처음 로딩아이콘 숨김
     $(".btn-send").find(".fa-spinner").hide();
     $(".cert-wrapper").hide();
+    $(".btn-cert").hide();
 
     //인증번호 보내기 버튼을 누르면
     //서버로 비동기 통신을 보내 인증 메일 발송 요청
@@ -35,35 +36,18 @@ $(function(){
                 $(".btn-send").prop("disabled", false);
                 $(".btn-send").find(".fa-spinner").hide();
                 $(".cert-wrapper").hide();
+                $(".btn-send").find("span").text("발송하기");
+                 // window.alert("이메일 확인하세요!");
 
-                //인증번호 보내기 버튼을 누르면
-                //서버로 비동기 통신을 보내 인증 메일 발송 요청
-                $(".btn-send").click(function () {
-                    //var email = $("[name=memberId]").val();
-                    console.log("버튼 클릭됨");
-                    var memberEmail = $("#memberEmail").val();
-                    if (memberEmail.length == 0) return;
-
-                    $(".btn-send").prop("disabled", true);
-                    $(".btn-send").find(".fa-spinner").show();
-                    $(".btn-send").find("span").text("이메일 발송중");
-                    $.ajax({
-                        url: "http://localhost:8080/rest/cert/send",
-                        method: "post",
-                        data: { certEmail: memberEmail },
-                        success: function () {
-                            $(".btn-send").prop("disabled", false);
-                            $(".btn-send").find(".fa-spinner").hide();
-                            $(".btn-send").find("span").text("발송하기");
-                            // window.alert("이메일 확인하세요!");
-
-                            $(".cert-wrapper").show();
-                            window.memberEmail = memberEmail;
-                        },
-                    });
-                });
-
-
+                 $(".cert-wrapper").show();
+                 $(".btn-cert").show();
+                 window.memberEmail = memberEmail;
+             },
+          });
+        });
+					
+				
+    			
                 //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
                 $(".btn-cert").click(function () {
                     console.log("버튼클릭");
@@ -91,6 +75,7 @@ $(function(){
                                 $(".btn-send").find("span").text("인증완료!");
                                 $(".btn-send").prop("disabled", true);
                                 $(".cert-wrapper").hide();
+                                $(".btn-cert").hide();
                             }
                             else {
                                 $("#cert-input").removeClass("is-valid is-invalid")
@@ -108,7 +93,7 @@ $(function(){
         <div class="row my-5 py-5" style="min-height: 400px;">
             <div class="col-md-4 offset-md-4 col-sm-10 offset-sm-1">
 
-                <form class="join-form" action="join" method="post" autocomplete="off">
+                <form class="join-sform" action="join" method="post" autocomplete="off">
 
                     <!-- 제목 -->
                     <div class="row">
@@ -117,7 +102,7 @@ $(function(){
                             <hr>
                         </div>
                     </div>
-
+					<!-- 아이디 입력창 -->
                     <div class="row">
                         <div class="col-9">
                             <div class="form-floating">
@@ -133,20 +118,25 @@ $(function(){
                             </button>
                         </div>
                     </div>
-
+					<!-- 인증번호 입력창 -->
                     <div class="row mt-2">
                         <div class="col-9">
-                            <div class="cert-wrapper">
-                                <input type="text" id="cert-input" class="form-control">
-                                <button type="button" class="btn-cert btn btn-secondary form-control">확인완료</button>
-                            </div>
+                            <div class="form-floating cert-wrapper">
+                                <input type="text" id="cert-input" class="form-control" placeholder="">
+                                <label>인증번호 6자리</label>
+                           </div>
+                     </div>
+                             <div class="col-3 d-flex align-items-center">
+                                <button type="button" class="btn-cert btn btn-secondary form-control">
+                                <span>확인완료</span>
+                            </button>
+                           </div>
                             <div class="feedback">
 					            <div class="valid-feedback"></div>
 					            <div class="invalid-feedback"></div>
-        					</div>
-                        </div>
+        				</div>
                     </div>
-
+				
                     <!-- 비밀번호 입력창-->
                     <div class="row mt-4">
                         <div class="col">
