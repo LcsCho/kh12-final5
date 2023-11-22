@@ -236,6 +236,22 @@ $(document).ready(function () {
                 }
             });
         });
+     
+	function disableButton() {
+	    const searchInput = document.getElementById("searchInput");
+	    const searchButton = document.getElementById("searchButton");
+	
+	    if (searchInput.value === "") {
+	      searchButton.disabled = true;
+	    } else {
+	      searchButton.disabled = false;
+	    }
+	  }
+	
+	  searchInput.addEventListener("input", disableButton); 
+
+     
+     
     });
     
     
@@ -367,6 +383,7 @@ $(document).ready(function () {
 												</div>
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
+													id="searchButton" disabled 
 													type="submit" style="height: fit-content;">검색</button>
 											</form>
 											<c:choose>
