@@ -14,7 +14,7 @@ $(function () {
         var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
         var isValid = regex.test($(this).val());
         var feedbackWrapper = $(this).closest('.mb-3').find('.feedback');
-        
+        //var emailButton = $("#emailButton");
 
         if (isValid) {
             $.ajax({
@@ -28,11 +28,13 @@ $(function () {
                         feedbackWrapper.find('.valid-feedback').text("이메일이 확인되었습니다").show();
                         feedbackWrapper.find('.invalid-feedback').hide();
                         status.memberId = true;
+                        //emailButton.disabled = false;
                     } else {
                         $(e.target).addClass("is-invalid");
                         feedbackWrapper.find('.invalid-feedback').text("존재하지 않는 이메일입니다").show();
                         feedbackWrapper.find('.valid-feedback').hide();
                         status.memberId = false;
+                        //emailButton.disabled = true;
                     }
                     	
                 },

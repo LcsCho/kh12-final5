@@ -33,6 +33,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/flatly/bootstrap.min.css"
 	rel="stylesheet">
 
+<script src="js/header.js"></script>
 
 <script>
 	window.contextPath = "${pageContext.request.contextPath}";
@@ -88,6 +89,9 @@ $(document).ready(function() {
 <!-- 비밀번호 재설정 -->
 <script>
 //비밀번호 재설정 이메일 발송 코드
+
+var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
+
 $(function(){
        //처음 로딩아이콘 숨김
        $(".btn-send").find(".fa-spinner").hide();
@@ -98,7 +102,11 @@ $(function(){
        $(".btn-send").click(function(){
           var email = $("#email").val();
            //var email = $("[name=memberId]").val();
-           if(email.length == 0) return;
+           if(email.length == 0 || !regex.test(email)) {
+        	   $(".btn-send").prop("disabled", true);
+        	   window.alert("이메일 주소를 확인하시고 다시 시도해주세요.");
+        	   return;
+           }
            
 
            $(".btn-send").prop("disabled", true);
@@ -112,10 +120,11 @@ $(function(){
                    $(".btn-send").prop("disabled", false);
                    $(".btn-send").find(".fa-spinner").hide();
                    $(".cert-wrapper").hide();
-                   $(".btn-send").find("span").text("인증번호 보내기");
+                   $(".btn-send").find("span").text("인증번호 재발송");
                    // window.alert("이메일 확인하세요!");
 
                    $(".cert-wrapper").show();
+                   $(".btn-cert").show();
                    window.email = email;
                },
            });
@@ -148,6 +157,7 @@ $(function(){
                        $(".btn-send").find("span").text("인증완료!");
                        $(".btn-send").prop("disabled", true);
                        $(".cert-wrapper").hide();
+                       $(".btn-cert").hide();
                        
                     // '비밀번호 재설정하러가기' 버튼 생성
                        //if (!$('#resetPasswordButton').length) {
@@ -563,8 +573,8 @@ $(document).ready(function () {
 												<input type="text" class="cert-input form-input w-70">
 												<button type="button" class="btn btn-cert">확인완료</button>
 											</div>
-											<div class="valid-feedback left">이메일 입력 후 인증해주세요</div>
-											<div class="invalid-feedback left">이미 사용중인 이메일입니다</div>
+											<div class="valid-feedback left"></div>
+											<div class="invalid-feedback left">이메일 주소가 올바르지 않습니다</div>
 										</form>
 									</div>
 								</div>
