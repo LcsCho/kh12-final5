@@ -104,16 +104,45 @@
 		where member_id =#{memberId}
 	</select>
 
-	<select id="adminSearch" parameterType="String"
-		resultType="MemberDto">
-		SELECT *
-		FROM member
-		WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
-	</select>
 
 	<select id="ageGroup" resultType="MemberAgeGroupVO">
 		SELECT *
 		FROM member_age_group
 		where member_id = #{memberId}
 	</select>
+	
+	<!-- 검색 회원 수 -->
+	<select id="searchCount" resultType="int">
+		select count(*) from member WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
+	</select>
+	
+<!-- 	<select id="adminSearch" resultType="MemberDto"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM member -->
+<!-- 		WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0 -->
+<!-- 	</select> -->
+	
+	<select id="adminSearchListByPage" resultType="MemberDto">
+		select * from (
+			select rownum rn, TMP.* from (
+				SELECT *
+				FROM member
+				<where>
+				<if test="memberNickname != null">
+					INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
+				</if> 
+				</where>
+			)TMP
+		) where rn between #{begin} and #{end}
+	</select>
+	
+	<!-- 페이징 목록 -->
+	<select id="selectListByPage" resultType="MemberDto">
+		select * from (
+			select rownum rn, TMP.* from (
+				select * from member order by member_join desc
+			)TMP
+		) where rn between #{begin} and #{end}
+	</select>
+	
 </mapper>

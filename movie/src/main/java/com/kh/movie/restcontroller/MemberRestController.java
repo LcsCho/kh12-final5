@@ -71,6 +71,11 @@ public class MemberRestController {
 	public int count() {
 		return memberDao.getCount();
 	}
+	
+	@GetMapping("/searchCount/{memberNickname}")
+	public int searchCount(@PathVariable String memberNickname) {
+		return memberDao.searchCount(memberNickname);
+	}
 
 	@PatchMapping("/{memberId}")
 	public ResponseEntity<String> editUnit(@PathVariable String memberId, @RequestBody MemberDto memberDto) {
@@ -272,9 +277,20 @@ public class MemberRestController {
 		}
 	}
 
-	@GetMapping("/adminSearch/{memberNickname}")
-	public List<MemberDto> adminSearch(String memberNickname) {
-		return memberDao.selectList(memberNickname);
+//	@GetMapping("/adminSearch/{memberNickname}")
+//	public List<MemberDto> adminSearch(String memberNickname) {
+//		return memberDao.selectList(memberNickname);
+//	}
+	
+	@GetMapping("/adminSearch/{memberNickname}/page/{searchCurrentPage}/size/{searchPageSize}")
+	public List<MemberDto> adminSearch(
+			@PathVariable String memberNickname, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
+		return memberDao.selectList(memberNickname, searchCurrentPage, searchPageSize);
+	}
+	
+	@GetMapping("page/{currentPage}/size/{pageSize}")
+	public List<MemberDto> selectListByPage(@PathVariable int currentPage, @PathVariable int pageSize) {
+		return memberDao.selectListByPage(currentPage, pageSize);
 	}
 
 }
