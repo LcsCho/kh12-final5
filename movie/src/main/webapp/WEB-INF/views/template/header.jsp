@@ -287,9 +287,9 @@ $(document).ready(function () {
         event.preventDefault(); // Prevent the default form submission
 
         var keyword = $("#searchInput").val();
-        console.log(memberId);
+        
         $.ajax({
-            url: "/search/inputPopularKeyword",
+            url: "/search/inputKeyword",
             method: "POST",
             data: { "keyword": keyword },
             success: function (response) {
@@ -300,17 +300,6 @@ $(document).ready(function () {
             }
         });
         
-        $.ajax({
-            url: "/search/inputRecentKeyword",
-            method: "POST",
-            data: { "keyword": keyword },
-            success: function (response) {
-                console.log("전송완료", response);
-            },
-            error: function (error) {
-                console.error("에러:", error);
-            }
-        });
 		
         // Continue with the form submission
         this.submit();

@@ -7,7 +7,7 @@
 <mapper namespace="recent">
 
 	<insert id="save">
-		insert into recent-history(recent_history_no, 
+		insert into recent_history(recent_history_no, 
 		recent_history_keyword,recent_history_id)  
 		values(popular_history_seq.nextval, #{keyword}, #{memberId})	
 	</insert>
