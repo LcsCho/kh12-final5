@@ -287,6 +287,7 @@ $(document).ready(function () {
         event.preventDefault(); // Prevent the default form submission
 
         var keyword = $("#searchInput").val();
+        var memberId = $("#inputMemberId").val();
         console.log(memberId);
         $.ajax({
             url: "/search/inputPopularKeyword",
@@ -300,10 +301,13 @@ $(document).ready(function () {
             }
         });
         
+        if (memberId != null) {
         $.ajax({
             url: "/search/inputRecentKeyword",
             method: "POST",
-            data: { "keyword": keyword },
+            data: { "keyword": keyword,
+            	"memberId" : memberId	
+            },
             success: function (response) {
                 console.log("전송완료", response);
             },
@@ -311,6 +315,7 @@ $(document).ready(function () {
                 console.error("에러:", error);
             }
         });
+    }
 		
         // Continue with the form submission
         this.submit();
@@ -467,7 +472,9 @@ $(document).ready(function () {
 													<div id="popularContainer"></div>
 													<div id="suggestionsContainer"></div>
 
-
+													<!-- memberId를 hidden input으로 추가 -->
+													<input type="hidden" id="inputMemberId"
+														value="${sessionScope.name}" />
 												</div>
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"

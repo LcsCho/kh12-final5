@@ -15,4 +15,5 @@ public interface MovieWishDao {
 	boolean check(MovieWishDto movieWishDto);
 	int count(int wishNo);
 	int wishCountByMemberId(String memberId);
+	int count(String memberId);
 }
