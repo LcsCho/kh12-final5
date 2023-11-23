@@ -17,10 +17,10 @@ import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
+import com.kh.movie.dao.SearchDao;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.RatingDto;
 import com.kh.movie.dto.TodayRecommendDto;
-import com.kh.movie.service.Scheduler;
 import com.kh.movie.vo.AgeGroupGenderRecommendVO;
 import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
@@ -49,23 +49,25 @@ public class HomeController {
 
 	@Autowired
 	private RecommendDao recommendDao;
-
-	@Autowired
-	private Scheduler scheduler;
+	
 
 	@RequestMapping("/")
 	public String main(Model model, HttpSession session, @RequestParam(required = false) String movieName) {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
+		
+		// 영화 검색 구문
 		boolean isSearch = movieName != null;
 		if (isSearch) {
-			List<MovieListVO> movieList = movieDao.searchMovieName(movieName);
+			List<MovieListVO> movieList = movieDao.searchMovieList(movieName);
 			model.addAttribute("movieName", movieName);
 			model.addAttribute("movieList", movieList);
-			log.debug("movieList = {}", movieList);
+//			log.debug("movieList = {}", movieList);
 		}
 //		log.debug("movieList = {}", movieList);
 
+		
+		
 		// 여기서부터 영화 추천 코드 - 건들지 말 것!
 
 		// MVC Top 10 영화 추천
@@ -75,9 +77,9 @@ public class HomeController {
 
 		for (MVCTop10RecommendVO mvcTop10Recommend : mvcTop10RecommendVO) {
 			int movieNo = mvcTop10Recommend.getMovieNo();
-			log.debug("movieNo = {}", movieNo);
+//			log.debug("movieNo = {}", movieNo);
 			MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-		    log.debug("movieVO = {}", movieVO);
+//		    log.debug("movieVO = {}", movieVO);
 
 			// MovieListVO 객체 생성
 			MovieListVO mvcTop10RecommendMovie = new MovieListVO();

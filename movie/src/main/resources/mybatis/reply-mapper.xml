@@ -22,7 +22,7 @@
 	
 	<!-- 댓글 목록 조회 -->
 	<select id="findAll" resultType="ReplyDto">
-		select DISTINCT * from reply where review_no = #{reviewNo}
+		select DISTINCT * from reply where review_no = #{reviewNo} order by reply_date desc
 	</select>
 	
 	<!-- 댓글 상세 조회 -->
@@ -41,5 +41,10 @@
 	<delete id="delete">
 		delete reply where reply_no = #{replyNo}
 	</delete>
+	
+	<!-- 댓글 수 조회 -->
+	<select id="findReplyCount" resultType="int">
+		select review_reply_count from review_list where review_no = #{reviewNo]
+	</select>
 	
 </mapper>

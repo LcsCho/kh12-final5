@@ -45,6 +45,7 @@ public interface MovieDao {
 	List<ActorDetailVO> getActor(int movieNo);
 	
 	// 영화 검색
-	List<MovieListVO> searchMovieName(String keyword);
+	List<MovieListVO> searchMovieList(String keyword); // 영화 리스트 출력
+	List<String> findMovieNameList(String keyword); // 영화 제목만 Distinct
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.AdminReviewListVO;
+import com.kh.movie.vo.PaginationVO;
 import com.kh.movie.vo.ReviewListVO;
 
 public interface ReviewDao {
@@ -28,5 +29,6 @@ public interface ReviewDao {
 	
 	String findMemberIdByReviewNo(int reviewNo);//리뷰 번호로 회원 아이디 검색
 	int findReplyCount(int reviewNo);//댓글 수 조회
-	int reviewCountByMemberId(String memberId);
+	int countList(PaginationVO paginationVO);//리뷰 갯수
+  int reviewCountByMemberId(String memberId);
 }

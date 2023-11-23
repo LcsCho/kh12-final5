@@ -1,19 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>영화 상세페이지</title>
-<!-- Font Awesome -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" type="text/css" href="/css/star.css">
-<!-- Your custom styles go here -->
+
 <style>
 body {
 	padding-top: 30px;
@@ -29,6 +19,20 @@ body {
 	margin-bottom: 10px;
 	border-radius: 5px;
 }
+ .btn-link{
+        color: rgb(179, 57, 57);
+        font-size: 18px;
+    }
+    .btn-link:hover{
+        background-color: rgb(179, 57, 57, 0.1);
+        color: rgb(179, 57, 57);
+        font-size: 18px;
+    }
+    .btn-link:active{
+        background-color: rgb(179, 57, 57, 0.1);
+        color: rgb(179, 57, 57);
+        font-size: 18px;
+    }
 </style>
 <script>
 	//영화 찜기능
@@ -298,7 +302,13 @@ body {
 				<div class="row">
 					<div class="col d-flex">
 						<h4 class="mt-3">리뷰</h4>
-						<div class="ms-auto mt-3">더보기 ></div>
+						<div class="ms-auto mt-3">
+							<a href="review/list?movieNo=${movieDto.movieNo}" class="btn btn-link">
+								<button class="btn btn-link">
+									더보기 <i class="fa-solid fa-angle-right"></i>
+								</button>
+							</a>
+						</div>
 					</div>
 				</div>
 				<div class="row row-cols-1 row-cols-md-5 g-4 review-container">
@@ -319,5 +329,5 @@ body {
 	</div>
 
 </body>
-</html>
+
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

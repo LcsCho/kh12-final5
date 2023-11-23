@@ -15,6 +15,8 @@ $(function(){
     //처음 로딩아이콘 숨김
     $(".btn-send").find(".fa-spinner").hide();
     $(".cert-wrapper").hide();
+    $(".btn-cert").hide();
+    $(".btn-memberJoin").prop("disabled", true);//가입버튼 처음에 비활성화
 
     //인증번호 보내기 버튼을 누르면
     //서버로 비동기 통신을 보내 인증 메일 발송 요청
@@ -35,35 +37,18 @@ $(function(){
                 $(".btn-send").prop("disabled", false);
                 $(".btn-send").find(".fa-spinner").hide();
                 $(".cert-wrapper").hide();
+                $(".btn-send").find("span").text("발송하기");
+                 // window.alert("이메일 확인하세요!");
 
-                //인증번호 보내기 버튼을 누르면
-                //서버로 비동기 통신을 보내 인증 메일 발송 요청
-                $(".btn-send").click(function () {
-                    //var email = $("[name=memberId]").val();
-                    console.log("버튼 클릭됨");
-                    var memberEmail = $("#memberEmail").val();
-                    if (memberEmail.length == 0) return;
-
-                    $(".btn-send").prop("disabled", true);
-                    $(".btn-send").find(".fa-spinner").show();
-                    $(".btn-send").find("span").text("이메일 발송중");
-                    $.ajax({
-                        url: "http://localhost:8080/rest/cert/send",
-                        method: "post",
-                        data: { certEmail: memberEmail },
-                        success: function () {
-                            $(".btn-send").prop("disabled", false);
-                            $(".btn-send").find(".fa-spinner").hide();
-                            $(".btn-send").find("span").text("발송하기");
-                            // window.alert("이메일 확인하세요!");
-
-                            $(".cert-wrapper").show();
-                            window.memberEmail = memberEmail;
-                        },
-                    });
-                });
-
-
+                 $(".cert-wrapper").show();
+                 $(".btn-cert").show();
+                 window.memberEmail = memberEmail;
+             },
+          });
+        });
+					
+				
+    			
                 //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
                 $(".btn-cert").click(function () {
                     console.log("버튼클릭");
@@ -85,12 +70,14 @@ $(function(){
                                 $("#cert-input").removeClass("is-valid is-invalid")
                                     .addClass("is-valid");
                                 $(".btn-cert").prop("disabled", true);
-                                //상태객체에 상태 저장하는 코드
+                                console.log("이메일 인증 완료");
 
                                 // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
                                 $(".btn-send").find("span").text("인증완료!");
                                 $(".btn-send").prop("disabled", true);
+                                $(".btn-memberJoin").prop("disabled", false);//인증 성공 후 가입버튼 활성화
                                 $(".cert-wrapper").hide();
+                                $(".btn-cert").hide();
                             }
                             else {
                                 $("#cert-input").removeClass("is-valid is-invalid")
@@ -101,7 +88,6 @@ $(function(){
                     });
                 });
             });
-
 
         </script>
 
@@ -117,7 +103,7 @@ $(function(){
                             <hr>
                         </div>
                     </div>
-
+					<!-- 아이디 입력창 -->
                     <div class="row">
                         <div class="col-9">
                             <div class="form-floating">
@@ -133,20 +119,25 @@ $(function(){
                             </button>
                         </div>
                     </div>
-
+					<!-- 인증번호 입력창 -->
                     <div class="row mt-2">
                         <div class="col-9">
-                            <div class="cert-wrapper">
-                                <input type="text" id="cert-input" class="form-control">
-                                <button type="button" class="btn-cert btn btn-secondary form-control">확인완료</button>
-                            </div>
+                            <div class="form-floating cert-wrapper">
+                                <input type="text" id="cert-input" class="form-control" placeholder="">
+                                <label>인증번호 6자리</label>
+                           </div>
+                     </div>
+                             <div class="col-3 d-flex align-items-center">
+                                <button type="button" class="btn-cert btn btn-secondary form-control">
+                                <span>확인완료</span>
+                            </button>
+                           </div>
                             <div class="feedback">
 					            <div class="valid-feedback"></div>
 					            <div class="invalid-feedback"></div>
-        					</div>
-                        </div>
+        				</div>
                     </div>
-
+				
                     <!-- 비밀번호 입력창-->
                     <div class="row mt-4">
                         <div class="col">
@@ -223,7 +214,7 @@ $(function(){
                     <!-- 가입 버튼 -->
                     <div class="row mt-4">
                         <div class="col">
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-primary btn-memberJoin w-100">
                                 회원가입
                             </button>
                         </div>

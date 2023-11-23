@@ -34,6 +34,16 @@
         border-color: rgb(179, 57, 57);
         font-size: 16px;
     }
+    .btn-success:hover{
+        background-color: rgb(179, 57, 57);
+        border-color: rgb(179, 57, 57);
+        font-size: 16px;
+    }
+    .btn-success:active{
+        background-color: rgb(179, 57, 57);
+        border-color: rgb(179, 57, 57);
+        font-size: 16px;
+    }
 </style>
 
 <script>
@@ -91,7 +101,6 @@
 	
 	                    $(".reply-list").append(htmlTemplate);
 	                }
-	            }
 	        });
 	    }
 	    
@@ -104,7 +113,6 @@
 	    		method: "post",
 	    		data: $(e.target).serialize(),
 	    		success: function(response){
-	    			console.log(response);
 	    			
 	    			$("[name=replyContent]").val("");
 	    			loadReplyList();
@@ -171,7 +179,10 @@
 	            	}
 	                
 	                loadReviewLike(movieNo);
-	            }
+	            },
+	            error : function() {
+					window.alert("로그인 후 이용 가능합니다.");
+				},
 	        });
 	    }
 	    
@@ -206,6 +217,60 @@
 // 	            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo;
 // 	        }
 // 	    }
+		
+		//리뷰 수정
+	    $(".editReview").click(function(e) {
+	    	
+	    	//리뷰 정보란 찾기(closest:가장 근접한 부모 요소)
+			var reviewContainer = $(this).closest(".view-container");
+			
+	    	//리뷰 번호, 원본글 가져오기
+			var params = new URLSearchParams(location.search);
+		    var reviewNo = params.get("reviewNo");
+			var originContent = reviewContainer.find(".card-text").text().trim();
+			
+			//리뷰 수정 창 띄우기
+			var editTemplate = $("#review-edit-template").html();
+			var editHtmlTemplate = $.parseHTML(editTemplate);
+		
+			//리뷰 수정 창에 원본글 넣기
+			$(editHtmlTemplate).find(".card-text").val(originContent);
+			
+			//취소 버튼 선택 시 리뷰정보란 띄우고, 수정 창 삭제하기
+			$(editHtmlTemplate).find(".btn-cancel").click(function() {
+				reviewContainer.show();
+				$(editHtmlTemplate).remove();
+			});
+			
+			//전송 버튼 선택
+			$(editHtmlTemplate).find(".btn-success").click(function (e) {
+    			e.preventDefault();
+				
+				var editedReviewContent = $(editHtmlTemplate).find(".card-text").val();
+
+				$.ajax({
+					url: "http://localhost:8080/rest/review/list/editReview?reviewNo=" + reviewNo,
+					method: "post",
+					data: {
+						reviewNo: reviewNo,
+						reviewContent: editedReviewContent,
+						movieNo : movieNo
+					},
+					success: function(response) {
+						
+						loadReviewLike(movieNo);
+						
+						reviewContainer.show();
+						$(editHtmlTemplate).remove();
+						location.reload();
+					}
+					
+				});
+			});
+
+			reviewContainer.hide().after(editHtmlTemplate);
+		});
+		
 	});
 </script>
 
@@ -222,9 +287,7 @@
                     <span class="replyDate"></span>
                 </div>
 					<div class="col-3 d-flex justify-content-end">
-					
-                    			<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
-					
+                    	<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
                 </div>
             </div>
             <div class="row mt-3">
@@ -234,14 +297,42 @@
     </div>
 	<hr>
 </script>
+<script id="review-edit-template" type="text/template">
+	<div class="card mt-3 edit-container">
+		<div class="card-body">
+			<div>
+				<img src="images/user.png" class="userImage">
+				<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
+				<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
+			</div>
+				<div class="mt-3 pb-3 review-edit-form">
+					<textarea class="card-text" style="width: 100%; height: 100px; resize: none;"></textarea>
+				</div>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<button class="btn btn-danger btn-cancel">취소</button>
+					<button class="btn btn-success">전송</button>
+			<form>
+		</div>
+	</div>
+</script>
 
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-10 offset-md-1 mb-5 mt-5">
 	
-				<!-- 영화 정보 -->
 				<div class="row">
+					<div class="col-3">
+						<a href="list?movieNo=${review.movieNo}">
+							<button type="button" class="btn btn-link">
+								<i class="fa-solid fa-angle-left"></i>리뷰 목록
+							</button>
+						</a>
+					</div>
+				</div>
+	
+				<!-- 영화 정보 -->
+				<div class="row mt-5">
 				     <div class="col-2 offset-4 text-right">
 				         <img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
 				     </div>
@@ -269,7 +360,7 @@
 				 </div>
 			
 				<!-- 리뷰 정보 -->
-				<div class="card mt-3">
+				<div class="card mt-5 view-container">
 					<div class="card-body">
 						<div>
 							<img src="images/user.png" class="userImage">
@@ -278,7 +369,7 @@
 							
 							<!-- 작성자일 때만 수정, 삭제 버튼 표시 -->
 <%-- 							<c:if test="${sessionScope.name == memberId }"> --%>
-								<i class="fa-solid fa-pen-to-square fa-lg eidtReview" style="position: absolute; top: 30px; right: 50px;"></i>
+								<i class="fa-solid fa-pen-to-square fa-lg editReview" style="position: absolute; top: 30px; right: 50px;"></i>
 								<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
 									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
 								</a>

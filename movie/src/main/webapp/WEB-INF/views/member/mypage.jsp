@@ -223,33 +223,35 @@
 
 <!-- 회원 탈퇴 모달 -->
 <script>
-    function openExitModal() {
-        $('#exitModal').modal('show');
-    }
+   function openExitModal() {
+    $('#exitModal').modal('show');
+  }
 
-    // 회원 탈퇴 처리
-    function exitMember() {
-        var memberPw = $('#inputPw').val(); // 사용자로부터 입력받은 비밀번호
-        console.log(memberPw);
-
-        $.ajax({
-            url: "http://localhost:8080/member/exit",
-            method: "POST",
-            data: {
-                memberPw: memberPw
-            },
-            success: function (response) {
-                console.log(response);
-                alert("탈퇴되었습니다");
-                window.location.href = "/";
-                // 모달 닫기
-                $('#exitModal').modal('hide');
-            },
-            error: function (xhr, status, error) {
-                alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
-            }
-        });
-    }
+  // 회원 탈퇴 처리
+  function exitMember() {
+    var memberPw = $('#inputPw').val(); // 사용자로부터 입력받은 비밀번호
+    console.log(memberPw);
+    
+    $.ajax({
+      url: "http://localhost:8080/member/exit",
+      method: "POST",
+      data: {
+        memberPw: memberPw
+      },
+      success: function(response) {
+         alert(response);
+          if (response.includes("탈퇴")) {
+              window.location.href = "/";
+          }
+        // 모달 닫기
+        $('#exitModal').modal('hide');
+      },
+      error: function(xhr, status, error) {
+         console.error(xhr.responseText);
+        alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
+      }
+    });
+  }
 </script>
 
 <div class="container-fluid mt-5">

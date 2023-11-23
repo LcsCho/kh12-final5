@@ -6,7 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dao.ReviewLikeDao;
+import com.kh.movie.vo.PaginationVO;
 import com.kh.movie.vo.ReviewLikeVO;
 import com.kh.movie.vo.ReviewListVO;
 
@@ -118,5 +120,11 @@ public class ReviewListRestController {
 
 	    return reviewLikeVO;
 	}
-
+	
+	//리뷰 수정
+	@PostMapping("/editReview")
+	public void edit(@RequestParam int reviewNo, @ModelAttribute ReviewListVO reviewListVO) {
+		String reviewContent = reviewListVO.getReviewContent();
+		reviewDao.edit(reviewNo, reviewContent);
+	}
 }

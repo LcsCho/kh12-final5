@@ -45,4 +45,10 @@ public class ReplyDaoImpl implements ReplyDao{
 	public ReplyDto findByReplyNo(int replyNo) {
 		return sqlSession.selectOne("reply.findByReplyNo", replyNo);
 	}
+	
+	//댓글 수 조회
+  	@Override
+  	public int findReplyCount(int reviewNo) {
+  		return sqlSession.selectOne("reply.findReplyCount", reviewNo);
+  	}
 }

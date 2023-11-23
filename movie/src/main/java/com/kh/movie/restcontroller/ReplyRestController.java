@@ -70,5 +70,4 @@ public class ReplyRestController {
 
 		replyDao.delete(replyNo);
 	}
-	
 }

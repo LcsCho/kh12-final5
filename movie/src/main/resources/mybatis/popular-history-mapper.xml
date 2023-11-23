@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="popular">
+
+	<insert id="savePopular">
+		insert into popular_history(popular_history_no,
+		popular_history_keyword)
+		values(popular_history_seq.nextval, #{keyword})
+	</insert>
+
+	<select id="showPopular" resultType="String">
+		SELECT popular_history_keyword
+		FROM popular_history
+		WHERE popular_history_time >= SYSDATE - 7
+		GROUP BY popular_history_keyword
+		ORDER BY COUNT(popular_history_keyword) DESC
+		FETCH FIRST 5 ROWS ONLY;
+	</select>
+
+
+</mapper>    
+    
+    
+    

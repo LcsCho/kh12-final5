@@ -12,6 +12,7 @@ public class ReviewListVO {
 	private int reviewNo;
 	private String reviewContent;
 	private int reviewLikeCount;
+	private int reviewReplyCount;
 	private Date reviewDate;
 	private String memberNickname;
 	private int imageNo;

@@ -58,20 +58,20 @@
 $(document).ready(function() {
     $("#loginForm").submit(function(event) {
         event.preventDefault();
-		console.log("memberId", $("#memberId").val(), "memberPw", $("#memberPw").val());
+      console.log("memberId", $("#memberId").val(), "memberPw", $("#memberPw").val());
 
         // Ajax를 이용한 비동기 요청
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/member/login",
             data: {
-            	 memberId: $("#memberId").val(),
+                memberId: $("#memberId").val(),
                  memberPw: $("#memberPw").val()
             },
             success: function(response) {
                 // 로그인 성공 시의 동작
-            	$("#loginModal").modal("hide");
-            	// if (response && response.redirect) {
+               $("#loginModal").modal("hide");
+               // if (response && response.redirect) {
                      //window.location.href = response.redirect;
                 // }
             },
@@ -96,9 +96,10 @@ $(function(){
        //인증번호 보내기 버튼을 누르면
        //서버로 비동기 통신을 보내 인증 메일 발송 요청
        $(".btn-send").click(function(){
-       	var email = $("#email").val();
+          var email = $("#email").val();
            //var email = $("[name=memberId]").val();
            if(email.length == 0) return;
+           
 
            $(".btn-send").prop("disabled", true);
            $(".btn-send").find(".fa-spinner").show();
@@ -110,6 +111,7 @@ $(function(){
                success:function(){
                    $(".btn-send").prop("disabled", false);
                    $(".btn-send").find(".fa-spinner").hide();
+                   $(".cert-wrapper").hide();
                    $(".btn-send").find("span").text("인증번호 보내기");
                    // window.alert("이메일 확인하세요!");
 
@@ -137,8 +139,8 @@ $(function(){
                success:function(response){
                    // console.log(response);
                    if(response.result){ //인증성공
-                       $(".cert-input").removeClass("success fail")
-                                       .addClass("success");
+                       $(".cert-input").removeClass("is-valid is-invalid")
+                                       .addClass("is-valid");
                        $(".btn-cert").prop("disabled", true);
                        //상태객체에 상태 저장하는 코드
                        
@@ -148,51 +150,33 @@ $(function(){
                        $(".cert-wrapper").hide();
                        
                     // '비밀번호 재설정하러가기' 버튼 생성
-                    	//if (!$('#resetPasswordButton').length) {
+                       //if (!$('#resetPasswordButton').length) {
                        var resetPasswordButton = $('<button/>', {
                            type: 'button',
                            class: 'btn btn-primary',
                            text: '비밀번호 재설정하러가기',
                            id: 'resetPasswordButton'
                        });
-                   		// 버튼을 특정 위치에 추가 (예: 모달 바디의 끝에 추가)
+                         // 버튼을 특정 위치에 추가 (예: 모달 바디의 끝에 추가)
                        $("#cert-modal-body").append(resetPasswordButton);
-
-                       // 클릭 이벤트 추가
-//                        resetPasswordButton.click(function () {
-//                            // 비밀번호 재설정 모달 띄우기
-//                            $('#resetPasswordModal').modal('show');
-//                            $('#resetPasswordButton').hide();
-//                            // 추가로 필요한 초기화 또는 설정 작업을 수행할 수 있습니다.
-//                        }); 
                      }
                    
                    else{
-                       $(".cert-input").removeClass("success fail")
-                                       .addClass("fail");
+                       $(".cert-input").removeClass("is-valid is-invalid")
+                                       .addClass("is-invalid");
                        alert(response.error);
                    }
                },
            });
        });
-       
-//        // '비밀번호 재설정하러가기' 버튼 클릭 시 이벤트 처리
-//        $(document).on('click', '#resetPasswordButton', function () {
-//            // 비밀번호 재설정 모달 띄우기
-//            $('#resetPasswordModal').modal('show');
-           
-//            // 추가로 필요한 초기화 또는 설정 작업을 수행할 수 있습니다.
-//        });
     });
     
-    
-    
-
 $(document).ready(function () {
         // '비밀번호 재설정하러가기' 버튼 클릭 이벤트 처리
         $(document).on('click', '#resetPasswordButton', function () {
             // 비밀번호 재설정 모달을 띄움
             $('#resetPasswordModal').modal('show');
+            //$('#forgotPasswordModal').modal('hide');
             $('#resetPasswordButton').hide();
         });
         
@@ -202,8 +186,8 @@ $(document).ready(function () {
             event.preventDefault();
 
             // 새로운 비밀번호와 비밀번호 확인을 가져옴
-            var newPassword = $("#newPassword").val();
-            var confirmPassword = $("#confirmPassword").val();
+            var newPassword = $("[name=memberPw]").val();
+            var confirmPassword = $("[name=confirmPassword]").val();
             var memberId = $("#email").val();
 
             // 비밀번호 일치 여부 확인
@@ -218,7 +202,7 @@ $(document).ready(function () {
                 method: "POST",
                 data: {
                     memberId: memberId,
-                	memberPw: newPassword
+                   memberPw: newPassword
                 },
                 success: function (response) {
                     // 비밀번호 변경 성공 시 처리
@@ -237,8 +221,6 @@ $(document).ready(function () {
             });
         });
     });
-    
-    
 </script>
 <!-- 영화 검색 실시간으로 연관 검색어 출력 -->
 <script>
@@ -258,6 +240,9 @@ $(document).ready(function () {
                 $("#suggestionsContainer").empty();
                 return;
             }
+            
+            // 추가된 부분: 입력이 있을 때 popularContainer 숨기기
+            $("#popularContainer").hide();
 
             $.ajax({
                 url: "/search/movieName",
@@ -271,14 +256,19 @@ $(document).ready(function () {
 
                     // 최대 5개까지만 출력
                     for (var i = 0; i < Math.min(response.length, 5); i++) {
-                        var movieName = response[i].movieName;
-                        var movieNo = response[i].movieNo;
+                        var movieName = response[i];
 
                         // 클릭 가능한 링크 생성하고 suggestionsContainer에 추가
                         var movieLink = $("<a>")
-                        	.addClass("link-underline link-underline-opacity-0 link-danger")
-                            .attr("href", "/movie/detail?movieNo=" + movieNo)
-                            .text(movieName);
+                            .addClass("link link-underline link-underline-opacity-0 link-danger")
+                            .text(movieName)
+                            .on("click", function () {
+                                // 클릭한 연관 검색어를 검색 입력란에 설정
+                                $("#searchInput").val($(this).text());
+
+                                // form을 서버로 전송
+                                $("#movieSearchForm").submit();
+                            });
 
                         suggestionsContainer.append("<div>").append(movieLink);
                     }
@@ -290,8 +280,120 @@ $(document).ready(function () {
             });
         }, doneTypingInterval);
     });
+
+    // 추가된 부분: Form이 제출될 때 추가적인 Ajax 요청
+    $("#movieSearchForm").on("submit", function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var keyword = $("#searchInput").val();
+
+        $.ajax({
+            url: "/search/inputKeyword",
+            method: "POST",
+            data: { "keyword": keyword },
+            success: function (response) {
+                console.log("전송완료", response);
+            },
+            error: function (error) {
+                console.error("에러:", error);
+            }
+        });
+
+        // Continue with the form submission
+        this.submit();
+    });
+    
+    
+ // 입력창이 클릭되었을 때의 이벤트 핸들러
+    $("#searchInput").on("click", function () {
+        console.log("실행");
+    	// 서버에 비동기 요청을 보냄
+    	 var currentText = $(this).val().trim();
+    	 if (currentText === "") {
+	        $.ajax({
+	            url: "/search/showPopular",
+	            method: "GET",
+	            success: function (response) {
+	                console.log(response);
+	            	var popularContainer = $("#popularContainer");
+	                // 받아온 데이터를 popularContainer에 표시
+	                    console.log(response[0].searchHistoryKeyword);
+	                popularContainer.empty();
+	            	popularContainer.append($("<h3>").text("인기 검색어"));
+	                for (var i = 0; i < response.length; i++) {
+	                	var popularItem = $("<div>")
+	                        .addClass("link link-underline link-underline-opacity-0 link-danger")
+	                        .text(response[i].searchHistoryKeyword)
+	                        .on("click", function () {
+	                            // 클릭한 인기 검색어를 검색 입력란에 설정
+	                            $("#searchInput").val($(this).text());
+	
+	                            // 폼을 서버로 전송
+	                            $("#movieSearchForm").submit();
+	                        });
+	
+	                    popularContainer.append(popularItem);
+	                }
+	
+	                // 인기 검색어를 표시한 후 popularContainer를 보여줌
+	                popularContainer.show();
+	            },
+	            error: function (error) {
+	                console.error("인기 검색어 불러오기에 실패했습니다.", error);
+	            }
+	        });
+    	} 
+        
+        
+        
+    });
+
+    // 다른 부분에서 입력창이 아닌 곳을 클릭했을 때 popularContainer를 숨김
+    $(document).on("click", function (event) {
+        if (!$(event.target).closest("#searchInput").length) {
+            $("#popularContainer").hide();
+        }
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 });
 </script>
+
+
+
+
+
+
+
+<script>
+$(document).ready(function () {
+    function disableButton() {
+        const searchInput = $("#searchInput");
+        const searchButton = $("#searchButton");
+
+        if (searchInput.val() === "") {
+            searchButton.prop("disabled", true);
+        } else {
+            searchButton.prop("disabled", false);
+        }
+    }
+
+    $("#searchInput").on("input", disableButton);
+});
+</script>
+
 <style>
 .custom-search {
 	background-color: #e6dcdc;
@@ -320,7 +422,7 @@ $(document).ready(function () {
 	position: relative;
 }
 
-#suggestionsContainer {
+#suggestionsContainer, #popularContainer {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -332,7 +434,13 @@ $(document).ready(function () {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+#popularContainer {
+	display: none;
+}
 
+#suggestionsContainer a, #popularContainer a {
+	cursor: pointer;
+}
 </style>
 </head>
 
@@ -356,19 +464,26 @@ $(document).ready(function () {
 										</div>
 
 										<div class="col-8 d-flex justify-content-end">
-											<form action="/" method="post" class="d-flex">
+											<form action="/" method="post" class="d-flex"
+												id="movieSearchForm">
 												<div class="position-relative">
 													<!-- 부모 요소 추가 -->
 													<input class="form-control me-sm-2 custom-search"
 														type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
 														style="height: fit-content;" autocomplete="off"
 														id="searchInput">
+													<div id="popularContainer"></div>
 													<div id="suggestionsContainer"></div>
 												</div>
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
-													type="submit" style="height: fit-content;">검색</button>
+													id="searchButton" disabled type="submit"
+													style="height: fit-content;">검색</button>
 											</form>
+												<c:if test="${sessionScope.level == '관리자' }">
+													<a href="http://localhost:3000/" class="btn c-btn ms-5"
+														style="height: fit-content;"><i class="fa-solid fa-screwdriver-wrench fa-2x1"></i></a>
+												</c:if>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
 													<a href="/member/logout" class="btn c-btn ms-5"
@@ -506,4 +621,3 @@ $(document).ready(function () {
 						</div>
 						<hr>
 					</header>
-					<section>

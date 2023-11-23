@@ -26,7 +26,7 @@
 	<update id="edit">
 		update review 
 		<set>
-			<if test="reviewDto.reviewContent !=null"> review_content = #{reviewContent},</if>
+			<if test="reviewContent !=null"> review_content = #{reviewContent},</if>
 		</set> 
 		where review_no = #{reviewNo}
 	</update>
@@ -94,10 +94,10 @@
 	<select id="findMemberIdByReviewNo" resultType="String">
 		SELECT member_id FROM review WHERE review_no = #{reviewNo};
 	</select>
-	
-	<!-- 댓글 수 조회 -->
-	<select id="findReplyCount" resultType="int">
-		select review_like_count from review where review_no = #{reviewNo]
+
+	<!-- 리뷰 갯수 -->
+	<select id="countList" resultType="int">
+		select count(*) from review_list
 	</select>
 	
 	<select id="reviewCountByMemberId" resultType="int">

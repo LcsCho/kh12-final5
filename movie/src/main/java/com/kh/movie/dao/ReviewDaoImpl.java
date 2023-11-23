@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.movie.dto.MovieSimpleInfoDto;
 import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.AdminReviewListVO;
+import com.kh.movie.vo.PaginationVO;
 import com.kh.movie.vo.ReviewListVO;
 
 @Repository
@@ -114,11 +115,11 @@ public class ReviewDaoImpl implements ReviewDao{
   	public String findMemberIdByReviewNo(int reviewNo) {
   		return sqlSession.selectOne("review.findMemberIdByReviewNo", reviewNo);
   	}
-  
-  	//댓글 수 조회
+  	
+  	//리뷰 갯수
   	@Override
-  	public int findReplyCount(int reviewNo) {
-  		return sqlSession.selectOne("reply.findReplyCount", reviewNo);
+  	public int countList(PaginationVO paginationVO) {
+  		return sqlSession.selectOne("review.countList");
   	}
   	
   	@Override
