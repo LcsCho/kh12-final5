@@ -25,13 +25,13 @@ public class SearchDaoImpl implements SearchDao{
 	}
 	
 	@Override
-	public void inputKeyword(String keyword) {
-		sqlSession.insert("search.savePopular", keyword);
+	public void inputPopularKeyword(String keyword) {
+		sqlSession.insert("popular.save", keyword);
 	}
 	
 	@Override
-	public List<SearchHistoryDto> showPopular() {
-		return sqlSession.selectList("search.showPopular");
+	public List<String> showPopular() {
+		return sqlSession.selectList("popular.show");
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.SearchDao;
+import com.kh.movie.dto.PopularHistoryDto;
 import com.kh.movie.dto.SearchHistoryDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,17 +52,17 @@ public class SearchRestController {
 		return searchMovieList;
 	}
 
-	@PostMapping("/inputKeyword")
-	public void searchkeyword(@RequestParam String keyword) {
-		searchDao.inputKeyword(keyword);
+	@PostMapping("/inputPopularKeyword")
+	public void inputPopularKeyword(@RequestParam String keyword) {
+		searchDao.inputPopularKeyword(keyword);
 	}
 
 	@GetMapping("/showPopular")
-	public List<SearchHistoryDto> showPopularList() {
+	public List<String> showPopularList() {
 		return searchDao.showPopular();
 	}
 	
-	@PostMapping("/inputKeywordByMember")
+	@PostMapping("/inputRecentKeyword")
 	public void searchKeywordByMember(
 			@RequestParam String keyword,
 			@RequestParam String memberId) {
@@ -72,5 +73,8 @@ public class SearchRestController {
 	public List<SearchHistoryDto> showRecentList(@RequestParam String memberId) {
 		return searchDao.showRecent(memberId);
 	}
+	
+//	@DeleteMapping("/deleteEach")
+//	public void 
 	
 }

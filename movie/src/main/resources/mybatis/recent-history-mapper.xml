@@ -6,19 +6,26 @@
     
 <mapper namespace="recent">
 
-	<insert id="saveRecent">
+	<insert id="save">
 		insert into recent-history(recent_history_no, 
 		recent_history_keyword,recent_history_id)  
 		values(popular_history_seq.nextval, #{keyword}, #{memberId})	
 	</insert>
 	
-	<select id="showRecent" resultType="String">
+	<select id="show" resultType="String">
 		select recent_history_keyword from recent_history 
 		order by recent_history_time desc
 		fetch first 5 rows only
-		
-	
 	</select>
+	
+	<delete id="deleteEach">
+		DELETE FROM recent_history 
+		WHERE recent_history_id = #{memberId} AND recent_history_keyword = #{keyword}
+	</delete>
+	
+	<delete id="deleteAll">
+		DELETE FROM RECENT_HISTORY WHERE recent_history_id = #{memberId}
+	</delete>
 
 </mapper>    
     

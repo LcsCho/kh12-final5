@@ -6,19 +6,19 @@
 
 <mapper namespace="popular">
 
-	<insert id="savePopular">
+	<insert id="save">
 		insert into popular_history(popular_history_no,
 		popular_history_keyword)
 		values(popular_history_seq.nextval, #{keyword})
 	</insert>
 
-	<select id="showPopular" resultType="String">
+	<select id="show" resultType="String">
 		SELECT popular_history_keyword
 		FROM popular_history
 		WHERE popular_history_time >= SYSDATE - 7
 		GROUP BY popular_history_keyword
 		ORDER BY COUNT(popular_history_keyword) DESC
-		FETCH FIRST 5 ROWS ONLY;
+		FETCH FIRST 5 ROWS ONLY
 	</select>
 
 
