@@ -278,6 +278,7 @@ $(document).ready(function () {
                     console.error("연관검색에 대한 오류 발생:", error);
                 }
             });
+
         }, doneTypingInterval);
     });
 
@@ -286,7 +287,7 @@ $(document).ready(function () {
         event.preventDefault(); // Prevent the default form submission
 
         var keyword = $("#searchInput").val();
-
+        console.log(memberId);
         $.ajax({
             url: "/search/inputPopularKeyword",
             method: "POST",
@@ -298,15 +299,28 @@ $(document).ready(function () {
                 console.error("에러:", error);
             }
         });
-
+        
+        $.ajax({
+            url: "/search/inputRecentKeyword",
+            method: "POST",
+            data: { "keyword": keyword },
+            success: function (response) {
+                console.log("전송완료", response);
+            },
+            error: function (error) {
+                console.error("에러:", error);
+            }
+        });
+		
         // Continue with the form submission
         this.submit();
     });
     
     
+    
  // 입력창이 클릭되었을 때의 이벤트 핸들러
     $("#searchInput").on("click", function () {
-        console.log("실행");
+//         console.log("실행");
     	// 서버에 비동기 요청을 보냄
     	 var currentText = $(this).val().trim();
     	 if (currentText === "") {
@@ -353,29 +367,8 @@ $(document).ready(function () {
             $("#popularContainer").hide();
         }
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 });
 </script>
-
-
-
-
-
-
-
 <script>
 $(document).ready(function () {
     function disableButton() {
@@ -473,16 +466,19 @@ $(document).ready(function () {
 														id="searchInput">
 													<div id="popularContainer"></div>
 													<div id="suggestionsContainer"></div>
+
+
 												</div>
 												<button
 													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
 													id="searchButton" disabled type="submit"
 													style="height: fit-content;">검색</button>
 											</form>
-												<c:if test="${sessionScope.level == '관리자' }">
-													<a href="http://localhost:3000/" class="btn c-btn ms-5"
-														style="height: fit-content;"><i class="fa-solid fa-screwdriver-wrench fa-2x1"></i></a>
-												</c:if>
+											<c:if test="${sessionScope.level == '관리자' }">
+												<a href="http://localhost:3000/" class="btn c-btn ms-5"
+													style="height: fit-content;"><i
+													class="fa-solid fa-screwdriver-wrench fa-2x1"></i></a>
+											</c:if>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
 													<a href="/member/logout" class="btn c-btn ms-5"
