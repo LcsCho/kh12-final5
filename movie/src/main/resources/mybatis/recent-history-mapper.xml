@@ -13,9 +13,14 @@
 	</insert>
 	
 	<select id="show" resultType="String">
-		select recent_history_keyword from recent_history 
-		order by recent_history_time desc
-		fetch first 5 rows only
+		select recent_history_keyword
+		from (
+		    select recent_history_keyword, max(recent_history_time) as latest_time
+		    from recent_history
+		    group by recent_history_keyword
+		    order by latest_time desc
+		)
+		where rownum <= 5;
 	</select>
 	
 	<delete id="deleteEach">
