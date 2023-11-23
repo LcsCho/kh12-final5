@@ -44,6 +44,12 @@
         border-color: rgb(179, 57, 57);
         font-size: 16px;
     }
+    .emptyMessage{
+    	color: rgb(179, 57, 57);
+    	font-size : 24px;
+    	font-style: bold;
+    	text-align: center;
+    }
 </style>
 
 <script>
@@ -84,23 +90,38 @@
 	                reviewNo: reviewNo
 	            },
 	            success: function (response) {
+					console.log(response);
+	            	
 	                $(".reply-list").empty();
 	
-	                for (var i = 0; i < response.length; i++) {
-	                    var reply = response[i];
-	
-	                    var template = $("#reply-template").html();
-	                    var htmlTemplate = $.parseHTML(template);
-	
-	                    $(htmlTemplate).find(".fa-x").attr("data-replyno", reply.replyNo);
-	                    $(htmlTemplate).find(".deleteReply").attr("data-reply-no", reply.replyNo);
-	
-	                    $(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
-	                    $(htmlTemplate).find(".replyDate").text(reply.replyDate);
-	                    $(htmlTemplate).find(".replyContent").text(reply.replyContent);
-	
-	                    $(".reply-list").append(htmlTemplate);
+	                if (response.length === 0) {
+	                	$(".reply-list").append(
+	                	        "<div class='row'>" +
+	                	            "<div class='col text-center'>" +
+	                	                "<span class='emptyMessage'>" +
+	                	                    "등록된 댓글이 없습니다." +
+	                	                "</span>" +
+	                	            "</div>" +
+	                	        "</div>"
+	                	    );
+	                } else {
+	                    for (var i = 0; i < response.length; i++) {
+	                        var reply = response[i];
+
+	                        var template = $("#reply-template").html();
+	                        var htmlTemplate = $.parseHTML(template);
+
+	                        $(htmlTemplate).find(".fa-x").attr("data-replyno", reply.replyNo);
+	                        $(htmlTemplate).find(".deleteReply").attr("data-reply-no", reply.replyNo);
+
+	                        $(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
+	                        $(htmlTemplate).find(".replyDate").text(reply.replyDate);
+	                        $(htmlTemplate).find(".replyContent").text(reply.replyContent);
+
+	                        $(".reply-list").append(htmlTemplate);
+	                    }
 	                }
+	            }
 	        });
 	    }
 	    
@@ -116,7 +137,10 @@
 	    			
 	    			$("[name=replyContent]").val("");
 	    			loadReplyList();
-	    		}
+	    		},
+	            error : function() {
+					window.alert("로그인 후 이용 가능합니다.");
+				},
 	    	});
 	    });
 
@@ -320,7 +344,8 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-10 offset-md-1 mb-5 mt-5">
-	
+
+				<!-- 영화 목록으로 이동 -->	
 				<div class="row">
 					<div class="col-3">
 						<a href="list?movieNo=${review.movieNo}">
