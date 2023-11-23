@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
@@ -22,7 +21,6 @@ import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
-import com.kh.movie.dto.RatingDto;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.ActorDetailVO;
@@ -64,13 +62,13 @@ public class MovieController {
 		
 		//리뷰 목록 조회
 		model.addAttribute("movieNo", movieNo);
-		
-		
 	    
 	    //영화 정보 조회
 		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewDao.findAll(movieNo);
 	    if (!movieSimpleInfoList.isEmpty()) {
 	        model.addAttribute("movieSimpleInfo", movieSimpleInfoList.get(0));
+	    }else {
+	    	return "redirect:/";
 	    }
 		
 	    return "movie/review/list";
@@ -87,12 +85,16 @@ public class MovieController {
 		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewDao.findAll(movieNo);
 	    if (!movieSimpleInfoList.isEmpty()) {
 	        model.addAttribute("movieSimpleInfo", movieSimpleInfoList.get(0));
+	    }else {
+	    	return "redirect:/";
 	    }
 	    
 	    //리뷰 상세 조회
 		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
 		if (reviewListVO != null) {
 		    model.addAttribute("review", reviewListVO);
+		}else {
+			return "redirect:/detail?movieNo="+movieNo;
 		}
 		
 		//댓글 조회
@@ -107,6 +109,11 @@ public class MovieController {
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int movieNo, HttpSession session, Model model) {
 		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
+		
+		if(movieDto == null){
+			return "redirect:/";
+		}
+		
 //		String memberId = (String) session.getAttribute("name");
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
 		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
