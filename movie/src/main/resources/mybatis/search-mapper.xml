@@ -27,9 +27,9 @@
 	</delete>
 
 	<insert id="saveRecent">
-		INSERT INTO search_history(search_history_no,
-		search_history_keyword, search_history_member_id)
-		VALUES(search_history_seq.nextval, #{keyword}, #{memberId})
+		INSERT INTO recent_history(recent_history_no,
+		recent_history_keyword, recent_history_id)
+		VALUES(recent_history_seq.nextval, #{keyword}, #{memberId})
 	</insert>
 
 	<select id="showRecent" resultType="SearchHistoryDto">
