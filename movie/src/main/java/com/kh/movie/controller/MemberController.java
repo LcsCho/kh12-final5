@@ -21,6 +21,7 @@ import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.PreferGenreDao;
 import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.PreferGenreDto;
@@ -51,6 +52,9 @@ public class MemberController {
 	
 	@Autowired
 	private RatingDao ratingDao;
+	
+	@Autowired
+	private ReviewDao reviewDao;
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -115,16 +119,16 @@ public class MemberController {
 	//마이페이지
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
-		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		int movieWishCount = movieWishDao.count(memberId);
+		int reviewCount = reviewDao.reviewCountByMemberId(memberId);
+		int ratingCount = ratingDao.ratingCountByMemberId(memberId);
+		int wishCount = movieWishDao.wishCountByMemberId(memberId);
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberImage", memberDao.findMemberImage(memberId));
-		model.addAttribute("movieWishCount", movieWishCount);
-		
+		model.addAttribute("reviewCount", reviewCount);
+		model.addAttribute("ratingCount", ratingCount);
+		model.addAttribute("wishCount", wishCount);
 		
 		return "member/mypage";	
 	}
