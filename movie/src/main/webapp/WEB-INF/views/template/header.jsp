@@ -230,19 +230,20 @@ $(document).ready(function () {
 
     // 검색 입력란에 이벤트 리스너 추가
     $("#searchInput").on("input", function () {
-        clearTimeout(typingTimer);
+    	clearTimeout(typingTimer);
         var keyword = $(this).val();
 
         // 타이머를 이용하여 입력이 완료된 후에 서버에 Ajax 요청 보내기
         typingTimer = setTimeout(function () {
             if (keyword.trim() === "") {
                 // 입력이 빈 칸인 경우 추천 목록 비우기
-                $("#suggestionsContainer").empty();
+                $("#suggestionsContainer").empty().hide();
                 return;
             }
             
             // 추가된 부분: 입력이 있을 때 popularContainer 숨기기
             $("#popularContainer").hide();
+            $("#recentContainer").hide();
 
             $.ajax({
                 url: "/search/movieName",
@@ -269,9 +270,10 @@ $(document).ready(function () {
                                 // form을 서버로 전송
                                 $("#movieSearchForm").submit();
                             });
-
+						
                         suggestionsContainer.append("<div>").append(movieLink);
                     }
+                    $("#suggestionsContainer").show();
                 },
 
                 error: function (error) {
@@ -344,6 +346,103 @@ $(document).ready(function () {
 	                console.error("인기 검색어 불러오기에 실패했습니다.", error);
 	            }
 	        });
+	        // 최근 검색어를 서버에서 가져오는 Ajax 요청
+	        $.ajax({
+	            url: "/search/showRecent",
+	            method: "GET",
+	            success: function (response) {
+
+	            	var recentContainer = $("#recentContainer");
+
+	            	
+	            	if(response && response.length > 0){
+	                recentContainer.empty();
+	                recentContainer.append(
+	                		$("<div>").addClass("d-flex")
+	                		.append($("<div>").addClass("w-100").append($("<h3>").text("최근 검색어")))
+	                		.append($("<div>").addClass("flex-shrink-1 me-2").append($("<i>").addClass("fas fa-times fa-2x delete-recent-all")))
+	                		.on("click", function () {
+	                	    	// 확인 창 띄우기
+	                	        if (confirm("정말로 모든 검색 기록을 삭제하시겠습니까?")) {
+	                	            // 사용자가 확인을 선택한 경우에만 Ajax 요청 보내기
+	                	            $.ajax({
+	                	                url: "/search/deleteAll",
+	                	                method: "DELETE",
+	                	                success: function(response) {
+	                	                    // 요청이 성공하면 할 일 작성
+	                	                    console.log("삭제 성공");
+	                	                },
+	                	                error: function(error) {
+	                	                    // 요청이 실패하면 할 일 작성
+	                	                    console.error("삭제 실패:", error);
+	                	                }
+	                	            });
+	                	        }
+							})
+	                		)
+	                
+
+	                // 최대 5개까지만 출력
+	                for (var i = 0; i < Math.min(response.length, 5); i++) {
+	                    
+	                	var keyword=response[i];
+	                	var recentItem = $("<div>")
+	                        .addClass("link link-underline link-underline-opacity-0 link-danger d-flex")
+							.append($("<div>").addClass("w-100")
+									.append(
+										$("<span>")
+											.text(keyword)
+			                        			.on("click", function () {
+						                            // 클릭한 최근 검색어를 검색 입력란에 설정
+						                            $("#searchInput").val($(this).text());
+					
+						                            // 폼을 서버로 전송
+						                            $("#movieSearchForm").submit();
+			                        				})									
+										)
+									)
+					        .append($("<div>").addClass("flex-shrink-1 me-2")
+					        		.append(
+					        			$("<i>")
+					        			.addClass("fas fa-times")
+					                		.on("click", function () {
+					                			console.log(keyword);
+					                			// 확인 창 띄우기
+					                	        if (confirm("정말로 검색 기록을 삭제하시겠습니까?")) {
+					                	            // 사용자가 확인을 선택한 경우에만 Ajax 요청 보내기
+					                	            $.ajax({
+					                	                url: "/search/deleteEach",
+					                	                method: "DELETE",
+					                	                data: {keyword: keyword},
+					                	                success: function(response) {
+					                	                    // 요청이 성공하면 할 일 작성
+					                	                    console.log("삭제 성공");
+					                	                },
+					                	                error: function(error) {
+					                	                    // 요청이 실패하면 할 일 작성
+					                	                    console.error("삭제 실패:", error);
+					                	                }
+					                	            });
+					                	        }
+											})					        			
+					        			)
+					        		)
+
+
+
+	                    recentContainer.append(recentItem);
+	                }
+	                recentContainer.show();
+		            } else{	
+		            	recenContainer.hide();
+		            }
+	        	},
+	            error: function (error) {
+	                console.error("최근 검색어 불러오기에 실패했습니다.", error);
+	            }
+	        });	       	
+	        
+	        
     	} 
         
         
@@ -354,6 +453,8 @@ $(document).ready(function () {
     $(document).on("click", function (event) {
         if (!$(event.target).closest("#searchInput").length) {
             $("#popularContainer").hide();
+            $("#recentContainer").hide();
+            
         }
     });
 });
@@ -375,7 +476,14 @@ $(document).ready(function () {
 });
 </script>
 
+
 <style>
+
+
+.delete-recent-all{
+	color: rgb(179, 57, 57);
+}
+
 .custom-search {
 	background-color: #e6dcdc;
 	border: none;
@@ -403,23 +511,50 @@ $(document).ready(function () {
 	position: relative;
 }
 
-#suggestionsContainer, #popularContainer {
+#suggestionsContainer, #popularContainer, #recentContainer {
 	position: absolute;
 	top: 100%;
-	left: 0;
 	z-index: 1000;
 	background-color: #fff;
 	border: 1px solid #ccc;
 	max-height: 200px;
 	overflow-y: auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	width: 50%; /* 입력창의 절반 크기로 조정 */
+}
+/* #recentContainer { */
+/*     position: absolute; */
+/*     top: 100%; */
+/*     left: 40%; /* 오른쪽에 위치하도록 수정 */ */
+/*     z-index: 1000; */
+/*     background-color: #fff; */
+/*     border: 1px solid #ccc; */
+/*     max-height: 200px; */
+/*     overflow-y: auto; */
+/*     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+/* } */
+#suggestionsContainer {
+    left: 0;
 }
 
 #popularContainer {
+    left: 0;
+    border-right: 0; /* 오른쪽 테두리 제거 */
+}
+
+#recentContainer {
+    right: 0; /* 오른쪽 끝에 위치하도록 설정 */
+    border-left: 0;
+}
+
+
+
+
+#popularContainer,#recentContainer,#suggestionsContainer {
 	display: none;
 }
 
-#suggestionsContainer a, #popularContainer a {
+#suggestionsContainer a, #popularContainer a, #recentContainer a {
 	cursor: pointer;
 }
 </style>
@@ -454,6 +589,7 @@ $(document).ready(function () {
 														style="height: fit-content;" autocomplete="off"
 														id="searchInput">
 													<div id="popularContainer"></div>
+													<div id="recentContainer"></div>
 													<div id="suggestionsContainer"></div>
 
 
