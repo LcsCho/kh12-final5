@@ -71,17 +71,28 @@ public class SearchRestController {
 	
 	
 	@GetMapping("/showRecent")
-	public List<String> showRecentList(@RequestParam String memberId) {
-		return searchDao.showRecent(memberId);
+	public List<String> showRecentList(HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		if(memberId != null) {
+			return searchDao.showRecent(memberId);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	@DeleteMapping("/deleteAll")
-	public void deleteAll(@RequestParam String memberId) {
-		searchDao.deleteAll(memberId);
+	public void deleteAll(HttpSession session) {
+		String memberId= (String) session.getAttribute("name");
+		if(memberId != null) {
+			searchDao.deleteAll(memberId);
+		}
 	}
 	
 	@DeleteMapping("/deleteEach")
-	public void deleteEach(@RequestParam String memberId, @RequestParam String keyword) {
+	public void deleteEach(@RequestParam String keyword, HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		
 		searchDao.deleteEach(memberId, keyword);
 	}
 	
