@@ -90,7 +90,7 @@ public class MovieRestController {
 //		movieDao.insert(movieDto);
 //	}
 
-	@DeleteMapping("/{movieNo}")
+	@DeleteMapping("/delete/{movieNo}")
 	public ResponseEntity<String> delete(@PathVariable int movieNo) {
 		boolean result = movieDao.delete(movieNo);
 		if (result)

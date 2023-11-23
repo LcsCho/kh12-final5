@@ -54,11 +54,11 @@ public class SearchRestController {
 	}
 
 	@PostMapping("/inputKeyword")
-	public void inputPopularKeyword(@RequestParam String keyword,HttpSession session) {
+	public void inputKeyword(@RequestParam String keyword,HttpSession session) {
 		searchDao.inputPopularKeyword(keyword);
-		log.debug("keyword={}",keyword);
+//		log.debug("keyword={}",keyword);
 		String memberId=(String) session.getAttribute("name");
-		log.debug("memberId={}",memberId);
+//		log.debug("memberId={}",memberId);
 		if(memberId != null) {
 			searchDao.inputRecentKeyword(keyword, memberId);
 		}
