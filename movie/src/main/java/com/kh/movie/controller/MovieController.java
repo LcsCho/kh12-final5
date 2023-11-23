@@ -64,6 +64,8 @@ public class MovieController {
 		
 		//리뷰 목록 조회
 		model.addAttribute("movieNo", movieNo);
+		
+		
 	    
 	    //영화 정보 조회
 		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewDao.findAll(movieNo);

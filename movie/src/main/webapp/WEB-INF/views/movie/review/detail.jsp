@@ -101,7 +101,6 @@
 	
 	                    $(".reply-list").append(htmlTemplate);
 	                }
-	            }
 	        });
 	    }
 	    
@@ -180,7 +179,10 @@
 	            	}
 	                
 	                loadReviewLike(movieNo);
-	            }
+	            },
+	            error : function() {
+					window.alert("로그인 후 이용 가능합니다.");
+				},
 	        });
 	    }
 	    
@@ -323,7 +325,7 @@
 					<div class="col-3">
 						<a href="list?movieNo=${review.movieNo}">
 							<button type="button" class="btn btn-link">
-								<i class="fa-solid fa-angle-left"></i>영화 상세
+								<i class="fa-solid fa-angle-left"></i>리뷰 목록
 							</button>
 						</a>
 					</div>

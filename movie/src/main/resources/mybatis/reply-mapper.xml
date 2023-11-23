@@ -42,4 +42,9 @@
 		delete reply where reply_no = #{replyNo}
 	</delete>
 	
+	<!-- 댓글 수 조회 -->
+	<select id="findReplyCount" resultType="int">
+		select review_reply_count from review_list where review_no = #{reviewNo]
+	</select>
+	
 </mapper>

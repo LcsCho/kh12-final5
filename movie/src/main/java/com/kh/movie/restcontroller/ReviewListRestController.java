@@ -38,52 +38,32 @@ public class ReviewListRestController {
 	
 	//최신순 조회
 	@PostMapping("/findByDateDesc")
-	public List<ReviewListVO> findByDateDesc(Model model,
-			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
-		int count = reviewDao.countList(paginationVO);
-		paginationVO.setCount(count);
-		model.addAttribute("paginationVO", paginationVO);
-		return reviewDao.findByDateDesc(paginationVO, movieNo);
+	public List<ReviewListVO> findByDateDesc(int movieNo) {
+		return reviewDao.findByDateDesc(movieNo);
 	}
 	
 	//오래된순 조회
 	@PostMapping("/findByDateAsc")
-	public List<ReviewListVO> findByDateAsc(Model model,
-			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
-		int count = reviewDao.countList(paginationVO);
-		paginationVO.setCount(count);
-		model.addAttribute("paginationVO", paginationVO);
-		return reviewDao.findByDateAsc(paginationVO, movieNo);
+	public List<ReviewListVO> findByDateAsc(int movieNo) {
+		return reviewDao.findByDateAsc(movieNo);
 	}
 	
 	//좋아요순 조회
 	@PostMapping("/findByLikeDesc")
-	public List<ReviewListVO> findByLikeDesc(Model model,
-			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
-		int count = reviewDao.countList(paginationVO);
-		paginationVO.setCount(count);
-		model.addAttribute("paginationVO", paginationVO);
-		return reviewDao.findByLikeDesc(paginationVO, movieNo);
+	public List<ReviewListVO> findByLikeDesc(int movieNo) {
+		return reviewDao.findByLikeDesc(movieNo);
 	}
 	
 	//평점높은순
 	@PostMapping("/findByRatingDesc")
-	public List<ReviewListVO> findByRatingDesc(Model model,
-			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
-		int count = reviewDao.countList(paginationVO);
-		paginationVO.setCount(count);
-		model.addAttribute("paginationVO", paginationVO);
-		return reviewDao.findByRatingDesc(paginationVO, movieNo);
+	public List<ReviewListVO> findByRatingDesc(int movieNo) {
+		return reviewDao.findByRatingDesc(movieNo);
 	}
 	
 	//평점낮은순
 	@PostMapping("/findByRatingAsc")
-	public List<ReviewListVO> findByRatingAsc(Model model,
-			@ModelAttribute(name="paginationVO") PaginationVO paginationVO, int movieNo) {
-		int count = reviewDao.countList(paginationVO);
-		paginationVO.setCount(count);
-		model.addAttribute("paginationVO", paginationVO);
-		return reviewDao.findByRatingAsc(paginationVO, movieNo);
+	public List<ReviewListVO> findByRatingAsc(int movieNo) {
+		return reviewDao.findByRatingAsc(movieNo);
 	}
 
 	//좋아요 조회(좋아요 체크 여부, 좋아요 개수)

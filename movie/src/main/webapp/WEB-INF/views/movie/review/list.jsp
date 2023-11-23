@@ -42,7 +42,7 @@
         border-color: rgb(179, 57, 57);
         border-width: 2px;
     }
-    .btn:active, btn-info:active{
+    .btn-info:active{
     	background-color: rgb(179, 57, 57);
         color: white;
         font-size: 18px;
@@ -130,7 +130,11 @@ $(function () {
                 }
                 
                 loadReviewLike(movieNo);
-            }
+            },
+            error : function() {
+				window.alert("로그인 후 이용 가능합니다.");
+			},
+            
         });
     }
 
@@ -144,6 +148,7 @@ $(function () {
                 sortType: "findByDateDesc"
             },
             success: function (response) {
+            	console.log(response);
 
             	$(".review-list").empty();
 				
@@ -166,6 +171,7 @@ $(function () {
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
 				    $(htmlTemplate).find(".reviewContent").text(review.reviewContent);
 				    $(htmlTemplate).find(".likeButton .likeCount").text(review.reviewLikeCount);
+				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
 				    
@@ -214,6 +220,7 @@ $(function () {
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
 				    $(htmlTemplate).find(".reviewContent").text(review.reviewContent);
 				    $(htmlTemplate).find(".likeButton .likeCount").text(review.reviewLikeCount);
+				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
 				    
@@ -261,6 +268,7 @@ $(function () {
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
 				    $(htmlTemplate).find(".reviewContent").text(review.reviewContent);
 				    $(htmlTemplate).find(".likeButton .likeCount").text(review.reviewLikeCount);
+				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
 				    
@@ -308,6 +316,7 @@ $(function () {
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
 				    $(htmlTemplate).find(".reviewContent").text(review.reviewContent);
 				    $(htmlTemplate).find(".likeButton .likeCount").text(review.reviewLikeCount);
+				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
 				    
@@ -354,6 +363,7 @@ $(function () {
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
 				    $(htmlTemplate).find(".reviewContent").text(review.reviewContent);
 				    $(htmlTemplate).find(".likeButton .likeCount").text(review.reviewLikeCount);
+				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
 				    
@@ -392,8 +402,8 @@ $(function () {
 				</div>
 				<div class="col">
 					<a class="commnetButton">					
-						<button type="button" class="btn btn-primary btn-link">
-							<i class="fa-regular fa-comment"></i>
+						<button type="button" class="btn btn-primary btn-link replyButton">
+							<i class="fa-regular fa-comment"><span class="replyCount"></span></i>
 						</button>
 					</a>
 				</div>
@@ -405,6 +415,16 @@ $(function () {
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-10 offset-md-1 mb-5 mt-5">
+			
+			<div class="row">
+				<div class="col-3">
+					<a href="/movie/detail?movieNo=${movieSimpleInfo.movieNo}">
+						<button type="button" class="btn btn-link">
+							<i class="fa-solid fa-angle-left"></i>영화 상세
+						</button>
+					</a>
+				</div>
+			</div>
 			
 			<div class="row">
 	            <div class="col-2 offset-4 text-right">
