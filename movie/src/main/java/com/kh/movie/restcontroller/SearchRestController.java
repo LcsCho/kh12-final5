@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.SearchDao;
-import com.kh.movie.dto.SearchHistoryDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -51,26 +51,37 @@ public class SearchRestController {
 		return searchMovieList;
 	}
 
-	@PostMapping("/inputKeyword")
-	public void searchkeyword(@RequestParam String keyword) {
-		searchDao.inputKeyword(keyword);
+	@PostMapping("/inputPopularKeyword")
+	public void inputPopularKeyword(@RequestParam String keyword) {
+		searchDao.inputPopularKeyword(keyword);
 	}
 
 	@GetMapping("/showPopular")
-	public List<SearchHistoryDto> showPopularList() {
+	public List<String> showPopularList() {
 		return searchDao.showPopular();
 	}
 	
-	@PostMapping("/inputKeywordByMember")
-	public void searchKeywordByMember(
+	@PostMapping("/inputRecentKeyword")
+	public void inputRecentKeyword(
 			@RequestParam String keyword,
 			@RequestParam String memberId) {
-		searchDao.inputKeywordByMember(keyword, memberId);
+		searchDao.inputRecentKeyword(keyword, memberId);
 	}
 	
 	@GetMapping("/showRecent")
-	public List<SearchHistoryDto> showRecentList(@RequestParam String memberId) {
+	public List<String> showRecentList(@RequestParam String memberId) {
 		return searchDao.showRecent(memberId);
 	}
+	
+	@DeleteMapping("/deleteAll")
+	public void deleteAll(@RequestParam String memberId) {
+		searchDao.deleteAll(memberId);
+	}
+	
+	@DeleteMapping("/deleteEach")
+	public void deleteEach(@RequestParam String memberId, @RequestParam String keyword) {
+		searchDao.deleteEach(memberId, keyword);
+	}
+	
 	
 }

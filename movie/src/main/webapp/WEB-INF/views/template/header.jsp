@@ -288,7 +288,7 @@ $(document).ready(function () {
         var keyword = $("#searchInput").val();
 
         $.ajax({
-            url: "/search/inputKeyword",
+            url: "/search/inputPopularKeyword",
             method: "POST",
             data: { "keyword": keyword },
             success: function (response) {
@@ -314,16 +314,15 @@ $(document).ready(function () {
 	            url: "/search/showPopular",
 	            method: "GET",
 	            success: function (response) {
-	                console.log(response);
+// 	                console.log(response);
 	            	var popularContainer = $("#popularContainer");
 	                // 받아온 데이터를 popularContainer에 표시
-	                    console.log(response[0].searchHistoryKeyword);
 	                popularContainer.empty();
 	            	popularContainer.append($("<h3>").text("인기 검색어"));
 	                for (var i = 0; i < response.length; i++) {
 	                	var popularItem = $("<div>")
 	                        .addClass("link link-underline link-underline-opacity-0 link-danger")
-	                        .text(response[i].searchHistoryKeyword)
+	                        .text(response[i])
 	                        .on("click", function () {
 	                            // 클릭한 인기 검색어를 검색 입력란에 설정
 	                            $("#searchInput").val($(this).text());
