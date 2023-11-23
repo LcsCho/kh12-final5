@@ -28,7 +28,6 @@ public interface ReviewDao {
 	int findReviewLikeCount(int reviewNo);
 	
 	String findMemberIdByReviewNo(int reviewNo);//리뷰 번호로 회원 아이디 검색
-	int findReplyCount(int reviewNo);//댓글 수 조회
 	int countList(PaginationVO paginationVO);//리뷰 갯수
-  int reviewCountByMemberId(String memberId);
+	int reviewCountByMemberId(String memberId);
 }
