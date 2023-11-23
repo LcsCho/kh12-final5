@@ -20,6 +20,8 @@ import com.kh.movie.dao.GenreDao;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.PreferGenreDao;
+import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.GenreDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.PreferGenreDto;
@@ -46,7 +48,13 @@ public class MemberController {
 	private PreferGenreDao preferGenreDao;
 	
 	@Autowired
-	private MovieWishDao movieWishDao; 
+	private MovieWishDao movieWishDao;
+	
+	@Autowired
+	private ReviewDao reviewDao;
+	
+	@Autowired
+	private RatingDao ratingDao;
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -202,10 +210,14 @@ public class MemberController {
 	public String mypage(HttpSession session, Model model) {
 		String memberId = (String)session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		int movieWishCount = movieWishDao.count(memberId);
+		int reviewCount = reviewDao.reviewCountByMemberId(memberId);
+		int ratingCount = ratingDao.ratingCountByMemberId(memberId);
+		int wishCount = movieWishDao.wishCountByMemberId(memberId);
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberImage", memberDao.findMemberImage(memberId));
-		model.addAttribute("movieWishCount", movieWishCount);
+		model.addAttribute("reviewCount", reviewCount);
+		model.addAttribute("ratingCount", ratingCount);
+		model.addAttribute("wishCount", wishCount);
 		
 		
 		return "member/mypage";	

@@ -120,4 +120,9 @@ public class ReviewDaoImpl implements ReviewDao{
   	public int findReplyCount(int reviewNo) {
   		return sqlSession.selectOne("reply.findReplyCount", reviewNo);
   	}
+  	
+  	@Override
+  	public int reviewCountByMemberId(String memberId) {
+  		return sqlSession.selectOne("review.reviewCountByMemberId", memberId);
+  	}
 }
