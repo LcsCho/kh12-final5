@@ -27,5 +27,4 @@ public interface MemberDao {
 	Integer findMemberImage(String memberId);
 	List<MemberDto> selectList(String memberNickname);
 	MemberAgeGroupVO getAgeGroup(String memberId);
-
 }

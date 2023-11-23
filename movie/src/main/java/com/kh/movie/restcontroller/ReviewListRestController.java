@@ -117,6 +117,8 @@ public class ReviewListRestController {
 
 	    reviewLikeVO.setReviewNo(reviewNo);
 	    reviewLikeVO.setMemberNickname(memberNickname);
+	    
+	    log.debug("reviewLikeVO = {}", reviewLikeVO);
 
 	    return reviewLikeVO;
 	}

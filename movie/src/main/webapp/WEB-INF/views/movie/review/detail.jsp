@@ -310,8 +310,11 @@
                 <div class="col-6">
                     <span class="replyDate"></span>
                 </div>
-					<div class="col-3 d-flex justify-content-end">
-                    	<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
+    				<div class="col-3 d-flex justify-content-end">
+						<c:if test="${memberNickname eq reply.memberNickname}">
+							<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
+						</c:if>
+    				</div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -393,12 +396,12 @@
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							
 							<!-- 작성자일 때만 수정, 삭제 버튼 표시 -->
-<%-- 							<c:if test="${sessionScope.name == memberId }"> --%>
+							<c:if test="${sessionScope.name == null}">
 								<i class="fa-solid fa-pen-to-square fa-lg editReview" style="position: absolute; top: 30px; right: 50px;"></i>
 								<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
 									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
 								</a>
-<%-- 							</c:if> --%>
+							</c:if>
 							
 						</div>
 						<div class="mt-3 pb-3">
@@ -408,12 +411,12 @@
 						<div class="row text-center">
 							<div class="col">
 								<button type="button" class="btn btn-primary btn-link likeButton" data-reviewNo="${review.reviewNo}">
-									<i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount">${review.reviewLikeCount}</span></i>
+									<i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"> ${review.reviewLikeCount}</span></i>
 								</button>
 							</div>
 							<div class="col">
 								<button type="button" class="btn btn-primary btn-link">
-									<i class="fa-regular fa-comment"></i>
+									<i class="fa-regular fa-comment"><span class="reviewReplyCount"> ${review.reviewReplyCount}</span></i>
 								</button>
 							</div>
 						</div>

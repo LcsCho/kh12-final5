@@ -57,25 +57,9 @@ $(function () {
     var params = new URLSearchParams(location.search);
     var movieNo = params.get("movieNo");
     
-  	//선택된 버튼 이벤트
-    function changeButton(clickedButton) {
-	    var activeButton = $(".btn-info").filter(function() {
-	        return $(this).hasClass('active');
-	    });
-	
-	    if (activeButton) {
-	        activeButton.removeClass('active');
-	    }
-	
-	    $(clickedButton).addClass('active');
-	}
-
-  	//페이지 로딩 시 최신순 조회(+버튼 이벤트)
+  //페이지 로딩 시 최신순 조회(+버튼 이벤트)
     $(document).ready(function () {
-        $(".btn-info").on("click", function() {
-            var clickedButton = $(this);
-            changeButton(clickedButton);
-        });
+    	$(".ByDateDesc").click();
     });
 	
     //좋아요 체크
@@ -133,13 +117,18 @@ $(function () {
             },
             error : function() {
 				window.alert("로그인 후 이용 가능합니다.");
-			},
-            
+			}
         });
     }
+    
+    $(".review-list").on("click", ".likeButton", function () {
+        var clickedReviewNo = $(this).data("reviewno");
+        loadReviewLike(movieNo);
+        reviewLike(clickedReviewNo);
+    });
 
     // 최신순 조회
-    $(".ByDateDesc").click(function () {
+    $(".ByDateDesc").click(function () {	
     	$.ajax({
             url: "http://localhost:8080/rest/review/list/findByDateDesc?movieNo=" + movieNo,
             method: "post",
@@ -148,7 +137,6 @@ $(function () {
                 sortType: "findByDateDesc"
             },
             success: function (response) {
-            	console.log(response);
 
             	$(".review-list").empty();
 				
@@ -174,15 +162,7 @@ $(function () {
 				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
-				    
 				}
-				
-				$(".review-list").on("click", ".likeButton", function () {
-			        var clickedReviewNo = $(this).data("reviewno");
-			        loadReviewLike(movieNo);
-			        reviewLike(clickedReviewNo);
-			    });
-
 				loadReviewLike(movieNo);
             }
         });
@@ -225,12 +205,6 @@ $(function () {
 				    $(".review-list").append(htmlTemplate);
 				    
 				}
-				$(".review-list").on("click", ".likeButton", function () {
-			        var clickedReviewNo = $(this).data("reviewno");
-			        loadReviewLike(movieNo);
-			        reviewLike(clickedReviewNo);
-			    });
-
 				loadReviewLike(movieNo);
             }
 		});
@@ -273,12 +247,6 @@ $(function () {
 				    $(".review-list").append(htmlTemplate);
 				    
 				}
-				$(".review-list").on("click", ".likeButton", function () {
-			        var clickedReviewNo = $(this).data("reviewno");
-			        loadReviewLike(movieNo);
-			        reviewLike(clickedReviewNo);
-			    });
-
 				loadReviewLike(movieNo);
             }
 		});
@@ -321,12 +289,6 @@ $(function () {
 				    $(".review-list").append(htmlTemplate);
 				    
 				}
-				$(".review-list").on("click", ".likeButton", function () {
-			        var clickedReviewNo = $(this).data("reviewno");
-			        loadReviewLike(movieNo);
-			        reviewLike(clickedReviewNo);
-			    });
-
 				loadReviewLike(movieNo);
             }
 		});
@@ -368,12 +330,6 @@ $(function () {
 				    $(".review-list").append(htmlTemplate);
 				    
 				}
-				$(".review-list").on("click", ".likeButton", function () {
-			        var clickedReviewNo = $(this).data("reviewno");
-			        loadReviewLike(movieNo);
-			        reviewLike(clickedReviewNo);
-			    });
-
 				loadReviewLike(movieNo);
             }
 		});
@@ -455,11 +411,11 @@ $(function () {
 
 			<div class="row mt-5">
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button type="button" class="btn btn-info ByDateDesc" onclick="changeButton(this)">최신순</button>
-					<button type="button" class="btn btn-info ByDateAsc" onclick="changeButton(this)">오래된순</button>
-					<button type="button" class="btn btn-info ByLikeDesc" onclick="changeButton(this)">좋아요순</button>
-					<button type="button" class="btn btn-info ByRatingDesc" onclick="changeButton(this)">높은평점순</button>
-					<button type="button" class="btn btn-info ByRatingAsc" onclick="changeButton(this)">낮은평점순</button>
+					<button type="button" class="btn btn-info ByDateDesc">최신순</button>
+					<button type="button" class="btn btn-info ByDateAsc">오래된순</button>
+					<button type="button" class="btn btn-info ByLikeDesc">좋아요순</button>
+					<button type="button" class="btn btn-info ByRatingDesc">높은평점순</button>
+					<button type="button" class="btn btn-info ByRatingAsc">낮은평점순</button>
 				</div>
 			</div>
 					
