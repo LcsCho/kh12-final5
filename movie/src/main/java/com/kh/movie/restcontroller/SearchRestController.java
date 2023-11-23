@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.SearchDao;
-import com.kh.movie.dto.PopularHistoryDto;
-import com.kh.movie.dto.SearchHistoryDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -63,18 +62,26 @@ public class SearchRestController {
 	}
 	
 	@PostMapping("/inputRecentKeyword")
-	public void searchKeywordByMember(
+	public void inputRecentKeyword(
 			@RequestParam String keyword,
 			@RequestParam String memberId) {
-		searchDao.inputKeywordByMember(keyword, memberId);
+		searchDao.inputRecentKeyword(keyword, memberId);
 	}
 	
 	@GetMapping("/showRecent")
-	public List<SearchHistoryDto> showRecentList(@RequestParam String memberId) {
+	public List<String> showRecentList(@RequestParam String memberId) {
 		return searchDao.showRecent(memberId);
 	}
 	
-//	@DeleteMapping("/deleteEach")
-//	public void 
+	@DeleteMapping("/deleteAll")
+	public void deleteAll(@RequestParam String memberId) {
+		searchDao.deleteAll(memberId);
+	}
+	
+	@DeleteMapping("/deleteEach")
+	public void deleteEach(@RequestParam String memberId, @RequestParam String keyword) {
+		searchDao.deleteEach(memberId, keyword);
+	}
+	
 	
 }
