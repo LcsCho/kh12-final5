@@ -54,5 +54,8 @@
 		update rating set rating_score = #{ratingScore} where rating_no = #{ratingNo}
 	</update>
 	
+	<select id="ratingCountByMemberId" resultType="int">
+		select count(*) from rating where member_id = #{memberId}
+	</select>
 
 </mapper>

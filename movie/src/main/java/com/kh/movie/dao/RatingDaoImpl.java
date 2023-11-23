@@ -77,4 +77,9 @@ public class RatingDaoImpl implements RatingDao{
 		params.put("memberId", memberId);
 		return sqlSession.selectOne("rating.findDtoByMovieNoAndMemberId",params);
 	}
+	
+	@Override
+	public int ratingCountByMemberId(String memberId) {
+		return sqlSession.selectOne("rating.ratingCountByMemberId", memberId);
+	}
 }

@@ -21,5 +21,6 @@ public interface RatingDao {
 	boolean update(int ratingNo, float ratingScore);
 
 	RatingDto findDtoByMovieNoAndMemberId(int movieNo, String memberId);
-
+	
+	int ratingCountByMemberId(String memberId);
 }

@@ -59,8 +59,7 @@ public class MovieWishDaoImpl implements MovieWishDao{
 	}
 	
 	@Override
-	public int count(String memberId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int wishCountByMemberId(String memberId) {
+		return sqlSession.selectOne("movieWish.wishCountByMemberId", memberId);
 	}
 }

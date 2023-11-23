@@ -99,4 +99,9 @@
 	<select id="countList" resultType="int">
 		select count(*) from review_list
 	</select>
+	
+	<select id="reviewCountByMemberId" resultType="int">
+		select count(*) from review where member_id = #{memberId}
+	</select>
+	
 </mapper>
