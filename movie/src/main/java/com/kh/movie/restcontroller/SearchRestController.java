@@ -53,9 +53,15 @@ public class SearchRestController {
 		return searchMovieList;
 	}
 
-	@PostMapping("/inputPopularKeyword")
-	public void inputPopularKeyword(@RequestParam String keyword) {
+	@PostMapping("/inputKeyword")
+	public void inputPopularKeyword(@RequestParam String keyword,HttpSession session) {
 		searchDao.inputPopularKeyword(keyword);
+		log.debug("keyword={}",keyword);
+		String memberId=(String) session.getAttribute("name");
+		log.debug("memberId={}",memberId);
+		if(memberId != null) {
+			searchDao.inputRecentKeyword(keyword, memberId);
+		}
 	}
 
 	@GetMapping("/showPopular")
@@ -63,12 +69,6 @@ public class SearchRestController {
 		return searchDao.showPopular();
 	}
 	
-	@PostMapping("/inputRecentKeyword")
-	public void inputRecentKeyword(
-			@RequestParam String keyword,
-			@RequestParam String memberId) {
-		searchDao.inputRecentKeyword(keyword, memberId);
-	}
 	
 	@GetMapping("/showRecent")
 	public List<String> showRecentList(@RequestParam String memberId) {
