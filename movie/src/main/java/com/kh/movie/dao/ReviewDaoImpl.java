@@ -65,31 +65,31 @@ public class ReviewDaoImpl implements ReviewDao{
 	
 	//최신순 조회
     @Override
-    public List<ReviewListVO> findByDateDesc(PaginationVO paginationVO, int movieNo) {
+    public List<ReviewListVO> findByDateDesc(int movieNo) {
         return sqlSession.selectList("review.findByDateDesc", movieNo);
     }
     
     //오래된순 조회
     @Override
-    public List<ReviewListVO> findByDateAsc(PaginationVO paginationVO, int movieNo) {
+    public List<ReviewListVO> findByDateAsc(int movieNo) {
         return sqlSession.selectList("review.findByDateAsc", movieNo);
     }
     
     //좋아요순 조회
     @Override
-    public List<ReviewListVO> findByLikeDesc(PaginationVO paginationVO, int movieNo) {
+    public List<ReviewListVO> findByLikeDesc(int movieNo) {
         return sqlSession.selectList("review.findByLikeDesc", movieNo);
     }
     
     //평점높은순 조회
     @Override
-    public List<ReviewListVO> findByRatingDesc(PaginationVO paginationVO, int movieNo) {
+    public List<ReviewListVO> findByRatingDesc(int movieNo) {
         return sqlSession.selectList("review.findByRatingDesc", movieNo);
     }
     
     //평점낮은순 조회
     @Override
-    public List<ReviewListVO> findByRatingAsc(PaginationVO paginationVO, int movieNo) {
+    public List<ReviewListVO> findByRatingAsc(int movieNo) {
         return sqlSession.selectList("review.findByRatingAsc", movieNo);
     }
     
@@ -114,12 +114,6 @@ public class ReviewDaoImpl implements ReviewDao{
   	@Override
   	public String findMemberIdByReviewNo(int reviewNo) {
   		return sqlSession.selectOne("review.findMemberIdByReviewNo", reviewNo);
-  	}
-  
-  	//댓글 수 조회
-  	@Override
-  	public int findReplyCount(int reviewNo) {
-  		return sqlSession.selectOne("reply.findReplyCount", reviewNo);
   	}
   	
   	//리뷰 갯수
