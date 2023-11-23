@@ -39,7 +39,12 @@ public class ReplyRestController {
 	
 	//댓글 조회
 	@PostMapping("/findAll")
-	public List<ReplyDto> findAll(@RequestParam int reviewNo, Model model){
+	public List<ReplyDto> findAll(@RequestParam int reviewNo, 
+												HttpSession session, Model model){
+		String memberId = (String) session.getAttribute("name");
+		String memberNickname = memberDao.findNicknameById(memberId);
+		model.addAttribute("memberNickname", memberNickname);
+		
 		return replyDao.findAll(reviewNo);
 	}
 	
