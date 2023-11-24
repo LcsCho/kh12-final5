@@ -90,37 +90,37 @@ $(document).ready(function() {
 <script>
 //비밀번호 재설정 이메일 발송 코드
 
+//아이디(이메일) 정규식
 var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
 
 $(function(){
        //처음 로딩아이콘 숨김
-       $(".btn-send").find(".fa-spinner").hide();
+       $(".btn-emailSend").find(".fa-spinner").hide();
        $(".cert-wrapper").hide();
 
        //인증번호 보내기 버튼을 누르면
        //서버로 비동기 통신을 보내 인증 메일 발송 요청
-       $(".btn-send").click(function(){
+       $(".btn-emailSend").click(function(){
           var email = $("#email").val();
            //var email = $("[name=memberId]").val();
-           if(email.length == 0 || !regex.test(email)) {
-        	   $(".btn-send").prop("disabled", true);
+           if(email.length == 0 || !regex.test(email)) {//0이거나 형식이 맞지 않으면
+        	   //$(".btn-send").prop("disabled", true);//버튼 비활성화
         	   window.alert("이메일 주소를 확인하시고 다시 시도해주세요.");
         	   return;
            }
-           
-
-           $(".btn-send").prop("disabled", true);
-           $(".btn-send").find(".fa-spinner").show();
-           $(".btn-send").find("span").text("이메일발송중");
+           $(".btn-emailSend").prop("disabled", true);
+           $(".btn-emailSend").find(".fa-spinner").show();
+           $(".btn-emailSend").find("span").text("이메일발송중");
            $.ajax({
                url:"http://localhost:8080/rest/cert/resetPassword",
                method:"post",
                data:{certEmail: email},
                success:function(){
-                   $(".btn-send").prop("disabled", false);
-                   $(".btn-send").find(".fa-spinner").hide();
+                   $(".btn-emailSend").prop("disabled", false);
+                   $(".btn-emailSend").find(".fa-spinner").hide();
                    $(".cert-wrapper").hide();
-                   $(".btn-send").find("span").text("인증번호 재발송");
+                   $(".btn-cert").hide();
+                   $(".btn-emailSend").find("span").text("인증번호 재발송");
                    // window.alert("이메일 확인하세요!");
 
                    $(".cert-wrapper").show();
@@ -646,27 +646,54 @@ $(document).ready(function () {
 							aria-labelledby="loginModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="loginModalLabel">로그인하기</h5>
-										<button type="button" class="btn-close"
+									<div class="modal-header p-1">
+										<button type="button" class="btn-close p-3"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
-									<div class="modal-body">
+								<div class="modal-body">
+									<div class="row">
+								<div class="modal-title text-center">
+									<img src="/images/mvc.png" width="200px" class="mx-auto">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="modal-title text-center" id="loginModalLabel"
+												style="font-size:25px;">
+										<strong>로그인</strong>
+										</div>
+									</div>
+								</div>
 										<!-- 로그인 폼 추가 -->
-										<form id="loginForm">
+										<form id="loginForm" autocomplete="off">
 											<!-- 로그인 폼 요소들을 여기에 추가 -->
-											<div class="mb-3">
+											<div class="mb-3 mx-auto mt-3" style="width:380px;">
+											<div class="form-floating">
 												<input type="text" class="form-control" id="memberId"
-													name="memberId" placeholder="이메일">
-											</div>
-											<div class="mb-3">
+													name="memberId" placeholder="">
+													<label>ID(email)</label>
+										</div>
+									</div>
+											<div class="mb-3 mx-auto" style="width:380px;">
+												<div class="form-floating">
 												<input type="password" class="form-control" id="memberPw"
-													name="memberPw" placeholder="비밀번호">
+													name="memberPw" placeholder="">
+													<label>Password</label>
 											</div>
-											<button type="submit" id="loginBtn" class="btn btn-primary">로그인</button>
+										</div>
+										<div class="mt-4" >
+                    					  <div class="modal-title text-center mx-auto" style="width:380px;">
+											<button type="submit" id="loginBtn" class="btn btn-danger btn-lg w-100">Login</button>
+										  </div>
+										</div>
 											<!-- 비밀번호 찾기 버튼 추가 -->
-											<button type="button" class="btn btn-link"
+									 <div class="row mt-2">
+                   						 <div class="modal-title text-center">
+											<button type="button" class="btn btn-link text-primary link-underline
+                                           link-underline-opacity-0 link-underline-opacity-75-hover"
 												id="forgotPasswordLink">비밀번호 찾기</button>
+										</div>
+									</div>
 										</form>
 									</div>
 								</div>
@@ -701,16 +728,16 @@ $(document).ready(function () {
 												<input type="email" class="form-control" id="email"
 													name="memberId" placeholder="이메일">
 											</div>
-											<button type="button" class="btn-send btn btn-primary">
+											<button type="button" class="btn-emailSend btn btn-primary">
 												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일
 													보내기</span>
 											</button>
 											<div class="cert-wrapper pt-10">
-												<input type="text" class="cert-input form-input w-70">
-												<button type="button" class="btn btn-cert">확인완료</button>
+												<input type="text" class="cert-input form-control">
+												<button type="button" class="btn-cert btn btn-primary">확인완료</button>
 											</div>
 											<div class="valid-feedback left"></div>
-											<div class="invalid-feedback left">이메일 주소가 올바르지 않습니다</div>
+											<div class="invalid-feedback left"></div>
 										</form>
 									</div>
 								</div>
