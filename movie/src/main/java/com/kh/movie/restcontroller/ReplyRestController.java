@@ -20,9 +20,11 @@ import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.ReplyDto;
 import com.kh.movie.vo.ReviewListVO;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Tag(name = "댓글 관리", description = "댓글 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/reply")

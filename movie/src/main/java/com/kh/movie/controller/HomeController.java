@@ -26,7 +26,7 @@ import com.kh.movie.vo.AgeGroupRecommendVO;
 import com.kh.movie.vo.GenderRecommendVO;
 import com.kh.movie.vo.MVCCriticTop10RecommendVO;
 import com.kh.movie.vo.MVCTop10RecommendVO;
-import com.kh.movie.vo.MemberAgeGroupVO;
+import com.kh.movie.vo.MemberAgeGroupRecommendVO;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieVO;
 import com.kh.movie.vo.PreferGenreByMemberRecommendVO;
@@ -166,7 +166,7 @@ public class HomeController {
 			String memberBirth = memberDto.getMemberBirth();
 
 			// 회원의 연령대 계산
-			MemberAgeGroupVO memberGroupAgeVO = memberDao.getAgeGroup(memberId);
+			MemberAgeGroupRecommendVO memberGroupAgeVO = memberDao.getAgeGroup(memberId);
 			int ageGroup = memberGroupAgeVO.getAgeGroup();
 
 			// 회원의 닉네임, 성별, 연령을 jsp로 보내기
