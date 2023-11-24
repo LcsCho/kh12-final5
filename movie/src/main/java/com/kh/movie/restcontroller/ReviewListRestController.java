@@ -134,19 +134,23 @@ public class ReviewListRestController {
 	//리뷰 작성(등록)
 	@PostMapping("/writeReview")
 	public void write(@RequestParam("movieNo") int movieNo,
-								@ModelAttribute ReviewDto reviewDto,
+								@RequestParam String reviewContent,
 								HttpSession session) {
+		ReviewDto reviewDto = new ReviewDto();
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
+		reviewDto.setMemberId(memberId);
 		reviewDto.setMemberNickname(memberNickname);
-		
 		reviewDto.setMovieNo(movieNo);
 		
 		int reviewNo = reviewDao.sequence();
 		reviewDto.setReviewNo(reviewNo);
+		reviewDto.setReviewContent(reviewContent);
 		
 		log.debug("reviewDto = {}", reviewDto);
 		
 		reviewDao.insert(reviewDto);
+		
+		
 	}
 }

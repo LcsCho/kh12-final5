@@ -144,7 +144,7 @@ body {
                 movieNo: movieNo
             },
             success: function (response) {
-            	console.log(response);
+//             	console.log(response);
                 // 서버에서 받아온 평점을 선택한 상태로 만들기
                 var selectedRating = response.ratingScore;
                 //float형태로 변형
@@ -171,13 +171,13 @@ body {
                 url: '/rating/' + movieNo,
                 method: 'GET',
                 success: function(response) {
-                	console.log(typeof response.ratingScore);
+//                 	console.log(typeof response.ratingScore);
                     // 기존 별점이 존재한다면 수정
                     if (Object.keys(response).length > 0) {
 
                     	
                         // 이미 매긴 별점과 동일한 경우 삭제 처리
-                        console.log(response.ratingScore=== parseFloat(selectedRating));
+//                         console.log(response.ratingScore=== parseFloat(selectedRating));
                         if (parseFloat(response.ratingScore) === parseFloat(selectedRating)) {//selectedRating은 String이라 변환
                         	
                         	var confirmDelete = confirm("정말로 별점을 삭제하시겠습니까?");
@@ -187,7 +187,7 @@ body {
                                     url: '/rating/' + response.ratingNo,
                                     method: 'DELETE',
                                     success: function(deleteResponse) {
-                                        console.log('평점이 성공적으로 삭제되었습니다.');
+//                                         console.log('평점이 성공적으로 삭제되었습니다.');
                                         $('.rate input').prop('checked', false);//삭제했으면 별점 비어있는 형태로 만들기
                                         // 추가적인 UI 업데이트 로직 작성
                                     },
@@ -248,70 +248,65 @@ body {
 
 <script>
 $(function () {
-    //리뷰 작성(등록)
-  	$(".writeReview").click(function(e){
-  		//리뷰작성 버튼 숨기기
-  		$(this).hide();
-  		
-  		//리뷰 버튼 창 가져오기
-  		var reviewWriteContainer = $(this).closest(".review-write-container");
-  		
-  		//영화 번호 가져오기
-  		var params = new URLSearchParams(location.search);
-  		var movieNo = params.get("movieNo");
-  		
-  		console.log(movieNo);
-  		
-  		//리뷰 작성 창 띄우기
-  		var writeTemplate = $("#review-write-template").html();
-  		var writeHtmlTemplate = $.parseHTML(writeTemplate);
-  		
-  		//작성 취소
-  		$(writeHtmlTemplate).find(".write-cancel").click(function(){
-  			reviewWriteContainer.show();
-  			$(writeHtmlTemplate).remove();
-  		});
-  	});
- 		//작성(등록)
- 		$(".review-insert-form").submit(function(e){
- 			e.preventDefault();
- 			
- 		//영화 번호 가져오기
- 	  		var params = new URLSearchParams(location.search);
- 	  		var movieNo = params.get("movieNo");
- 			
- 			console.log(movieNo);
- 			
- 			var reviewContent = $(this).find(".review-content").val();C
- 			
- 			$.ajax({
- 				url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
- 				method: "post",
- 				data: $(e.target).serialize(),
- 				success: function(response){
- 					console.log(response);
- 					
- 					$("[name=reviewContent]").val("");
- 					
- 					reviewWriteContainer.show();
- 					$(writeHtmlTemplate).remove();
- 				},
- 				error : function() {
-				window.alert("로그인 후 이용 가능합니다.");
-			},
- 			});
- 		});
- 		reviewWriteContainer.hide().after(writeHtmlTemplate);
-    $(this).show();
- });
+    // 리뷰 작성(등록)
+    $(".writeReview").click(function(e){
+        // 리뷰작성 버튼 숨기기
+        $(this).hide();
 
+        // 리뷰 버튼 창 가져오기
+        var reviewWriteContainer = $(this).closest(".review-write-container");
+
+        // 영화 번호 가져오기
+        var params = new URLSearchParams(location.search);
+        var movieNo = params.get("movieNo");
+
+        // 리뷰 작성 창 띄우기
+        var writeTemplate = $("#review-write-template").html();
+        var writeHtmlTemplate = $.parseHTML(writeTemplate);
+        var reviewContent = $(writeHtmlTemplate).find(".form-control");
+        reviewContent.on("input", function() {
+            console.log($(this).val());
+        });
+
+        // 작성 취소
+        $(writeHtmlTemplate).find(".write-cancel").click(function(){
+            reviewWriteContainer.show();
+            $(writeHtmlTemplate).remove();
+        });
+
+        // 작성(등록)
+        $(writeHtmlTemplate).find(".write-success").click(function(e){
+            e.preventDefault();
+
+            var params = new URLSearchParams(location.search);
+            var movieNo = params.get("movieNo");
+            var reviewContentValue = reviewContent.val(); // .val() 추가
+
+            $.ajax({
+                url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
+                method: "post",
+                data: {
+                    movieNo: movieNo,
+                    reviewContent: reviewContentValue // reviewContent.val()로 변경
+                },
+                success: function(response){
+                    reviewWriteContainer.show();
+                    $(writeHtmlTemplate).remove(); // 변수명 수정
+                }
+            });
+        });
+
+        reviewWriteContainer.hide().after(writeHtmlTemplate);
+        $(this).show();
+    });
+});
 </script>
 
 <script id="review-write-template" type="text/template">
 	<div class="row mt-3 mb-3 content-right">
 		<form class="review-insert-form">
 			<div class="col-8 offset-2">
-				<textarea class="form-control" id="reviewContent" name="reviewContent" rows="10" style=" height: 150px; resize: none;""></textarea>
+				<textarea class="form-control" id="review-content" name="reviewContent" rows="10" style=" height: 150px; resize: none;""></textarea>
 			</div>
 			<div class="col">
 				<button type="submit" class="btn btn-success write-success" style="position: relative; left: 0px; top: 6.8em;">등록</button>
@@ -330,14 +325,14 @@ $(function () {
 				<img src="/image/${mainImgNo}" class="img-thumbnail"
 					style="width: 215px; height: 300px">
 				<!-- Rating Section -->
-				<c:choose>
-					<c:when test="${ratingAvg != null}">
+<%-- 				<c:choose> --%>
+					<c:if test="${ratingAvg != null}">
 						<h4 class="mt-4">평점 평균: ${ratingAvg}</h4>
-					</c:when>
-					<c:otherwise>
-						<h4 class="mt-4">평점 평균: 0.0</h4>
-					</c:otherwise>
-				</c:choose>
+					</c:if>
+<%-- 					<c:otherwise> --%>
+<!-- 						<h4 class="mt-4">평점 평균: 0.0</h4> -->
+<%-- 					</c:otherwise> --%>
+<%-- 				</c:choose> --%>
 				<c:if test="${sessionScope.name != null }">
 				<fieldset class="rate">
 				    <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
@@ -391,6 +386,7 @@ $(function () {
 			</div>
 			
 			<!-- 리뷰 작성란 -->
+			<c:if test="${sessionScope.name != null }">
 			<div class="row content-end review-write-container">
         		<div class="col-8 offset-2 text-end">
                 	<button type="button" class="btn btn-primary writeReview">
@@ -398,7 +394,7 @@ $(function () {
             		</button>
         		</div>
     		</div>
-			
+			</c:if>
 			
 			<!-- Still Cut Section -->
 			<h4 class="mt-3">영화 갤러리</h4>
