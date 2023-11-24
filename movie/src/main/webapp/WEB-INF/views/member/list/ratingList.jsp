@@ -8,44 +8,48 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: '/member/ratingList', 
+            url: '/member/ratingList',
             method: 'GET',
             success: function (data) {
-           
                 var moviesContainer = $('#movies-container');
                 moviesContainer.empty();
 
                 $.each(data, function (index, ratingMovieVO) {
-                	console.log(ratingMovieVO);
+                    console.log(ratingMovieVO);
                     var formattedDate = new Date(ratingMovieVO.movieReleaseDate).getFullYear();
+                    var movieNo = parseInt(ratingMovieVO.movieNo);
+                    var imageNo = parseInt(ratingMovieVO.imageNo);
 
-                    moviesContainer.append(`
-                        <div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-                            <div>
-                                <a href="/movie/detail?movieNo="+data.movieNo> 
-                                    <img src="/image/${ratingMovieVO.imageNo}" class="img-thumbnail" style="width: 215px; height: 300px">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="/movie/detail?movieNo=${ratingMovieVO.movieNo}">
-                                    ${ratingMovieVO.movieName}
-                                </a>
-                            </div>
-                            <div class="col">
-                                ${formattedDate} / ${ratingMovieVO.movieNation}
-                            </div>
-                            <c:if test="${ratingMovieVO.ratingAvg != 0}">
-                                <div class="col">
-                                    평균 <i class="fa-solid fa-star"></i> ${ratingMovieVO.ratingAvg}점
-                                </div>
-                            </c:if>
-                        </div>
-                    `);
+                    var movieHtml = '<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">' +
+                        '<div>' +
+                        '<a href="/movie/detail?movieNo=' + movieNo + '">' +
+                        '<img src="/image/' + imageNo + '" class="img-thumbnail" style="width: 215px; height: 300px">' +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<a href="/movie/detail?movieNo=' + movieNo + '">' +
+                        ratingMovieVO.movieName +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        formattedDate + ' / ' + ratingMovieVO.movieNation +
+                        '</div>';
+
+                    // 조건부로 HTML을 추가
+                    if (ratingMovieVO.ratingAvg != 0) {
+                        movieHtml += '<div class="col">' +
+                            '평균 <i class="fa-solid fa-star"></i> ' + ratingMovieVO.ratingAvg + '점' +
+                            '</div>';
+                    }
+
+                    movieHtml += '</div>';
+
+                    moviesContainer.append(movieHtml);
                 });
             },
             error: function (error) {
-                // Handle the error
-                console.error('Error fetching data:', error);
+                // 에러 처리
+                console.error('데이터 가져오기 오류:', error);
             }
         });
     });
