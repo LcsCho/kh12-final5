@@ -82,4 +82,9 @@ public class RatingDaoImpl implements RatingDao{
 	public int ratingCountByMemberId(String memberId) {
 		return sqlSession.selectOne("rating.ratingCountByMemberId", memberId);
 	}
+	
+	@Override
+	public List<Integer> getRatingListByMemberId(String memberId) {
+		return sqlSession.selectList("findAllByMemberId", memberId);
+	}
 }
