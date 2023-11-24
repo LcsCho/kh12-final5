@@ -10,7 +10,6 @@
 
 
 <script>
-
 $(function(){
     //처음 로딩아이콘 숨김
     $(".btn-send").find(".fa-spinner").hide();
@@ -22,9 +21,12 @@ $(function(){
     //서버로 비동기 통신을 보내 인증 메일 발송 요청
     $(".btn-send").click(function(){
     	//var email = $("[name=memberId]").val();
-    	console.log("버튼 클릭됨");
+    	//console.log("버튼 클릭됨");
         var memberEmail = $("#memberEmail").val();
-        if(memberEmail.length == 0) return;
+        if(memberEmail.length == 0){
+        	
+        	return;
+        }
 
         $(".btn-send").prop("disabled", true);
         $(".btn-send").find(".fa-spinner").show();
@@ -100,6 +102,7 @@ $(function(){
                     <div class="row">
                         <div class="col">
                             <h3 class="text-center">회원 가입</h3>
+                            <br>
                             <hr>
                         </div>
                     </div>
@@ -113,7 +116,7 @@ $(function(){
                             </div>
                         </div>
                         <div class="col-3 d-flex align-items-center">
-                            <button type="button" class="btn-send btn btn-secondary form-control">
+                            <button type="button" class="btn-send btn btn-danger btn-lg form-control" style="font-size:15px;">
                                 <i class="fa-solid fa-spinner fa-spin"></i>
                                 <span>인증</span>
                             </button>
@@ -128,7 +131,7 @@ $(function(){
                            </div>
                      </div>
                              <div class="col-3 d-flex align-items-center">
-                                <button type="button" class="btn-cert btn btn-secondary form-control">
+                                <button type="button" class="btn-cert btn btn-danger btn-lg form-control" style="font-size:15px;">
                                 <span>확인완료</span>
                             </button>
                            </div>
@@ -214,7 +217,7 @@ $(function(){
                     <!-- 가입 버튼 -->
                     <div class="row mt-4">
                         <div class="col">
-                            <button type="submit" class="btn btn-primary btn-memberJoin w-100">
+                            <button type="submit" class="btn btn-danger btn-lg btn-memberJoin w-100">
                                 회원가입
                             </button>
                         </div>
