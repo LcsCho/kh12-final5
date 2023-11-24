@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
@@ -40,48 +41,67 @@ h3 {
 </style>
 
 <!-- swiper cdn -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-<script
-	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 <div class="container-fluid">
-	<!-- 전체 페이지 폭 관리 -->
-	<div class="row">
-		<div class="col-md-10 offset-md-1">
-			<div class="row mt-5 p-3">
-				<div class="col text-center">
-					<h3>평가 목록</h3>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<c:forEach var="ratingMovieVO" items="${ratingMovieList}">
-					<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-						<div>
-							<a href="/movie/detail?movieNo=${ratingMovieVO.movieNo}"> <img
-								src="/image/${ratingMovieVO.imageNo}" class="img-thumbnail"
-								style="width: 215px; height: 300px">
-							</a>
-						</div>
-						<div class="col">
-							<a href="/movie/detail?movieNo=${ratingMovieVO.movieNo}">
-								${ratingMovieVO.movieName} </a>
-						</div>
-						<div class="col">
-							<fmt:formatDate value="${ratingMovieVO.movieReleaseDate}"
-								pattern="yyyy" />
-							/ ${ratingMovieVO.movieNation}
-						</div>
-						<c:if test="${ratingMovieVO.ratingAvg != 0}">
-							<div class="col">
-								평균 <i class="fa-solid fa-star"></i> ${ratingMovieVO.ratingAvg}점
-							</div>
-						</c:if>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-	</div>
+    <!-- 전체 페이지 폭 관리 -->
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="row mt-5 p-3">
+                <div class="col">
+                    <h3>평가 목록</h3>
+                </div>
+            </div>
+            <div class="row" id="movies-container">
+                <!-- Movies will be dynamically added here -->
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/member/list/ratingList', 
+            method: 'GET',
+            success: function (data) {
+                var moviesContainer = $('#movies-container');
+                moviesContainer.empty();
+
+                $.each(data, function (index, ratingMovieVO) {
+                    var formattedDate = new Date(ratingMovieVO.movieReleaseDate).getFullYear();
+
+                    moviesContainer.append(`
+                        <div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
+                            <div>
+                                <a href="/movie/detail?movieNo=${ratingMovieVO.movieNo}"> 
+                                    <img src="/image/${ratingMovieVO.imageNo}" class="img-thumbnail" style="width: 215px; height: 300px">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/movie/detail?movieNo=${ratingMovieVO.movieNo}">
+                                    ${ratingMovieVO.movieName}
+                                </a>
+                            </div>
+                            <div class="col">
+                                ${formattedDate} / ${ratingMovieVO.movieNation}
+                            </div>
+                            <c:if test="${ratingMovieVO.ratingAvg != 0}">
+                                <div class="col">
+                                    평균 <i class="fa-solid fa-star"></i> ${ratingMovieVO.ratingAvg}점
+                                </div>
+                            </c:if>
+                        </div>
+                    `);
+                });
+            },
+            error: function (error) {
+                // Handle the error
+                console.error('Error fetching data:', error);
+            }
+        });
+    });
+</script>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
