@@ -131,7 +131,7 @@ public class ReviewListRestController {
 	
 	//리뷰 작성(등록)
 	@PostMapping("/writeReview")
-	public void write(@RequestParam int movieNo,
+	public void write(@RequestParam("movieNo") int movieNo,
 								@ModelAttribute ReviewDto reviewDto,
 								HttpSession session) {
 		String memberId = (String) session.getAttribute("name");
@@ -142,6 +142,8 @@ public class ReviewListRestController {
 		
 		int reviewNo = reviewDao.sequence();
 		reviewDto.setReviewNo(reviewNo);
+		
+		log.debug("reviewDto = {}", reviewDto);
 		
 		reviewDao.insert(reviewDto);
 	}
