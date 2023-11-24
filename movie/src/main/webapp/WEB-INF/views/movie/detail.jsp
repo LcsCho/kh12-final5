@@ -52,6 +52,36 @@ body {
     border-color: rgb(179, 57, 57);
     font-size: 16px;
 }
+.btn-danger,
+.btn-danger:hover{
+    background-color: white;
+    color:rgb(179, 57, 57);
+    border-color: rgb(179, 57, 57);
+    border-width: 2px;
+    font-size: 16px;
+}
+.btn-danger:active{
+    background-color: white;
+    color:rgb(179, 57, 57, 0.5);
+    border-color: rgb(179, 57, 57, 0.5);
+    border-width: 2px;
+    font-size: 16px;
+}
+.btn-success,
+.btn-success:hover{
+    background-color: rgb(179, 57, 57);
+    color:white;
+    border-color: rgb(179, 57, 57);
+    border-width: 2px;
+    font-size: 16px;
+}
+.btn-success:active{
+    background-color: rgb(179, 57, 57, 0.5);
+    color:white;
+    border-color: rgb(179, 57, 57, 0.5);
+    border-width: 2px;
+    font-size: 16px;
+}
 </style>
 <script>
 	//영화 찜기능
@@ -212,16 +242,25 @@ body {
                     console.error('기존 평점 조회 중 오류가 발생했습니다:', error);
                 }
             });
-        });  
-        
+        });
+    });
+</script>
+
+<script>
+$(function () {
     //리뷰 작성(등록)
   	$(".writeReview").click(function(e){
   		//리뷰작성 버튼 숨기기
   		$(this).hide();
   		
+  		//리뷰 버튼 창 가져오기
+  		var reviewWriteContainer = $(this).closest(".review-write-container");
+  		
   		//영화 번호 가져오기
   		var params = new URLSearchParams(location.search);
   		var movieNo = params.get("movieNo");
+  		
+  		console.log(movieNo);
   		
   		//리뷰 작성 창 띄우기
   		var writeTemplate = $("#review-write-template").html();
@@ -229,41 +268,56 @@ body {
   		
   		//작성 취소
   		$(writeHtmlTemplate).find(".write-cancel").click(function(){
-  			$(this).show();
-  			$(this).parents("#review-write-template").remove();
-  		});
-  		
-  		//작성(등록)
-  		$(writeHtmlTemplate).find(".write-success").click(function(e){
-  			
-  			$.ajax({
-  				url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
-  				method: "post",
-  				data: {
-  					reviewNo : reviewNo,
-  					movieNo : movieNo
-  				},
-  				success: function(response){
-  					console.log(response);
-  					
-  					writeHtmlTemplate.remove();
-  				}
-  			});
+  			reviewWriteContainer.show();
+  			$(writeHtmlTemplate).remove();
   		});
   	});
-});
-	
+ 		//작성(등록)
+ 		$(".review-insert-form").submit(function(e){
+ 			e.preventDefault();
+ 			
+ 		//영화 번호 가져오기
+ 	  		var params = new URLSearchParams(location.search);
+ 	  		var movieNo = params.get("movieNo");
+ 			
+ 			console.log(movieNo);
+ 			
+ 			var reviewContent = $(this).find(".review-content").val();C
+ 			
+ 			$.ajax({
+ 				url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
+ 				method: "post",
+ 				data: $(e.target).serialize(),
+ 				success: function(response){
+ 					console.log(response);
+ 					
+ 					$("[name=reviewContent]").val("");
+ 					
+ 					reviewWriteContainer.show();
+ 					$(writeHtmlTemplate).remove();
+ 				},
+ 				error : function() {
+				window.alert("로그인 후 이용 가능합니다.");
+			},
+ 			});
+ 		});
+ 		reviewWriteContainer.hide().after(writeHtmlTemplate);
+    $(this).show();
+ });
+
 </script>
 
 <script id="review-write-template" type="text/template">
 	<div class="row mt-3 mb-3 content-right">
-		<div class="col-8 offset-2">
-			<textarea class="form-control" id="exampleTextarea" rows="10" style=" height: 150px; resize: none;""></textarea>
-		</div>
-		<div class="col">
-			<button type="button" class="btn btn-success write-success" style="position: relative; left: 0px; top: 7em;">등록</button>
-			<button type="button" class="btn btn-danger write-cancel" style="position: relative; left: 0px; top: 6.4em;">취소</button>
-		</div>
+		<form class="review-insert-form">
+			<div class="col-8 offset-2">
+				<textarea class="form-control" id="reviewContent" name="reviewContent" rows="10" style=" height: 150px; resize: none;""></textarea>
+			</div>
+			<div class="col">
+				<button type="submit" class="btn btn-success write-success" style="position: relative; left: 0px; top: 6.8em;">등록</button>
+				<button type="button" class="btn btn-danger write-cancel" style="position: relative; left: 0px; top: 6.8em;">취소</button>
+			</div>
+		</form>
 	</div>
 </script>
 
