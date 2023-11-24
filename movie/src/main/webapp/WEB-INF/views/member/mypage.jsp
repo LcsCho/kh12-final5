@@ -457,7 +457,7 @@
 <!-- 비밀번호 변경 모달 -->
 <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="changePasswordModal">비밀번호 변경</h5>
@@ -495,7 +495,7 @@
 <!-- 회원정보 수정 모달 -->
 <div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5>
@@ -565,7 +565,7 @@
 <!-- 회원 탈퇴 모달 -->
 <div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="withdrawModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exitModalLabel">회원 탈퇴</h5>
@@ -585,7 +585,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="submit" class="btn btn-danger" onclick="exitMember()">탈퇴하기</button>
+                <button type="submit" class="btn btn-primary" onclick="exitMember()">탈퇴하기</button>
             </div>
         </div>
     </div>

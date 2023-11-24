@@ -32,6 +32,15 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/flatly/bootstrap.min.css"
 	rel="stylesheet">
+	
+	<style>
+	.logout-btn{
+	color:#B33939;
+	}
+	.btn-primary{
+	background-color:#B33939;
+	}
+	</style>
 
 <script src="js/header.js"></script>
 
@@ -72,9 +81,10 @@ $(document).ready(function() {
             success: function(response) {
                 // 로그인 성공 시의 동작
                $("#loginModal").modal("hide");
-               // if (response && response.redirect) {
-                     //window.location.href = response.redirect;
-                // }
+                     // 페이지 주소에 "join"이라는 단어가 포함되어 있다면 메인 페이지로 이동
+                     if (window.location.href.indexOf("join") !== -1) {
+                         window.location.href = "${pageContext.request.contextPath}/";
+                     }
             },
             error: function(error) {
                 // 로그인 실패 시의 동작
@@ -616,7 +626,7 @@ $(document).ready(function () {
 											</c:if>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
-													<a href="/member/logout" class="btn c-btn ms-5"
+													<a href="/member/logout" class="btn c-btn logout-btn ms-5"
 														style="height: fit-content;"> <i
 														class="fa fa-sign-out-alt fa-2xl"></i>
 													</a>
@@ -644,7 +654,7 @@ $(document).ready(function () {
 						<!-- 로그인 모달 -->
 						<div class="modal fade" id="loginModal" tabindex="-1"
 							aria-labelledby="loginModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
+							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header p-1">
 										<button type="button" class="btn-close p-3"
@@ -683,7 +693,7 @@ $(document).ready(function () {
 										</div>
 										<div class="mt-4" >
                     					  <div class="modal-title text-center mx-auto" style="width:380px;">
-											<button type="submit" id="loginBtn" class="btn btn-danger btn-lg w-100">Login</button>
+											<button type="submit" id="loginBtn" class="btn btn-primary btn-lg w-100">Login</button>
 										  </div>
 										</div>
 											<!-- 비밀번호 찾기 버튼 추가 -->
