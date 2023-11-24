@@ -105,7 +105,7 @@
 	</select>
 
 
-	<select id="ageGroup" resultType="MemberAgeGroupVO">
+	<select id="ageGroup" resultType="MemberAgeGroupRecommendVO">
 		SELECT *
 		FROM member_age_group
 		where member_id = #{memberId}

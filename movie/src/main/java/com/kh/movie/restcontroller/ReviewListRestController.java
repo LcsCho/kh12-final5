@@ -20,9 +20,11 @@ import com.kh.movie.vo.PaginationVO;
 import com.kh.movie.vo.ReviewLikeVO;
 import com.kh.movie.vo.ReviewListVO;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Tag(name = "리뷰 리스트 관리", description = "리뷰 리스트 관리를 위한 컨트롤러")
 @RestController
 @RequestMapping("/rest/review/list")
 public class ReviewListRestController {
