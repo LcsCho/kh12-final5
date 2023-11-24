@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dto.CertDto;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.kh.movie.dao.CertDao;
 
 @CrossOrigin
+@Tag(name = "이메일 인증 관리", description = "이메일 인증 관리를 위한 컨트롤러")
 @RestController
 @RequestMapping("/rest/cert")
 public class CertRestController {

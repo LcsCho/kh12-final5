@@ -23,4 +23,6 @@ public interface RatingDao {
 	RatingDto findDtoByMovieNoAndMemberId(int movieNo, String memberId);
 	
 	int ratingCountByMemberId(String memberId);
+
+	List<Integer> getRatingListByMemberId(String memberId);
 }

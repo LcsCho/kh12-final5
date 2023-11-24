@@ -19,9 +19,11 @@ import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.ReviewLikeVO;
 import com.kh.movie.vo.ReviewListVO;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Tag(name = "리뷰 리스트 관리", description = "리뷰 리스트 관리를 위한 컨트롤러")
 @RestController
 @RequestMapping("/rest/review/list")
 public class ReviewListRestController {
@@ -131,18 +133,24 @@ public class ReviewListRestController {
 	
 	//리뷰 작성(등록)
 	@PostMapping("/writeReview")
-	public void write(@RequestParam int movieNo,
-								@ModelAttribute ReviewDto reviewDto,
+	public void write(@RequestParam("movieNo") int movieNo,
+								@RequestParam String reviewContent,
 								HttpSession session) {
+		ReviewDto reviewDto = new ReviewDto();
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
+		reviewDto.setMemberId(memberId);
 		reviewDto.setMemberNickname(memberNickname);
-		
 		reviewDto.setMovieNo(movieNo);
 		
 		int reviewNo = reviewDao.sequence();
 		reviewDto.setReviewNo(reviewNo);
+		reviewDto.setReviewContent(reviewContent);
+		
+		log.debug("reviewDto = {}", reviewDto);
 		
 		reviewDao.insert(reviewDto);
+		
+		
 	}
 }
