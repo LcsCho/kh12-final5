@@ -435,7 +435,11 @@
                                 align-items-center sub-border-center"
 						style="background-color: #eedbdb;">
 						<div class="text-center center-section" style="font-size: 22px;">
+<<<<<<< HEAD
 							<a href="list/ratingList">
+=======
+							<a href="/member/list/ratingList">
+>>>>>>> branch 'jhcho' of https://github.com/LcsCho/kh12-final5.git
 								${ratingCount} </a>
 						</div>
 						<div class="text-center center-section" style="font-size: 22px;">평점</div>
