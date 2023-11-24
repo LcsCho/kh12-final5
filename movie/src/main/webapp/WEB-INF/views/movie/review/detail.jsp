@@ -396,12 +396,12 @@
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							
 							<!-- 작성자일 때만 수정, 삭제 버튼 표시 -->
-							<c:if test="${sessionScope.name == null}">
+<%-- 							<c:if test="${sessionScope.name == review.memberId}"> --%>
 								<i class="fa-solid fa-pen-to-square fa-lg editReview" style="position: absolute; top: 30px; right: 50px;"></i>
 								<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
 									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
 								</a>
-							</c:if>
+<%-- 							</c:if> --%>
 							
 						</div>
 						<div class="mt-3 pb-3">
@@ -437,6 +437,33 @@
 				<div class="row">
 					<div class="reply-list"></div>
 				</div>
+				
+<!-- 				페이지네이션 -->
+<!-- 				<div class="row text-center mt-4"> -->
+<!--         			<ul class="pagination pagination-sm  justify-content-center"> -->
+<!--             			<li class="page-item disabled"> -->
+<!--                 			<a class="page-link" href="#">&laquo;</a> -->
+<!--             			</li> -->
+<!--             			<li class="page-item active"> -->
+<!--                 			<a class="page-link" href="#">1</a> -->
+<!--             			</li> -->
+<!--             			<li class="page-item"> -->
+<!--                 			<a class="page-link" href="#">2</a> -->
+<!--             			</li> -->
+<!--             			<li class="page-item"> -->
+<!--                 			<a class="page-link" href="#">3</a> -->
+<!--             			</li> -->
+<!--             			<li class="page-item"> -->
+<!--                 			<a class="page-link" href="#">4</a> -->
+<!--             			</li> -->
+<!--             			<li class="page-item"> -->
+<!--                 			<a class="page-link" href="#">5</a> -->
+<!--             			</li> -->
+<!--             			<li class="page-item"> -->
+<!--                 			<a class="page-link" href="#">&raquo;</a> -->
+<!--             			</li> -->
+<!--         			</ul> -->
+<!--     			</div> -->
 				
 			</div>
         </div>

@@ -77,7 +77,8 @@ public class MovieController {
 	//리뷰 목록(+댓글)
 	@GetMapping("/review/detail")
 	public String reviewDetail(@RequestParam int movieNo,
-												@RequestParam int reviewNo, Model model) {
+												@RequestParam int reviewNo, Model model,
+												HttpSession session) {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
 		
@@ -94,7 +95,7 @@ public class MovieController {
 		if (reviewListVO != null) {
 		    model.addAttribute("review", reviewListVO);
 		}else {
-			return "redirect:/detail?movieNo="+movieNo;
+			return "redirect:detail?movieNo="+movieNo;
 		}
 		
 		//댓글 조회

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" type="text/css" href="/css/star.css">
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
@@ -22,17 +23,35 @@ body {
  .btn-link{
         color: rgb(179, 57, 57);
         font-size: 18px;
-    }
-    .btn-link:hover{
-        background-color: rgb(179, 57, 57, 0.1);
-        color: rgb(179, 57, 57);
-        font-size: 18px;
-    }
-    .btn-link:active{
-        background-color: rgb(179, 57, 57, 0.1);
-        color: rgb(179, 57, 57);
-        font-size: 18px;
-    }
+}
+.btn-link:hover{
+    background-color: rgb(179, 57, 57, 0.1);
+    color: rgb(179, 57, 57);
+    font-size: 18px;
+}
+.btn-link:active{
+    background-color: rgb(179, 57, 57, 0.1);
+    color: rgb(179, 57, 57);
+    font-size: 18px;
+}
+.btn-primary {
+    background-color: rgb(179, 57, 57);;
+    color:white;
+    border-color: rgb(179, 57, 57);
+    font-size: 16px;
+}
+.btn-primary:hover {
+    background-color: rgb(179, 57, 57, 0.8);
+    color: white;
+    border-color: rgb(179, 57, 57, 0.8);
+    font-size: 16px;
+}
+.btn-primary:active {
+    background-color: rgb(179, 57, 57);
+    color: white;
+    border-color: rgb(179, 57, 57);
+    font-size: 16px;
+}
 </style>
 <script>
 	//영화 찜기능
@@ -193,17 +212,62 @@ body {
                     console.error('기존 평점 조회 중 오류가 발생했습니다:', error);
                 }
             });
-        });
-
-             
+        });  
         
-    });
+    //리뷰 작성(등록)
+  	$(".writeReview").click(function(e){
+  		//리뷰작성 버튼 숨기기
+  		$(this).hide();
+  		
+  		//영화 번호 가져오기
+  		var params = new URLSearchParams(location.search);
+  		var movieNo = params.get("movieNo");
+  		
+  		//리뷰 작성 창 띄우기
+  		var writeTemplate = $("#review-write-template").html();
+  		var writeHtmlTemplate = $.parseHTML(writeTemplate);
+  		
+  		//작성 취소
+  		$(writeHtmlTemplate).find(".write-cancel").click(function(){
+  			$(this).show();
+  			$(this).parents("#review-write-template").remove();
+  		});
+  		
+  		//작성(등록)
+  		$(writeHtmlTemplate).find(".write-success").click(function(e){
+  			
+  			$.ajax({
+  				url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
+  				method: "post",
+  				data: {
+  					reviewNo : reviewNo,
+  					movieNo : movieNo
+  				},
+  				success: function(response){
+  					console.log(response);
+  					
+  					writeHtmlTemplate.remove();
+  				}
+  			});
+  		});
+  	});
+});
+	
+</script>
+
+<script id="review-write-template" type="text/template">
+	<div class="row mt-3 mb-3 content-right">
+		<div class="col-8 offset-2">
+			<textarea class="form-control" id="exampleTextarea" rows="10" style=" height: 150px; resize: none;""></textarea>
+		</div>
+		<div class="col">
+			<button type="button" class="btn btn-success write-success" style="position: relative; left: 0px; top: 7em;">등록</button>
+			<button type="button" class="btn btn-danger write-cancel" style="position: relative; left: 0px; top: 6.4em;">취소</button>
+		</div>
+	</div>
 </script>
 
 
-
-</head>
-<body>
 	<!-- Movie Details Section -->
 	<div class="container mt-4">
 		<div class="row">
@@ -270,8 +334,18 @@ body {
 				<p>
 					<strong>영화 줄거리: </strong> ${movieDto.movieContent}
 				</p>
-
 			</div>
+			
+			<!-- 리뷰 작성란 -->
+			<div class="row content-end review-write-container">
+        		<div class="col-8 offset-2 text-end">
+                	<button type="button" class="btn btn-primary writeReview">
+						리뷰작성 <i class="fa-solid fa-pen" style="color: #fff;"></i>
+            		</button>
+        		</div>
+    		</div>
+			
+			
 			<!-- Still Cut Section -->
 			<h4 class="mt-3">영화 갤러리</h4>
 			<c:if test="${movieDetailList != null}">
@@ -327,7 +401,5 @@ body {
 
 		</div>
 	</div>
-
-</body>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
