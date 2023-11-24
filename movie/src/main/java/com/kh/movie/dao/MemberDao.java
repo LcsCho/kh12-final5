@@ -10,12 +10,16 @@ public interface MemberDao {
 	MemberDto selectOne(String memberId);
 	MemberDto login(MemberDto memberDto);
 	int getCount();
+	int searchCount(String memberNickname);
   
 	//회원 아이디로 회원 닉네임 검색
 	String findNicknameById(String memberId);
 	boolean updateMemberInfo(MemberDto inputDto);
 	
 	List<MemberDto> selectList();
+	List<MemberDto> selectListByPage(int currentPage, int pageSize);
+//	List<MemberDto> selectList(String memberNickname);
+	List<MemberDto> selectList(String memberNickname, int searchCurrentPage, int searchPageSize);
 	boolean editUnit(MemberDto memberDto, String memberLevel);
 	boolean delete(String memberId);
 	
@@ -25,6 +29,5 @@ public interface MemberDao {
 	void updatePassword(MemberDto memberDto);
 	void insertMemberImage(String memberId, int imageNo);
 	Integer findMemberImage(String memberId);
-	List<MemberDto> selectList(String memberNickname);
 	MemberAgeGroupVO getAgeGroup(String memberId);
 }

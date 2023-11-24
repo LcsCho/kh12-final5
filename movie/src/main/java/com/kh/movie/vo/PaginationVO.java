@@ -7,7 +7,7 @@ public class PaginationVO {
 	private int page = 1;//현재 페이지 번호
 	private int size = 15;//보여줄 게시글 수(기본값 10)
 	private int count;//전체 글 수
-	private int navigatorSize = 10;//하단 네빅이터 표시 개수(기본값 10)
+	private int navigatorSize = 10;//하단 네비게이터 표시 개수(기본값 10)
 	
 	//페이지의 시작
 	public int getBegin() {

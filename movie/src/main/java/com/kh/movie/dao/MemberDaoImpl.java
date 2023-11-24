@@ -57,6 +57,12 @@ public class MemberDaoImpl implements MemberDao{
 	public int getCount() {
 		return sqlSession.selectOne("member.count");
 	}
+	
+	@Override
+	public int searchCount(String memberNickname) {
+		return sqlSession.selectOne("member.searchCount", memberNickname);
+	}
+	
 	//회원정보수정
 	@Override
 	public boolean updateMemberInfo(MemberDto inputDto) {
@@ -72,6 +78,27 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public List<MemberDto> selectList() {
 		return sqlSession.selectList("member.findAll");
+	}
+	
+	@Override
+	public List<MemberDto> selectListByPage(int currentPage, int pageSize) {
+		int end = currentPage * pageSize;
+		int begin = end - (pageSize-1);
+		Map params = Map.of("begin", begin, "end", end);
+		return sqlSession.selectList("member.selectListByPage", params);
+	}
+	
+//	@Override
+//	public List<MemberDto> selectList(String memberNickname) {
+//		return sqlSession.selectList("member.adminSearch", memberNickname);
+//	}
+	
+	@Override
+	public List<MemberDto> selectList(String memberNickname, int searchCurrentPage, int searchPageSize) {
+		int end = searchCurrentPage * searchPageSize;
+		int begin = end - (searchPageSize-1);
+		Map<String, Object> params = Map.of("memberNickname", memberNickname, "begin", begin, "end", end);
+		return sqlSession.selectList("member.adminSearchListByPage", params);
 	}
 	
 	@Override
@@ -126,11 +153,6 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.findMemberImage",memberId);
 	}
 
-	@Override
-	public List<MemberDto> selectList(String memberNickname) {
-		return sqlSession.selectList("member.adminSearch", memberNickname);
-	}
-	
 	// 회원 나이대 계산
 	@Override
 	public MemberAgeGroupVO getAgeGroup(String memberId) {
