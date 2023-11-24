@@ -325,14 +325,14 @@ $(function () {
 				<img src="/image/${mainImgNo}" class="img-thumbnail"
 					style="width: 215px; height: 300px">
 				<!-- Rating Section -->
-				<c:choose>
-					<c:when test="${ratingAvg != null}">
+<%-- 				<c:choose> --%>
+					<c:if test="${ratingAvg != null}">
 						<h4 class="mt-4">평점 평균: ${ratingAvg}</h4>
-					</c:when>
-					<c:otherwise>
-						<h4 class="mt-4">평점 평균: 0.0</h4>
-					</c:otherwise>
-				</c:choose>
+					</c:if>
+<%-- 					<c:otherwise> --%>
+<!-- 						<h4 class="mt-4">평점 평균: 0.0</h4> -->
+<%-- 					</c:otherwise> --%>
+<%-- 				</c:choose> --%>
 				<c:if test="${sessionScope.name != null }">
 				<fieldset class="rate">
 				    <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
@@ -386,6 +386,7 @@ $(function () {
 			</div>
 			
 			<!-- 리뷰 작성란 -->
+			<c:if test="${sessionScope.name != null }">
 			<div class="row content-end review-write-container">
         		<div class="col-8 offset-2 text-end">
                 	<button type="button" class="btn btn-primary writeReview">
@@ -393,7 +394,7 @@ $(function () {
             		</button>
         		</div>
     		</div>
-			
+			</c:if>
 			
 			<!-- Still Cut Section -->
 			<h4 class="mt-3">영화 갤러리</h4>
