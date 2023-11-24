@@ -152,63 +152,19 @@ public class MemberController {
 		return "member/mypage";	
 	}
 	
-//	@RequestMapping("/list/reviewList")
-//	public String reviewList(HttpSession session, Model model) {
-//		int ratingCount = ratingDao.getCount();
-//		model.addAttribute("ratingCount", ratingCount);
-//		
-//		String memberId = (String) session.getAttribute("name");
-//		return "member/list/reviewList";
-//	}
-//	
-//	@RequestMapping("/list/ratingList")
-//	public String ratingList(HttpSession session, Model model) {
-//		int ratingCount = ratingDao.getCount();
-//		model.addAttribute("ratingCount", ratingCount);
-//		
-//		String memberId = (String) session.getAttribute("name");
-//		
-//		List<Integer> ratingList = ratingDao.getRatingListByMemberId(memberId);
-//		List<MovieListVO> ratingMovieList = new ArrayList<>();
-//		for (Integer rating : ratingList) {
-//			MovieVO movieVO = movieDao.findByMovieNoVO(rating);
-//			log.debug("movieVO = {}", movieVO);
-//			// MovieListVO 객체 생성
-//			MovieListVO ratingMovie = new MovieListVO();
-//			BeanUtils.copyProperties(movieVO, ratingMovie);
-//			
-//			// 리스트에 추가
-//			ratingMovieList.add(ratingMovie);
-//		}
-//		log.debug("ratingList = {}", ratingList);
-//		model.addAttribute("ratingMovieList", ratingMovieList);
-//		
-//		return "member/list/ratingList";
-//	}
-//	
-//	@RequestMapping("/list/wishList")
-//	public String wishList(HttpSession session, Model model) {
-//		int ratingCount = ratingDao.getCount();
-//		model.addAttribute("ratingCount", ratingCount);
-//		
-//		String memberId = (String) session.getAttribute("name");
-//		List<WishMovieRecommendVO> wishMovieRecommendVO = recommendDao.getWishMovie(memberId);
-//		List<MovieListVO> wishMovieList = new ArrayList<>();
-//		
-//		for (WishMovieRecommendVO wishMovieRecommend : wishMovieRecommendVO) {
-//			int movieNo = wishMovieRecommend.getMovieNo();
-//			MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
-//			
-//			// MovieListVO 객체 생성
-//			MovieListVO wishMovieRecommendMovie = new MovieListVO();
-//			BeanUtils.copyProperties(movieVO, wishMovieRecommendMovie);
-//			
-//			// 리스트에 추가
-//			wishMovieList.add(wishMovieRecommendMovie);
-//		}
-//		log.debug("wishMovieList = {}", wishMovieList);
-//		model.addAttribute("wishMovieList", wishMovieList);
-//		return "member/list/wishList";
-//	}
+	@RequestMapping("/list/reviewList")
+	public String reviewList() {
+		return "member/list/reviewList";
+	}
+	
+	@RequestMapping("/list/ratingList")
+	public String ratingList() {
+		return "member/list/ratingList";
+	}
+	
+	@RequestMapping("/list/wishList")
+	public String wishList() {
+		return "member/list/wishList";
+	}
 	
 }

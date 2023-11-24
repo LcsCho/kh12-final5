@@ -319,19 +319,19 @@ public class MemberRestController {
 		return "member/list/reviewList";
 	}
 	
-	@GetMapping("/list/ratingList")
+	@GetMapping("/ratingList")
 	public List<MovieListVO> ratingList(HttpSession session) {
 		String memberId = (String) session.getAttribute("name");
 		List<Integer> ratingList = ratingDao.getRatingListByMemberId(memberId);
 		List<MovieListVO> ratingMovieList = new ArrayList<>();
 		for (Integer rating : ratingList) {
 			MovieVO movieVO = movieDao.findByMovieNoVO(rating);
-			log.debug("movieVO = {}", movieVO);
 			// MovieListVO 객체 생성
 			MovieListVO ratingMovie = new MovieListVO();
 			BeanUtils.copyProperties(movieVO, ratingMovie);
 			
 			// 리스트에 추가
+			log.debug("ratingMovie={}",ratingMovie);
 			ratingMovieList.add(ratingMovie);
 		}
 		

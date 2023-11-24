@@ -85,6 +85,6 @@ public class RatingDaoImpl implements RatingDao{
 	
 	@Override
 	public List<Integer> getRatingListByMemberId(String memberId) {
-		return sqlSession.selectList("findAllByMemberId", memberId);
+		return sqlSession.selectList("rating.getRatingListByMemberId", memberId);
 	}
 }
