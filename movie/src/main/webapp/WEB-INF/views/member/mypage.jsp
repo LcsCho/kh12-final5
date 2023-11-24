@@ -435,7 +435,7 @@
                                 align-items-center sub-border-center"
 						style="background-color: #eedbdb;">
 						<div class="text-center center-section" style="font-size: 22px;">
-							<a href="/member/list/ratingList?memberId=${memberDto.memberId}">
+							<a href="list/ratingList">
 								${ratingCount} </a>
 						</div>
 						<div class="text-center center-section" style="font-size: 22px;">평점</div>
