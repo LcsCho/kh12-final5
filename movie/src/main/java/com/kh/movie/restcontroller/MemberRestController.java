@@ -331,7 +331,7 @@ public class MemberRestController {
 			BeanUtils.copyProperties(movieVO, ratingMovie);
 			
 			// 리스트에 추가
-			log.debug("ratingMovie={}",ratingMovie);
+//			log.debug("ratingMovie={}",ratingMovie);
 			ratingMovieList.add(ratingMovie);
 		}
 		
