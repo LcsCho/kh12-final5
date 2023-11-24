@@ -532,7 +532,7 @@
 	</div>
 <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="changePasswordModal">비밀번호 변경</h5>
@@ -610,7 +610,7 @@
 	</div>
 <div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5>
@@ -679,34 +679,34 @@
 <!-- 모달 끝 -->
 
 <!-- 회원 탈퇴 모달 -->
-<div class="modal fade" id="exitModal" tabindex="-1" role="dialog"
-	aria-labelledby="withdrawModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exitModalLabel">회원 탈퇴</h5>
-			</div>
-			<div class="modal-body">
-				<!-- 탈퇴 확인 폼 -->
-				<form id="exitForm" action="/member/exit" method="post"
-					autocomplete="off" onsubmit="exitMember();">
-					<p>정말 탈퇴하시겠습니까? 탈퇴 후 모든 정보는 자동으로 삭제됩니다.</p>
-					<div class="form-group">
-						<input type="password" name="memberPw" id="inputPw"
-							class="form-control" placeholder="비밀번호를 입력해주세요">
-					</div>
-					<c:if test="${param.error != null}">
-						<h4>비밀번호가 일치하지 않습니다</h4>
-					</c:if>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">취소</button>
-				<button type="submit" class="btn btn-danger" onclick="exitMember()">탈퇴하기</button>
-			</div>
-		</div>
-	</div>
+
+<div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="withdrawModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exitModalLabel">회원 탈퇴</h5>
+            </div>
+            <div class="modal-body">
+                <!-- 탈퇴 확인 폼 -->
+                <form id="exitForm" action="/member/exit" method="post" autocomplete="off" onsubmit="exitMember();">
+                    <p>정말 탈퇴하시겠습니까? 탈퇴 후 모든 정보는 자동으로 삭제됩니다.</p>
+                    <div class="form-group">
+                        <input type="password" name="memberPw" id="inputPw" class="form-control"
+                            placeholder="비밀번호를 입력해주세요">
+                    </div>
+                    <c:if test="${param.error != null}">
+                        <h4>비밀번호가 일치하지 않습니다</h4>
+                    </c:if>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="submit" class="btn btn-primary" onclick="exitMember()">탈퇴하기</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- 모달 끝 -->
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

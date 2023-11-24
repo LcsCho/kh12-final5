@@ -15,7 +15,7 @@ $(function(){
     };
     
     //아이디검사
-	 $("[name=memberId]").blur(function (e) {
+	 $("#memberEmail").blur(function (e) {
 	    var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
 	    var isValid = regex.test($(this).val());
 	    var feedbackWrapper = $(this).closest('.row').next().find('.feedback');
@@ -54,7 +54,7 @@ $(function(){
 
 
 
-    $("[name=memberPw]").blur(function(){
+    $("memberPassWord").blur(function(){
         var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,60}$/;
         var isValid = regex.test($(this).val());
         $(this).removeClass("is-valid is-invalid");
