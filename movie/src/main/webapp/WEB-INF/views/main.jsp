@@ -528,7 +528,7 @@ h3 {
 						<c:if test="${wishMovieList != null and not empty wishMovieList}">
 							<div class="row mt-5 p-3">
 								<div class="col">
-									<h3>아직 찜해놓고 안보셨어요!</h3>
+									<h3>찜목록은 어때요?</h3>
 								</div>
 							</div>
 							<div class="swiper row">

@@ -115,7 +115,6 @@ public class HomeController {
 
 		// 오늘의 영화 추천
 		List<TodayRecommendDto> todayMovieList = recommendDao.getRandomList();
-
 		model.addAttribute("todayMovieList", todayMovieList);
 
 		/////////////////////////////
