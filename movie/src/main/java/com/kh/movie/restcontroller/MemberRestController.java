@@ -2,11 +2,13 @@ package com.kh.movie.restcontroller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,8 +32,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MemberDao;
+import com.kh.movie.dao.MovieDao;
+import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dao.RecommendDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MemberDto;
+import com.kh.movie.vo.MovieListVO;
+import com.kh.movie.vo.MovieVO;
+import com.kh.movie.vo.WishMovieRecommendVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +56,15 @@ public class MemberRestController {
 
 	@Autowired
 	private ImageDao imageDao;
+	
+	@Autowired
+	private RatingDao ratingDao;
+	
+	@Autowired
+	private MovieDao movieDao;
+	
+	@Autowired
+	private RecommendDao recommendDao;
 
 	@Autowired
 	private FileUploadProperties props;
@@ -291,6 +308,59 @@ public class MemberRestController {
 	@GetMapping("page/{currentPage}/size/{pageSize}")
 	public List<MemberDto> selectListByPage(@PathVariable int currentPage, @PathVariable int pageSize) {
 		return memberDao.selectListByPage(currentPage, pageSize);
+	}
+	
+	@GetMapping("/list/reviewList")
+	public String reviewList(HttpSession session, Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
+		
+		String memberId = (String) session.getAttribute("name");
+		return "member/list/reviewList";
+	}
+	
+	@GetMapping("/list/ratingList")
+	public List<MovieListVO> ratingList(HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		List<Integer> ratingList = ratingDao.getRatingListByMemberId(memberId);
+		List<MovieListVO> ratingMovieList = new ArrayList<>();
+		for (Integer rating : ratingList) {
+			MovieVO movieVO = movieDao.findByMovieNoVO(rating);
+			log.debug("movieVO = {}", movieVO);
+			// MovieListVO 객체 생성
+			MovieListVO ratingMovie = new MovieListVO();
+			BeanUtils.copyProperties(movieVO, ratingMovie);
+			
+			// 리스트에 추가
+			ratingMovieList.add(ratingMovie);
+		}
+		
+		return ratingMovieList;
+	}
+	
+	@GetMapping("/list/wishList")
+	public String wishList(HttpSession session, Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
+		
+		String memberId = (String) session.getAttribute("name");
+		List<WishMovieRecommendVO> wishMovieRecommendVO = recommendDao.getWishMovie(memberId);
+		List<MovieListVO> wishMovieList = new ArrayList<>();
+		
+		for (WishMovieRecommendVO wishMovieRecommend : wishMovieRecommendVO) {
+			int movieNo = wishMovieRecommend.getMovieNo();
+			MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
+			
+			// MovieListVO 객체 생성
+			MovieListVO wishMovieRecommendMovie = new MovieListVO();
+			BeanUtils.copyProperties(movieVO, wishMovieRecommendMovie);
+			
+			// 리스트에 추가
+			wishMovieList.add(wishMovieRecommendMovie);
+		}
+		log.debug("wishMovieList = {}", wishMovieList);
+		model.addAttribute("wishMovieList", wishMovieList);
+		return "member/list/wishList";
 	}
 
 }
