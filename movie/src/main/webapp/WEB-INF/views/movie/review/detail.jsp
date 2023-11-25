@@ -52,11 +52,15 @@
     }
 </style>
 
+
 <script>
 	$(function(){
 		var params = new URLSearchParams(location.search);
 	    var reviewNo = params.get("reviewNo");
 	    var movieNo = params.get("movieNo");
+	    
+	    var memberNickname = "${memberNickname}";
+// 	    console.log(memberNickname);
 
 	    //댓글 목록 조회
 	    loadReplyList();
@@ -87,10 +91,10 @@
 	            url: "http://localhost:8080/rest/reply/findAll?reviewNo=" + reviewNo,
 	            method: "post",
 	            data: {
-	                reviewNo: reviewNo
+	                reviewNo: reviewNo,
 	            },
 	            success: function (response) {
-					console.log(response);
+	            	console.log(response);
 	            	
 	                $(".reply-list").empty();
 	
@@ -105,16 +109,24 @@
 	                	        "</div>"
 	                	    );
 	                } else {
-	                    for (var i = 0; i < response.length; i++) {
+	                	for (var i = 0; i < response.length; i++) {
 	                        var reply = response[i];
-
+	                        var writeNickname = response[i].memberNickname;
+	                        console.log("작성자="+writeNickname);
+	                        console.log("접속자="+memberNickname);
+	                  
 	                        var template = $("#reply-template").html();
 	                        var htmlTemplate = $.parseHTML(template);
+	                        
+	                        if(memberNickname != writeNickname){
+	                        	var XButton = $(htmlTemplate).find(".fa-x").attr("data-replyno", reply.replyNo);
+	                        	XButton.hide();
+	                        }
 
 	                        $(htmlTemplate).find(".fa-x").attr("data-replyno", reply.replyNo);
 	                        $(htmlTemplate).find(".deleteReply").attr("data-reply-no", reply.replyNo);
 
-	                        $(htmlTemplate).find(".memberNickname").text(reply.memberNickname);
+	                        $(htmlTemplate).find(".memberNickname").text(writeNickname);
 	                        $(htmlTemplate).find(".replyDate").text(reply.replyDate);
 	                        $(htmlTemplate).find(".replyContent").text(reply.replyContent);
 
@@ -311,7 +323,7 @@
                     <span class="replyDate"></span>
                 </div>
     				<div class="col-3 d-flex justify-content-end">
-							<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
+						<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
     				</div>
                 </div>
             </div>
@@ -393,11 +405,14 @@
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							
-								<i class="fa-solid fa-pen-to-square fa-lg editReview" style="position: absolute; top: 30px; right: 50px;"></i>
-								<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
-									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
-								</a>
-							
+								<!-- 작성자일 경우에만 아이콘 표시 -->
+								<c:if test="${memberNickname == review.memberNickname}">
+									<i class="fa-solid fa-pen-to-square fa-lg editReview" style="position: absolute; top: 30px; right: 50px;"></i>
+									<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
+										<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
+									</a>
+								</c:if>
+								
 						</div>
 						<div class="mt-3 pb-3">
 							<span class="card-text">${review.reviewContent}</span>
@@ -405,12 +420,12 @@
 						<hr>
 						<div class="row text-center">
 							<div class="col">
-								<button type="button" class="btn btn-primary btn-link likeButton" data-reviewNo="${review.reviewNo}">
+								<button type="button" class="btn btn-link likeButton" data-reviewNo="${review.reviewNo}">
 									<i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"> ${review.reviewLikeCount}</span></i>
 								</button>
 							</div>
 							<div class="col">
-								<button type="button" class="btn btn-primary btn-link">
+								<button type="button" class="btn btn-link">
 									<i class="fa-regular fa-comment"><span class="reviewReplyCount"> ${review.reviewReplyCount}</span></i>
 								</button>
 							</div>
@@ -432,33 +447,6 @@
 				<div class="row">
 					<div class="reply-list"></div>
 				</div>
-				
-<!-- 				페이지네이션 -->
-<!-- 				<div class="row text-center mt-4"> -->
-<!--         			<ul class="pagination pagination-sm  justify-content-center"> -->
-<!--             			<li class="page-item disabled"> -->
-<!--                 			<a class="page-link" href="#">&laquo;</a> -->
-<!--             			</li> -->
-<!--             			<li class="page-item active"> -->
-<!--                 			<a class="page-link" href="#">1</a> -->
-<!--             			</li> -->
-<!--             			<li class="page-item"> -->
-<!--                 			<a class="page-link" href="#">2</a> -->
-<!--             			</li> -->
-<!--             			<li class="page-item"> -->
-<!--                 			<a class="page-link" href="#">3</a> -->
-<!--             			</li> -->
-<!--             			<li class="page-item"> -->
-<!--                 			<a class="page-link" href="#">4</a> -->
-<!--             			</li> -->
-<!--             			<li class="page-item"> -->
-<!--                 			<a class="page-link" href="#">5</a> -->
-<!--             			</li> -->
-<!--             			<li class="page-item"> -->
-<!--                 			<a class="page-link" href="#">&raquo;</a> -->
-<!--             			</li> -->
-<!--         			</ul> -->
-<!--     			</div> -->
 				
 			</div>
         </div>

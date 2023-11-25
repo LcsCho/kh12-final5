@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<link rel="stylesheet" type="text/css" href="/css/star.css">
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<link rel="stylesheet" type="text/css" href="/css/star.css">
 
 <style>
 body {
@@ -328,7 +328,10 @@ $(document).ready(function(){
 	                var $likeIcon = $likeButton.find(".fa-thumbs-up");
 	                
 	                var hrefInfo = "review/detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(".commentButton").attr("href", hrefInfo);
+	                var $commentButton = $(".commentButton[data-reviewNo='" + reviewNo + "']");
+	                $commentButton.attr("href", hrefInfo);
+	                
+	                console.log(hrefInfo);
 	
 	                if (liked) {
 	                    $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-solid");
@@ -519,11 +522,11 @@ $(document).ready(function(){
 							<div class="review-item">
 								<strong>${reviewDto.memberNickname}</strong>
 								<p>${reviewDto.reviewContent}</p>
-								<button type="button" class="btn btn-primary btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
+								<button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
 									<i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
 								</button>
-									<a class="commentButton">
-										<button type="button" class="btn btn-primary btn-link replyButton">
+									<a class="commentButton" data-reviewNo="${reviewDto.reviewNo}">
+										<button type="button" class="btn btn-link replyButton" data-reviewNo="${reviewDto.reviewNo}">
 											<i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
 										</button>
 									</a>
