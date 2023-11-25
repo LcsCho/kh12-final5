@@ -530,6 +530,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -608,6 +609,10 @@
 			</div>
 		</div>
 	</div>
+</div>	
+	
+	
+	
 <div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
