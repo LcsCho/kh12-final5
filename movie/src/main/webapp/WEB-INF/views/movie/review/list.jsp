@@ -50,6 +50,14 @@
         border-color: rgb(179, 57, 57);
         border-width: 2px;
     }
+    .btn-info.active{
+    	background-color: rgb(179, 57, 57);
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border-color: rgb(179, 57, 57);
+        border-width: 2px;
+    }
 </style>
 
 <script>
@@ -57,10 +65,23 @@ $(function () {
     var params = new URLSearchParams(location.search);
     var movieNo = params.get("movieNo");
     
-  //페이지 로딩 시 최신순 조회(+버튼 이벤트)
+  	//페이지 로딩 시 최신순 조회(+버튼 이벤트)
     $(document).ready(function () {
     	$(".ByDateDesc").click();
     });
+  
+  //선택된 버튼 이벤트
+    function changeButton(clickedButton) {
+	    var activeButton = $(".btn-info").filter(function() {
+	        return $(this).hasClass('active');
+	    });
+	
+	    if (activeButton) {
+	        activeButton.removeClass('active');
+	    }
+	
+	    $(clickedButton).addClass('active');
+	}
 	
     //좋아요 체크
     function loadReviewLike(movieNo) {
@@ -152,7 +173,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -166,6 +187,7 @@ $(function () {
 				loadReviewLike(movieNo);
             }
         });
+    	changeButton(this);
     });
 	
 	//오래된순 조회
@@ -193,7 +215,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -208,6 +230,7 @@ $(function () {
 				loadReviewLike(movieNo);
             }
 		});
+		changeButton(this);
 	});
 	
 	//좋아요순 조회
@@ -235,7 +258,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -250,6 +273,7 @@ $(function () {
 				loadReviewLike(movieNo);
             }
 		});
+		changeButton(this);
 	});
 	
 	//평점높은순 조회
@@ -277,7 +301,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -292,6 +316,7 @@ $(function () {
 				loadReviewLike(movieNo);
             }
 		});
+		changeButton(this);
 	});
 	
 	//평점낮은순 조회
@@ -319,7 +344,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
@@ -333,6 +358,7 @@ $(function () {
 				loadReviewLike(movieNo);
             }
 		});
+		changeButton(this);
 	});
 
 });
@@ -357,7 +383,7 @@ $(function () {
 					</button>
 				</div>
 				<div class="col">
-					<a class="commnetButton">					
+					<a class="commentButton">					
 						<button type="button" class="btn btn-primary btn-link replyButton">
 							<i class="fa-regular fa-comment"><span class="replyCount"></span></i>
 						</button>
@@ -411,11 +437,11 @@ $(function () {
 
 			<div class="row mt-5">
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button type="button" class="btn btn-info ByDateDesc">최신순</button>
-					<button type="button" class="btn btn-info ByDateAsc">오래된순</button>
-					<button type="button" class="btn btn-info ByLikeDesc">좋아요순</button>
-					<button type="button" class="btn btn-info ByRatingDesc">높은평점순</button>
-					<button type="button" class="btn btn-info ByRatingAsc">낮은평점순</button>
+					<button type="button" class="btn btn-info ByDateDesc active" onclick="changeButton(this)">최신순</button>
+					<button type="button" class="btn btn-info ByDateAsc" onclick="changeButton(this)">오래된순</button>
+					<button type="button" class="btn btn-info ByLikeDesc" onclick="changeButton(this)">좋아요순</button>
+					<button type="button" class="btn btn-info ByRatingDesc" onclick="changeButton(this)">높은평점순</button>
+					<button type="button" class="btn btn-info ByRatingAsc" onclick="changeButton(this)">낮은평점순</button>
 				</div>
 			</div>
 					

@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dto.CertDto;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.kh.movie.dao.CertDao;
 
 @CrossOrigin
+@Tag(name = "이메일 인증 관리", description = "이메일 인증 관리를 위한 컨트롤러")
 @RestController
 @RequestMapping("/rest/cert")
 public class CertRestController {
@@ -42,7 +46,7 @@ public class CertRestController {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(certEmail);
 		message.setSubject("[MVC] 인증번호 발송");
-		message.setText("인증번호 확인 후 입력하세요. [ "+certNo+" ]");
+		message.setText("인증번호 확인 후 입력하세요. ["+certNo+"]");
 		sender.send(message);
 	
 		certDao.delete(certEmail);

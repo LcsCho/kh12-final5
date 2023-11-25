@@ -2,7 +2,7 @@ package com.kh.movie;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
@@ -44,6 +44,7 @@ public class MemberApplicationTests {
             testMember.setMemberLevel("일반");
             testMember.setMemberGender(random.nextBoolean() ? "남자" : "여자"); // 성별 랜덤
             testMember.setMemberContact(generateRandomPhoneNumber());
+            testMember.setMemberJoin(generateRandomJoinDate());
 
             System.out.println(testMember);
 
@@ -88,5 +89,13 @@ public class MemberApplicationTests {
         String generatedNickname = baseNickname + nicknameCounter;
         nicknameCounter++;
         return generatedNickname;
+    }
+    
+    //가입일 설정
+    private Date generateRandomJoinDate() {
+        long beginTime = Timestamp.valueOf("2021-01-01 00:00:00").getTime();
+        long endTime = Timestamp.valueOf("2023-11-23 23:59:59").getTime();
+        long diff = endTime - beginTime + 1;
+        return new Date(beginTime + (long) (Math.random() * diff));
     }
 }

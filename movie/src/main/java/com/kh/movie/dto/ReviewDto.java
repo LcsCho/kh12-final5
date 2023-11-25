@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class ReviewDto {
 	private int reviewNo, movieNo, reviewLikeCount, reviewReplyCount;
-	private String memberNickname, reviewContent;
+	private String memberNickname, reviewContent, memberId;
 	private Date reviewDate;
 }

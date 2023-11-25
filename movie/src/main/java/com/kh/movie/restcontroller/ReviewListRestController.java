@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dao.ReviewLikeDao;
-import com.kh.movie.vo.PaginationVO;
+import com.kh.movie.dto.ReviewDto;
 import com.kh.movie.vo.ReviewLikeVO;
 import com.kh.movie.vo.ReviewListVO;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Tag(name = "리뷰 리스트 관리", description = "리뷰 리스트 관리를 위한 컨트롤러")
 @RestController
 @RequestMapping("/rest/review/list")
 public class ReviewListRestController {
@@ -76,12 +77,12 @@ public class ReviewListRestController {
 	    // 영화에 달린 리뷰 번호 가져오기
 	    List<ReviewListVO> reviewNos = reviewDao.findReviewNoByMovie(movieNo);
 	    
-      List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
-	    for (ReviewListVO review : reviewNos) {
+	    List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
+	    	for (ReviewListVO review : reviewNos) {
 	    	int reviewNo = review.getReviewNo();
-        String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+	    	String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
 
-        ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
+	    	ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
                 .check(reviewLike)
                 .count(reviewDao.findReviewLikeCount(reviewNo))
                 .reviewNo(reviewNo)
@@ -128,5 +129,28 @@ public class ReviewListRestController {
 	public void edit(@RequestParam int reviewNo, @ModelAttribute ReviewListVO reviewListVO) {
 		String reviewContent = reviewListVO.getReviewContent();
 		reviewDao.edit(reviewNo, reviewContent);
+	}
+	
+	//리뷰 작성(등록)
+	@PostMapping("/writeReview")
+	public void write(@RequestParam("movieNo") int movieNo,
+								@RequestParam String reviewContent,
+								HttpSession session) {
+		ReviewDto reviewDto = new ReviewDto();
+		String memberId = (String) session.getAttribute("name");
+		String memberNickname = memberDao.findNicknameById(memberId);
+		reviewDto.setMemberId(memberId);
+		reviewDto.setMemberNickname(memberNickname);
+		reviewDto.setMovieNo(movieNo);
+		
+		int reviewNo = reviewDao.sequence();
+		reviewDto.setReviewNo(reviewNo);
+		reviewDto.setReviewContent(reviewContent);
+		
+		log.debug("reviewDto = {}", reviewDto);
+		
+		reviewDao.insert(reviewDto);
+		
+		
 	}
 }

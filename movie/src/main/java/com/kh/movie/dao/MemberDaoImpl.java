@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kh.movie.dto.MemberDto;
-import com.kh.movie.vo.MemberAgeGroupVO;
+import com.kh.movie.vo.MemberAgeGroupRecommendVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -155,7 +155,7 @@ public class MemberDaoImpl implements MemberDao{
 
 	// 회원 나이대 계산
 	@Override
-	public MemberAgeGroupVO getAgeGroup(String memberId) {
+	public MemberAgeGroupRecommendVO getAgeGroup(String memberId) {
 		return sqlSession.selectOne("member.ageGroup", memberId);
 	}
 

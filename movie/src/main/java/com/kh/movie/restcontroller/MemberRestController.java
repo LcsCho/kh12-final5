@@ -2,11 +2,13 @@ package com.kh.movie.restcontroller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,8 +32,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MemberDao;
+import com.kh.movie.dao.MovieDao;
+import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dao.RecommendDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MemberDto;
+import com.kh.movie.vo.MovieListVO;
+import com.kh.movie.vo.MovieVO;
+import com.kh.movie.vo.WishMovieRecommendVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +56,15 @@ public class MemberRestController {
 
 	@Autowired
 	private ImageDao imageDao;
+	
+	@Autowired
+	private RatingDao ratingDao;
+	
+	@Autowired
+	private MovieDao movieDao;
+	
+	@Autowired
+	private RecommendDao recommendDao;
 
 	@Autowired
 	private FileUploadProperties props;
@@ -62,11 +79,7 @@ public class MemberRestController {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-
-//	@GetMapping("/memberCount/{memberCount}")
-//	public int count() {
-//		return memberDao.getCount();
-//	}
+  
 	@GetMapping("/memberCount")
 	public int count() {
 		return memberDao.getCount();
@@ -91,30 +104,28 @@ public class MemberRestController {
 	}
 
 	
-	 @PostMapping("/login")
-	    public ResponseEntity<String> login(@RequestParam String memberId,
-	                                        @RequestParam String memberPw,
-	                                        HttpSession session) {
-	        MemberDto findDto = memberDao.selectOne(memberId);
-	        log.debug("password={}", findDto.getMemberPw());
+  @PostMapping("/login")
+  public ResponseEntity<String> login(@RequestParam String memberId,
+                                      @RequestParam String memberPw,
+                                      HttpSession session) {
+      MemberDto findDto = memberDao.selectOne(memberId);
+      log.debug("password={}", findDto.getMemberPw());
 
-	        boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
-	        log.debug("isCorrectPw = {}",isCorrectPw);
+      boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
+      log.debug("isCorrectPw = {}",isCorrectPw);
 
-	        if (isCorrectPw) {
-	            session.setAttribute("name", findDto.getMemberId());
-	            session.setAttribute("level", findDto.getMemberLevel());
-	            memberDao.updateMemberLastLogin(memberId);
-	       
-	            log.debug("Login successful. Session attributes: name={}, level={}", session.getAttribute("name"), session.getAttribute("level"));
-	            
-	            return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
-	        } else {
-	            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
-	        }
-	    }
-	
+      if (isCorrectPw) {
+          session.setAttribute("name", findDto.getMemberId());
+          session.setAttribute("level", findDto.getMemberLevel());
+          memberDao.updateMemberLastLogin(memberId);
 
+          log.debug("Login successful. Session attributes: name={}, level={}", session.getAttribute("name"), session.getAttribute("level"));
+
+          return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+      } else {
+          return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
+      }
+  }
 	
 	//아이디 체크(이메일주소)
 	@PostMapping("/idCheck")
@@ -129,7 +140,7 @@ public class MemberRestController {
 
 	// 닉네임 체크
 	@PostMapping("/nicknameCheck")
-	public String nicknameCheck(@RequestParam String memberNickname) {
+	public String snicknameCheck(@RequestParam String memberNickname) {
 		MemberDto memberDto = memberDao.selectOneByNickname(memberNickname);
 		if (memberDto == null) {
 			return "Y";
@@ -137,7 +148,6 @@ public class MemberRestController {
 			return "N";
 		}
 	}
-	
 	
 	//회원 정보 수정
 	@PostMapping("/change")
@@ -282,17 +292,71 @@ public class MemberRestController {
 //		return memberDao.selectList(memberNickname);
 //	}
 	
+  //검색 회원 리스트 페이지네이션
+	@GetMapping("/adminSearch/{memberNickname}/page/{searchCurrentPage}/size/{searchPageSize}")
+	public List<MemberDto> adminSearch(
+			@PathVariable String memberNickname, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
+		return memberDao.selectList(memberNickname, searchCurrentPage, searchPageSize);
+	}
+  
 	//전체 회원 리스트 페이지네이션
-	@GetMapping("/page/{currentPage}/size/{pageSize}")
+	@GetMapping("page/{currentPage}/size/{pageSize}")
 	public List<MemberDto> selectListByPage(@PathVariable int currentPage, @PathVariable int pageSize) {
 		return memberDao.selectListByPage(currentPage, pageSize);
 	}
 	
-	//검색 회원 리스트 페이지네이션
-	@GetMapping("/adminSearch/{memberNickname}/page/{searchCurrentPage}/size/{searchPageSize}")
-	public List<MemberDto> adminSearch(
-			@PathVariable String memberNickname, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
-		return memberDao.selectSearchList(memberNickname, searchCurrentPage, searchPageSize);
+	@GetMapping("/reviewList")
+	public String reviewList(HttpSession session, Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
+		
+		String memberId = (String) session.getAttribute("name");
+		return "member/list/reviewList";
 	}
 	
+	@GetMapping("/ratingList")
+	public List<MovieListVO> ratingList(HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		List<Integer> ratingList = ratingDao.getRatingListByMemberId(memberId);
+		List<MovieListVO> ratingMovieList = new ArrayList<>();
+		for (Integer rating : ratingList) {
+			MovieVO movieVO = movieDao.findByMovieNoVO(rating);
+			// MovieListVO 객체 생성
+			MovieListVO ratingMovie = new MovieListVO();
+			BeanUtils.copyProperties(movieVO, ratingMovie);
+			
+			// 리스트에 추가
+//			log.debug("ratingMovie={}",ratingMovie);
+			ratingMovieList.add(ratingMovie);
+		}
+		
+		return ratingMovieList;
+	}
+	
+	@DeleteMapping("/ratingDelete")
+	public void ratingDelete(HttpSession session, @RequestParam int movieNo) {
+		String memberId = (String) session.getAttribute("name");
+		ratingDao.deleteRating(memberId, movieNo);
+	}
+	
+	@GetMapping("/wishList")
+	public List<MovieListVO> wishList(HttpSession session) {
+		String memberId = (String) session.getAttribute("name");
+		List<WishMovieRecommendVO> wishMovieRecommendVO = recommendDao.getWishMovie(memberId);
+		List<MovieListVO> wishMovieList = new ArrayList<>();
+		
+		for (WishMovieRecommendVO wishMovieRecommend : wishMovieRecommendVO) {
+			int movieNo = wishMovieRecommend.getMovieNo();
+			MovieVO movieVO = movieDao.findByMovieNoVO(movieNo);
+			
+			// MovieListVO 객체 생성
+			MovieListVO wishMovieRecommendMovie = new MovieListVO();
+			BeanUtils.copyProperties(movieVO, wishMovieRecommendMovie);
+			
+			// 리스트에 추가
+			wishMovieList.add(wishMovieRecommendMovie);
+		}
+		return wishMovieList;
+	}
+
 }

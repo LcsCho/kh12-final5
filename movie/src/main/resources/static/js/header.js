@@ -8,50 +8,70 @@ $(function () {
             return this.memberId && this.memberPw && this.pwCheck;
         },
     };
-
-    // 아이디 검사
+    
+      // 아이디 검사
     $("#email").blur(function (e) {
         var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
         var isValid = regex.test($(this).val());
         var feedbackWrapper = $(this).closest('.mb-3').find('.feedback');
-        //var emailButton = $("#emailButton");
 
         if (isValid) {
-            $.ajax({
-                url: "http://localhost:8080/member/idCheck",
-                method: "post",
-                data: { memberId: $(e.target).val() },
-                success: function (response) {
-                    $(e.target).removeClass("is-valid is-invalid");
-                    if (response == "N") {
-                        $(e.target).addClass("is-valid");
-                        feedbackWrapper.find('.valid-feedback').text("이메일이 확인되었습니다").show();
-                        feedbackWrapper.find('.invalid-feedback').hide();
-                        status.memberId = true;
-                        //emailButton.disabled = false;
-                    } else {
-                        $(e.target).addClass("is-invalid");
-                        feedbackWrapper.find('.invalid-feedback').text("존재하지 않는 이메일입니다").show();
-                        feedbackWrapper.find('.valid-feedback').hide();
-                        status.memberId = false;
-                        //emailButton.disabled = true;
-                    }
-                    	
-                },
-                error: function () {
-                    alert("서버와의 통신이 원활하지 않습니다");
-                }
-            });
+            $(e.target).removeClass("is-valid is-invalid").addClass("is-valid");
+            feedbackWrapper.find('.valid-feedback').text("이메일이 확인되었습니다").show();
+            feedbackWrapper.find('.invalid-feedback').hide();
+            status.memberId = true;
         } else {
-            $(e.target).removeClass("is-valid is-invalid");
-            $(e.target).addClass("is-invalid");
+            $(e.target).removeClass("is-valid is-invalid").addClass("is-invalid");
             feedbackWrapper.find('.invalid-feedback').text("이메일 주소가 올바르지 않습니다").show();
             feedbackWrapper.find('.valid-feedback').hide();
             status.memberId = false;
-            
-            
         }
     });
+
+//
+//    // 아이디 검사
+//    $("#email").blur(function (e) {
+//        var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
+//        var isValid = regex.test($(this).val());
+//        var feedbackWrapper = $(this).closest('.mb-3').find('.feedback');
+//        //var emailButton = $("#emailButton");
+//
+//        if (isValid) {
+//            $.ajax({
+//                url: "http://localhost:8080/member/idCheck",
+//                method: "post",
+//                data: { memberId: $(e.target).val() },
+//                success: function (response) {
+//                    $(e.target).removeClass("is-valid is-invalid");
+//                    if (response == "N") {
+//                        $(e.target).addClass("is-valid");
+//                        feedbackWrapper.find('.valid-feedback').text("이메일이 확인되었습니다").show();
+//                        feedbackWrapper.find('.invalid-feedback').hide();
+//                        status.memberId = true;
+//                        //emailButton.disabled = false;
+//                    } else {
+//                        $(e.target).addClass("is-invalid");
+//                        feedbackWrapper.find('.invalid-feedback').text("정확하지 않은 이메일입니다").show();
+//                        feedbackWrapper.find('.valid-feedback').hide();
+//                        status.memberId = false;
+//                        //emailButton.disabled = true;
+//                    }
+//                    	
+//                },
+//                error: function () {
+//                    alert("서버와의 통신이 원활하지 않습니다");
+//                }
+//            });
+//        } else {
+//            $(e.target).removeClass("is-valid is-invalid");
+//            $(e.target).addClass("is-invalid");
+//            feedbackWrapper.find('.invalid-feedback').text("이메일 주소가 올바르지 않습니다").show();
+//            feedbackWrapper.find('.valid-feedback').hide();
+//            status.memberId = false;
+//            
+//            
+//        }
+//    });
 
     $("#newPw").blur(function () {
         var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,60}$/;

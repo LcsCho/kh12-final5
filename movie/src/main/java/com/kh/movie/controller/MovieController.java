@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
@@ -18,6 +19,7 @@ import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.ReplyDao;
 import com.kh.movie.dao.ReviewDao;
+import com.kh.movie.dao.ReviewDaoImpl;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
 import com.kh.movie.dto.MovieSimpleInfoDto;
@@ -77,7 +79,8 @@ public class MovieController {
 	//리뷰 목록(+댓글)
 	@GetMapping("/review/detail")
 	public String reviewDetail(@RequestParam int movieNo,
-												@RequestParam int reviewNo, Model model) {
+												@RequestParam int reviewNo, Model model,
+												HttpSession session) {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
 		
@@ -94,7 +97,7 @@ public class MovieController {
 		if (reviewListVO != null) {
 		    model.addAttribute("review", reviewListVO);
 		}else {
-			return "redirect:/detail?movieNo="+movieNo;
+			return "redirect:detail?movieNo="+movieNo;
 		}
 		
 		//댓글 조회
@@ -164,4 +167,15 @@ public class MovieController {
 			return "redirect:에러페이지";
 		}
 	}
+	
+	//리뷰 등록
+	@PostMapping("/writeReview")
+	public String writeReview(@RequestParam int movieNo) {
+		ReviewDto reviewDto = new ReviewDto();
+		reviewDto.setMovieNo(movieNo);
+		reviewDao.insert(reviewDto);
+		
+		return "redirect:detail?movieNo=" + movieNo;
+	}
+
 }

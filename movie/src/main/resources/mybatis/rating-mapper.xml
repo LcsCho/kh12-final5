@@ -36,7 +36,12 @@
 	
 	<!-- 회원 아이디로 평점 번호 조회 -->
 	<select id="findRatingNoByMemberId" resultType="int">
-		SELECT rating_no from rating where member_id = #{memberId};
+		SELECT rating_no from rating where member_id = #{memberId}
+	</select>
+	
+	<select id="getRatingListByMemberId" resultType="Integer">
+		select movie_no from rating where member_id = #{memberId}
+		order by rating_score desc
 	</select>
 	
 	<!-- 삭제 -->
@@ -57,5 +62,9 @@
 	<select id="ratingCountByMemberId" resultType="int">
 		select count(*) from rating where member_id = #{memberId}
 	</select>
+	
+	<delete id="deleteRating">
+		delete from rating where member_id = #{memberId} and movie_no = #{movieNo}
+	</delete>
 
 </mapper>

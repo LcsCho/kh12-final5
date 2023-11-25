@@ -3,7 +3,7 @@ package com.kh.movie.dao;
 import java.util.List;
 
 import com.kh.movie.dto.MemberDto;
-import com.kh.movie.vo.MemberAgeGroupVO;
+import com.kh.movie.vo.MemberAgeGroupRecommendVO;
 
 public interface MemberDao {
 	void insert(MemberDto memberDto);
@@ -29,5 +29,5 @@ public interface MemberDao {
 	void updatePassword(MemberDto memberDto);
 	void insertMemberImage(String memberId, int imageNo);
 	Integer findMemberImage(String memberId);
-	MemberAgeGroupVO getAgeGroup(String memberId);
+	MemberAgeGroupRecommendVO getAgeGroup(String memberId);
 }
