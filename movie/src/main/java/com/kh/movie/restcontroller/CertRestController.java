@@ -46,7 +46,7 @@ public class CertRestController {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(certEmail);
 		message.setSubject("[MVC] 인증번호 발송");
-		message.setText("인증번호 확인 후 입력하세요. [ "+certNo+" ]");
+		message.setText("인증번호 확인 후 입력하세요. ["+certNo+"]");
 		sender.send(message);
 	
 		certDao.delete(certEmail);

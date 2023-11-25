@@ -1,3 +1,4 @@
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script id="review-template" type="text/template">
 	<div class="card mt-3">
 		<div class="card-body">
@@ -27,3 +28,4 @@
 		</div>
 	</div>
 </script>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
