@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "평점 관리", description = "평점 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/rating")
+@RequestMapping("/rest/rating")
 public class RatingRestController {
 	
 	@Autowired

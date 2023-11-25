@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "이미지 관리", description = "이미지 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/image")
+@RequestMapping("/rest/image")
 public class ImageRestController {
 	
 	@Autowired

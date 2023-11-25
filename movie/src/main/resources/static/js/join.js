@@ -22,7 +22,7 @@ $(function(){
 	
 	    if (isValid) {
 	        $.ajax({
-	            url: "http://localhost:8080/member/idCheck",
+	            url: "http://localhost:8080/rest/member/idCheck",
 	            method: "post",
 	            data: { memberId: $(e.target).val() },
 	            success: function (response) {
@@ -90,7 +90,7 @@ $(function(){
 
         if(isValid){ //형식이 유효하다면
             $.ajax({   
-                url:"http://localhost:8080/member/nicknameCheck",
+                url:"http://localhost:8080/rest/member/nicknameCheck",
                 method:"post",
                 data:{memberNickname: $(e.target).val()}, //jQuery
                 success:function(response){

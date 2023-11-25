@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "회원 관리", description = "회원 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/rest/member")
 public class MemberRestController {
 
 	@Autowired

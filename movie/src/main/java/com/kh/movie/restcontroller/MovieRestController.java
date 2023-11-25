@@ -47,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "영화 관리", description = "영화 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/rest/movie")
 public class MovieRestController {
 
 	@Autowired

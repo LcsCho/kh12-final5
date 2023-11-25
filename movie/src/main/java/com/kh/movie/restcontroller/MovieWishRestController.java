@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "영화찜 관리", description = "영화찜 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/movieWish")
+@RequestMapping("/rest/movieWish")
 public class MovieWishRestController {
 	
 	@Autowired

@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "리뷰 관리", description = "리뷰 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/review")
+@RequestMapping("/rest/review")
 public class ReviewRestController {
 
 	@Autowired
