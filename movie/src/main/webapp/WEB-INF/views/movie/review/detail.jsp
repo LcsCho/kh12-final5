@@ -311,9 +311,7 @@
                     <span class="replyDate"></span>
                 </div>
     				<div class="col-3 d-flex justify-content-end">
-						<c:if test="${memberNickname eq reply.memberNickname}">
 							<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
-						</c:if>
     				</div>
                 </div>
             </div>
@@ -395,13 +393,10 @@
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							
-							<!-- 작성자일 때만 수정, 삭제 버튼 표시 -->
-<%-- 							<c:if test="${sessionScope.name == review.memberId}"> --%>
 								<i class="fa-solid fa-pen-to-square fa-lg editReview" style="position: absolute; top: 30px; right: 50px;"></i>
 								<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
 									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
 								</a>
-<%-- 							</c:if> --%>
 							
 						</div>
 						<div class="mt-3 pb-3">

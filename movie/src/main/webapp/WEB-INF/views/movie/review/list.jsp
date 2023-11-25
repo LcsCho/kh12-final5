@@ -173,7 +173,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -215,7 +215,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -258,7 +258,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -301,7 +301,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -344,7 +344,7 @@ $(function () {
 	                var reviewNo = review.reviewNo;
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                $(htmlTemplate).find(".commnetButton").attr("href", hrefInfo);
+	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
@@ -383,7 +383,7 @@ $(function () {
 					</button>
 				</div>
 				<div class="col">
-					<a class="commnetButton">					
+					<a class="commentButton">					
 						<button type="button" class="btn btn-primary btn-link replyButton">
 							<i class="fa-regular fa-comment"><span class="replyCount"></span></i>
 						</button>
