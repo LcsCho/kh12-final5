@@ -296,7 +296,7 @@ public class MemberRestController {
 	@GetMapping("/adminSearch/{memberNickname}/page/{searchCurrentPage}/size/{searchPageSize}")
 	public List<MemberDto> adminSearch(
 			@PathVariable String memberNickname, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
-		return memberDao.selectList(memberNickname, searchCurrentPage, searchPageSize);
+		return memberDao.selectSearchList(memberNickname, searchCurrentPage, searchPageSize);
 	}
   
 	//전체 회원 리스트 페이지네이션
