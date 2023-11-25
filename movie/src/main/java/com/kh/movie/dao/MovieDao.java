@@ -20,7 +20,6 @@ public interface MovieDao {
 	int sequence();
 	MovieDto findByMovieNo(int movieNo);
 	List<MovieDto> selectList();
-	List<AdminMovieListVO> selectAdminMovieList();
 	List<MovieDto> selectList(String movieName);
 	void insert(MovieDto movieDto);
 	boolean delete(int movieNo);
@@ -28,10 +27,14 @@ public interface MovieDao {
 	boolean editUnit(int movieNo, MovieDto movieDto);
 	void connectMainImage(int movieNo, int imageNo);
 	void connectDetailImage(int movieNo, int imageNo);
-	int getCount();
 	ImageDto findMainImage(int movieNo);
 	ImageDto findImage(int ImageNo);
-	List<AdminMovieListVO> selectAdminMovieList(String movieName);
+	int getCount();
+	int movieListCount();
+	int searchCount(String movieName);
+	List<AdminMovieListVO> adminMovieList();
+	List<AdminMovieListVO> selectAdminMovieListByPage(int currentPage, int pageSize);
+	List<AdminMovieListVO> selectAdminSearchListByPage(String movieName,int currentPage, int pageSize);
 	List<Integer> findDetailImageNoByMovieNo(int movieNo);
 	List<MovieDetailActorVO> findActorListByMovieNo(int movieNo);
 	List<MovieListVO> findAllMovieList();

@@ -4,10 +4,13 @@ import java.util.List;
 
 import com.kh.movie.dto.ActorDto;
 import com.kh.movie.dto.ImageDto;
+import com.kh.movie.dto.MemberDto;
 import com.kh.movie.vo.ActorViewVO;
 
 public interface ActorDao {
 	int sequence();
+	int getCount();
+	int searchCount(String actorName);
 	List<ActorDto> selectList();
 	void insert(ActorDto actorDto);
 	boolean delete(int actorNo);
@@ -16,9 +19,11 @@ public interface ActorDao {
 	boolean editUnit(int actorNo, ActorDto actorDto);
 	void connectActorImage(int actorNo, int imageNo);
 	ImageDto findActorImage(int actorNo);
-	List<ActorViewVO> selectActorList();
 	ActorDto findByActorNo(int actorNo);
-	List<ActorDto> selectList(String actorName);
+//	List<ActorDto> selectList(String actorName);
 	List<Integer> findImageNoByActorName(String actorName);
+	List<ActorViewVO> selectActorList();
+	List<ActorViewVO> selectListByPage(int currentPage, int pageSize);
+	List<ActorDto> selectList(String actorName, int searchCurrentPage, int searchPageSize);
 
 }

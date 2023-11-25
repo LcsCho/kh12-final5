@@ -129,7 +129,7 @@ public class MemberRestController {
 
 	// 닉네임 체크
 	@PostMapping("/nicknameCheck")
-	public String snicknameCheck(@RequestParam String memberNickname) {
+	public String nicknameCheck(@RequestParam String memberNickname) {
 		MemberDto memberDto = memberDao.selectOneByNickname(memberNickname);
 		if (memberDto == null) {
 			return "Y";
@@ -282,15 +282,17 @@ public class MemberRestController {
 //		return memberDao.selectList(memberNickname);
 //	}
 	
-	@GetMapping("/adminSearch/{memberNickname}/page/{searchCurrentPage}/size/{searchPageSize}")
-	public List<MemberDto> adminSearch(
-			@PathVariable String memberNickname, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
-		return memberDao.selectList(memberNickname, searchCurrentPage, searchPageSize);
-	}
-	
-	@GetMapping("page/{currentPage}/size/{pageSize}")
+	//전체 회원 리스트 페이지네이션
+	@GetMapping("/page/{currentPage}/size/{pageSize}")
 	public List<MemberDto> selectListByPage(@PathVariable int currentPage, @PathVariable int pageSize) {
 		return memberDao.selectListByPage(currentPage, pageSize);
 	}
-
+	
+	//검색 회원 리스트 페이지네이션
+	@GetMapping("/adminSearch/{memberNickname}/page/{searchCurrentPage}/size/{searchPageSize}")
+	public List<MemberDto> adminSearch(
+			@PathVariable String memberNickname, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
+		return memberDao.selectSearchList(memberNickname, searchCurrentPage, searchPageSize);
+	}
+	
 }

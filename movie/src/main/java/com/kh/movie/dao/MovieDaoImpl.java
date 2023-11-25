@@ -47,8 +47,25 @@ public class MovieDaoImpl implements MovieDao{
 	}
 	
 	@Override
-	public List<AdminMovieListVO> selectAdminMovieList() {
+	public List<AdminMovieListVO> adminMovieList() {
 		return sqlSession.selectList("movie.adminMovieList");
+	}
+	
+	@Override
+	public List<AdminMovieListVO> selectAdminMovieListByPage(int currentPage, int pageSize) {
+		int end = currentPage * pageSize;
+		int begin = end - (pageSize-1);
+		Map params = Map.of("begin", begin, "end", end);
+		return sqlSession.selectList("movie.movieListByPage", params);
+	}
+	
+	@Override
+	public List<AdminMovieListVO> selectAdminSearchListByPage(
+			String movieName, int searchCurrentPage, int searchPageSize) {
+		int end = searchCurrentPage * searchPageSize;
+		int begin = end - (searchPageSize-1);
+		Map<String, Object> params = Map.of("movieName", movieName, "begin", begin, "end", end);
+		return sqlSession.selectList("movie.adminSearchListByPage", params);
 	}
 
 	@Override
@@ -103,10 +120,6 @@ public class MovieDaoImpl implements MovieDao{
 		
 	}
 	
-	@Override
-	public int getCount() {
-		return sqlSession.selectOne("movie.count");
-	}
 	
 	//메인 이미지 찾기(이미지 다운로드를 위해 만들음)
 	@Override
@@ -119,11 +132,21 @@ public class MovieDaoImpl implements MovieDao{
 		
 		return sqlSession.selectOne("movie.findImage",ImageNo);
 	}
-
 	@Override
-	public List<AdminMovieListVO> selectAdminMovieList(String movieName) {
-		return sqlSession.selectList("movie.adminSearch", movieName);
+	public int getCount() {
+		return sqlSession.selectOne("movie.count");
 	}
+	
+	@Override
+	public int movieListCount() {
+		return sqlSession.selectOne("movie.movieListCount");
+	}
+	
+	@Override
+	public int searchCount(String movieName) {
+		return sqlSession.selectOne("movie.searchCount", movieName);
+	}
+
 	@Override
 	public List<Integer> findDetailImageNoByMovieNo(int movieNo) {
 		return sqlSession.selectList("movie.findDetailImageNoByMovieNo",movieNo);

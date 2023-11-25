@@ -167,11 +167,6 @@ public class ActorRestController {
 		return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping("/adminSearch/{actorName}")
-	public List<ActorDto> adminSearch(String actorName) {
-		return actorDao.selectList(actorName);
-	}
-	
 //	@PatchMapping("/{actorNo}")
 //	public ResponseEntity<String> editUnit(@RequestBody ActorDto actorDto, @PathVariable int actorNo) {
 //		if (actorDto.isEmpty()) return ResponseEntity.badRequest().build();
@@ -193,6 +188,31 @@ public class ActorRestController {
 	        return ResponseEntity.notFound().build();
 	    }
 	}
-
+	
+	@GetMapping("/actorCount")
+	public int count() {
+		return actorDao.getCount();
+	}
+	
+	@GetMapping("/searchCount/{actorName}")
+	public int searchCount(@PathVariable String actorName) {
+		return actorDao.searchCount(actorName);
+	}
+	
+	//전체 배우 리스트 페이지네이션
+	@GetMapping("/page/{currentPage}/size/{pageSize}")
+	public List<ActorViewVO> selectListByPage(@PathVariable int currentPage, 
+																	@PathVariable int pageSize){
+		return actorDao.selectListByPage(currentPage, pageSize);
+	}
+	
+	//검색 배우 리스트 페이지네이션
+	@GetMapping("/adminSearch/{actorName}/page/{searchCurrentPage}/size/{searchPageSize}")
+	public List<ActorDto> adminSearch(
+												@PathVariable String actorName, 
+												@PathVariable int searchCurrentPage, 
+												@PathVariable int searchPageSize) {
+		return actorDao.selectList(actorName, searchCurrentPage, searchPageSize);
+	}
 	
 }
