@@ -152,17 +152,17 @@ public class MemberController {
 		return "member/mypage";	
 	}
 	
-	@RequestMapping("/list/reviewList")
+	@RequestMapping("list/reviewList")
 	public String reviewList() {
 		return "member/list/reviewList";
 	}
 	
-	@RequestMapping("/list/ratingList")
+	@RequestMapping("list/ratingList")
 	public String ratingList() {
 		return "member/list/ratingList";
 	}
 	
-	@RequestMapping("/list/wishList")
+	@RequestMapping("list/wishList")
 	public String wishList() {
 		return "member/list/wishList";
 	}
