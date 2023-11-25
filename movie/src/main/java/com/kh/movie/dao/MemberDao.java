@@ -30,4 +30,5 @@ public interface MemberDao {
 	void insertMemberImage(String memberId, int imageNo);
 	Integer findMemberImage(String memberId);
 	MemberAgeGroupRecommendVO getAgeGroup(String memberId);
+	List<MemberDto> selectList(String memberNickname, int searchCurrentPage, int searchPageSize);
 }

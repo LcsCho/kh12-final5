@@ -159,5 +159,9 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.ageGroup", memberId);
 	}
 
-
+	@Override
+	public List<MemberDto> selectList(String memberNickname, int searchCurrentPage, int searchPageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
