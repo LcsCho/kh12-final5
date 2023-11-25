@@ -36,7 +36,7 @@
 
     function loadMovieList() {
         $.ajax({
-            url: '/member/ratingList',
+            url: '/rest/member/ratingList',
             method: 'GET',
             success: function (data) {
                 var moviesContainer = $('#movies-container');
@@ -89,7 +89,7 @@
 
     function deleteMovie(movieNo) {
         $.ajax({
-            url: '/member/ratingDelete',
+            url: '/rest/member/ratingDelete',
             method: 'delete',
             data: { movieNo: movieNo },
             success: function (response) {
