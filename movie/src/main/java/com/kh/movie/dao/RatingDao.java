@@ -25,4 +25,5 @@ public interface RatingDao {
 	int ratingCountByMemberId(String memberId);
 
 	List<Integer> getRatingListByMemberId(String memberId);
+	void deleteRating(String memberId, int movieNo);
 }

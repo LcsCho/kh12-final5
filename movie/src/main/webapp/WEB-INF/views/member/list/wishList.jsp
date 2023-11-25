@@ -2,88 +2,112 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<script>
+    $(document).ready(function () {
+        // 클릭 이벤트를 추가
+        $('.fa-gear').on('click', function () {
+            // 아이콘을 토글하여 보이기/숨기기
+            $('.fa-circle-xmark').toggle();
+        });
 
+        // AJAX 요청 완료 후에 영화 목록을 가져와서 표시
+        loadMovieList();
+    });
+
+    function loadMovieList() {
+        $.ajax({
+            // 페이지가 처음 로드될 때나 새로고침할 때 아이콘을 숨김
+            $('.fa-circle-xmark').hide();
+            url: '/member/ratingList',
+            method: 'GET',
+            beforeSend: function () {
+                // AJAX 요청 전에 아이콘을 표시
+                $('.fa-circle-xmark').show();
+            },
+            success: function (data) {
+                // AJAX 요청 완료 후에 아이콘을 숨김
+                $('.fa-circle-xmark').hide();
+                var moviesContainer = $('#movies-container');
+                moviesContainer.empty();
+
+                $.each(data, function (index, movieVO) {
+                    var formattedDate = new Date(movieVO.movieReleaseDate).getFullYear();
+                    var movieNo = parseInt(movieVO.movieNo);
+                    var imageNo = parseInt(movieVO.imageNo);
+
+                    var movieHtml = '<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">' +
+                        '<div style="position: relative;">' +
+                        '<a href="/movie/detail?movieNo=' + movieNo + '" style="display: inline-block; position: relative;">' +
+                        '<div style="position: relative;">' +
+                        '<img src="/image/' + imageNo + '" class="img-thumbnail" style="width: 215px; height: 300px;">';
+                    
+                    movieHtml += '<i class="fa-regular fa-circle-xmark fa-xl" style="position: absolute; top: 19px; right: 7px; color: black;"></i>';
+
+                    movieHtml += '</div>' +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        '<a href="/movie/detail?movieNo=' + movieNo + '">' +
+                        movieVO.movieName +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="col">' +
+                        formattedDate + ' / ' + movieVO.movieNation +
+                        '</div>';
+
+                    // 조건부로 HTML을 추가
+                    if (movieVO.ratingAvg != 0) {
+                        movieHtml += '<div class="col">' +
+                            '평균 <i class="fa-solid fa-star"></i> ' + movieVO.ratingAvg + '점' +
+                            '</div>';
+                    }
+
+                    movieHtml += '</div>';
+
+                    moviesContainer.append(movieHtml);
+                });
+            },
+            error: function (error) {
+                // 에러 처리
+                console.error('데이터 가져오기 오류:', error);
+                
+                // AJAX 요청 실패 시에도 아이콘을 숨김
+                $('.fa-circle-xmark').hide();
+            }
+        });
+    }
+    
+</script>
 <style>
-.custom-next {
-	right: 0;
-	/*원하는 위치로 조정 (예: 오른쪽 끝에 배치)  */
-	left: auto;
-	top: 60%;
-	/*예: 50% 위로 이동 */
-	transform: translateY(-50%);
-	/*세로 중앙 정렬을 위한 추가 설정 */
-	color: #fff; /* 버튼 텍스트 색상 */
-	border-radius: 5px; /* 버튼 테두리 모양 설정 */
-}
-
-.custom-prev {
-	left: 0;
-	/*원하는 위치로 조정 (예: 왼쪽 끝에 배치) */
-	right: auto;
-	top: 60%;
-	/*예: 50% 위로 이동  */
-	transform: translateY(-50%);
-	/*세로 중앙 정렬을 위한 추가 설정  */
-	/* 		 color: #fff; /* 버튼 텍스트 색상 */ */
-	border-radius: 5px; /* 버튼 테두리 모양 설정 */
-}
-
-/*     .swiper-button-next:hover, */
-/* 	.swiper-button-prev:hover { */
-/* 	  background-color: #2980b9; /* hover 시 버튼 배경색 변경 */
-/* 	  /* 다른 스타일 속성들 추가 가능 */
 h3 {
 	color: rgb(179, 57, 57);
+}
+
+.fa-gear, fa-circle-xmark {
+    cursor: pointer;
 }
 </style>
 
 <!-- swiper cdn -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-<script
-	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 <div class="container-fluid">
-	<!-- 전체 페이지 폭 관리 -->
-	<div class="row">
-		<div class="col-md-10 offset-md-1">
+    <!-- 전체 페이지 폭 관리 -->
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
 			<div class="row mt-5 p-3">
-				<div class="col">
-					<h3>찜 목록</h3>
+				<div class="col d-flex justify-content-between align-items-center">
+					<h3 class="mb-0">찜 목록</h3>
+					<i class="fa-solid fa-gear fa-2xl"></i>
 				</div>
 			</div>
-			<div class="row justify-content-center">
-				<c:forEach var="wishMovieVO" items="${wishMovieList}">
-					<div class="col-sm-6 col-md-3 col-lg-2">
-						<div>
-							<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}"> <img
-								src="/image/${wishMovieVO.imageNo}" class="img-thumbnail"
-								style="width: 215px; height: 300px">
-							</a>
-						</div>
-						<div class="col">
-							<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
-								${wishMovieVO.movieName} </a>
-						</div>
-						<div class="col">
-							<fmt:formatDate value="${wishMovieVO.movieReleaseDate}"
-								pattern="yyyy" />
-							/ ${wishMovieVO.movieNation}
-						</div>
-						<c:if test="${wishMovieVO.ratingAvg != 0}">
-							<div class="col">
-								평균 <i class="fa-solid fa-star"></i> ${wishMovieVO.ratingAvg}점
-							</div>
-						</c:if>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-	</div>
+            <div class="row" id="movies-container">
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

@@ -153,17 +153,23 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/list/reviewList")
-	public String reviewList() {
+	public String reviewList(Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
 		return "member/list/reviewList";
 	}
 	
 	@RequestMapping("/list/ratingList")
-	public String ratingList() {
+	public String ratingList(Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
 		return "member/list/ratingList";
 	}
 	
 	@RequestMapping("/list/wishList")
-	public String wishList() {
+	public String wishList(Model model) {
+		int ratingCount = ratingDao.getCount();
+		model.addAttribute("ratingCount", ratingCount);
 		return "member/list/wishList";
 	}
 	

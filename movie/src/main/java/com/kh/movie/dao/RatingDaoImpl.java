@@ -87,4 +87,12 @@ public class RatingDaoImpl implements RatingDao{
 	public List<Integer> getRatingListByMemberId(String memberId) {
 		return sqlSession.selectList("rating.getRatingListByMemberId", memberId);
 	}
+	
+	@Override
+	public void deleteRating(String memberId, int movieNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberId", memberId);
+		params.put("movieNo", movieNo);
+		sqlSession.delete("rating.deleteRating", params);
+	}
 }
