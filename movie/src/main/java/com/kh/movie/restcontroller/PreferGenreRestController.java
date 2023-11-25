@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "선호장르 관리", description = "선호장르 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/preferGenre")
+@RequestMapping("/rest/preferGenre")
 public class PreferGenreRestController {
 	
 	@Autowired

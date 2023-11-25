@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/genre")
+@RequestMapping("/rest/genre")
 public class GenreRestController {
 	
 	@Autowired

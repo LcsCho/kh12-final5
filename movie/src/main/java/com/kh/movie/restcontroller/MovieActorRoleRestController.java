@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "영화 배우 역할 관리", description = "영화 배우 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/movieActorRole")
+@RequestMapping("/rest/movieActorRole")
 public class MovieActorRoleRestController {
 
 	@Autowired

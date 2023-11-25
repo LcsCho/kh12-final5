@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "검색 관리", description = "검색 관리를 위한 컨트롤러")
 @CrossOrigin
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/rest/search")
 public class SearchRestController {
 
 	@Autowired
