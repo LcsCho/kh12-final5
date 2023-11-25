@@ -310,7 +310,7 @@ public class MemberRestController {
 		return memberDao.selectListByPage(currentPage, pageSize);
 	}
 	
-	@GetMapping("/list/reviewList")
+	@GetMapping("/reviewList")
 	public String reviewList(HttpSession session, Model model) {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
@@ -338,11 +338,14 @@ public class MemberRestController {
 		return ratingMovieList;
 	}
 	
-	@GetMapping("/list/wishList")
-	public String wishList(HttpSession session, Model model) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
-		
+	@DeleteMapping("/ratingDelete")
+	public void ratingDelete(HttpSession session, @RequestParam int movieNo) {
+		String memberId = (String) session.getAttribute("name");
+		ratingDao.deleteRating(memberId, movieNo);
+	}
+	
+	@GetMapping("/wishList")
+	public List<MovieListVO> wishList(HttpSession session) {
 		String memberId = (String) session.getAttribute("name");
 		List<WishMovieRecommendVO> wishMovieRecommendVO = recommendDao.getWishMovie(memberId);
 		List<MovieListVO> wishMovieList = new ArrayList<>();
@@ -358,9 +361,7 @@ public class MemberRestController {
 			// 리스트에 추가
 			wishMovieList.add(wishMovieRecommendMovie);
 		}
-		log.debug("wishMovieList = {}", wishMovieList);
-		model.addAttribute("wishMovieList", wishMovieList);
-		return "member/list/wishList";
+		return wishMovieList;
 	}
 
 }
