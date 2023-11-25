@@ -148,56 +148,23 @@
 		$('#changePasswordModal').modal('show');
 	}
 
-	// 비밀번호 변경 처리
-	function changePassword() {
-		var newPassword = $('#newPw').val();
-		var confirmPassword = $('#confirmPw').val();
-
-		// 비밀번호 일치 여부 확인
-		if (newPassword !== confirmPassword) {
-			alert('비밀번호가 일치하지 않습니다.');
-			return;
-		}
-
-		//비밀번호 변경 요청
-		$.ajax({
-			url : "http://localhost:8080/rest/member/newPw",
-			method : "POST",
-			data : {
-				memberPw : newPassword
-			},
-			success : function(response) {
-				alert("비밀번호 재설정이 완료되었습니다.");
-
-				$('#changePasswordModal').modal('hide');
-
-				window.location.href = "/";
-			},
-			error : function(xhr, status, error) {
-				alert("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
-			}
-
-		});
-
-		// 모달 닫기
-		$('#changePasswordModal').modal('hide');
-	}
-    function openChangePasswordModal() {
-        $('#changePasswordModal').modal('show');
-    }
-
     // 비밀번호 변경 처리
     function changePassword() {
         var newPassword = $('#memberPassword').val();
         var confirmPassword = $('#password-check').val();
 
+        // 비밀번호가 입력되지 않았을 경우
+        if (!newPassword || !confirmPassword || newPassword.trim() === '' || confirmPassword.trim() === '') {
+            alert('비밀번호가 입력되지 않았습니다. \n 다시 시도해주세요.');
+            return;
+        }
 
         // 비밀번호 일치 여부 확인
         if (newPassword !== confirmPassword) {
             alert('비밀번호가 일치하지 않습니다.');
             return;
         }
-
+        
 
         //비밀번호 변경 요청
         $.ajax({
@@ -207,7 +174,7 @@
                 memberPw: newPassword
             },
             success: function (response) {
-                alert("비밀번호 재설정이 완료되었습니다.");
+                alert("비밀번호 재설정이 완료되었습니다. 다시 로그인해주세요!");
 
                 $('#changePasswordModal').modal('hide');
 
@@ -267,39 +234,11 @@
 		$('#exitModal').modal('show');
 	}
 
-	// 회원 탈퇴 처리
-	function exitMember() {
-		var memberPw = $('#inputPw').val(); // 사용자로부터 입력받은 비밀번호
-		console.log(memberPw);
-
-		$.ajax({
-			url : "http://localhost:8080/rest/member/exit",
-			method : "POST",
-			data : {
-				memberPw : memberPw
-			},
-			success : function(response) {
-				alert(response);
-				if (response.includes("탈퇴")) {
-					window.location.href = "/";
-				}
-				// 모달 닫기
-				$('#exitModal').modal('hide');
-			},
-			error : function(xhr, status, error) {
-				console.error(xhr.responseText);
-				alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
-			}
-		});
-	}
-   function openExitModal() {
-    $('#exitModal').modal('show');
-  }
-
   // 회원 탈퇴 처리
   function exitMember() {
     var memberPw = $('#inputPw').val(); // 사용자로부터 입력받은 비밀번호
     //console.log(memberPw);
+    
     
     $.ajax({
       url: "http://localhost:8080/rest/member/exit",
@@ -500,45 +439,12 @@
 <div class="modal fade" id="changePasswordModal" tabindex="-1"
 	role="dialog" aria-labelledby="changePasswordModalLabel"
 	aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="changePasswordModal">비밀번호 변경</h5>
-
 			</div>
-			<div class="modal-body">
-				<!-- 비밀번호 변경 폼 -->
-				<form id="changePasswordForm" action="" method="post"
-					autocomplete="off" onsubmit="changePassword(); return false;">
-					<!-- 비밀번호 입력 -->
-					<div class="form-group">
-						<label for="newPassword">새 비밀번호</label> <input type="password"
-							class="form-control" name="memberPw" id="newPw">
-					</div>
-					<!-- 확인용 비밀번호 입력 -->
-					<div class="form-group">
-						<label for="confirmPassword">비밀번호 확인</label> <input
-							type="password" class="form-control" id="confirmPw">
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">닫기</button>
-				<button type="submit" class="btn btn-primary"
-					onclick="changePassword()">변경하기</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="changePasswordModal">비밀번호 변경</h5>
-
-            </div>
+			
             <div class="modal-body">
                 <!-- 비밀번호 변경 폼 -->
                 <form id="changePasswordForm" action="" method="post" autocomplete="off"
@@ -546,14 +452,14 @@
                     <!-- 비밀번호 입력 -->
                     <div class="form-group">
                         <label for="newPassword">새 비밀번호</label>
-                        <input type="password" class="form-control" name="memberPw" id="memberPassword">
+                        <input type="password" class="form-control" name="memberPw" id="newPw">
                         <div class="valid-feedback">올바른 형식입니다</div>
             			<div class="invalid-feedback">형식이 올바르지 않습니다</div>
                   </div>
                     <!-- 확인용 비밀번호 입력 -->
                     <div class="form-group">
                         <label for="confirmPassword">비밀번호 확인</label>
-                        <input type="password" class="form-control" name="confirmPassword" id="password-check">
+                        <input type="password" class="form-control" name="confirmPassword" id="pw-check">
                     	<div class="valid-feedback"></div>
             			<div class="invalid-feedback"></div>
                     </div>
@@ -571,55 +477,11 @@
 <!-- 회원정보 수정 모달 -->
 <div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog"
 	aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5>
 			</div>
-
-			<div class="modal-body">
-				<!-- 회원정보 변경 폼 -->
-				<form id="changeInfoForm" action="" method="post" autocomplete="off"
-					onsubmit="changeInfo();">
-
-					<!-- 닉네임 입력 -->
-					<div class="form-group">
-						<label for="memberNickname">닉네임</label> <input type="text"
-							class="form-control" name="memberNickname" id="memberNickname"
-							value="${memberDto.memberNickname}">
-					</div>
-					<!-- 생년월일 입력 -->
-					<div class="form-group">
-						<label for="memberBirth">생년월일</label> <input type="date"
-							class="form-control" name="memberBirth" id="memberBirth"
-							value="${memberDto.memberBirth}">
-					</div>
-					<!-- 연락처 입력 -->
-					<div class="form-group">
-						<label for="memberContact">연락처</label> <input type="text"
-							class="form-control" name="memberContact" id="memberContact"
-							value="${memberDto.memberContact}">
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">닫기</button>
-				<button type="submit" class="btn btn-primary" onclick="changeInfo()">수정하기</button>
-			</div>
-		</div>
-	</div>
-</div>	
-	
-	
-	
-<div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5>
-            </div>
 
             <div class="modal-body">
                 <!-- 회원정보 변경 폼 -->
@@ -707,7 +569,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="submit" class="btn btn-primary" onclick="exitMember()">탈퇴하기</button>
+                <button type="submit" class="btn btn-primary" id="exitMember" onclick="exitMember()">탈퇴하기</button>
             </div>
         </div>
     </div>

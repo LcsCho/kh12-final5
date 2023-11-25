@@ -58,7 +58,7 @@ $(function(){
                     var memberEmail = window.memberEmail;
                     var no = $("#cert-input").val();
                     if (memberEmail.length == 0 || no.length == 0) return;
-
+                    
                     $.ajax({
                         url: "http://localhost:8080/rest/cert/check",
                         method: "post",
@@ -198,7 +198,7 @@ $(function(){
                     <div class="row mt-4">
                         <div class="col">
                             <div class="form-floating">
-                                <input type="date" name="memberBirth" class="form-control" name="memberBirth">
+                                <input type="date" name="memberBirth" class="form-control">
                                 <label>생년월일</label>
                                 <div class="invalid-feedback">잘못된 날짜 형식입니다</div>
                             </div>
