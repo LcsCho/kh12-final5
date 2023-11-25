@@ -372,7 +372,7 @@
 				<!-- 영화 정보 -->
 				<div class="row mt-5">
 				     <div class="col-2 offset-4 text-right">
-				         <img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
+				         <img src="/rest/image/movieMain/${review.movieNo}" class="img-thumbnail"  style="width: 215px; height: 300px">
 				     </div>
 				     <div class="col-6 text-right">
 				         <div class="row mt-5 pt-5">
@@ -401,7 +401,7 @@
 				<div class="card mt-5 view-container">
 					<div class="card-body">
 						<div>
-							<img src="images/user.png" class="userImage">
+							<img src="/images/user.jpg" class="userImage">
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							

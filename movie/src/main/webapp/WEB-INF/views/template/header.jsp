@@ -595,7 +595,7 @@ $(document).ready(function () {
 
 										<div class="col-4">
 											<a href="http://localhost:8080/"> <img
-												src="../images/mvc.png" width="150">
+												src="/images/mvc.png" width="150">
 											</a>
 										</div>
 

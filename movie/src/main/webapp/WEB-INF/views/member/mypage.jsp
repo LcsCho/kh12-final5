@@ -117,7 +117,7 @@
 				success : function(imageNo) {
 					console.log(imageNo);
 					//회원 이미지 교체
-					$(".member-image").attr("src", "/image/" + imageNo);
+					$(".member-image").attr("src", "/rest/image/" + imageNo);
 				},
 				error : function() {
 					alert("통신 오류 발생 \n잠시 후 다시 시도해주세요");
@@ -339,7 +339,7 @@
 							</c:when>
 							<c:otherwise>
 								<img
-									src="${pageContext.request.contextPath}/image/${memberImage}"
+									src="${pageContext.request.contextPath}/rest/image/${memberImage}"
 									class="img-fluid rounded-circle member-image img-thumbnail"
 									style="width: 230px; height: 230px;">
 							</c:otherwise>
@@ -467,7 +467,7 @@
 							<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 								<div>
 									<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}"> <img
-										src="/image/${todayMovieVO.imageNo}" class="img-thumbnail"
+										src="/rest/image/${todayMovieVO.imageNo}" class="img-thumbnail"
 										style="width: 250px; height: 310px">
 									</a>
 								</div>
