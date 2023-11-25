@@ -15,21 +15,21 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 
 	public void addInterceptors(InterceptorRegistry registry) {
 		
-		registry.addInterceptor(memberInterceptor)
-				.addPathPatterns(//비회원일 때 불가능
-						"/member/**"
-					)
-				.excludePathPatterns(//비회원일 때 가능
-						"/member/join",
-						"/member/joinFinish",
-						"/member/login",
-						"/member/idCheck",
-						"/member/nicknameCheck",
-						"/member/changePw"
-
-						
-						
-						);
+//		registry.addInterceptor(memberInterceptor)
+//				.addPathPatterns(//비회원일 때 불가능
+//						"/member/**"
+//					)
+//				.excludePathPatterns(//비회원일 때 가능
+//						"/member/join",
+//						"/member/joinFinish",
+//						"/member/login",
+//						"/member/idCheck",
+//						"/member/nicknameCheck",
+//						"/member/changePw"
+//
+//						
+//						
+//						);
 	}
 	
 	
