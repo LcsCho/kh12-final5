@@ -345,7 +345,8 @@ $(function () {
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
-				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
+				    
+	                $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
 				    $(htmlTemplate).find(".reviewContent").text(review.reviewContent);
@@ -378,13 +379,13 @@ $(function () {
 			<hr>
 			<div class="row text-center">
 				<div class="col">
-					<button type="button" class="btn btn-primary btn-link likeButton" data-reviewNo="">
+					<button type="button" class="btn btn-link likeButton" data-reviewNo="">
 						<i class="fa-regular fa-thumbs-up"><span class="likeCount"></span></i>
 					</button>
 				</div>
 				<div class="col">
 					<a class="commentButton">					
-						<button type="button" class="btn btn-primary btn-link replyButton">
+						<button type="button" class="btn btn-link replyButton">
 							<i class="fa-regular fa-comment"><span class="replyCount"></span></i>
 						</button>
 					</a>

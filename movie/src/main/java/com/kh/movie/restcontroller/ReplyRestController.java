@@ -46,6 +46,7 @@ public class ReplyRestController {
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
 		model.addAttribute("memberNickname", memberNickname);
+		log.debug("memberNickname = {}", memberNickname);
 		
 		return replyDao.findAll(reviewNo);
 	}

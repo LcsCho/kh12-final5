@@ -84,6 +84,10 @@ public class MovieController {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
 		
+		String memberId = (String) session.getAttribute("name");
+		String memberNickname = memberDao.findNicknameById(memberId);
+		model.addAttribute("memberNickname", memberNickname);
+		
 		//영화 정보 조회
 		List<MovieSimpleInfoDto> movieSimpleInfoList = reviewDao.findAll(movieNo);
 	    if (!movieSimpleInfoList.isEmpty()) {
@@ -105,6 +109,7 @@ public class MovieController {
 		if (!replyList.isEmpty()) {
 			model.addAttribute("reply", replyList.get(0));
 		}
+		log.debug("reply = {}", replyList);
 	    
 	    return "movie/review/detail";
 	}
@@ -112,6 +117,10 @@ public class MovieController {
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int movieNo, HttpSession session, Model model) {
 		MovieDto movieDto = movieDao.findByMovieNo(movieNo);
+		
+		String memberId = (String) session.getAttribute("name");
+		String memberNickname = memberDao.findNicknameById(memberId);
+		model.addAttribute("memberNickname", memberNickname);
 		
 		if(movieDto == null){
 			return "redirect:/";
