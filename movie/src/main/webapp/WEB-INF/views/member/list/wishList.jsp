@@ -37,7 +37,7 @@
         $.ajax({
             // 페이지가 처음 로드될 때나 새로고침할 때 아이콘을 숨김
             $('.xmark-container').hide();
-            url: '/member/ratingList',
+            url: '/rest/member/ratingList',
             method: 'GET',
             beforeSend: function () {
                 // AJAX 요청 전에 아이콘을 표시

@@ -25,7 +25,7 @@ $(function(){
 	var movieNo = params.get("movieNo");
 
 	$.ajax({
-		url:"/movieWish/check",
+		url:"/rest/movieWish/check",
 		method:"post",
 		data:{movieNo : movieNo},
 		success:function(response) {
@@ -40,7 +40,7 @@ $(function(){
 	
 	$(".fa-bookmark").click(function(){
 		$.ajax({
-			url:"/movieWish/action",
+			url:"/rest/movieWish/action",
 			method:"post",
 			data: {movieNo : movieNo},
 			success:function(response){

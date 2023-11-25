@@ -90,7 +90,7 @@ body {
 		var movieNo = params.get("movieNo");
 
 		$.ajax({
-			url : "/movieWish/check",
+			url : "/rest/movieWish/check",
 			method : "post",
 			data : {
 				movieNo : movieNo
@@ -109,7 +109,7 @@ body {
 		$(".fa-bookmark").click(
 				function() {
 					$.ajax({
-						url : "/movieWish/action",
+						url : "/rest/movieWish/action",
 						method : "post",
 						data : {
 							movieNo : movieNo
@@ -138,7 +138,7 @@ body {
         
         // 서버에서 현재 사용자의 평점을 가져오는 AJAX 요청
         $.ajax({
-            url: '/rating/'+movieNo,
+            url: '/rest/rating/'+movieNo,
             method: 'GET',
             data: { 
                 movieNo: movieNo
@@ -168,7 +168,7 @@ body {
 
             // 기존 별점을 확인하는 Ajax 요청
             $.ajax({
-                url: '/rating/' + movieNo,
+                url: '/rest/rating/' + movieNo,
                 method: 'GET',
                 success: function(response) {
 //                 	console.log(typeof response.ratingScore);
@@ -184,7 +184,7 @@ body {
                             if (confirmDelete) {
                                 // 사용자가 확인한 경우에만 삭제 처리
                                 $.ajax({
-                                    url: '/rating/' + response.ratingNo,
+                                    url: '/rest/rating/' + response.ratingNo,
                                     method: 'DELETE',
                                     success: function(deleteResponse) {
 //                                         console.log('평점이 성공적으로 삭제되었습니다.');
@@ -204,7 +204,7 @@ body {
                         } else {
                             // 이미 매긴 별점과 동일하지 않은 경우 수정 처리
                             $.ajax({
-                                url: '/rating/' + response.ratingNo,
+                                url: '/rest/rating/' + response.ratingNo,
                                 method: 'PUT',
                                 data: {
                                     ratingScore: selectedRating
@@ -221,7 +221,7 @@ body {
                     } else {
                         // 기존 별점이 없다면 바로 등록을 수행하는 Ajax 요청
                         $.ajax({
-                            url: '/rating/' + movieNo,
+                            url: '/rest/rating/' + movieNo,
                             method: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify({

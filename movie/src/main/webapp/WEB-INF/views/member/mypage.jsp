@@ -109,7 +109,7 @@
 			console.log(form);
 			form.append("image", input.files[0]);
 			$.ajax({
-				url : contextPath + "/member/upload",
+				url : contextPath + "/rest/member/upload",
 				method : "post",
 				processData : false,
 				contentType : false,
@@ -131,7 +131,7 @@
 				return;
 
 			$.ajax({
-				url : contextPath + "/member/delete",
+				url : contextPath + "/rest/member/delete",
 				method : "delete",
 
 				success : function(response) {
@@ -161,7 +161,7 @@
 
 		//비밀번호 변경 요청
 		$.ajax({
-			url : "http://localhost:8080/member/newPw",
+			url : "http://localhost:8080/rest/member/newPw",
 			method : "POST",
 			data : {
 				memberPw : newPassword
@@ -201,7 +201,7 @@
 
         //비밀번호 변경 요청
         $.ajax({
-            url: "http://localhost:8080/member/newPw",
+            url: "http://localhost:8080/rest/member/newPw",
             method: "POST",
             data: {
                 memberPw: newPassword
@@ -239,7 +239,7 @@
 
 		// AJAX를 통해 서버로 회원 정보 전송
 		$.ajax({
-			url : "http://localhost:8080/member/change",
+			url : "http://localhost:8080/rest/member/change",
 			method : "POST",
 			data : {
 				memberNickname : memberNickname,
@@ -273,7 +273,7 @@
 		console.log(memberPw);
 
 		$.ajax({
-			url : "http://localhost:8080/member/exit",
+			url : "http://localhost:8080/rest/member/exit",
 			method : "POST",
 			data : {
 				memberPw : memberPw
@@ -302,7 +302,7 @@
     //console.log(memberPw);
     
     $.ajax({
-      url: "http://localhost:8080/member/exit",
+      url: "http://localhost:8080/rest/member/exit",
       method: "POST",
       data: {
         memberPw: memberPw

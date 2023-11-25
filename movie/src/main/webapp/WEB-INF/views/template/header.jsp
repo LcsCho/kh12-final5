@@ -73,7 +73,7 @@ $(document).ready(function() {
         // Ajax를 이용한 비동기 요청
         $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath}/member/login",
+            url: "${pageContext.request.contextPath}/rest/member/login",
             data: {
                 memberId: $("#memberId").val(),
                  memberPw: $("#memberPw").val()
@@ -218,7 +218,7 @@ $(document).ready(function () {
 
             // 서버로 비밀번호 변경 요청을 보냄
             $.ajax({
-                url: "http://localhost:8080/member/changePw", 
+                url: "http://localhost:8080/rest/member/changePw", 
                 method: "POST",
                 data: {
                     memberId: memberId,
@@ -266,7 +266,7 @@ $(document).ready(function () {
             $("#recentContainer").hide();
 
             $.ajax({
-                url: "/search/movieName",
+                url: "/rest/search/movieName",
                 method: "GET",
                 data: { "keyword": keyword },
 
@@ -311,7 +311,7 @@ $(document).ready(function () {
         var keyword = $("#searchInput").val();
         
         $.ajax({
-            url: "/search/inputKeyword",
+            url: "/rest/search/inputKeyword",
             method: "POST",
             data: { "keyword": keyword },
             success: function (response) {
@@ -336,7 +336,7 @@ $(document).ready(function () {
     	 var currentText = $(this).val().trim();
     	 if (currentText === "") {
 	        $.ajax({
-	            url: "/search/showPopular",
+	            url: "/rest/search/showPopular",
 	            method: "GET",
 	            success: function (response) {
 // 	                console.log(response);
@@ -368,7 +368,7 @@ $(document).ready(function () {
 	        });
 	        // 최근 검색어를 서버에서 가져오는 Ajax 요청
 	        $.ajax({
-	            url: "/search/showRecent",
+	            url: "/rest/search/showRecent",
 	            method: "GET",
 	            success: function (response) {
 
@@ -386,7 +386,7 @@ $(document).ready(function () {
 	                	        if (confirm("정말로 모든 검색 기록을 삭제하시겠습니까?")) {
 	                	            // 사용자가 확인을 선택한 경우에만 Ajax 요청 보내기
 	                	            $.ajax({
-	                	                url: "/search/deleteAll",
+	                	                url: "/rest/search/deleteAll",
 	                	                method: "DELETE",
 	                	                success: function(response) {
 	                	                    // 요청이 성공하면 할 일 작성
@@ -431,7 +431,7 @@ $(document).ready(function () {
 					                	        if (confirm("정말로 검색 기록을 삭제하시겠습니까?")) {
 					                	            // 사용자가 확인을 선택한 경우에만 Ajax 요청 보내기
 					                	            $.ajax({
-					                	                url: "/search/deleteEach",
+					                	                url: "/rest/search/deleteEach",
 					                	                method: "DELETE",
 					                	                data: {keyword: keyword},
 					                	                success: function(response) {
