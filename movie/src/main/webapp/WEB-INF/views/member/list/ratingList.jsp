@@ -57,7 +57,7 @@
                     
                     // 새로운 div 태그로 fa-circle-xmark 아이콘을 감싸기
                     '<div class="xmark-container">' +
-                        '<i class="fa-regular fa-circle-xmark fa-xl" style="position: absolute; top: 20px; right: 20px; color: black;" data-movieNo="' + movieNo + '"></i>' +
+                        '<i class="fa-regular fa-circle-xmark fa-xl" style="position: absolute; top: 20px; right: 20px; color: black;"></i>' +
                     '</div>' +
                     '<div class="col">' +
                         '<a href="/movie/detail?movieNo=' + movieNo + '">' +
