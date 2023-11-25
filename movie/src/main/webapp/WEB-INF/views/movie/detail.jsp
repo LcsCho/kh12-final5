@@ -134,7 +134,7 @@ body {
     $(document).ready(function () {
         var params = new URLSearchParams(location.search);
         var movieNo = params.get("movieNo");
-        console.log("movieNo=" + movieNo);
+//         console.log("movieNo=" + movieNo);
         
         // 서버에서 현재 사용자의 평점을 가져오는 AJAX 요청
         $.ajax({
@@ -264,9 +264,6 @@ $(function () {
         var writeTemplate = $("#review-write-template").html();
         var writeHtmlTemplate = $.parseHTML(writeTemplate);
         var reviewContent = $(writeHtmlTemplate).find(".form-control");
-        reviewContent.on("input", function() {
-            console.log($(this).val());
-        });
 
         // 작성 취소
         $(writeHtmlTemplate).find(".write-cancel").click(function(){
@@ -292,7 +289,11 @@ $(function () {
                 success: function(response){
                     reviewWriteContainer.show();
                     $(writeHtmlTemplate).remove(); // 변수명 수정
-                }
+                    location.reload();
+                },
+                error : function() {
+					window.alert("이미 리뷰를 작성하셨습니다.");
+				},
             });
         });
 
@@ -300,6 +301,82 @@ $(function () {
         $(this).show();
     });
 });
+</script>
+
+<script>
+$(document).ready(function(){
+	var params = new URLSearchParams(location.search);
+    var movieNo = params.get("movieNo");
+    
+	//좋아요 체크
+	loadReviewLike(movieNo);
+	
+	function loadReviewLike(movieNo) {
+	    $.ajax({
+	        url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
+	        method: "post",
+	        data: {
+	            movieNo: movieNo,
+	        },
+	        success: function (response) {
+	            for (var i = 0; i < response.length; i++) {
+	                var reviewNo = response[i].reviewNo;
+	                var check = response[i].check;
+	                var liked = check == "Y";
+	                
+	                var $likeButton = $(".likeButton[data-reviewNo='" + reviewNo + "']");
+	                var $likeIcon = $likeButton.find(".fa-thumbs-up");
+	                
+	                var hrefInfo = "review/detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
+	                $(".commentButton").attr("href", hrefInfo);
+	
+	                if (liked) {
+	                    $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-solid");
+	                } else {
+	                    $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-regular");
+	                }
+	                $likeButton.find(".reviewLikeCount").text(response[i].count);
+	            }
+	        }
+		});
+	}
+
+	//좋아요 설정/해제
+	function reviewLike(reviewNo) {
+		$.ajax({
+			url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+			method: "post",
+			data: {
+				movieNo: movieNo,
+				reviewNo: reviewNo
+			},
+			success: function (response) {
+				loadReviewLike(movieNo);
+          	
+				var $likeButton = $(".likeButton[data-reviewno='" + reviewNo + "']");
+
+				if (response.check) {
+					$likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
+					$likeButton.find(".reviewLikeCount").text(response.count);
+				} else {
+					$likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid");
+					$likeButton.find(".reviewLikeCount").text(response.count);
+				}
+				
+			},
+			error : function() {
+				window.alert("로그인 후 이용 가능합니다.");
+			}
+		});
+	}
+  
+	$(".review-container").on("click", ".likeButton", function () {
+		var clickedReviewNo = $(this).data("reviewno");
+		reviewLike(clickedReviewNo);
+	});
+});
+
+
 </script>
 
 <script id="review-write-template" type="text/template">
@@ -435,18 +512,26 @@ $(function () {
 						</div>
 					</div>
 				</div>
+				
 				<div class="row row-cols-1 row-cols-md-5 g-4 review-container">
 					<c:forEach var="reviewDto" items="${reviewList}">
 						<div class="col">
 							<div class="review-item">
 								<strong>${reviewDto.memberNickname}</strong>
 								<p>${reviewDto.reviewContent}</p>
-								<p>좋아요 수: ${reviewDto.reviewLikeCount}</p>
-								<p>댓글수</p>
+								<button type="button" class="btn btn-primary btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
+									<i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
+								</button>
+									<a class="commentButton">
+										<button type="button" class="btn btn-primary btn-link replyButton">
+											<i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
+										</button>
+									</a>
 							</div>
 						</div>
 					</c:forEach>
 				</div>
+				
 			</div>
 
 		</div>

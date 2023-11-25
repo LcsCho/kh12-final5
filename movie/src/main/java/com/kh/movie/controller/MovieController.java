@@ -169,19 +169,13 @@ public class MovieController {
 	}
 	
 	//리뷰 등록
-	@RequestMapping("/writeReview")
-	public String writeReview(@RequestParam int movieNo,
-												@ModelAttribute ReviewDto reviewDto,
-												HttpSession session) {
-		String memberId = (String) session.getAttribute("name");
-		String memberNickname = memberDao.findNicknameById(memberId);
-		reviewDto.setMemberNickname(memberNickname);
-		
-		int reviewNo = reviewDao.sequence();
-		reviewDto.setReviewNo(reviewNo);
-		
+	@PostMapping("/writeReview")
+	public String writeReview(@RequestParam int movieNo) {
+		ReviewDto reviewDto = new ReviewDto();
 		reviewDto.setMovieNo(movieNo);
+		reviewDao.insert(reviewDto);
 		
 		return "redirect:detail?movieNo=" + movieNo;
 	}
+
 }
