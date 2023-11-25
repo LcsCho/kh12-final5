@@ -79,11 +79,7 @@ public class MemberRestController {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-
-//	@GetMapping("/memberCount/{memberCount}")
-//	public int count() {
-//		return memberDao.getCount();
-//	}
+  
 	@GetMapping("/memberCount")
 	public int count() {
 		return memberDao.getCount();
@@ -108,30 +104,28 @@ public class MemberRestController {
 	}
 
 	
-	 @PostMapping("/login")
-	    public ResponseEntity<String> login(@RequestParam String memberId,
-	                                        @RequestParam String memberPw,
-	                                        HttpSession session) {
-	        MemberDto findDto = memberDao.selectOne(memberId);
-	        log.debug("password={}", findDto.getMemberPw());
+  @PostMapping("/login")
+  public ResponseEntity<String> login(@RequestParam String memberId,
+                                      @RequestParam String memberPw,
+                                      HttpSession session) {
+      MemberDto findDto = memberDao.selectOne(memberId);
+      log.debug("password={}", findDto.getMemberPw());
 
-	        boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
-	        log.debug("isCorrectPw = {}",isCorrectPw);
+      boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
+      log.debug("isCorrectPw = {}",isCorrectPw);
 
-	        if (isCorrectPw) {
-	            session.setAttribute("name", findDto.getMemberId());
-	            session.setAttribute("level", findDto.getMemberLevel());
-	            memberDao.updateMemberLastLogin(memberId);
-	       
-	            log.debug("Login successful. Session attributes: name={}, level={}", session.getAttribute("name"), session.getAttribute("level"));
-	            
-	            return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
-	        } else {
-	            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
-	        }
-	    }
-	
+      if (isCorrectPw) {
+          session.setAttribute("name", findDto.getMemberId());
+          session.setAttribute("level", findDto.getMemberLevel());
+          memberDao.updateMemberLastLogin(memberId);
 
+          log.debug("Login successful. Session attributes: name={}, level={}", session.getAttribute("name"), session.getAttribute("level"));
+
+          return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+      } else {
+          return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
+      }
+  }
 	
 	//아이디 체크(이메일주소)
 	@PostMapping("/idCheck")
@@ -154,7 +148,6 @@ public class MemberRestController {
 			return "N";
 		}
 	}
-	
 	
 	//회원 정보 수정
 	@PostMapping("/change")
@@ -299,12 +292,14 @@ public class MemberRestController {
 //		return memberDao.selectList(memberNickname);
 //	}
 	
+  //검색 회원 리스트 페이지네이션
 	@GetMapping("/adminSearch/{memberNickname}/page/{searchCurrentPage}/size/{searchPageSize}")
 	public List<MemberDto> adminSearch(
 			@PathVariable String memberNickname, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
 		return memberDao.selectList(memberNickname, searchCurrentPage, searchPageSize);
 	}
-	
+  
+	//전체 회원 리스트 페이지네이션
 	@GetMapping("page/{currentPage}/size/{pageSize}")
 	public List<MemberDto> selectListByPage(@PathVariable int currentPage, @PathVariable int pageSize) {
 		return memberDao.selectListByPage(currentPage, pageSize);

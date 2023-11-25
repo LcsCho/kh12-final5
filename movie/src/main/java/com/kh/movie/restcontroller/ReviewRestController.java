@@ -40,6 +40,13 @@ public class ReviewRestController {
 		else return ResponseEntity.status(404).build();
 	}
 	
-
+	@GetMapping("/reviewCount")
+	public int reviewCount() {
+		return reviewDao.reviewCount();
+	}
 	
+	@GetMapping("/page/{currentPage}/size/{pageSize}")
+	public List<AdminReviewListVO> adminReviewListByPage(@PathVariable int currentPage, @PathVariable int pageSize){
+		return reviewDao.adminReviewListByPage(currentPage, pageSize);
+	}
 }

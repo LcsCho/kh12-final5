@@ -32,6 +32,7 @@ import com.kh.movie.dao.MovieActorRoleDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.MovieGenreDao;
 import com.kh.movie.dto.ImageDto;
+import com.kh.movie.dto.MemberDto;
 import com.kh.movie.dto.MovieActorRoleDto;
 import com.kh.movie.dto.MovieDto;
 import com.kh.movie.dto.MovieGenreDto;
@@ -84,6 +85,16 @@ public class MovieRestController {
 	public int count() {
 		return movieDao.getCount();
 	}
+	
+	@GetMapping("/movieListCount")
+	public int movieListCount() {
+		return movieDao.movieListCount();
+	}
+	
+	@GetMapping("/searchCount/{movieName}")
+	public int searchCount(String movieName) {
+		return movieDao.searchCount(movieName);
+	}
 
 //	@PostMapping("/")
 //	public void insert(@RequestBody MovieDto movieDto) {
@@ -113,7 +124,7 @@ public class MovieRestController {
 
 	@GetMapping("/adminMovieList")
 	public List<AdminMovieListVO> adminMovieList() {
-		return movieDao.selectAdminMovieList();
+		return movieDao.adminMovieList();
 	}
 
 	@PutMapping("/{movieNo}")
@@ -257,9 +268,17 @@ public class MovieRestController {
 //
 //	}
 	
-	@GetMapping("/adminSearch/{movieName}")
-	public List<AdminMovieListVO> adminSearch(String movieName) {
-		return movieDao.selectAdminMovieList(movieName);
+	//
+	@GetMapping("/page/{currentPage}/size/{pageSize}")
+	public List<AdminMovieListVO> selectAdminMovieListByPage(
+			@PathVariable int currentPage, @PathVariable int pageSize) {
+		return movieDao.selectAdminMovieListByPage(currentPage, pageSize);
+	}
+	
+	@GetMapping("/adminSearch/{movieName}/page/{searchCurrentPage}/size/{searchPageSize}")
+	public List<AdminMovieListVO> adminSearch(
+			@PathVariable String movieName, @PathVariable int searchCurrentPage, @PathVariable int searchPageSize) {
+		return movieDao.selectAdminSearchListByPage(movieName, searchCurrentPage, searchPageSize);
 	}
 	
 	@GetMapping("/imageNoList/{movieNo}")

@@ -19,7 +19,7 @@ public interface MemberDao {
 	List<MemberDto> selectList();
 	List<MemberDto> selectListByPage(int currentPage, int pageSize);
 //	List<MemberDto> selectList(String memberNickname);
-	List<MemberDto> selectList(String memberNickname, int searchCurrentPage, int searchPageSize);
+	List<MemberDto> selectSearchList(String memberNickname, int searchCurrentPage, int searchPageSize);
 	boolean editUnit(MemberDto memberDto, String memberLevel);
 	boolean delete(String memberId);
 	

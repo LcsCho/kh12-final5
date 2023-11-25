@@ -94,7 +94,7 @@ public class MemberDaoImpl implements MemberDao{
 //	}
 	
 	@Override
-	public List<MemberDto> selectList(String memberNickname, int searchCurrentPage, int searchPageSize) {
+	public List<MemberDto> selectSearchList(String memberNickname, int searchCurrentPage, int searchPageSize) {
 		int end = searchCurrentPage * searchPageSize;
 		int begin = end - (searchPageSize-1);
 		Map<String, Object> params = Map.of("memberNickname", memberNickname, "begin", begin, "end", end);

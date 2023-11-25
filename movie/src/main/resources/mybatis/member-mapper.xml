@@ -71,11 +71,6 @@
 		member_nickname = #{memberNickname}
 	</select>
 
-	<!-- 회원 수 출력 쿼리문 -->
-	<select id="count" resultType="int">
-		select count(*) from member
-	</select>
-
 	<!-- 회원 아이디로 회원 닉네임 검색 -->
 	<select id="findNicknameById" resultType="String">
 		select member_nickname
@@ -111,6 +106,11 @@
 		where member_id = #{memberId}
 	</select>
 	
+	<!-- 회원 수 출력 쿼리문 -->
+	<select id="count" resultType="int">
+		select count(*) from member
+	</select>
+	
 	<!-- 검색 회원 수 -->
 	<select id="searchCount" resultType="int">
 		select count(*) from member WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
@@ -122,6 +122,15 @@
 <!-- 		WHERE INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0 -->
 <!-- 	</select> -->
 	
+	<!-- 페이징 목록 -->
+	<select id="selectListByPage" resultType="MemberDto">
+		select * from (
+			select rownum rn, TMP.* from (
+				select * from member order by member_join desc
+			)TMP
+		) where rn between #{begin} and #{end}
+	</select>
+	
 	<select id="adminSearchListByPage" resultType="MemberDto">
 		select * from (
 			select rownum rn, TMP.* from (
@@ -132,15 +141,7 @@
 					INSTR(LOWER(member_nickname), LOWER(#{memberNickname})) > 0
 				</if> 
 				</where>
-			)TMP
-		) where rn between #{begin} and #{end}
-	</select>
-	
-	<!-- 페이징 목록 -->
-	<select id="selectListByPage" resultType="MemberDto">
-		select * from (
-			select rownum rn, TMP.* from (
-				select * from member order by member_join desc
+				order by member_nickname desc
 			)TMP
 		) where rn between #{begin} and #{end}
 	</select>

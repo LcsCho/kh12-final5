@@ -88,12 +88,34 @@ public class ActorDaoImpl implements ActorDao{
 	}
 	
 	@Override
-	public List<ActorDto> selectList(String actorName) {
-		return sqlSession.selectList("actor.adminSearch", actorName);
-	}
-	@Override
 	public List<Integer> findImageNoByActorName(String actorName) {
 		return sqlSession.selectList("actor.findImageNoByActorName",actorName);
+	}
+	
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("actor.count");
+	}
+	
+	@Override
+	public int searchCount(String actorName) {
+		return sqlSession.selectOne("actor.searchCount", actorName);
+	}
+	
+	@Override
+	public List<ActorViewVO> selectListByPage(int currentPage, int pageSize) {
+		int end = currentPage * pageSize;
+		int begin = end - (pageSize-1);
+		Map params = Map.of("begin", begin, "end", end);
+		return sqlSession.selectList("actor.actorListByPage", params);
+	}
+	
+	@Override
+	public List<ActorDto> selectList(String actorName, int searchCurrentPage, int searchPageSize) {
+		int end = searchCurrentPage * searchPageSize;
+		int begin = end - (searchPageSize-1);
+		Map<String, Object> params = Map.of("actorName", actorName, "begin", begin, "end", end);
+		return sqlSession.selectList("actor.adminSearchListByPage", params);
 	}
 
 }

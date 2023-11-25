@@ -10,7 +10,6 @@
 		select actor_seq.nextval from dual
 	</select>
 
-
 	<select id="findAll" resultType="ActorDto">
 		select * from actor order by actor_no desc
 	</select>
@@ -20,6 +19,7 @@
 		where instr(actor_name, #{actorName}) > 0
 		order by actor_name desc
 	</select>
+	
 	<select id="findByActorNo" resultType="ActorDto">
 		select * from actor 
 		where actor_no = #{actorNo}
@@ -40,7 +40,6 @@
 		actor_name = #{dto.actorName}
 		where actor_no = #{actorNo}
 	</update>
-
 
 	<update id="editUnit">
 		update actor
@@ -64,20 +63,53 @@
 		select * from image where image_no=(
 			select image_no from actor_image
 			where actor_no=#{actorNo})
-		
 	</select>
+	
 	<select id="actorList" resultType="ActorViewVO">
 		select * from actor_view
 	</select>
 	
-	<select id="adminSearch" parameterType="String" resultType="ActorDto">
-		SELECT * 
-    	FROM actor
-    	WHERE INSTR(LOWER(actor_name), LOWER(#{actorName})) > 0
+	<select id="count" resultType="int">
+		select count(*) from actor_view
 	</select>
 	
+	<select id="searchCount" resultType="int">
+		select count(*) from actor 
+		WHERE INSTR(LOWER(actor_name), LOWER(#{actorName})) > 0
+	</select>
+	
+	<select id="actorListByPage" resultType="ActorViewVO">
+		select * from (
+			select rownum rn, TMP.* from (
+				select * from actor_view order by actor_name asc
+			)TMP
+		) where rn between #{begin} and #{end}
+	</select>
+	
+	<select id="adminSearchListByPage" resultType="ActorDto">
+		select * from (
+			select rownum rn, TMP.* from (
+				SELECT * 
+		    	FROM actor
+		    	<where>
+		    	<if test="actorName != null">
+		    		INSTR(LOWER(actor_name), LOWER(#{actorName})) > 0
+		    	</if>
+		    	</where>
+		    	order by actor_name asc 
+			)TMP
+		) where rn between #{begin} and #{end}
+	</select>
+	
+<!-- 	<select id="adminSearch" parameterType="String" resultType="ActorDto"> -->
+<!-- 		SELECT *  -->
+<!--     	FROM actor -->
+<!--     	WHERE INSTR(LOWER(actor_name), LOWER(#{actorName})) > 0 -->
+<!-- 	</select> -->
+
 	<select id="findImageNoByActorName" resultType="int">
 		select image_no from actor_image where actor_no in
 		(select actor_no from actor where actor_name like '%' || #{actorName} || '%')
 	</select>
+	
 </mapper>

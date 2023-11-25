@@ -126,6 +126,18 @@ public class ReviewDaoImpl implements ReviewDao{
   	public int reviewCountByMemberId(String memberId) {
   		return sqlSession.selectOne("review.reviewCountByMemberId", memberId);
   	}
-
+  	
+  	@Override
+  	public int reviewCount() {
+  		return sqlSession.selectOne("review.countList");
+  	}
+  	
+  	@Override
+  	public List<AdminReviewListVO> adminReviewListByPage(int currentPage, int pageSize) {
+  		int end = currentPage * pageSize;
+		int begin = end - (pageSize-1);
+		Map params = Map.of("begin", begin, "end", end);
+  		return sqlSession.selectList("review.adminReviewListByPage", params);
+  	}
 
 }
