@@ -369,7 +369,7 @@ $(function () {
 	<div class="card mt-3">
 		<div class="card-body">
 			<div>
-				<img src="images/user.png" class="userImage">
+				<img src="/images/user.jpg" class="userImage">
 				<span class="card-title ms-3 memberNickname" style="font-weight: bold; font-size: 20px;"></span>
 				<i class="fa-solid fa-star"></i><span class="ratingScore"></span>
 			</div>
@@ -411,7 +411,7 @@ $(function () {
 			
 			<div class="row">
 	            <div class="col-2 offset-4 text-right">
-	                <img src="./images/chunsik.jpeg" class="img-thumbnail"  style="width: 215px; height: 300px">
+	                <img src="/rest/image/movieMain/${movieNo}" class="img-thumbnail"  style="width: 215px; height: 300px">
 	            </div>
 	            <div class="col-6 text-right">
 	                <div class="row mt-5 pt-5">

@@ -402,7 +402,7 @@ $(document).ready(function(){
 		<div class="row">
 			<!-- Movie Poster -->
 			<div class="col-md-4 text-center">
-				<img src="/image/${mainImgNo}" class="img-thumbnail"
+				<img src="/rest/image/${mainImgNo}" class="img-thumbnail"
 					style="width: 215px; height: 300px">
 				<!-- Rating Section -->
 <%-- 				<c:choose> --%>
@@ -481,7 +481,7 @@ $(document).ready(function(){
 			<c:if test="${movieDetailList != null}">
 				<c:forEach var="movieDetailVO" items="${movieDetailList}">
 					<div class="col" style="width: 215px;">
-						<img src="/image/${movieDetailVO.detailImgNo}"
+						<img src="/rest/image/${movieDetailVO.detailImgNo}"
 							class="img-thumbnail" style="width: 215px; height: 300px">
 					</div>
 				</c:forEach>

@@ -51,7 +51,7 @@
                     '<div style="position: relative;">' +
                     '<a href="/movie/detail?movieNo=' + movieNo + '" style="display: inline-block; position: relative;">' +
                     '<div style="position: relative;">' +
-                    '<img src="/image/' + imageNo + '" class="img-thumbnail" style="width: 215px; height: 300px;">' +
+                    '<img src="/rest/image/' + imageNo + '" class="img-thumbnail" style="width: 215px; height: 300px;">' +
                     '</div>' +
                     '</a>' +
                     

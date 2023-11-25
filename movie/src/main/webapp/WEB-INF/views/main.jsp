@@ -67,7 +67,7 @@ h3 {
 								<div class="swiper-slide">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<a href="/movie/detail?movieNo=${movieVO.movieNo}"> <img
-											src="/image/${movieVO.imageNo}" class="img-thumbnail"
+											src="/rest/image/${movieVO.imageNo}" class="img-thumbnail"
 											style="width: 250px; height: 310px;">
 											 <!--<img src="https://picsum.photos/215/300"  -->
 											<!--class="img-thumbnail" style="width:250px; height: 310px;"> -->
@@ -122,7 +122,7 @@ h3 {
 								<div class="swiper-slide">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
-											<img src="/image/${mvcTop10RecommendVO.imageNo}"
+											<img src="/rest/image/${mvcTop10RecommendVO.imageNo}"
 											class="img-thumbnail" style="width: 250px; height: 310px;">
 											<!--  										<img src="https://picsum.photos/215/300"  -->
 											<!--                                         class="img-thumbnail" style="width:250px; height: 310px;"> -->
@@ -171,7 +171,7 @@ h3 {
 										<div>
 											<a
 												href="/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
-												<img src="/image/${mvcCriticTop10RecommendVO.imageNo}"
+												<img src="/rest/image/${mvcCriticTop10RecommendVO.imageNo}"
 												class="img-thumbnail" style="width: 250px; height: 310px">
 											</a>
 										</div>
@@ -213,7 +213,7 @@ h3 {
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<div>
 											<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
-												<img src="/image/${todayMovieVO.imageNo}"
+												<img src="/rest/image/${todayMovieVO.imageNo}"
 												class="img-thumbnail" style="width: 250px; height: 310px">
 											</a>
 										</div>
@@ -266,7 +266,7 @@ h3 {
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<div>
 											<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
-												<img src="/image/${seasonMovieVO.imageNo}"
+												<img src="/rest/image/${seasonMovieVO.imageNo}"
 												class="img-thumbnail" style="width: 250px; height: 310px">
 											</a>
 										</div>
@@ -314,7 +314,7 @@ h3 {
 													<a
 														href="/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
 														<img
-														src="/image/${preferGenreByMemberRecommendVO.imageNo}"
+														src="/rest/image/${preferGenreByMemberRecommendVO.imageNo}"
 														class="img-thumbnail" style="width: 250px; height: 310px">
 													</a>
 												</div>
@@ -370,7 +370,7 @@ h3 {
 											<div>
 												<a
 													href="/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
-													<img src="/image/${ageGroupRecommendVO.imageNo}"
+													<img src="/rest/image/${ageGroupRecommendVO.imageNo}"
 													class="img-thumbnail" style="width: 250px; height: 310px">
 												</a>
 											</div>
@@ -421,7 +421,7 @@ h3 {
 										<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 											<div>
 												<a href="/movie/detail?movieNo=${genderRecommendVO.movieNo}">
-													<img src="/image/${genderRecommendVO.imageNo}"
+													<img src="/rest/image/${genderRecommendVO.imageNo}"
 													class="img-thumbnail" style="width: 250px; height: 310px">
 												</a>
 											</div>
@@ -495,7 +495,7 @@ h3 {
 											<div>
 												<a
 													href="/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
-													<img src="/image/${ageGroupGenderRecommendVO.imageNo}"
+													<img src="/rest/image/${ageGroupGenderRecommendVO.imageNo}"
 													class="img-thumbnail" style="width: 250px; height: 310px">
 												</a>
 											</div>
@@ -538,7 +538,7 @@ h3 {
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 												<div>
 													<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
-														<img src="/image/${wishMovieVO.imageNo}"
+														<img src="/rest/image/${wishMovieVO.imageNo}"
 														class="img-thumbnail" style="width: 215px; height: 300px">
 													</a>
 												</div>
@@ -581,7 +581,7 @@ h3 {
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 												<div>
 													<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
-														<img src="/image/${againRecommendVO.imageNo}"
+														<img src="/rest/image/${againRecommendVO.imageNo}"
 														class="img-thumbnail" style="width: 250px; height: 310px">
 													</a>
 												</div>
