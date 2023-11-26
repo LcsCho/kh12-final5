@@ -15,7 +15,7 @@ public interface ReviewDao {
 	boolean edit(int reviewNo, String reviewContent);
 	List<ReviewListVO> selectList(int movieNo);
 	List<AdminReviewListVO> selectAdminReviewList();
-	ReviewListVO findByReviewNo(int reviewNo); //리뷰 상세 조회
+	ReviewListVO findByReviewNo(int reviewNo,int movieNo); //리뷰 상세 조회
 	
 	List<ReviewListVO> findByDateDesc(int movieNo);//최신순
 	List<ReviewListVO> findByDateAsc(int movieNo);//오래된순

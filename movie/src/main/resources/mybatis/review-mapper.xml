@@ -73,7 +73,7 @@
 	
 	<!-- 상세조회 -->
 	<select id="findByReviewNo" resultType="ReviewListVO">
-		select DISTINCT * from review_list where review_no = #{reviewNo}
+		select * from review_list where review_no =#{reviewNo} and movie_no=#{movieNo}
 	</select>
 
 	<!-- 영화에 달린 리뷰 조회 -->
