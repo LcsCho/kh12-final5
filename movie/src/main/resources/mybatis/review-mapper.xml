@@ -113,4 +113,8 @@
 		) where rn between #{begin} and #{end}
 	</select>
 	
+	<select id="findListByMemberNickname" resultType="ReviewListVO">
+		SELECT * FROM REVIEW_LIST WHERE MEMBER_NICKNAME = #{memberNickname}
+	</select>
+	
 </mapper>
