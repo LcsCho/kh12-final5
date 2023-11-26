@@ -16,4 +16,5 @@ public interface MovieWishDao {
 	int count(int wishNo);
 	int wishCountByMemberId(String memberId);
 	int count(String memberId);
+	void deleteWish(String memberId, int movieNo);
 }
