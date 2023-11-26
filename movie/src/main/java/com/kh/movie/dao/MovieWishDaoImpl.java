@@ -1,6 +1,8 @@
 package com.kh.movie.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +69,14 @@ public class MovieWishDaoImpl implements MovieWishDao{
 	public int count(String memberId) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public void deleteWish(String memberId, int movieNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberId", memberId);
+		params.put("movieNo", movieNo);
+		sqlSession.delete("movieWish.deleteWish", params);
+		
 	}
 }

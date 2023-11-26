@@ -35,10 +35,12 @@ import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
+import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieVO;
+import com.kh.movie.vo.ReviewListVO;
 import com.kh.movie.vo.WishMovieRecommendVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,6 +67,15 @@ public class MemberRestController {
 	
 	@Autowired
 	private RecommendDao recommendDao;
+
+
+	
+	@Autowired
+	private MovieWishDao movieWishDao;
+	
+	@Autowired
+	private ReviewDao reviewDao;
+
 
 	@Autowired
 	private FileUploadProperties props;
@@ -109,10 +120,16 @@ public class MemberRestController {
                                       @RequestParam String memberPw,
                                       HttpSession session) {
       MemberDto findDto = memberDao.selectOne(memberId);
-      log.debug("password={}", findDto.getMemberPw());
+      //log.debug("password={}", findDto.getMemberPw());
+      
+      if (findDto == null) {
+          // 아이디가 존재하지 않는 경우
+          return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+      }
+
 
       boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
-      log.debug("isCorrectPw = {}",isCorrectPw);
+      //log.debug("isCorrectPw = {}",isCorrectPw);
 
       if (isCorrectPw) {
           session.setAttribute("name", findDto.getMemberId());
@@ -154,7 +171,7 @@ public class MemberRestController {
 	public String change(HttpSession session, @ModelAttribute MemberDto memberDto) {
 		String memberId = (String) session.getAttribute("name");
 		
-		MemberDto findDto = memberDao.selectOne(memberId);
+		//MemberDto findDto = memberDao.selectOne(memberId);
 		
 		memberDto.setMemberId(memberId);
 		 System.out.println("Received inputDto: " + memberDto);
@@ -306,12 +323,15 @@ public class MemberRestController {
 	}
 	
 	@GetMapping("/reviewList")
-	public String reviewList(HttpSession session, Model model) {
+	public List<ReviewListVO> reviewList(HttpSession session, Model model) {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
 		
 		String memberId = (String) session.getAttribute("name");
-		return "member/list/reviewList";
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		String memberNickname = memberDto.getMemberNickname();
+		List<ReviewListVO> reviewList = reviewDao.getListByMemberNickname(memberNickname); 
+		return reviewList;
 	}
 	
 	@GetMapping("/ratingList")

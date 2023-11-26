@@ -37,10 +37,10 @@
 	</delete>
 	
 	<!-- 영화 번호로 상위 좋아요 10개 조회 (상세 리뷰 리스트 출력용)-->
-	<select id="findAllByMovieNo" resultType="reviewDto">
+	<select id="findAllByMovieNo" resultType="ReviewListVO">
 		select * from (
 			select rownum rn, TMP.* from(
-				select * from review where movie_no = #{movieNo} order by review_like_count desc
+				select * from review_list where movie_no = #{movieNo} order by review_like_count desc
 			)TMP
 		) where rn between 1 and 10
 	</select>
@@ -73,7 +73,7 @@
 	
 	<!-- 상세조회 -->
 	<select id="findByReviewNo" resultType="ReviewListVO">
-		select DISTINCT * from review_list where review_no = #{reviewNo}
+		select * from review_list where review_no =#{reviewNo} and movie_no=#{movieNo}
 	</select>
 
 	<!-- 영화에 달린 리뷰 조회 -->
@@ -111,6 +111,10 @@
 				select * from admin_review_list order by review_no desc
 			)TMP
 		) where rn between #{begin} and #{end}
+	</select>
+	
+	<select id="findListByMemberNickname" resultType="ReviewListVO">
+		SELECT * FROM REVIEW_LIST WHERE MEMBER_NICKNAME = #{memberNickname}
 	</select>
 	
 </mapper>

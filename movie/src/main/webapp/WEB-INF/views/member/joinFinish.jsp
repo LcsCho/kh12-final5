@@ -66,6 +66,19 @@
     border-width: 2px;
     font-size: 16px;
 }
+.btn-danger{
+	background-color:#B33939;
+}
+
+.btn-secondary{
+	background-color:rgb(241, 185, 185);
+	border:rgb(241, 185, 185);
+	}
+.btn-secondary:hover{
+	background:#eccccc;
+	border:#eccccc;
+	}
+
 </style>
 
 <!-- 모달 창 스크립트 -->
@@ -255,7 +268,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary close-skip" 
                 	data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" 
+                <button type="button" class="btn btn-danger" 
                 	id="skipConfirmBtn">확인</button>
             </div>
         </div>

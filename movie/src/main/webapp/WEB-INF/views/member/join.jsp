@@ -5,7 +5,9 @@
 
 <script src="/js/join.js"></script>
 <style>
-
+.btn-danger{
+background-color:#B33939;
+}
 </style>
 
 
@@ -112,7 +114,7 @@ $(function(){
                             <div class="form-floating">
                                 <input type="email" id="memberEmail" class="form-control" placeholder=""
                                     name="memberId">
-                                <label>아이디</label>
+                                <label>아이디(이메일)</label>
                             </div>
                         </div>
                         <div class="col-3 d-flex align-items-center">

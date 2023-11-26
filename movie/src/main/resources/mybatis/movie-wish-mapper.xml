@@ -43,4 +43,8 @@
 		select count(*) from movie_wish where member_id = #{memberId}
 	</select>
 	
+	<delete id="deleteWish">
+		DELETE FROM movie_wish WHERE MEMBER_id = #{memberId} AND movie_no = #{movieNo}
+	</delete>
+	
 </mapper>

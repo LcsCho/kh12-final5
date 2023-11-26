@@ -48,7 +48,7 @@ public class ReviewDaoImpl implements ReviewDao{
 	}
 
 	@Override
-	public List<ReviewDto> selectList(int movieNo) {
+	public List<ReviewListVO> selectList(int movieNo) {
 		return sqlSession.selectList("review.findAllByMovieNo", movieNo);
 	}
 
@@ -59,8 +59,11 @@ public class ReviewDaoImpl implements ReviewDao{
 	
 	//리뷰 상세 조회
 	@Override
-	public ReviewListVO findByReviewNo(int reviewNo) {
-		return sqlSession.selectOne("review.findByReviewNo", reviewNo);
+	public ReviewListVO findByReviewNo(int reviewNo,int movieNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("reviewNo", reviewNo);
+		params.put("movieNo",movieNo);
+		return sqlSession.selectOne("review.findByReviewNo", params);
 	}
 	
 	//최신순 조회
@@ -138,6 +141,11 @@ public class ReviewDaoImpl implements ReviewDao{
 		int begin = end - (pageSize-1);
 		Map params = Map.of("begin", begin, "end", end);
   		return sqlSession.selectList("review.adminReviewListByPage", params);
+  	}
+  	
+  	@Override
+  	public List<ReviewListVO> getListByMemberNickname(String memberNickname) {
+  		return sqlSession.selectList("review.findListByMemberNickname", memberNickname);
   	}
 
 }

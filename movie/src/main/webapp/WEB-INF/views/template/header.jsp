@@ -32,15 +32,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/flatly/bootstrap.min.css"
 	rel="stylesheet">
-	
-	<style>
-	.logout-btn{
-	color:#B33939;
-	}
-	.btn-primary{
-	background-color:#B33939;
-	}
-	</style>
+
 
 <script src="js/header.js"></script>
 
@@ -52,11 +44,16 @@
     $(document).ready(function () {
         $('#loginModal').on('hidden.bs.modal', function () {
             // 모달이 닫힌 후
+             if ($(e.target).hasClass('modal')) {
              window.location.href = window.location.href;//이용중인 페이지 유지
-        });
+             }
+          });
 
         // 비밀번호 찾기 모달 표시를 위한 이벤트 처리
         $('#forgotPasswordLink').click(function () {
+        	//부모 모달 닫기
+        	 $('#loginModal').modal('hide');
+        	//비밀번호 찾기 모달 열기
             $('#forgotPasswordModal').modal('show');
         });
     });
@@ -81,24 +78,40 @@ $(document).ready(function() {
             success: function(response) {
                 // 로그인 성공 시의 동작
                $("#loginModal").modal("hide");
-               if (response && response.redirect) {
-                   // 만약 로그인 성공 후 redirect 속성이 있다면 해당 페이지로 이동
-                   window.location.href = response.redirect;
-               } else {
-                   // 페이지 주소에 "join"이라는 단어가 포함되어 있다면 메인 페이지로 이동
-                   if (window.location.href.indexOf("join") !== -1) {
+                   // 만약 join페이지에서 로그인할 경우 성공 시, 메인페이지로 이동
+               if (window.location.href.indexOf("join") !== -1) {
                        window.location.href = "/";
-                   }
+            	  
+               } else {
+            	   //그 외 다른 페이지에서 로그인할 경우엔 성공 시, 해당 페이지 유지
+                   location.reload();
+                  
                }
            },
-            error: function(error) {
-                // 로그인 실패 시의 동작
-                alert("아이디,비밀번호가 일치하지 않습니다.");
-            }
+           error: function(xhr) {
+               // 로그인 실패 시의 동작
+               if (xhr.status === 401) {
+                   alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+               } else if (xhr.status === 404) {
+                   alert("아이디가 존재하지 않습니다.");
+               } else {
+                   alert("로그인 실패: " + xhr.statusText);
+               }
+           }
         });
     });
 });
 
+</script>
+
+<!-- 로그아웃 모달 -->
+<script>
+$(document).ready(function () {
+    $("#logoutButton").click(function () {
+       
+        window.location.href = "/member/logout";
+    });
+});
 </script>
 
 <!-- 비밀번호 재설정 -->
@@ -137,13 +150,14 @@ $(function(){
                    $(".btn-cert").hide();
                    $(".btn-emailSend").find("span").text("인증번호 재발송");
                    // window.alert("이메일 확인하세요!");
-
-                   $(".cert-wrapper").show();
-                   $(".btn-cert").show();
-                   window.email = email;
+                   
+                    $(".cert-wrapper").show();
+                    $(".btn-cert").show();
+                    window.email = email;
                },
            });
        });
+       
 
        
        //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
@@ -180,7 +194,7 @@ $(function(){
                        //if (!$('#resetPasswordButton').length) {
                        var resetPasswordButton = $('<button/>', {
                            type: 'button',
-                           class: 'btn btn-primary',
+                           class: 'btn btn-danger',
                            text: '비밀번호 재설정하러가기',
                            id: 'resetPasswordButton'
                        });
@@ -196,11 +210,22 @@ $(function(){
                },
            });
        });
+    			// 모달이 닫힐 때 이벤트 처리
+       			$('#forgotPasswordModal').on('hidden.bs.modal', function () {
+       				if ($(".btn-send").find("span").text() !== "인증번호 재발송") {
+       		            return;
+       				}
+          		 location.reload();
+       });
     });
+    
     
 $(document).ready(function () {
         // '비밀번호 재설정하러가기' 버튼 클릭 이벤트 처리
         $(document).on('click', '#resetPasswordButton', function () {
+            //부모 모달 닫기
+        	$('#forgotPasswordModal').modal('hide');
+            
             // 비밀번호 재설정 모달을 띄움
             $('#resetPasswordModal').modal('show');
             //$('#forgotPasswordModal').modal('hide');
@@ -247,6 +272,11 @@ $(document).ready(function () {
                 }
             });
         });
+
+			// 모달이 닫힐 때 이벤트 처리
+			$('#resetPasswordModal').on('hidden.bs.modal', function () {
+		  		 location.reload();
+			});
     });
 </script>
 <!-- 영화 검색 실시간으로 연관 검색어 출력 -->
@@ -506,6 +536,25 @@ $(document).ready(function () {
 
 <style>
 
+ .logout-btn{
+	color:#B33939;
+}
+ .logout-btn:hover{
+ 	color:#eccccc;
+ }
+
+ .btn-danger{
+	background-color:#B33939;
+}
+
+ .btn-secondary{
+	background-color:rgb(241, 185, 185);
+	border:rgb(241, 185, 185);
+	}
+.btn-secondary:hover{
+	background:#eccccc;
+	border:#eccccc;
+	}
 
 .delete-recent-all{
 	color: rgb(179, 57, 57);
@@ -622,7 +671,7 @@ $(document).ready(function () {
 
 												</div>
 												<button
-													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
+													class="btn btn-danger my-2 my-sm-0 custom-search-btn c-btn"
 													id="searchButton" disabled type="submit"
 													style="height: fit-content;">검색</button>
 											</form>
@@ -633,8 +682,8 @@ $(document).ready(function () {
 											</c:if>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
-													<a href="/member/logout" class="btn c-btn logout-btn ms-5"
-														style="height: fit-content;"> <i
+													<a href="/member/logout" class="btn c-btn logout-btn ms-5" data-bs-toggle="modal"
+														data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
 														class="fa fa-sign-out-alt fa-2xl"></i>
 													</a>
 													<a href="/member/mypage" class="btn c-btn"
@@ -700,7 +749,7 @@ $(document).ready(function () {
 										</div>
 										<div class="mt-4" >
                     					  <div class="modal-title text-center mx-auto" style="width:380px;">
-											<button type="submit" id="loginBtn" class="btn btn-primary btn-lg w-100">Login</button>
+											<button type="submit" id="loginBtn" class="btn btn-danger btn-lg w-100">Login</button>
 										  </div>
 										</div>
 											<!-- 비밀번호 찾기 버튼 추가 -->
@@ -708,7 +757,7 @@ $(document).ready(function () {
                    						 <div class="modal-title text-center">
 											<button type="button" class="btn btn-link text-primary link-underline
                                            link-underline-opacity-0 link-underline-opacity-75-hover"
-												id="forgotPasswordLink">비밀번호 찾기</button>
+												id="forgotPasswordLink">비밀번호를 잊으셨나요?</button>
 										</div>
 									</div>
 										</form>
@@ -723,18 +772,17 @@ $(document).ready(function () {
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="forgotPasswordModalLabel">비밀번호
-											찾기</h5>
+										<strong class="modal-title" id="forgotPasswordModalLabel" style="font-size:20px;">비밀번호
+											찾기</strong>
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body" id="cert-modal-body">
 										<div class="row mb-3">
-											<p>비밀번호를 잊으셨나요?</p>
+											<strong>이메일 인증 후 비밀번호를 재설정해주세요.</strong>
 											<br>
-											<p>가입했던 이메일을 적어주세요.</p>
-											<br>
-											<p>입력하신 이메일 주소로 인증번호를 보내드릴게요.</p>
+											<p>입력하신 이메일 주소로 인증번호를 보내드릴게요.<br>
+											(인증번호가 오지 않았다면, 이메일 주소를 확인해주세요)</p>
 											<br>
 										</div>
 										<!-- 비밀번호 찾기 폼 추가 -->
@@ -745,13 +793,13 @@ $(document).ready(function () {
 												<input type="email" class="form-control" id="email"
 													name="memberId" placeholder="이메일">
 											</div>
-											<button type="button" class="btn-emailSend btn btn-primary">
+											<button type="button" class="btn-emailSend btn btn-danger">
 												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일
 													보내기</span>
 											</button>
 											<div class="cert-wrapper pt-10">
 												<input type="text" class="cert-input form-control">
-												<button type="button" class="btn-cert btn btn-primary">확인완료</button>
+												<button type="button" class="btn-cert btn btn-danger">확인완료</button>
 											</div>
 											<div class="valid-feedback left"></div>
 											<div class="invalid-feedback left"></div>
@@ -786,12 +834,29 @@ $(document).ready(function () {
 													id="confirmPassword" name="confirmPassword"
 													placeholder="비밀번호 확인" required>
 											</div>
-											<button type="submit" class="btn btn-primary">비밀번호
+											<button type="submit" class="btn btn-danger">비밀번호
 												재설정</button>
 										</form>
 									</div>
 								</div>
 							</div>
 						</div>
+				<!-- 로그아웃 확인 모달창  -->
+			<div class="modal fade" id="headerLogoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+   				 <div class="modal-dialog modal-dialog-centered">
+      				  <div class="modal-content">
+          				  <div class="modal-header">
+              			  <h5 class="modal-title" id="logoutModalLabel">알림</h5>
+              			  
+           			 </div>
+           		 <div class="modal-body p-5" style="font-size: 20px;">로그아웃하시겠습니까?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-logoutBtn" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" id="logoutButton">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 						<hr>
 					</header>

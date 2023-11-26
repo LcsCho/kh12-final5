@@ -97,11 +97,12 @@ public class MovieController {
 	    }
 	    
 	    //리뷰 상세 조회
-		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
+
+		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo,movieNo);
 		if (reviewListVO != null) {
 		    model.addAttribute("review", reviewListVO);
 		}else {
-			return "redirect:detail?movieNo="+movieNo;
+			return "redirect:/movie/detail?movieNo="+movieNo;
 		}
 		
 		//댓글 조회
@@ -109,7 +110,6 @@ public class MovieController {
 		if (!replyList.isEmpty()) {
 			model.addAttribute("reply", replyList.get(0));
 		}
-		log.debug("reply = {}", replyList);
 	    
 	    return "movie/review/detail";
 	}
@@ -128,7 +128,7 @@ public class MovieController {
 		
 //		String memberId = (String) session.getAttribute("name");
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
-		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
+		List<ReviewListVO> reviewList = reviewDao.selectList(movieNo);
 		List<MovieListVO> movieList = movieDao.findAllMovieList();
 		int ratingCount = ratingDao.getCount();
 		
@@ -161,14 +161,14 @@ public class MovieController {
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("ratingCount", ratingCount);
+
 		return "movie/detail";
 	}
 	
 	//리뷰 상세 페이지에서 리뷰(+평점) 삭제
 	@RequestMapping("/deleteReview")
-	public String deleteReview(@RequestParam int reviewNo) {
-		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
-		int movieNo = reviewListVO.getMovieNo();
+	public String deleteReview(@RequestParam int reviewNo,@RequestParam int movieNo) {
+//		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo,movieNo);
 		boolean result = reviewDao.delete(reviewNo);
 		if(result) {
 			return "redirect:review/list?movieNo=" + movieNo;
