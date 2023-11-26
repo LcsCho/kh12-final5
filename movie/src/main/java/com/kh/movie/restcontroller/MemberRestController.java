@@ -33,6 +33,7 @@ import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
+import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
 import com.kh.movie.dao.ReviewDao;
@@ -67,11 +68,6 @@ public class MemberRestController {
 	
 	@Autowired
 	private RecommendDao recommendDao;
-
-
-	
-	@Autowired
-	private MovieWishDao movieWishDao;
 	
 	@Autowired
 	private ReviewDao reviewDao;
