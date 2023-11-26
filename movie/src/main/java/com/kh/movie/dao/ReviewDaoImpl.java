@@ -139,5 +139,10 @@ public class ReviewDaoImpl implements ReviewDao{
 		Map params = Map.of("begin", begin, "end", end);
   		return sqlSession.selectList("review.adminReviewListByPage", params);
   	}
+  	
+  	@Override
+  	public List<ReviewListVO> getListByMemberNickname(String memberNickname) {
+  		return sqlSession.selectList("review.findListByMemberNickname", memberNickname);
+  	}
 
 }

@@ -34,4 +34,5 @@ public interface ReviewDao {
 	//리액트 페이지네이션
 	int reviewCount();
 	List<AdminReviewListVO> adminReviewListByPage(int currentPage, int pageSize);
+	List<ReviewListVO> getListByMemberNickname(String memberNickname);
 }
