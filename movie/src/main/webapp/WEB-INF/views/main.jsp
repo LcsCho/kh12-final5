@@ -38,6 +38,35 @@ h3 {
 	color: rgb(179, 57, 57);
 }
 
+	.message-list{
+   		height:65vh;
+   		overflow-y: scroll;
+    	padding-bottom: 5px; 
+   	}
+   	::-webkit-scrollbar{
+   		width: 3px; /* 스크롤바 너비 */
+   		background-color:black;
+   	}
+   	::-webkit-scrollbar-thumb {
+   		background: var(--bs-secondary); /* 스크롤바 색상 */
+   	}
+	
+	 .message-list .message {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 8px;
+        margin: 8px 0;
+    }
+
+    /* 오른쪽 정렬 스타일 */
+	.message.my-message {
+	    text-align: right;
+	}
+	
+	/* 왼쪽 정렬 스타일 */
+	.message.other-message {
+	    text-align: left;
+	}
 </style>
 
 <!-- swiper cdn -->
@@ -50,6 +79,7 @@ h3 {
 	<!-- 전체 페이지 폭 관리 -->
 	<div class="row">
 		<div class="col-md-10 offset-md-1">
+<!-- 			<button type="button" class="btn btn-primary open-modal-btn">채팅방 열기</button> -->
 			<!-- Swiper Container -->
 			<c:choose>
 				<c:when test="${not empty movieList}">
@@ -124,12 +154,11 @@ h3 {
 										<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
 											<img src="/rest/image/${mvcTop10RecommendVO.imageNo}"
 											class="img-thumbnail" style="width: 250px; height: 310px;">
-											<!--  										<img src="https://picsum.photos/215/300"  -->
-											<!--                                         class="img-thumbnail" style="width:250px; height: 310px;"> -->
+											<!--<img src="https://picsum.photos/215/300"  -->
+											<!--class="img-thumbnail" style="width:250px; height: 310px;"> -->
 										</a>
 										<div class="col mt-2">
-											<a
-												href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
+											<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
 												${mvcTop10RecommendVO.movieName} </a>
 										</div>
 										<div class="col">
@@ -616,7 +645,46 @@ h3 {
 	</div>
 </div>
 
+<!-- 채팅 -->
+<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel"
+                            aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content" style="background-color: #B33939;">
+            <div class="modal-header p-2 ms-1">
+                <h5 class="modal-title" id="chatModalLabel">실시간 채팅 
+                <i class="fa-regular fa-comments"></i></h5>
+                <button type="button" class="btn-close me-1" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-2">
+                    <div class="col p-2" style="background-color :#eccccc; border-radius:10px;">
+                        <div class="message-list"></div>
+                    </div>
+                </div>
+	
+				<c:if test="${sessionScope.name != null}">
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <input type="text" class="form-control message-input"
+                                placeholder="메세지 내용 작성">
+                            <button type="button" class="btn btn-primary send-btn input-group-append">
+                                <i class="fa-regular fa-paper-plane"></i>
+                                보내기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+				</c:if>
+				
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+	//스와이퍼 설정
 	var swiper = new Swiper('.swiper', {
 		slidesPerView : 5,
 		slidesPerGroup : 5,
@@ -632,6 +700,56 @@ h3 {
 		},
 		speed : 700,
 	});
-</script>
+	
+	$(function () {
+        $(".open-modal-btn").click(function () {
 
+            var modal = new bootstrap.Modal(document.querySelector("#chatModal"));
+            modal.show();
+        });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<!-- 채팅 -->
+<script>
+	//연결생성
+	window.socket = new SockJS("${pageContext.request.contextPath}/ws/sockjs");
+	window.socket.onmessage = function(e){
+		var data = JSON.parse(e.data);
+		
+		//사용자가 접속하거나 종료했을 때 서버에서 오는 데이터로 목록을 갱신
+		//사용자가 메세지르 보냈을 때 서버에서 이를 전체에게 전달한다
+		if (data.content) {
+		    var memberId = $("<strong>").text(data.memberId);
+		    var content = $("<div>").text(data.content);
+		
+		    // 화면에 메시지 추가
+		    var messageDiv = $("<div>").addClass("border border-secondary rounded p-2 mt-2 message");
+		    
+		    if (data.memberId === '${sessionScope.name}') {
+		        messageDiv.addClass("my-message"); // 로그인 사용자의 메시지
+		    } else {
+		        messageDiv.addClass("other-message"); // 다른 사용자의 메시지
+		    }
+		
+		    messageDiv.append(content).appendTo(".message-list");
+
+		    // 스크롤바를 맨 아래로 이동
+		    $(".message-list").scrollTop($(".message-list")[0].scrollHeight);
+}
+		
+	//메세지를 전송하는 코드
+	$(".send-btn").click(function(){
+		
+		var text = $(".message-input").val();
+		if(text.length == 0) return;
+			var obj = {
+					content:text
+			}
+			var str = JSON.stringify(obj); //객체를 JSON 문지열로 변환
+			window.socket.send(str); //JSON 형식으로 보낼 때
+			$(".message-input").val("");
+	});
+};
+</script>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
