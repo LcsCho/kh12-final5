@@ -78,14 +78,14 @@ $(document).ready(function() {
             success: function(response) {
                 // 로그인 성공 시의 동작
                $("#loginModal").modal("hide");
-                   // 만약 join페이지에서 로그인할 경우 성공 시, 메인페이지로 이동
-               if (window.location.href.indexOf("join") !== -1) {
-                       window.location.href = "/";
-            	  
-               } else {
-            	   //그 외 다른 페이지에서 로그인할 경우엔 성공 시, 해당 페이지 유지
+               if (response) {
+                   // 만약 로그인 성공 후 redirect 속성이 있다면 해당 페이지로 이동
                    location.reload();
-                  
+               } else {
+                   // 페이지 주소에 "join"이라는 단어가 포함되어 있다면 메인 페이지로 이동
+                   if (window.location.href.indexOf("join") !== -1) {
+                       window.location.href = "/";
+                   }
                }
            },
            error: function(xhr) {
@@ -104,14 +104,17 @@ $(document).ready(function() {
 
 </script>
 
-<!-- 로그아웃 모달 -->
+<!-- 로그아웃 컨펌 처리 -->
 <script>
-$(document).ready(function () {
-    $("#logoutButton").click(function () {
-       
-        window.location.href = "/member/logout";
+    // 확인 버튼 클릭 이벤트
+    $(document).ready(function() {
+    $("#logoutConfirmButton").click(function() {
+        
+        window.location.href = '/member/logout';
+        alert("로그아웃되었습니다.");
+        $('#logoutModal').modal('hide');// 모달 닫기
     });
-});
+  });
 </script>
 
 <!-- 비밀번호 재설정 -->
@@ -643,7 +646,7 @@ $(document).ready(function () {
 				<div class="col">
 
 					<header>
-
+				 		세션받은거:${sessionScope.memberId}
 						<div class="container-float">
 							<div class="row">
 								<div class="col-md-10 offset-md-1">
@@ -683,7 +686,7 @@ $(document).ready(function () {
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
 													<a href="/member/logout" class="btn c-btn logout-btn ms-5" data-bs-toggle="modal"
-														data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
+														data-bs-target="#logoutModal" style="height: fit-content;"> <i
 														class="fa fa-sign-out-alt fa-2xl"></i>
 													</a>
 													<a href="/member/mypage" class="btn c-btn"
@@ -779,7 +782,7 @@ $(document).ready(function () {
 									</div>
 									<div class="modal-body" id="cert-modal-body">
 										<div class="row mb-3">
-											<strong>이메일 인증 후 비밀번호를 재설정해주세요.</strong>
+											<p>이메일 인증 후 비밀번호를 재설정해주세요</p>
 											<br>
 											<p>입력하신 이메일 주소로 인증번호를 보내드릴게요.<br>
 											(인증번호가 오지 않았다면, 이메일 주소를 확인해주세요)</p>
@@ -841,18 +844,18 @@ $(document).ready(function () {
 								</div>
 							</div>
 						</div>
-				<!-- 로그아웃 확인 모달창  -->
-			<div class="modal fade" id="headerLogoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-   				 <div class="modal-dialog modal-dialog-centered">
-      				  <div class="modal-content">
-          				  <div class="modal-header">
-              			  <h5 class="modal-title" id="logoutModalLabel">알림</h5>
-              			  
-           			 </div>
-           		 <div class="modal-body p-5" style="font-size: 20px;">로그아웃하시겠습니까?</div>
+				<!-- 로그아웃 확인 모달 창 -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">알림</h5>
+                <button type="button" class="btn-close close-logout" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5" style="font-size: 20px;">로그아웃하시겠습니까?</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-logoutBtn" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger" id="logoutButton">확인</button>
+                <button type="button" class="btn btn-secondary close-logout" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" id="logoutConfirmButton">확인</button>
             </div>
         </div>
     </div>

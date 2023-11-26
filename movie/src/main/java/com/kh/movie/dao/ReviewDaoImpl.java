@@ -59,8 +59,11 @@ public class ReviewDaoImpl implements ReviewDao{
 	
 	//리뷰 상세 조회
 	@Override
-	public ReviewListVO findByReviewNo(int reviewNo) {
-		return sqlSession.selectOne("review.findByReviewNo", reviewNo);
+	public ReviewListVO findByReviewNo(int reviewNo,int movieNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("reviewNo", reviewNo);
+		params.put("movieNo",movieNo);
+		return sqlSession.selectOne("review.findByReviewNo", params);
 	}
 	
 	//최신순 조회

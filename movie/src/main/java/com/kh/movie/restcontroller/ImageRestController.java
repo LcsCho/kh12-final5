@@ -83,11 +83,11 @@ public class ImageRestController {
 	@GetMapping("/movieMain/{movieNo}")
 	public ResponseEntity<ByteArrayResource>downloadMovieMainImage(@PathVariable int movieNo) throws IOException{
 		
-		log.debug("movieNo={}",movieNo);
+//		log.debug("movieNo={}",movieNo);
 		
 		ImageDto movieMainImageDto = movieDao.findMainImage(movieNo);
 		
-		log.debug("movieMainImageDto={}",movieMainImageDto);
+//		log.debug("movieMainImageDto={}",movieMainImageDto);
 		
 		File target = new File(dir,String.valueOf(movieMainImageDto.getImageNo()));
 		byte[] data=FileUtils.readFileToByteArray(target);//실제파일정보 불러오기

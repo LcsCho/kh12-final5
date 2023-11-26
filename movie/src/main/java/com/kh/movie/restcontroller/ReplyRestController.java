@@ -36,9 +36,6 @@ public class ReplyRestController {
 	@Autowired
 	private MemberDao memberDao;
 	
-	@Autowired
-	private ReviewDao reviewDao;
-	
 	//댓글 조회
 	@PostMapping("/findAll")
 	public List<ReplyDto> findAll(@RequestParam int reviewNo, 

@@ -71,6 +71,7 @@ public class MemberRestController {
 
 	@Autowired
 	private MovieWishDao movieWishDao;
+
 	
 	@Autowired
 	private ReviewDao reviewDao;
