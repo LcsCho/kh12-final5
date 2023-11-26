@@ -85,7 +85,7 @@ $(function(){
     });
 
 	 $("[name=memberNickname]").blur(function(e){
-        var regex = /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9]{2,10}$/;
+        var regex = /^[A-Za-z0-9가-힣]{2,30}$/;
         var isValid = regex.test($(e.target).val());
 
         if(isValid){ //형식이 유효하다면
