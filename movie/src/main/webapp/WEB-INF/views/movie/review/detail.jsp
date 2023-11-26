@@ -50,6 +50,10 @@
     	font-style: bold;
     	text-align: center;
     }
+    .img-thumbnail{
+    	width: 50px;
+    	height: 50px;
+    }
 </style>
 
 
@@ -72,17 +76,20 @@
 	    $(document).on("click", ".deleteReply", function (e) {
 	        var replyNo = $(this).attr("data-reply-no");
 	
-	        $.ajax({
-	            url: "http://localhost:8080/rest/reply/delete",
-	            method: "post",
-	            data: {
-	                replyNo: replyNo
-	            },
-	            success: function (response) {
-	                loadReplyList();
-	                console.log(response);
-	            }
-	        });
+	        var confirmDelete = confirm("삭제하시겠습니까?");
+	        
+	        if (confirmDelete) {
+	            $.ajax({
+	                url: "http://localhost:8080/rest/reply/delete",
+	                method: "post",
+	                data: {
+	                    replyNo: replyNo
+	                },
+	                success: function (response) {
+	                    loadReplyList();
+	                }
+	            });
+	        }
 	    });
 	
 	    // 댓글 목록
@@ -94,8 +101,6 @@
 	                reviewNo: reviewNo,
 	            },
 	            success: function (response) {
-	            	console.log(response);
-	            	
 	                $(".reply-list").empty();
 	
 	                if (response.length === 0) {
@@ -243,14 +248,6 @@
 
 	    // 초기 로드
 	    loadReviewLike(movieNo);
-	    
-// 	    //삭제 시의 안내창
-// 	    function confirmDelete(reviewNo) {
-// 	        var result = confirm("정말 삭제하시겠습니까?");
-// 	        if (result) {
-// 	            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo;
-// 	        }
-// 	    }
 		
 		//리뷰 수정
 	    $(".editReview").click(function(e) {
@@ -266,46 +263,70 @@
 			//리뷰 수정 창 띄우기
 			var editTemplate = $("#review-edit-template").html();
 			var editHtmlTemplate = $.parseHTML(editTemplate);
+			
+			//리뷰 수정 창에 회원 프로필 이미지 띄우기
+			var imageHref = $(".userImage").html();
+		    $(editHtmlTemplate).find(".userImage").attr("src", imageHref);
 		
 			//리뷰 수정 창에 원본글 넣기
 			$(editHtmlTemplate).find(".card-text").val(originContent);
 			
+			//회원 이미지 가져와 수정 창에 넣기
+			var userImageSrc = reviewContainer.find(".userImage").attr("src");
+    		$(editHtmlTemplate).find(".userImage").attr("src", userImageSrc);
+			
 			//취소 버튼 선택 시 리뷰정보란 띄우고, 수정 창 삭제하기
 			$(editHtmlTemplate).find(".btn-cancel").click(function() {
-				reviewContainer.show();
-				$(editHtmlTemplate).remove();
+				var confirmDeleteReview = confirm("취소하시겠습니까?");
+				
+				if (confirmDeleteReview) {
+					reviewContainer.show();
+					$(editHtmlTemplate).remove();
+				}
 			});
 			
 			//전송 버튼 선택
 			$(editHtmlTemplate).find(".btn-success").click(function (e) {
     			e.preventDefault();
 				
-				var editedReviewContent = $(editHtmlTemplate).find(".card-text").val();
+    			var confirmUpdate = confirm("수정하시겠습니까?");
+    	        
+    	        if (confirmUpdate) {
+    	            var editedReviewContent = $(editHtmlTemplate).find(".card-text").val();
 
-				$.ajax({
-					url: "http://localhost:8080/rest/review/list/editReview?reviewNo=" + reviewNo,
-					method: "post",
-					data: {
-						reviewNo: reviewNo,
-						reviewContent: editedReviewContent,
-						movieNo : movieNo
-					},
-					success: function(response) {
-						
-						loadReviewLike(movieNo);
-						
-						reviewContainer.show();
-						$(editHtmlTemplate).remove();
-						location.reload();
-					}
-					
-				});
+    	            $.ajax({
+    	                url: "http://localhost:8080/rest/review/list/editReview?reviewNo=" + reviewNo,
+    	                method: "post",
+    	                data: {
+    	                    reviewNo: reviewNo,
+    	                    reviewContent: editedReviewContent,
+    	                    movieNo: movieNo
+    	                },
+    	                success: function (response) {
+    	                    loadReviewLike(movieNo);
+
+    	                    reviewContainer.show();
+    	                    $(editHtmlTemplate).remove();
+    	                    location.reload();
+    	                }
+    	            });
+    	        }
 			});
 
 			reviewContainer.hide().after(editHtmlTemplate);
 		});
 		
 	});
+</script>
+
+<script>
+    function confirmDelete(reviewNo) {
+        var confirmDelete = confirm("삭제하시겠습니까?");
+        if (confirmDelete) {
+            // 사용자가 확인하면, deleteReview URL로 리다이렉트
+            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo;
+        }
+    }
 </script>
 
 <script id="reply-template" type="text/template">
@@ -336,7 +357,7 @@
 	<div class="card mt-3 edit-container">
 		<div class="card-body">
 			<div>
-				<img src="images/user.png" class="userImage">
+				<img class="userImage img-thumbnail">
 				<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 				<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 			</div>
@@ -406,8 +427,8 @@
 								<!-- 작성자일 경우에만 아이콘 표시 -->
 								<c:if test="${memberNickname == review.memberNickname}">
 									<i class="fa-solid fa-pen-to-square fa-lg editReview" style="position: absolute; top: 30px; right: 50px;"></i>
-									<a href="/movie/deleteReview?reviewNo=${review.reviewNo}">
-										<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
+									<a href="javascript:void(0);" onclick="confirmDelete(${review.reviewNo});">
+    									<i class="fa-solid fa-x fa-lg deleteReview" style="position: absolute; top: 30px; right: 30px;"></i>
 									</a>
 								</c:if>
 								

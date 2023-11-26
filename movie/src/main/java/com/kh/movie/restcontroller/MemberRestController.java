@@ -68,6 +68,10 @@ public class MemberRestController {
 	
 	@Autowired
 	private RecommendDao recommendDao;
+
+	@Autowired
+	private MovieWishDao movieWishDao;
+
 	
 	@Autowired
 	private ReviewDao reviewDao;
