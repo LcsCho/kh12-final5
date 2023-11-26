@@ -7,15 +7,13 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function () {
-    	loadMovieList();
-    	
     	 // 초기에 xmark 숨기기
         $('.fa-circle-xmark').hide();
         
         // 클릭 이벤트를 추가
         $('.fa-gear').on('click', function () {
             // 아이콘을 토글하여 보이기/숨기기
-            $('.xmark-container').toggle();
+            $('.fa-circle-xmark').toggle();
         });
 
         // 이벤트 핸들러 추가
@@ -79,6 +77,8 @@
                 movieHtml += '</div>';
 
                     moviesContainer.append(movieHtml);
+                 // 각각의 xmark를 숨김
+                    $('.fa-circle-xmark').hide();
                 });
             },
             error: function (error) {
