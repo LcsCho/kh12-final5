@@ -127,8 +127,8 @@
 
         // 선택 완료 모달 확인 버튼 클릭 시 페이지 이동
         $(".close-choose-complete").click(function () {
-            // 페이지 이동
-            window.location.href = "/";
+            // 폼 제출
+            $("#joinForm").submit();
         });
 
         // 각각의 모달창 닫기
@@ -148,7 +148,7 @@
 <!-- 추가된 부분: Bootstrap JavaScript 라이브러리 로드 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<form action="joinFinish" method="post" autocomplete="off">
+<form action="joinFinish" method="post" autocomplete="off" id="joinForm">
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -178,7 +178,7 @@
     
             <div class="row mt-3 text-center">
                <div class="col">
-                  <button type="submit" class="btn btn-primary btn-save mb-2" style="width:50%;">선택완료</button>
+                  <button type="button" class="btn btn-primary btn-save mb-2" style="width:50%;">선택완료</button>
                   <button type="button" class="btn btn-secondary btn-pass" style="width:50%;">건너뛰기</button>
                </div>
             </div>
