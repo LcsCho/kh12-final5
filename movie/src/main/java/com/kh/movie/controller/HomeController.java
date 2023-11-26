@@ -54,7 +54,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public String main(Model model, HttpSession session, @RequestParam(required = false) String movieName) {
 		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
+		session.setAttribute("ratingCount", ratingCount);
 		String memberId = (String) session.getAttribute("name");
 		model.addAttribute("memberId",memberId);
 		

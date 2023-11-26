@@ -59,8 +59,7 @@ public class MovieController {
 	//리뷰 목록
 	@GetMapping("/review/list")
 	public String reviewList(@RequestParam int movieNo, Model model) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
+
 		
 		//리뷰 목록 조회
 		model.addAttribute("movieNo", movieNo);
@@ -81,9 +80,7 @@ public class MovieController {
 	public String reviewDetail(@RequestParam int movieNo,
 												@RequestParam int reviewNo, Model model,
 												HttpSession session) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
-		
+
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
 		model.addAttribute("memberNickname", memberNickname);
@@ -130,7 +127,6 @@ public class MovieController {
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
 		List<ReviewListVO> reviewList = reviewDao.selectList(movieNo);
 		List<MovieListVO> movieList = movieDao.findAllMovieList();
-		int ratingCount = ratingDao.getCount();
 		
 		// 영화의 평점 평균을 구하는 코드
 		if (ratingDao.getRatingAvg(movieNo) != null) {
@@ -160,8 +156,6 @@ public class MovieController {
 		model.addAttribute("movieGenreList", movieGenreList);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("movieList", movieList);
-		model.addAttribute("ratingCount", ratingCount);
-
 		return "movie/detail";
 	}
 	
