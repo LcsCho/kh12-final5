@@ -347,11 +347,7 @@
 								<a class="btn" onclick="openChangeInfoModal()">개인정보 수정</a>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col text-center mid-setting-area">
-								<a class="btn logout-btn">로그아웃</a>
-							</div>
-						</div>
+						
 						<div class="row">
 							<div class="col text-center bottom-setting-area">
 								<a class="btn" onclick="openExitModal()">회원 탈퇴</a>
@@ -558,29 +554,6 @@
             </div>
         </div>
     </div>
-</div>
-<!-- 모달 끝 -->
-
-<!-- 로그아웃 확인 모달 창 -->
-<div class="modal fade" id="logoutConfirmationModal" tabindex="-1"
-	role="dialog" aria-labelledby="logoutConfirmationModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="logoutConfirmationModalLabel">알림</h5>
-				<button type="button" class="btn-close close-logoutCon"
-					data-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body p-5" style="font-size: 20px;">로그아웃
-				하시겠습니까?</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary close-logoutCon"
-					data-dismiss="modal">취소</button>
-				<button type="button" class="btn btn-danger" id="logoutConfirmBtn">확인</button>
-			</div>
-		</div>
-	</div>
 </div>
 <!-- 모달 끝 -->
 
