@@ -36,9 +36,6 @@ public class ReplyRestController {
 	@Autowired
 	private MemberDao memberDao;
 	
-	@Autowired
-	private ReviewDao reviewDao;
-	
 	//댓글 조회
 	@PostMapping("/findAll")
 	public List<ReplyDto> findAll(@RequestParam int reviewNo, 
@@ -70,12 +67,6 @@ public class ReplyRestController {
 	//댓글 삭제
 	@PostMapping("/delete")
 	public void delete(@RequestParam int replyNo) {
-		ReplyDto replyDto = replyDao.findByReplyNo(replyNo);
-		
-		int reviewNo = replyDto.getReviewNo();
-		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
-		int movieNo = reviewListVO.getMovieNo();
-
 		replyDao.delete(replyNo);
 	}
 }
