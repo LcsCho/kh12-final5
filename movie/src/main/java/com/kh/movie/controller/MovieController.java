@@ -109,7 +109,6 @@ public class MovieController {
 		if (!replyList.isEmpty()) {
 			model.addAttribute("reply", replyList.get(0));
 		}
-		log.debug("reply = {}", replyList);
 	    
 	    return "movie/review/detail";
 	}
@@ -128,7 +127,7 @@ public class MovieController {
 		
 //		String memberId = (String) session.getAttribute("name");
 		List<MovieGenreDto> movieGenreList = movieGenreDao.selectListByMovieNo(movieNo);
-		List<ReviewDto> reviewList = reviewDao.selectList(movieNo);
+		List<ReviewListVO> reviewList = reviewDao.selectList(movieNo);
 		List<MovieListVO> movieList = movieDao.findAllMovieList();
 		int ratingCount = ratingDao.getCount();
 		
@@ -161,6 +160,7 @@ public class MovieController {
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("ratingCount", ratingCount);
+
 		return "movie/detail";
 	}
 	

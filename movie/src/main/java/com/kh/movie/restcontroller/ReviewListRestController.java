@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,8 +120,6 @@ public class ReviewListRestController {
 	    reviewLikeVO.setReviewNo(reviewNo);
 	    reviewLikeVO.setMemberNickname(memberNickname);
 	    
-	    log.debug("reviewLikeVO = {}", reviewLikeVO);
-
 	    return reviewLikeVO;
 	}
 	
@@ -135,13 +134,18 @@ public class ReviewListRestController {
 	@PostMapping("/writeReview")
 	public void write(@RequestParam("movieNo") int movieNo,
 								@RequestParam String reviewContent,
-								HttpSession session) {
+								HttpSession session, Model model) {
 		ReviewDto reviewDto = new ReviewDto();
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
 		reviewDto.setMemberId(memberId);
 		reviewDto.setMemberNickname(memberNickname);
 		reviewDto.setMovieNo(movieNo);
+		model.addAttribute("memberNickname", memberNickname);
+		
+		List<ReviewListVO> reviewList = reviewDao.findByDateDesc(movieNo);
+		log.debug("reviewList(0) ={}", reviewList.get(0));
+		
 		
 		int reviewNo = reviewDao.sequence();
 		reviewDto.setReviewNo(reviewNo);
@@ -150,7 +154,5 @@ public class ReviewListRestController {
 		log.debug("reviewDto = {}", reviewDto);
 		
 		reviewDao.insert(reviewDto);
-		
-		
 	}
 }

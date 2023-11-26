@@ -37,10 +37,10 @@
 	</delete>
 	
 	<!-- 영화 번호로 상위 좋아요 10개 조회 (상세 리뷰 리스트 출력용)-->
-	<select id="findAllByMovieNo" resultType="reviewDto">
+	<select id="findAllByMovieNo" resultType="ReviewListVO">
 		select * from (
 			select rownum rn, TMP.* from(
-				select * from review where movie_no = #{movieNo} order by review_like_count desc
+				select * from review_list where movie_no = #{movieNo} order by review_like_count desc
 			)TMP
 		) where rn between 1 and 10
 	</select>
