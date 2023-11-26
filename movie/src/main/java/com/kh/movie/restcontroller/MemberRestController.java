@@ -36,10 +36,12 @@ import com.kh.movie.dao.MovieDao;
 import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
+import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieVO;
+import com.kh.movie.vo.ReviewListVO;
 import com.kh.movie.vo.WishMovieRecommendVO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -69,6 +71,9 @@ public class MemberRestController {
 	
 	@Autowired
 	private MovieWishDao movieWishDao;
+	
+	@Autowired
+	private ReviewDao reviewDao;
 
 	@Autowired
 	private FileUploadProperties props;
@@ -316,12 +321,15 @@ public class MemberRestController {
 	}
 	
 	@GetMapping("/reviewList")
-	public String reviewList(HttpSession session, Model model) {
+	public List<ReviewListVO> reviewList(HttpSession session, Model model) {
 		int ratingCount = ratingDao.getCount();
 		model.addAttribute("ratingCount", ratingCount);
 		
 		String memberId = (String) session.getAttribute("name");
-		return "member/list/reviewList";
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		String memberNickname = memberDto.getMemberNickname();
+		List<ReviewListVO> reviewList = reviewDao.getListByMemberNickname(memberNickname); 
+		return reviewList;
 	}
 	
 	@GetMapping("/ratingList")
