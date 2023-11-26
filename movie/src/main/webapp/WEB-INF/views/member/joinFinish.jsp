@@ -3,7 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<style></style>
+<style>
+.btn-danger{
+	background-color:#B33939;
+}
+
+.btn-secondary{
+	background-color:rgb(241, 185, 185);
+	border:rgb(241, 185, 185);
+	}
+.btn-secondary:hover{
+	background:#eccccc;
+	border:#eccccc;
+	}
+
+</style>
 
 <!-- 모달 창 스크립트 -->
 <script>
@@ -101,10 +115,10 @@
     
             <div class="row mt-4">
                <div class="col">
-                  <button type="submit" class="btn btn-secondary btn-save">
+                  <button type="submit" class="btn btn-danger btn-save">
                     선택완료
                   </button>
-                  <button type="button" class="btn btn-primary btn-pass">건너뛰기</button>
+                  <button type="button" class="btn btn-secondary btn-pass">건너뛰기</button>
                </div>
             </div>
             <!-- 건너뛰기 누르면 자동으로 null값 - 안내 팝업 띄우기 -->
@@ -128,7 +142,7 @@
                 선호 장르 선택 완료!
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-choose-complete" 
+                <button type="button" class="btn btn-danger close-choose-complete" 
                     data-dismiss="modal">확인</button>
             </div>
         </div>
@@ -149,7 +163,7 @@
                 선호 장르를 1개 이상 선택하세요.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-choose-one" 
+                <button type="button" class="btn btn-danger close-choose-one" 
                     data-dismiss="modal">확인</button>
             </div>
         </div>
@@ -170,7 +184,7 @@
                 선호 장르는 5개 이하만 선택이 가능합니다.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-choose-five" 
+                <button type="button" class="btn btn-danger close-choose-five" 
                     data-dismiss="modal">확인</button>
             </div>
         </div>
@@ -193,7 +207,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary close-skip" 
                 	data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" 
+                <button type="button" class="btn btn-danger" 
                 	id="skipConfirmBtn">확인</button>
             </div>
         </div>

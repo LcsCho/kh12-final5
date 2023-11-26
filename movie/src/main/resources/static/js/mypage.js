@@ -27,7 +27,7 @@ $(function(){
 
 	//비밀번호 확인 검사
     $("#pw-check").blur(function(){
-        var originPw = $("#memberPassword").val();
+        var originPw = $("#newPw").val();
         var checkPw = $(this).val();
          $(this).removeClass("is-valid").removeClass("is-invalid");
         if(originPw.length === 0){//미입력이면
@@ -45,7 +45,7 @@ $(function(){
     });
 
 	 $("[name=memberNickname]").blur(function(e){
-        var regex = /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9]{2,10}$/;
+        var regex = /^[A-Za-z0-9가-힣]{2,30}$/;
         var isValid = regex.test($(e.target).val());
 
         if(isValid){ //형식이 유효하다면

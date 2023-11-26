@@ -109,10 +109,16 @@ public class MemberRestController {
                                       @RequestParam String memberPw,
                                       HttpSession session) {
       MemberDto findDto = memberDao.selectOne(memberId);
-      log.debug("password={}", findDto.getMemberPw());
+      //log.debug("password={}", findDto.getMemberPw());
+      
+      if (findDto == null) {
+          // 아이디가 존재하지 않는 경우
+          return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+      }
+
 
       boolean isCorrectPw = encoder.matches(memberPw, findDto.getMemberPw());
-      log.debug("isCorrectPw = {}",isCorrectPw);
+      //log.debug("isCorrectPw = {}",isCorrectPw);
 
       if (isCorrectPw) {
           session.setAttribute("name", findDto.getMemberId());

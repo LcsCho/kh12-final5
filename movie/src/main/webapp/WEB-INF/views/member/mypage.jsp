@@ -71,6 +71,18 @@
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
 }
+.btn-danger{
+	background-color:#B33939;
+}
+.btn-secondary{
+	background-color:rgb(241, 185, 185);
+	border:rgb(241, 185, 185);
+	}
+.btn-secondary:hover{
+	background:#eccccc;
+	border:#eccccc;
+	}
+
 </style>
 
 <script src="/js/mypage.js"></script>
@@ -145,13 +157,17 @@
 <!-- 비밀번호 변경 모달 -->
 <script>
 	function openChangePasswordModal() {
+		//입력값 초기화 처리
+		 $(".pw").removeClass("is-valid is-invalid");
+		 $('#newPw').val('');
+	   	 $('#pw-check').val('');
 		$('#changePasswordModal').modal('show');
 	}
 
     // 비밀번호 변경 처리
     function changePassword() {
-        var newPassword = $('#memberPassword').val();
-        var confirmPassword = $('#password-check').val();
+        var newPassword = $('#newPw').val();
+        var confirmPassword = $('#pw-check').val();
 
         // 비밀번호가 입력되지 않았을 경우
         if (!newPassword || !confirmPassword || newPassword.trim() === '' || confirmPassword.trim() === '') {
@@ -187,15 +203,35 @@
         });
 
         // 모달 닫기
-        $('#changePasswordModal').modal('hide');
-    }
+         $('#changePasswordModal').modal('hide');
+     }
+	
+
 
 </script>
 
 <!-- 회원 정보 변경 모달 -->
 <script>
+
 	function openChangeInfoModal() {
+		 resetModalInputs();
 		$('#changeInfoModal').modal('show');
+	}
+	
+	// 기존 값 초기화 함수
+	function resetModalInputs() {
+		// 닉네임 입력 필드 초기화
+        $('#memberNickname').val('${memberDto.memberNickname}');
+
+        // 생년월일 입력 필드 초기화
+        $('#memberBirth').val('${memberDto.memberBirth}');
+
+        // 연락처 입력 필드 초기화
+        $('#memberContact').val('${memberDto.memberContact}');
+
+
+	    // 피드백 메시지 초기화
+	    $(".info").removeClass("is-valid is-invalid");
 	}
 
 	function changeInfo() {
@@ -214,17 +250,19 @@
 				memberContact : memberContact
 			},
 			success : function(response) {
-				console.log(response);
-				// 성공 시 모달 닫기 및 화면 갱신
-				$('#changeInfoModal').modal('hide');
-				window.alert("수정이 완료되었습니다!");
-				// 새로고침
-				location.reload();
-			},
+					console.log(response);
+	                // 성공 시 모달 닫기 및 화면 갱신
+	                $('#changeInfoModal').modal('hide');
+	                window.alert("수정이 완료되었습니다!");
+	                location.reload();
+	          
+	        },
 			error : function(xhr, status, error) {
 				alert("회원 정보 변경에 실패했습니다. 다시 시도해주세요.");
 			}
 		});
+		
+		$('#changeInfoModal').modal('hide');
 	}
 </script>
 
@@ -247,6 +285,7 @@
         memberPw: memberPw
       },
       success: function(response) {
+    	  window.confirm("정말 탈퇴하시겠습니까?");
          alert(response);
           if (response.includes("탈퇴")) {
               window.location.href = "/";
@@ -452,14 +491,14 @@
                     <!-- 비밀번호 입력 -->
                     <div class="form-group">
                         <label for="newPassword">새 비밀번호</label>
-                        <input type="password" class="form-control" name="memberPw" id="newPw">
+                        <input type="password" class="form-control pw" name="memberPw" id="newPw">
                         <div class="valid-feedback">올바른 형식입니다</div>
             			<div class="invalid-feedback">형식이 올바르지 않습니다</div>
                   </div>
                     <!-- 확인용 비밀번호 입력 -->
                     <div class="form-group">
                         <label for="confirmPassword">비밀번호 확인</label>
-                        <input type="password" class="form-control" name="confirmPassword" id="pw-check">
+                        <input type="password" class="form-control pw" name="confirmPassword" id="pw-check">
                     	<div class="valid-feedback"></div>
             			<div class="invalid-feedback"></div>
                     </div>
@@ -467,7 +506,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="submit" class="btn btn-primary" onclick="changePassword()">변경하기</button>
+                <button type="submit" class="btn btn-danger" onclick="changePassword()">변경하기</button>
             </div>
         </div>
     </div>
@@ -490,7 +529,7 @@
                     <!-- 닉네임 입력 -->
                     <div class="form-group">
                         <label for="memberNickname">닉네임</label>
-                        <input type="text" class="form-control" name="memberNickname" id="memberNickname"
+                        <input type="text" class="form-control info" name="memberNickname" id="memberNickname"
                             value="${memberDto.memberNickname}">
                             <div class="valid-feedback"></div>
            					<div class="invalid-feedback"></div>
@@ -498,14 +537,14 @@
                     <!-- 생년월일 입력 -->
                     <div class="form-group">
                         <label for="memberBirth">생년월일</label>
-                        <input type="date" class="form-control" name="memberBirth" id="memberBirth"
+                        <input type="date" class="form-control info" name="memberBirth" id="memberBirth"
                             value="${memberDto.memberBirth}">
                         <div class="invalid-feedback">잘못된 날짜 형식입니다</div>
                     </div>
                     <!-- 연락처 입력 -->
                     <div class="form-group">
                         <label for="memberContact">연락처</label>
-                        <input type="text" class="form-control" name="memberContact" id="memberContact"
+                        <input type="text" class="form-control info" name="memberContact" id="memberContact"
                             value="${memberDto.memberContact}">
                        	<div class="valid-feedback">사용 가능한 전화번호입니다</div>
            				<div class="invalid-feedback">형식이 올바르지 않습니다</div>
@@ -515,7 +554,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="submit" class="btn btn-primary" onclick="changeInfo()">수정하기</button>
+                <button type="submit" class="btn btn-danger" onclick="changeInfo()">수정하기</button>
             </div>
         </div>
     </div>
@@ -538,7 +577,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary close-logoutCon"
 					data-dismiss="modal">취소</button>
-				<button type="button" class="btn btn-primary" id="logoutConfirmBtn">확인</button>
+				<button type="button" class="btn btn-danger" id="logoutConfirmBtn">확인</button>
 			</div>
 		</div>
 	</div>
@@ -569,7 +608,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="submit" class="btn btn-primary" id="exitMember" onclick="exitMember()">탈퇴하기</button>
+                <button type="submit" class="btn btn-danger" id="exitMember" onclick="exitMember()">탈퇴하기</button>
             </div>
         </div>
     </div>
