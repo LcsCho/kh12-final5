@@ -14,7 +14,7 @@ $(function(){
     };
     
 	
-    $("#memberPassword").blur(function(){
+    $("#newPw").blur(function(){
         var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,60}$/;
         var isValid = regex.test($(this).val());
         $(this).removeClass("is-valid is-invalid");
@@ -26,7 +26,7 @@ $(function(){
     });
 
 	//비밀번호 확인 검사
-    $("#password-check").blur(function(){
+    $("#pw-check").blur(function(){
         var originPw = $("#memberPassword").val();
         var checkPw = $(this).val();
          $(this).removeClass("is-valid").removeClass("is-invalid");
@@ -96,12 +96,14 @@ $(function(){
     });
     
     
-    $("[name=memberBirth]").blur(function(){
-        var regex =  /^(19[0-9]{2}|20[0-9]{2})-(((0[13578]|1[02])-(0[1-9]|1[0-9]|2[0-9]|3[01]))|((0[469]|11)-(0[1-9]|1[0-9]|2[0-9]|30))|((02)-(0[1-9]|1[0-9]|2[0-9])))$/;
-        var isValid =$(this).val().length != 0 || regex.test($(this).val());
+    $("#memberBirth").blur(function(){
+        var regex =  /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+        var isValid = regex.test($(this).val());
         $(this).removeClass("is-valid is-invalid");
         $(this).addClass(isValid ? "is-valid" : "is-invalid");
          status.memberBirth = isValid;
     });
 });
+
+
    

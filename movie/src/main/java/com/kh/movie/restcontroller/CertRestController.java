@@ -46,7 +46,7 @@ public class CertRestController {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(certEmail);
 		message.setSubject("[MVC] 인증번호 발송");
-		message.setText("인증번호 확인 후 입력하세요. ["+certNo+"]");
+		message.setText("인증번호 확인 후 입력하세요. [ "+ certNo +" ]");
 		sender.send(message);
 	
 		certDao.delete(certEmail);
@@ -69,8 +69,14 @@ public class CertRestController {
 						certDao.delete(certDto.getCertEmail());
 						return Map.of("result",true);
 					}
-				}
-				return Map.of("result", false);
+				  else {
+			            // 인증 실패한 경우
+			            return Map.of("result", false, "error", "인증번호가 일치하지 않습니다.");
+			        }
+			    } else {
+			        // 이메일이 DB에 존재하지 않는 경우
+			        return Map.of("result", false, "error", "등록되지 않은 이메일 주소입니다.");
+			    }
 			}
 	
 	//비밀번호 재설정 메서드 추가

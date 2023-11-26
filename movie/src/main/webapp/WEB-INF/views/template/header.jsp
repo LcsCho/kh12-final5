@@ -81,11 +81,16 @@ $(document).ready(function() {
             success: function(response) {
                 // 로그인 성공 시의 동작
                $("#loginModal").modal("hide");
-                     // 페이지 주소에 "join"이라는 단어가 포함되어 있다면 메인 페이지로 이동
-                     if (window.location.href.indexOf("join") !== -1) {
-                         window.location.href = "${pageContext.request.contextPath}/";
-                     }
-            },
+               if (response && response.redirect) {
+                   // 만약 로그인 성공 후 redirect 속성이 있다면 해당 페이지로 이동
+                   window.location.href = response.redirect;
+               } else {
+                   // 페이지 주소에 "join"이라는 단어가 포함되어 있다면 메인 페이지로 이동
+                   if (window.location.href.indexOf("join") !== -1) {
+                       window.location.href = "/";
+                   }
+               }
+           },
             error: function(error) {
                 // 로그인 실패 시의 동작
                 alert("아이디,비밀번호가 일치하지 않습니다.");
@@ -147,6 +152,8 @@ $(function(){
            var email = window.email;
            var no = $(".cert-input").val();
            if(email.length == 0 || no.length == 0) return;
+          
+           
 
            $.ajax({
                url:"http://localhost:8080/rest/cert/checkEmail",
@@ -713,7 +720,7 @@ $(document).ready(function () {
 						<!-- 비밀번호-재설정 이메일 인증 모달 -->
 						<div class="modal fade" id="forgotPasswordModal" tabindex="-1"
 							aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
+							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title" id="forgotPasswordModalLabel">비밀번호
@@ -757,7 +764,7 @@ $(document).ready(function () {
 						<!-- 비밀번호 재설정 모달 -->
 						<div class="modal fade" id="resetPasswordModal" tabindex="-1"
 							aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
+							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title" id="resetPasswordModalLabel">비밀번호
