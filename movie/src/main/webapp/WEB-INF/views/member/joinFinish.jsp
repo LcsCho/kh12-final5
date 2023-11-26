@@ -4,6 +4,68 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
+.btn-link{
+        color: rgb(179, 57, 57);
+        font-size: 18px;
+}
+.btn-link:hover{
+    background-color: rgb(179, 57, 57, 0.1);
+    color: rgb(179, 57, 57);
+    font-size: 18px;
+}
+.btn-link:active{
+    background-color: rgb(179, 57, 57, 0.1);
+    color: rgb(179, 57, 57);
+    font-size: 18px;
+}
+.btn-primary {
+    background-color: rgb(179, 57, 57);;
+    color:white;
+    border-color: rgb(179, 57, 57);
+    font-size: 16px;
+}
+.btn-primary:hover {
+    background-color: rgb(179, 57, 57, 0.8);
+    color: white;
+    border-color: rgb(179, 57, 57, 0.8);
+    font-size: 16px;
+}
+.btn-primary:active {
+    background-color: rgb(179, 57, 57);
+    color: white;
+    border-color: rgb(179, 57, 57);
+    font-size: 16px;
+}
+.btn-danger,
+.btn-danger:hover{
+    background-color: white;
+    color:rgb(179, 57, 57);
+    border-color: rgb(179, 57, 57);
+    border-width: 2px;
+    font-size: 16px;
+}
+.btn-danger:active{
+    background-color: white;
+    color:rgb(179, 57, 57, 0.5);
+    border-color: rgb(179, 57, 57, 0.5);
+    border-width: 2px;
+    font-size: 16px;
+}
+.btn-success,
+.btn-success:hover{
+    background-color: rgb(179, 57, 57);
+    color:white;
+    border-color: rgb(179, 57, 57);
+    border-width: 2px;
+    font-size: 16px;
+}
+.btn-success:active{
+    background-color: rgb(179, 57, 57, 0.5);
+    color:white;
+    border-color: rgb(179, 57, 57, 0.5);
+    border-width: 2px;
+    font-size: 16px;
+}
 .btn-danger{
 	background-color:#B33939;
 }
@@ -89,36 +151,35 @@
 <form action="joinFinish" method="post" autocomplete="off">
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-10 offset-md-1">
+        <div class="col-md-8 offset-md-2">
         
             <div class="row mt-4">
-                <div class="col">
-                   <h1>회원가입 완료</h1>
+                <div class="col text-center">
+                   <h3 style="color:#B33939;"><strong>회원가입 완료</strong></h3>
                 </div>
             </div>
             
             <div class="row mt-4">
-                <div class="col">
-                   <h3>선호장르 선택 후 맞춤 정보를 받아보세요!</h3>
+                <div class="col text-center">
+                   <h4>선호장르 선택 후 맞춤 정보를 받아보세요!</h4>
                 </div>
             </div>
     
             <!-- 장르 체크박스 (최대 5개만 가능) -->
+                <div class="row mt-3 genre-name mx-auto" style="width:340px;">
             <c:forEach var="genreDto" items="${list}" varStatus="status">
-                <div class="row mt-4 genre-name">
-                    <div class="col">
+                    <div class="col-md-6 mb-2 d-flex align-items-center">
                         <input type="checkbox" class="check-item" name="selectedGenres"
-                            value="${genreDto.genreName}"> ${genreDto.genreName} <br>
+                            value="${genreDto.genreName}" style="width: 20px; height: 20px; margin-right: 7px;"> 
+                            <span style="font-size:16px; height:25px;" class="badge bg-danger badge-pill">${genreDto.genreName}</span>
                     </div>
-                </div>
             </c:forEach>
+                </div>
     
-            <div class="row mt-4">
+            <div class="row mt-3 text-center">
                <div class="col">
-                  <button type="submit" class="btn btn-danger btn-save">
-                    선택완료
-                  </button>
-                  <button type="button" class="btn btn-secondary btn-pass">건너뛰기</button>
+                  <button type="submit" class="btn btn-primary btn-save mb-2" style="width:50%;">선택완료</button>
+                  <button type="button" class="btn btn-secondary btn-pass" style="width:50%;">건너뛰기</button>
                </div>
             </div>
             <!-- 건너뛰기 누르면 자동으로 null값 - 안내 팝업 띄우기 -->
@@ -142,7 +203,7 @@
                 선호 장르 선택 완료!
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger close-choose-complete" 
+                <button type="button" class="btn btn-primary close-choose-complete" 
                     data-dismiss="modal">확인</button>
             </div>
         </div>
@@ -155,7 +216,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="selectAtLeastOneModalLabel">경고!</h5>
+                <h5 class="modal-title" id="selectAtLeastOneModalLabel">알림</h5>
                 <button type="button" class="btn-close close-choose-one" 
                     data-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -163,7 +224,7 @@
                 선호 장르를 1개 이상 선택하세요.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger close-choose-one" 
+                <button type="button" class="btn btn-primary close-choose-one" 
                     data-dismiss="modal">확인</button>
             </div>
         </div>
@@ -176,7 +237,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="limitWarningModalLabel">경고!</h5>
+                <h5 class="modal-title" id="limitWarningModalLabel">알림</h5>
                 <button type="button" class="btn-close close-choose-five" 
                     data-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -184,7 +245,7 @@
                 선호 장르는 5개 이하만 선택이 가능합니다.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger close-choose-five" 
+                <button type="button" class="btn btn-primary close-choose-five" 
                     data-dismiss="modal">확인</button>
             </div>
         </div>
@@ -201,8 +262,8 @@
                 <button type="button" class="btn-close close-skip" 
                     data-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                정말 건너뛰시겠습니까?
+            <div class="modal-body"> 
+               추후 선택이 불가능합니다. 정말 건너뛰시겠습니까?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary close-skip" 

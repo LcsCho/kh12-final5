@@ -394,32 +394,30 @@
 
 			<div class="container text-center">
 				<div class="row align-items-center">
-					<div
-						class="col justify-content-between d-flex flex-column 
-                                align-items-center sub-border-side"
-						style="background-color: #eedbdb;">
-						<div class="text-center center-section" style="font-size: 22px;">
-							<a href="/member/list/reviewList?memberId=${memberDto.memberId}">
+					<div class="col justify-content-between d-flex flex-column 
+                        align-items-center sub-border-side" style="background-color: #eedbdb;">
+						<div class="text-center center-section">
+							<a style="font-size: 22px;" class="btn" 
+							href="/member/list/reviewList?memberId=${memberDto.memberId}">
 								${reviewCount} </a>
 						</div>
 						<div class="text-center center-section" style="font-size: 22px;">리뷰</div>
 					</div>
-					<div
-						class="col justify-content-between d-flex flex-column
-                                align-items-center sub-border-center"
-						style="background-color: #eedbdb;">
-						<div class="text-center center-section" style="font-size: 22px;">
-							<a href="list/ratingList">
+					<div class="col justify-content-between d-flex flex-column
+                       align-items-center sub-border-center" style="background-color: #eedbdb;">
+						<div class="text-center center-section">
+							<a href="list/ratingList" style="font-size: 22px;" class="btn" >
 								${ratingCount} </a>
 						</div>
-						<div class="text-center center-section" style="font-size: 22px;">평점</div>
+						<div class="text-center center-section" style="font-size: 22px;">평가</div>
 					</div>
 					<div
 						class="col justify-content-between d-flex flex-column
                                 align-items-center sub-border-side"
 						style="background-color: #eedbdb;">
-						<div class="text-center center-section" style="font-size: 22px;">
-							<a href="/member/list/wishList?memberId=${memberDto.memberId}">
+						<div class="text-center center-section">
+							<a style="font-size: 22px;" class="btn" 
+							href="/member/list/wishList?memberId=${memberDto.memberId}">
 								${wishCount} </a>
 						</div>
 						<div class="text-center center-section" style="font-size: 22px;">찜</div>
@@ -589,4 +587,3 @@
 </div>
 <!-- 모달 끝 -->
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-
