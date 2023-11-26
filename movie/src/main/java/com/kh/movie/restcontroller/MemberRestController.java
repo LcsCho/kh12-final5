@@ -33,7 +33,6 @@ import com.kh.movie.configuration.FileUploadProperties;
 import com.kh.movie.dao.ImageDao;
 import com.kh.movie.dao.MemberDao;
 import com.kh.movie.dao.MovieDao;
-import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
 import com.kh.movie.dto.ImageDto;
@@ -66,9 +65,6 @@ public class MemberRestController {
 	
 	@Autowired
 	private RecommendDao recommendDao;
-	
-	@Autowired
-	private MovieWishDao movieWishDao;
 
 	@Autowired
 	private FileUploadProperties props;
@@ -164,7 +160,7 @@ public class MemberRestController {
 	public String change(HttpSession session, @ModelAttribute MemberDto memberDto) {
 		String memberId = (String) session.getAttribute("name");
 		
-		MemberDto findDto = memberDao.selectOne(memberId);
+		//MemberDto findDto = memberDao.selectOne(memberId);
 		
 		memberDto.setMemberId(memberId);
 		 System.out.println("Received inputDto: " + memberDto);
@@ -367,12 +363,6 @@ public class MemberRestController {
 			wishMovieList.add(wishMovieRecommendMovie);
 		}
 		return wishMovieList;
-	}
-	
-	@DeleteMapping("/wishDelete")
-	public void wishDelete(HttpSession session, @RequestParam int movieNo) {
-		String memberId = (String) session.getAttribute("name");
-		movieWishDao.deleteWish(memberId, movieNo);
 	}
 
 }
