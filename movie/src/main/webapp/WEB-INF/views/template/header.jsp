@@ -646,7 +646,6 @@ $(document).ready(function () {
 				<div class="col">
 
 					<header>
-				 		세션받은거:${sessionScope.memberId}
 						<div class="container-float">
 							<div class="row">
 								<div class="col-md-10 offset-md-1">
