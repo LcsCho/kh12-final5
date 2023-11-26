@@ -13,7 +13,7 @@ public interface ReviewDao {
 	void insert(ReviewDto reviewDto);
 	boolean delete(int reviewNo);
 	boolean edit(int reviewNo, String reviewContent);
-	List<ReviewDto> selectList(int movieNo);
+	List<ReviewListVO> selectList(int movieNo);
 	List<AdminReviewListVO> selectAdminReviewList();
 	ReviewListVO findByReviewNo(int reviewNo); //리뷰 상세 조회
 	

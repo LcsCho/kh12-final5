@@ -48,7 +48,7 @@ public class ReviewDaoImpl implements ReviewDao{
 	}
 
 	@Override
-	public List<ReviewDto> selectList(int movieNo) {
+	public List<ReviewListVO> selectList(int movieNo) {
 		return sqlSession.selectList("review.findAllByMovieNo", movieNo);
 	}
 

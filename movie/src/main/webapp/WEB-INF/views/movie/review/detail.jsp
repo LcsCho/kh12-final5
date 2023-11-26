@@ -112,8 +112,6 @@
 	                	for (var i = 0; i < response.length; i++) {
 	                        var reply = response[i];
 	                        var writeNickname = response[i].memberNickname;
-	                        console.log("작성자="+writeNickname);
-	                        console.log("접속자="+memberNickname);
 	                  
 	                        var template = $("#reply-template").html();
 	                        var htmlTemplate = $.parseHTML(template);
@@ -401,7 +399,7 @@
 				<div class="card mt-5 view-container">
 					<div class="card-body">
 						<div>
-							<img src="/images/user.jpg" class="userImage">
+							<img src="/rest/image/${review.imageNo}" class="userImage">
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							
