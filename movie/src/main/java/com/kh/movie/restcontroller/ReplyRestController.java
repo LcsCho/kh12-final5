@@ -69,12 +69,6 @@ public class ReplyRestController {
 	//댓글 삭제
 	@PostMapping("/delete")
 	public void delete(@RequestParam int replyNo) {
-		ReplyDto replyDto = replyDao.findByReplyNo(replyNo);
-		
-		int reviewNo = replyDto.getReviewNo();
-		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo);
-		int movieNo = reviewListVO.getMovieNo();
-
 		replyDao.delete(replyNo);
 	}
 }

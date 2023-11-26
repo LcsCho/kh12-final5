@@ -82,6 +82,11 @@ body {
     border-width: 2px;
     font-size: 16px;
 }
+.img-thumbnail{
+    	width: 35px;
+    	height: 35px;
+    	border-radius: 30px;
+    }
 </style>
 <script>
 	//영화 찜기능
@@ -520,6 +525,16 @@ $(document).ready(function(){
 					<c:forEach var="reviewDto" items="${reviewList}">
 						<div class="col">
 							<div class="review-item">
+							
+								<c:choose>
+								    <c:when test="${reviewDto.imageNo != 0}">
+								        <img src="/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
+								    </c:when>
+								    <c:otherwise>
+								        <img src="/images/user.jpg" class="userImage img-thumbnail">
+								    </c:otherwise>
+								</c:choose>
+									
 								<strong>${reviewDto.memberNickname}</strong>
 								<p>${reviewDto.reviewContent}</p>
 								<button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">

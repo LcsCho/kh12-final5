@@ -181,10 +181,13 @@ $(function () {
 
 	                var imageNo = review.imageNo;
 	                
-	                var imageHref = "/rest/image/" + imageNo;
-	                $(htmlTemplate).find(".userImage").attr("src", imageHref);
-	                
-	                console.log(imageHref);
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
 	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -228,12 +231,15 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
-	                var imageNo = review.imageNo;
+					var imageNo = review.imageNo;
 	                
-	                var imageHref = "/rest/image/" + imageNo;
-	                $(htmlTemplate).find(".userImage").attr("src", imageHref);
-	                
-	                console.log(imageHref);
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
 	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -277,12 +283,15 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
-	                var imageNo = review.imageNo;
+					var imageNo = review.imageNo;
 	                
-	                var imageHref = "/rest/image/" + imageNo;
-	                $(htmlTemplate).find(".userImage").attr("src", imageHref);
-	                
-	                console.log(imageHref);
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
 	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -326,12 +335,15 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
-	                var imageNo = review.imageNo;
+					var imageNo = review.imageNo;
 	                
-	                var imageHref = "/rest/image/" + imageNo;
-	                $(htmlTemplate).find(".userImage").attr("src", imageHref);
-	                
-	                console.log(imageHref);
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
 	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
@@ -375,12 +387,15 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
-	                var imageNo = review.imageNo;
+					var imageNo = review.imageNo;
 	                
-	                var imageHref = "/rest/image/" + imageNo;
-	                $(htmlTemplate).find(".userImage").attr("src", imageHref);
-	                
-	                console.log(imageHref);
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
 	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
