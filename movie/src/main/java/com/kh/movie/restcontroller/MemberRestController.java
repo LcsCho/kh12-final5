@@ -136,7 +136,7 @@ public class MemberRestController {
           session.setAttribute("level", findDto.getMemberLevel());
           memberDao.updateMemberLastLogin(memberId);
 
-          log.debug("Login successful. Session attributes: name={}, level={}", session.getAttribute("name"), session.getAttribute("level"));
+         // log.debug("Login successful. Session attributes: name={}, level={}", session.getAttribute("name"), session.getAttribute("level"));
 
           return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
       } else {
@@ -166,23 +166,25 @@ public class MemberRestController {
 		}
 	}
 	
-	//회원 정보 수정
-	@PostMapping("/change")
-	public String change(HttpSession session, @ModelAttribute MemberDto memberDto) {
-		String memberId = (String) session.getAttribute("name");
-		
-		//MemberDto findDto = memberDao.selectOne(memberId);
-		
-		memberDto.setMemberId(memberId);
-		 System.out.println("Received inputDto: " + memberDto);
-			boolean result = memberDao.updateMemberInfo(memberDto);//입력받아 정보 변경 처리
-			System.out.println("result = " + result);
-			//마지막 정보 수정 시각 갱신
-			memberDao.lastUpdate(memberDto.getMemberId());
-			
-			return "redirect:/mypage";
-	}
-	
+//	//회원 정보 수정
+//	@PostMapping("/change")
+//	public String change(HttpSession session,@RequestParam String memberContact) {
+//		String memberId = (String) session.getAttribute("name");
+//		
+//		
+//			memberDao.updateMemberInfo(memberId,memberContact);//입력받아 정보 변경 처리
+//			System.out.println("Received inputContact: " + memberContact);
+//			
+//			MemberDto memberDto = new MemberDto();
+//			memberDto.setMemberId(memberId);
+//			memberDto.setMemberContact(memberContact);
+//			
+//			//마지막 정보 수정 시각 갱신
+//			memberDao.lastUpdate(memberDto.getMemberId());
+//			
+//			return "redirect:/mypage";
+//	}
+//	
 	//회원 탈퇴
 	@PostMapping("/exit")
 	public ResponseEntity<String> exit(HttpSession session, String memberPw) {
@@ -190,8 +192,8 @@ public class MemberRestController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 	
 		//비밀번호와 암호화된 비밀번호를 비교하여 일치한다면
-		log.debug("입력PW = {}",memberPw);
-		log.debug("memberPW = {}", memberDto.getMemberPw());
+		//log.debug("입력PW = {}",memberPw);
+		//log.debug("memberPW = {}", memberDto.getMemberPw());
 		
 		if( memberDto != null && encoder.matches(memberPw, memberDto.getMemberPw())) {
 			session.removeAttribute("name");//세션에서 name의 값을 삭제
