@@ -5,7 +5,7 @@ import java.util.List;
 import com.kh.movie.dto.ReplyDto;
 
 public interface ReplyDao {
-	int sequene();
+	int sequence();
 	void insert(ReplyDto replyDto);//등록
 	boolean delete(int replyNo);//삭제
 	List<ReplyDto> findAll(int reviewNo);//댓글 목록 조회

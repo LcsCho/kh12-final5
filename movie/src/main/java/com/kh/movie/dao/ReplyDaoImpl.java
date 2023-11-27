@@ -18,7 +18,7 @@ public class ReplyDaoImpl implements ReplyDao{
 	private SqlSession sqlSession;
 	
 	@Override
-	public int sequene() {
+	public int sequence() {
 		return sqlSession.selectOne("reply.sequence");
 	}
 	

@@ -98,30 +98,33 @@ public class ReviewListRestController {
 	
 	//좋아요 설정/해제
 	@PostMapping("/likeAction")
-	public ReviewLikeVO likeAction(@RequestParam int reviewNo, HttpSession session) {
+	public ResponseEntity<String> likeAction(@RequestParam int reviewNo, HttpSession session) {
 	    // memberId로 memberNickname 가져오기
 	    String memberId = (String) session.getAttribute("name");
 	    String memberNickname = memberDao.findNicknameById(memberId);
 	    
-	    String check = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
-	    int count = reviewDao.findReviewLikeCount(reviewNo);
-
-	    ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
-	    
-	    if ("Y".equals(check)) {
-	    	reviewLikeDao.delete(reviewNo, memberNickname); // 좋아요 해제
-	    	reviewLikeVO.setCheck("N");
-	    	reviewLikeVO.setCount(count - 1);
-	    } else {
-	    	reviewLikeDao.insert(reviewNo, memberNickname); // 좋아요 설정
-	    	reviewLikeVO.setCheck("Y");
-	    	reviewLikeVO.setCount(count + 1);
+	    if(memberId != null) {
+	    	String check = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+	    	int count = reviewDao.findReviewLikeCount(reviewNo);
+	    	
+	    	ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
+	    	
+	    	if ("Y".equals(check)) {
+	    		reviewLikeDao.delete(reviewNo, memberNickname); // 좋아요 해제
+	    		reviewLikeVO.setCheck("N");
+	    		reviewLikeVO.setCount(count - 1);
+	    	} else {
+	    		reviewLikeDao.insert(reviewNo, memberNickname); // 좋아요 설정
+	    		reviewLikeVO.setCheck("Y");
+	    		reviewLikeVO.setCount(count + 1);
+	    	}
+	    	
+	    	reviewLikeVO.setReviewNo(reviewNo);
+	    	reviewLikeVO.setMemberNickname(memberNickname);
+	    	
+	    	return ResponseEntity.ok().build();
 	    }
-
-	    reviewLikeVO.setReviewNo(reviewNo);
-	    reviewLikeVO.setMemberNickname(memberNickname);
-	    
-	    return reviewLikeVO;
+	    return ResponseEntity.badRequest().body("로그인 후 이용 가능합니다.");
 	}
 	
 	//리뷰 수정
