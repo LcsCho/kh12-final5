@@ -423,7 +423,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="changePasswordModal">비밀번호 변경</h5>
+				<strong class="modal-title" id="changePasswordModal" style="font-size:20px;">비밀번호 변경</strong>
 			</div>
 			
             <div class="modal-body">
@@ -456,17 +456,17 @@
 <!-- 모달 끝 -->
 
 <!-- 회원정보 수정 모달 -->
-<div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog"
-	aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5>
-			</div>
+<!-- <div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" -->
+<!-- 	aria-labelledby="changePasswordModalLabel" aria-hidden="true"> -->
+<!-- 	<div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- 		<div class="modal-content"> -->
+<!-- 			<div class="modal-header"> -->
+<!-- 				<h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5> -->
+<!-- 			</div> -->
 
-            <div class="modal-body">
-                <!-- 회원정보 변경 폼 -->
-                <form id="changeInfoForm" action="" method="post" autocomplete="off" onsubmit="changeInfo();">
+<!--             <div class="modal-body"> -->
+<!--                 회원정보 변경 폼 -->
+<!--                 <form id="changeInfoForm" action="" method="post" autocomplete="off" onsubmit="changeInfo();"> -->
 
 <!--                     닉네임 입력 -->
 <!--                     <div class="form-group"> -->
@@ -483,24 +483,24 @@
 <%--                             value="${memberDto.memberBirth}"> --%>
 <!--                         <div class="invalid-feedback">잘못된 날짜 형식입니다</div> -->
 <!--                     </div> -->
-                    <!-- 연락처 입력 -->
-                    <div class="form-group">
-                        <label for="memberContact">연락처</label>
-                        <input type="text" class="form-control info" name="memberContact" id="memberContact"
-                            value="${memberDto.memberContact}">
-                       	<div class="valid-feedback">사용 가능한 전화번호입니다</div>
-           				<div class="invalid-feedback">형식이 올바르지 않습니다</div>
+<!--                     연락처 입력 -->
+<!--                     <div class="form-group"> -->
+<!--                         <label for="memberContact">연락처</label> -->
+<!--                         <input type="text" class="form-control info" name="memberContact" id="memberContact" -->
+<%--                             value="${memberDto.memberContact}"> --%>
+<!--                        	<div class="valid-feedback">사용 가능한 전화번호입니다</div> -->
+<!--            				<div class="invalid-feedback">형식이 올바르지 않습니다</div> -->
                             
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="submit" class="btn btn-danger" onclick="changeInfo()">수정하기</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--                     </div> -->
+<!--                 </form> -->
+<!--             </div> -->
+<!--             <div class="modal-footer"> -->
+<!--                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+<!--                 <button type="submit" class="btn btn-danger" onclick="changeInfo()">수정하기</button> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
 <!-- 모달 끝 -->
 
 <!-- 회원 탈퇴 모달 -->
@@ -510,7 +510,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exitModalLabel">회원 탈퇴</h5>
+                <strong class="modal-title" id="exitModalLabel" style="font-size:20px;">회원 탈퇴</strong>
             </div>
             <div class="modal-body">
                 <!-- 탈퇴 확인 폼 -->
