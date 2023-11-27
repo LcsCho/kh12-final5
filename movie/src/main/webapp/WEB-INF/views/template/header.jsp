@@ -153,7 +153,7 @@ $(function(){
                    $(".btn-emailSend").find(".fa-spinner").hide();
                    $(".cert-wrapper").hide();
                    $("#certBtn").hide();
-                   $(".btn-emailSend").find("span").text("발송완료");
+                   $(".btn-emailSend").find("span").text("재발송");
                    // window.alert("이메일 확인하세요!");
                    
                     $(".cert-wrapper").show();

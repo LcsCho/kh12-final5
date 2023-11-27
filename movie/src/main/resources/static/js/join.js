@@ -30,11 +30,13 @@ $(function(){
 	                if (response == "Y") {
 	                    $(e.target).addClass("is-valid");
 	                    feedbackWrapper.find('.valid-feedback').text("사용 가능한 이메일입니다").show();
+	                    $(".btn-send").prop("disabled", false);
 	                    feedbackWrapper.find('.invalid-feedback').hide();
 	                    status.memberId = true;
 	                } else {
 	                    $(e.target).addClass("is-invalid");
 	                    feedbackWrapper.find('.invalid-feedback').text("이미 사용중인 이메일입니다").show();
+	                    $(".btn-send").prop("disabled", true);
 	                    feedbackWrapper.find('.valid-feedback').hide();
 	                    status.memberId = false;
 	                }

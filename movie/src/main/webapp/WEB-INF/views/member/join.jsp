@@ -25,8 +25,8 @@ $(function(){
     	//var email = $("[name=memberId]").val();
     	//console.log("버튼 클릭됨");
         var memberEmail = $("#memberEmail").val();
+        
         if(memberEmail.length == 0){
-        	
         	return;
         }
 
