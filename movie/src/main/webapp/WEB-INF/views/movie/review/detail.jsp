@@ -321,10 +321,12 @@
 
 <script>
     function confirmDelete(reviewNo) {
+		var params = new URLSearchParams(location.search);
+	    var movieNo = params.get("movieNo");
         var confirmDelete = confirm("삭제하시겠습니까?");
         if (confirmDelete) {
             // 사용자가 확인하면, deleteReview URL로 리다이렉트
-            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo;
+            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo + "&movieNo=" + movieNo;
         }
     }
 </script>
