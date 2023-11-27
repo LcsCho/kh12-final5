@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -132,27 +133,26 @@ public class ReviewListRestController {
 	
 	//리뷰 작성(등록)
 	@PostMapping("/writeReview")
-	public void write(@RequestParam("movieNo") int movieNo,
+	public ResponseEntity<ReviewDto> write(@RequestParam("movieNo") int movieNo,
 								@RequestParam String reviewContent,
 								HttpSession session, Model model) {
-		ReviewDto reviewDto = new ReviewDto();
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
-		reviewDto.setMemberId(memberId);
-		reviewDto.setMemberNickname(memberNickname);
-		reviewDto.setMovieNo(movieNo);
-		model.addAttribute("memberNickname", memberNickname);
+		ReviewDto findReviewDto = reviewDao.findReviewByMemberId(memberId);
+		if(findReviewDto == null) {
+			ReviewDto reviewDto = new ReviewDto();
+			int reviewNo = reviewDao.sequence();
+			reviewDto.setReviewNo(reviewNo);
+			reviewDto.setMovieNo(movieNo);
+			reviewDto.setMemberId(memberId);
+			reviewDto.setMemberNickname(memberNickname);
+			reviewDto.setReviewContent(reviewContent);
+			reviewDao.insert(reviewDto);
+			return ResponseEntity.ok().build();
+		}
+		else {
+			return ResponseEntity.badRequest().build();
+		}
 		
-		List<ReviewListVO> reviewList = reviewDao.findByDateDesc(movieNo);
-		log.debug("reviewList(0) ={}", reviewList.get(0));
-		
-		
-		int reviewNo = reviewDao.sequence();
-		reviewDto.setReviewNo(reviewNo);
-		reviewDto.setReviewContent(reviewContent);
-		
-		log.debug("reviewDto = {}", reviewDto);
-		
-		reviewDao.insert(reviewDto);
 	}
 }

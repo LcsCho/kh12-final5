@@ -35,4 +35,5 @@ public interface ReviewDao {
 	int reviewCount();
 	List<AdminReviewListVO> adminReviewListByPage(int currentPage, int pageSize);
 	List<ReviewListVO> getListByMemberNickname(String memberNickname);
+	ReviewDto findReviewByMemberId(String memberId);
 }

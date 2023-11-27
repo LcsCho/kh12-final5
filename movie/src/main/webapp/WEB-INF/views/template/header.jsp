@@ -599,7 +599,6 @@ $(document).ready(function () {
 	max-height: 200px;
 	overflow-y: auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	width: 50%; /* 입력창의 절반 크기로 조정 */
 }
 /* #recentContainer { */
 /*     position: absolute; */
@@ -614,16 +613,19 @@ $(document).ready(function () {
 /* } */
 #suggestionsContainer {
     left: 0;
+    width:100%;
 }
 
 #popularContainer {
     left: 0;
     border-right: 0; /* 오른쪽 테두리 제거 */
+    width: 50%;
 }
 
 #recentContainer {
     right: 0; /* 오른쪽 끝에 위치하도록 설정 */
     border-left: 0;
+    width: 50%;
 }
 
 

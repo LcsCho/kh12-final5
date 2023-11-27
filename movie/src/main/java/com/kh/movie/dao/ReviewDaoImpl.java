@@ -148,4 +148,9 @@ public class ReviewDaoImpl implements ReviewDao{
   		return sqlSession.selectList("review.findListByMemberNickname", memberNickname);
   	}
 
+	@Override
+	public ReviewDto findReviewByMemberId(String memberId) {
+		return sqlSession.selectOne("review.findReviewByMemberId",memberId);
+	}
+
 }
