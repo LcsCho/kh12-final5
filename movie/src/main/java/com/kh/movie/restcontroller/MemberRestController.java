@@ -329,7 +329,7 @@ public class MemberRestController {
 		return memberDao.selectListByPage(currentPage, pageSize);
 	}
 	
-
+	@PostMapping("/reviewLikeList")
 	public List<ReviewLikeVO> reviewLikeList(HttpSession session) {
 
 		String memberId = (String) session.getAttribute("name");
