@@ -10,8 +10,8 @@ $(function(){
 
     $(document).ready(function () {
         // 페이지 로드 시 리뷰 목록을 가져와서 표시
-        loadReviewList();
         loadReviewLikeList();
+        loadReviewList();
     });
 
     function loadReviewLikeList() {//이게 따봉이랑 댓글 값 가져오는 구문입니다
@@ -20,20 +20,29 @@ $(function(){
             url: '/rest/member/reviewLikeList',
             method: 'post',
             success: function (response) {
+//             	console.log("리스폰스에요" + response);
+            	
+//             	console.log("Response 에요:", response); // 서버 응답 전체를 로그에 출력
+//             	for (var i = 0; i < response.length; i++) {
+//             	    console.log("Index:", i);
+//             	    console.log("ReviewNo:", response[i].reviewNo);
+//             	    console.log("Check:", response[i].check);
+//             	    console.log("LikeCount ?:", response[i].count);
+
+//             	    // 나머지 로직 ...
+//             	}
 				for(var i = 0; i< response.length; i++){
 					var reviewNo = response[i].reviewNo;
 					var check =response[i].check;
+					var likeCount =response[i].count;
 					var liked = check == "Y";
 					
-					var htmlTemplate = $("#review-template").html();
-					var $template = $(htmlTemplate);
-					var $likeButton = $template.find('.likeButton[data-reviewNo="' + reviewNo + '"]');
 					if (liked) {
                         $(".review-container [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid");
                     } else {
                         $(".review-container [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
                     }
-                    $(".review-container [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up").next("label.thumbs-up").text(response.reviewLikeCount);
+					$(".review-container [data-reviewNo='" + reviewNo + "'] .fa-thumbs-up").find(".likeCount").text(likeCount);
 	
 				}
 
@@ -52,17 +61,15 @@ $(function(){
     			reviewNo: reviewNo
     		},
     		success : function(response){
-    			console.log("count=" + response.count);
     			var $likeButton =$(".review-container .likeButton [data-reviewNo='" + reviewNo + "']");
-    			console.log("???" + response.check);
                 if (response.check=="Y") {
-                	console.log("성공~");
                     $likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
-                    $likeButton.find(".likeCount").val(response.count);
+                    console.log("좋아요 개수 상태" + response.count);
+                    $likeButton.find(".likeCount").text(response.count);
                 } else {
-                	console.log("실패~");
                     $likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid");
-                    $likeButton.find(".likeCount").val(response.count);
+                    console.log("좋아요 개수 상태" + response.count);
+                    $likeButton.find(".likeCount").text(response.count);
                 }
                 loadReviewLikeList();
     		},	
