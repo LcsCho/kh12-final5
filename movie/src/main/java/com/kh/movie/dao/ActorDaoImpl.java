@@ -118,4 +118,8 @@ public class ActorDaoImpl implements ActorDao{
 		return sqlSession.selectList("actor.adminSearchListByPage", params);
 	}
 
+	@Override
+	public int getActorCount() {
+		return sqlSession.selectOne("actor.getCount");
+	}
 }
