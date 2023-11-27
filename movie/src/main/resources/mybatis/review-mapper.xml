@@ -118,7 +118,11 @@
 	</select>
 	
 	<select id="findReviewByMemberId" resultType="ReviewDto">
-		select * from review where member_id =#{memberId}
+		select * from review where member_id =#{memberId} and movie_no = #{movieNo}
+	</select>
+	
+	<select id="findRatingByMovieNoAndNickname" resultType="Float">
+		select rating_score from review_list where movie_no = #{movieNo} and member_nickname = #{memberNickname}
 	</select>
 	
 </mapper>

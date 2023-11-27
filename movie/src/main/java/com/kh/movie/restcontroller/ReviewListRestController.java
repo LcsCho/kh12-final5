@@ -133,26 +133,34 @@ public class ReviewListRestController {
 	
 	//리뷰 작성(등록)
 	@PostMapping("/writeReview")
-	public ResponseEntity<ReviewDto> write(@RequestParam("movieNo") int movieNo,
+	public ResponseEntity<String> write(@RequestParam("movieNo") int movieNo,
 								@RequestParam String reviewContent,
 								HttpSession session, Model model) {
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
-		ReviewDto findReviewDto = reviewDao.findReviewByMemberId(memberId);
-		if(findReviewDto == null) {
-			ReviewDto reviewDto = new ReviewDto();
-			int reviewNo = reviewDao.sequence();
-			reviewDto.setReviewNo(reviewNo);
-			reviewDto.setMovieNo(movieNo);
-			reviewDto.setMemberId(memberId);
-			reviewDto.setMemberNickname(memberNickname);
-			reviewDto.setReviewContent(reviewContent);
-			reviewDao.insert(reviewDto);
-			return ResponseEntity.ok().build();
+		ReviewDto findReviewDto = reviewDao.findReviewByMemberId(memberId, movieNo);
+		
+		Float ratingScore = reviewDao.findRatingByMovieNoAndNickname(movieNo, memberNickname);
+		log.debug("ratingScore = {}", ratingScore);
+		
+		if(ratingScore != null){
+			if(findReviewDto == null) {
+				ReviewDto reviewDto = new ReviewDto();
+				int reviewNo = reviewDao.sequence();
+				reviewDto.setReviewNo(reviewNo);
+				reviewDto.setMovieNo(movieNo);
+				reviewDto.setMemberId(memberId);
+				reviewDto.setMemberNickname(memberNickname);
+				reviewDto.setReviewContent(reviewContent);
+				reviewDao.insert(reviewDto);
+				return ResponseEntity.ok().build();
+			}
+			else {
+				return ResponseEntity.badRequest().body("이미 리뷰를 작성하셨습니다.");
+			}
 		}
 		else {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.badRequest().body("별점을 등록해주세요.");
 		}
-		
 	}
 }

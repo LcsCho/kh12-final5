@@ -297,15 +297,15 @@ $(function () {
                     reviewContent: reviewContentValue // reviewContent.val()로 변경
                 },
                 success: function(response){
-                	console.log(response);
+                    console.log(response);
                     reviewWriteContainer.show();
-                    $(writeHtmlTemplate).remove(); // 변수명 수정
-                    window.alert("리뷰가 작성되었습니다!");
-                    location.reload();
+                    $(writeHtmlTemplate).remove();
+                    window.alert(response); // 서버에서 반환된 메시지를 출력
+//                     location.reload();
                 },
-                error : function(error) {
-					window.alert("이미 리뷰를 작성하셨습니다.");
-				},
+                error: function(error) {
+                    window.alert("이미 리뷰를 작성하셨습니다.");
+                },
             });
         });
 

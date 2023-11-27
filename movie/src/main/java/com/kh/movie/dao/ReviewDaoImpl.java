@@ -149,8 +149,18 @@ public class ReviewDaoImpl implements ReviewDao{
   	}
 
 	@Override
-	public ReviewDto findReviewByMemberId(String memberId) {
-		return sqlSession.selectOne("review.findReviewByMemberId",memberId);
+	public ReviewDto findReviewByMemberId(String memberId, int movieNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberId", memberId);
+		params.put("movieNo", movieNo);
+		return sqlSession.selectOne("review.findReviewByMemberId", params);
 	}
-
+	
+	@Override
+	public Float findRatingByMovieNoAndNickname(int movieNo, String memberNickname) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("movieNo", movieNo);
+		params.put("memberNickname", memberNickname);
+		return sqlSession.selectOne("review.findRatingByMovieNoAndNickname", params );
+	}
 }
