@@ -54,6 +54,10 @@
     	width: 50px;
     	height: 50px;
     }
+    .nicknameFont{
+    	font-size : 18px;
+    	font-weight: bold;
+    }
 </style>
 
 
@@ -105,11 +109,13 @@
 	
 	                if (response.length === 0) {
 	                	$(".reply-list").append(
-	                	        "<div class='row'>" +
+	                	        "<div class='row mt-5'>" +
 	                	            "<div class='col text-center'>" +
+	                	        	"<hr>" +
 	                	                "<span class='emptyMessage'>" +
 	                	                    "등록된 댓글이 없습니다." +
 	                	                "</span>" +
+	                	            "<hr>" +
 	                	            "</div>" +
 	                	        "</div>"
 	                	    );
@@ -332,28 +338,28 @@
 </script>
 
 <script id="reply-template" type="text/template">
-	<hr>
-	<div class="row">
-        <div class="col-8 offset-2">
-			
-            <div class="row">
-                <div class="col-3">
-                    <span class="memberNickname"></span>
-                </div>
-                <div class="col-6">
-                    <span class="replyDate"></span>
-                </div>
-    				<div class="col-3 d-flex justify-content-end">
+		<hr>
+		<div class="row">
+			<div class="col-8 offset-2">
+				<div class="row">
+					<div class="col-3">
+						<span class="memberNickname nicknameFont"></span>
+					</div>
+					<div class="col-6">
+						<span class="replyDate" style="font-size: 18px;">2023:11:27 21:10</span>
+					</div>
+					<div class="col-3 d-flex justify-content-end">
 						<i class="fa-solid fa-x deleteReply" style="position: relative; top: 10px; right: 20px;"></i>
-    				</div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <span class="replyContent"></span>
-            </div>
-        </div>
-    </div>
-	<hr>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-8 offset-2">
+					<span class="replyContent"></span>
+				</div>
+			</div>
+		</div>
+		<hr>
 </script>
 <script id="review-edit-template" type="text/template">
 	<div class="card mt-3 edit-container">
@@ -402,32 +408,22 @@
 				</div>
 	
 				<!-- 영화 정보 -->
-				<div class="row mt-5">
-				     <div class="col-2 offset-4 text-right">
-				         <img src="/rest/image/movieMain/${review.movieNo}" class="img-thumbnail"  style="width: 215px; height: 300px">
-				     </div>
-				     <div class="col-6 text-right">
-				         <div class="row mt-5 pt-5">
-				             <h2 class="mt-5 pt-4">${movieSimpleInfo.movieName}</h2>
-				         </div>
-				         <div class="row mt-3">
-				             <div class="col-6">
-				                 <span>${movieSimpleInfo.movieReleaseYear}</span>
-				                 <span> • </span>
-				                 <span>${movieSimpleInfo.genreName}</span>
-				                 <span> • </span>
-				                 <span>${movieSimpleInfo.movieNation}</span>
-				             </div>
-				         </div>
-				         <div class="row mt-2">
-				             <div class="col-6">
-				                 <span>${movieSimpleInfo.movieTime}분</span>
-				                 <span> • </span>
-				                 <span>${movieSimpleInfo.movieLevel}</span>
-				             </div>
-				         </div>
-				     </div>
-				 </div>
+				<div class="row justify-content-center align-items-center">
+			        <div class="col-lg-3 col-md-10 col-sm-10 text-center">
+			            <img src="/rest/image/movieMain/${movieNo}" style="width: 250px; height: 350px">
+			        </div>
+			        <div class="col-lg-6 col-md-10 col-sm-10 text-center">
+			            <div class="row">
+			                <h2 class="mt-5 pt-4">${movieSimpleInfo.movieName}</h2>
+			            </div>
+			            <div class="row mt-5">
+			                <span>${movieSimpleInfo.movieReleaseYear} • ${movieSimpleInfo.genreName} • ${movieSimpleInfo.movieNation}</span>
+			            </div>
+			            <div class="row">
+			                <span>${movieSimpleInfo.movieTime}분 • ${movieSimpleInfo.movieLevel}</span>
+			            </div>
+			        </div>
+			    </div>
 			
 				<!-- 리뷰 정보 -->
 				<div class="card mt-5 view-container">
@@ -466,12 +462,16 @@
 				</div>
 				
 				<!-- 댓글 작성 란 -->
-				<div class="row">
-                    <div class="col-8 offset-2 mt-5">
-                        <form class="reply-insert-form">
-                            <textarea name="replyContent" style="width: 92%; height: 100px; resize: none;"></textarea>
-                            <button type="submit" class="btn btn-success" style="position: relative; bottom: 13px; right: 0px;">전송</button>
-                        </form>
+				<div class="container-fluid mt-5">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <textarea name="replyContent" style="width: 100%; height: 100px; resize: none;"></textarea>
+                        </div>
+                        <div class="col-sm-8 offset-sm-2 col-md-8 col-md-2 col-lg-8 offset-lg-2 ">
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success">전송</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 				

@@ -92,6 +92,8 @@ public class ReviewListRestController {
                 .build();
 
             reviewLikeVOList.add(reviewLikeVO);
+            
+            log.debug("reviewLiktVOList = {}", reviewLikeVOList);
         }
 	    return reviewLikeVOList;
 	}
@@ -122,6 +124,8 @@ public class ReviewListRestController {
 	    	reviewLikeVO.setReviewNo(reviewNo);
 	    	reviewLikeVO.setMemberNickname(memberNickname);
 	    	
+	    	log.debug("reviewLikeVO = {}", reviewLikeVO);
+	    	
 	    	return ResponseEntity.ok().build();
 	    }
 	    return ResponseEntity.badRequest().body("로그인 후 이용 가능합니다.");
@@ -142,10 +146,6 @@ public class ReviewListRestController {
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
 		ReviewDto findReviewDto = reviewDao.findReviewByMemberId(memberId, movieNo);
-		
-//		Float ratingScore = reviewDao.findRatingByMovieNoAndNickname(movieNo, memberNickname);
-//		model.addAttribute("ratingScore", ratingScore);
-//		log.debug("ratingScore = {}", ratingScore);
 		
 		if(findReviewDto == null) {
 			ReviewDto reviewDto = new ReviewDto();

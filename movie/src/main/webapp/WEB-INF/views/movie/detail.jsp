@@ -9,16 +9,14 @@
 body {
 	padding-top: 30px;
 }
-
-.review-container {
-	margin-top: 20px;
-}
-
 .review-item {
-	border: 1px solid #ccc;
-	padding: 10px;
-	margin-bottom: 10px;
-	border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: rgb(179, 57, 57, 0.2);
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        width: 10em;
+        height: 10em;
 }
  .btn-link{
         color: rgb(179, 57, 57);
@@ -86,8 +84,14 @@ body {
     	width: 35px;
     	height: 35px;
     	border-radius: 30px;
-    }
+}
+.ellipsis {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+}
 </style>
+
 <script>
 	//영화 찜기능
 	$(function() {
@@ -409,16 +413,18 @@ $(document).ready(function(){
 </script>
 
 <script id="review-write-template" type="text/template">
-	<div class="row mt-3 mb-3 content-right">
-		<form class="review-insert-form">
-			<div class="col-8 offset-2">
-				<textarea class="form-control" id="review-content" name="reviewContent" rows="10" style=" height: 150px; resize: none;""></textarea>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<textarea class="form-control" id="review-content" name="reviewContent" rows="10" style="height: 150px; resize: none;"></textarea>
 			</div>
-			<div class="col">
-				<button type="submit" class="btn btn-success write-success" style="position: relative; left: 0px; top: 6.8em;">등록</button>
-				<button type="button" class="btn btn-danger write-cancel" style="position: relative; left: 0px; top: 6.8em;">취소</button>
+			<div class="col-sm-8 offset-sm-2 col-md-8 col-md-2 col-lg-8 offset-lg-2 mt-2">
+				<div class="d-flex justify-content-end">
+					<button type="button" class="btn btn-danger write-cancel">취소</button>
+					<button type="submit" class="btn btn-success ms-2 write-success">등록</button>
+				</div>
 			</div>
-		</form>
+		</div>
 	</div>
 </script>
 
@@ -498,12 +504,12 @@ $(document).ready(function(){
 			<!-- 리뷰 작성란 -->
 			<c:if test="${sessionScope.name != null }">
 			<div class="row content-end review-write-container">
-        		<div class="col-8 offset-2 text-end">
-                	<button type="button" class="btn btn-primary writeReview">
-						리뷰작성 <i class="fa-solid fa-pen" style="color: #fff;"></i>
-            		</button>
-        		</div>
-    		</div>
+			    <div class="col d-flex justify-content-end">
+			        <button type="button" class="btn btn-primary writeReview">
+			            리뷰작성 <i class="fa-solid fa-pen" style="color: #fff;"></i>
+			        </button>
+			    </div>
+			</div>
 			</c:if>
 			
 			<!-- Still Cut Section -->
@@ -532,10 +538,10 @@ $(document).ready(function(){
 			</c:if>
 
 			<!-- Review Section -->
-			<div class="container">
+			<div class="container mt-5">
 				<div class="row">
 					<div class="col d-flex">
-						<h4 class="mt-3">리뷰</h4>
+						<h4 class="mt-3" style="font-weight: bold">리뷰</h4>
 						<div class="ms-auto mt-3">
 							<a href="review/list?movieNo=${movieDto.movieNo}" class="btn btn-link">
 								<button class="btn btn-link">
@@ -561,18 +567,20 @@ $(document).ready(function(){
 								</c:choose>
 									
 								<strong>${reviewDto.memberNickname}</strong>
-								<p>${reviewDto.reviewContent}</p>
-								<button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
-									<i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
-								</button>
-									<a class="commentButton" data-reviewNo="${reviewDto.reviewNo}">
-										<button type="button" class="btn btn-link replyButton" data-reviewNo="${reviewDto.reviewNo}">
-											<i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
-										</button>
-									</a>
-							</div>
-						</div>
-					</c:forEach>
+								<p class="mt-3 ellipsis" style="max-width: 200px;">${reviewDto.reviewContent}</p>
+								<div class="mt-3">
+								    <button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
+								        <i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
+								    </button>
+								    <a class="commentButton" data-reviewNo="${reviewDto.reviewNo}">
+								        <button type="button" class="btn btn-link replyButton" data-reviewNo="${reviewDto.reviewNo}">
+								            <i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
+								        </button>
+								    </a>
+								</div>
+                            </div>
+                        </div>
+                    </c:forEach>
 				</div>
 				
 			</div>
