@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -375,6 +376,11 @@ public class MemberRestController {
 			wishMovieList.add(wishMovieRecommendMovie);
 		}
 		return wishMovieList;
+	}
+	@DeleteMapping("/wishDelete")
+	public void wishDelete(HttpSession session, @RequestParam int movieNo) {
+		String memberId= (String) session.getAttribute("name");
+		movieWishDao.deleteWish(memberId, movieNo);
 	}
 
 }
