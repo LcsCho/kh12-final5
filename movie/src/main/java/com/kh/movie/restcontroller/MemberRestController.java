@@ -326,8 +326,7 @@ public class MemberRestController {
 	}
 	
 	@GetMapping("/reviewList")
-	public List<ReviewListVO> reviewList(HttpSession session, Model model) {
-		
+	public List<ReviewListVO> reviewList(HttpSession session) {
 		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		String memberNickname = memberDto.getMemberNickname();
