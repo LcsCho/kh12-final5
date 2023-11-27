@@ -647,77 +647,64 @@ $(document).ready(function () {
 #suggestionsContainer a, #popularContainer a, #recentContainer a {
 	cursor: pointer;
 }
+
 </style>
 </head>
 
 <body class="center">
 	<main>
-		
+		<header>
+		 <div class="container-fluid">
+        <nav class="navbar navbar-primary bg-white sticky-top pt-3">
+            <a class="navbar-brand mb-2" href="http://localhost:8080/">
+                <img src="/images/mvc.png"width="150">
+            </a>
+            <form class="position-relative" action="/" method="post" id="movieSearchForm">
+                <div class="col d-flex">
+                            <input class="form-control col-12 col-md-8 d-flex me-sm-2 custom-search"
+                                type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
+                                style="height: fit-content;" autocomplete="off"
+                                id="searchInput">
+                            <div id="popularContainer" class="me-2"></div>
+                            <div id="recentContainer"></div>
+                            <div id="suggestionsContainer"></div>
+                            <button class="btn btn-danger my-2 my-sm-0 custom-search-btn c-btn"
+                                id="searchButton" disabled type="submit"
+                                style="height: fit-content;">검색</button>
+                        </div>
+           		 </form>
+					 <!-- 권한에 따른 버튼 -->
+                    <div class="d-flex align-items-center ms-5">
+                        <c:if test="${sessionScope.level == '관리자' }">
+                            <a href="http://localhost:3000/" class="btn c-btn " style="height: fit-content;"><i
+                                class="fa-solid fa-screwdriver-wrench fa-2x1"></i></a>
+                        </c:if>
 
-					<header>
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col-md-10 offset-md-1">
-									<div class="row align-items-center me-3 mt-3">
-
-										<div class="col-12 col-md-4">
-											<a href="http://localhost:8080/"> <img
-												src="/images/mvc.png" width="150">
-											</a>
-										</div>
-										
-										<!-- 검색창과 검색 버튼 -->
-										<div class="col-12 col-md-8 d-flex  justify-content-between align-items-center">
-											<form action="/" method="post" class="d-flex"
-												id="movieSearchForm">
-												<div class="position-relative d-flex align-items-center">
-													<!-- 부모 요소 추가 -->
-													<input class="form-control col-md-8 d-flex me-sm-2 custom-search"
-														type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
-														style="height: fit-content;" autocomplete="off"
-														id="searchInput">
-													<div id="popularContainer" class="me-2"></div>
-													<div id="recentContainer" class="me-2"></div>
-													<div id="suggestionsContainer"></div>
-												<button
-													class="btn btn-danger my-2 my-sm-0 custom-search-btn c-btn"
-													id="searchButton" disabled type="submit"
-													style="height: fit-content;">검색</button>
-
-												</div>
-											</form>
-											<c:if test="${sessionScope.level == '관리자' }">
-												<a href="http://localhost:3000/" class="btn c-btn ms-5"
-													style="height: fit-content;"><i
-													class="fa-solid fa-screwdriver-wrench fa-2x1"></i></a>
-											</c:if>
-											<c:choose>
-												<c:when test="${sessionScope.name !=null}">
-													<a href="/member/logout" class="btn c-btn logout-btn ms-3" data-bs-toggle="modal"
-														data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
-														class="fa fa-sign-out-alt fa-2xl"></i>
-													</a>
-													<a href="/member/mypage" class="btn c-btn ms-3"
-														style="height: fit-content;"> <i
-														class="fa-solid fa-user fa-2xl"></i>
-													</a>
-												</c:when>
-												<c:otherwise>
-													<a href="#" class="btn c-btn ms-3" data-bs-toggle="modal"
-														data-bs-target="#loginModal" style="height: fit-content;">
-														<i class="fa-solid fa-right-to-bracket fa-2xl"></i>
-													</a>
-													<a href="/member/join" class="btn c-btn ms-3"
-														style="height: fit-content;"> <i
-														class="fa fa-user-plus fa-2xl"></i>
-													</a>
-												</c:otherwise>
-											</c:choose>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                        <!-- 로그인/로그아웃 버튼 -->
+                        <c:choose>
+                            <c:when test="${sessionScope.name !=null}">
+                                <a href="/member/logout" class="btn c-btn logout-btn " data-bs-toggle="modal"
+                                    data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
+                                    class="fa fa-sign-out-alt fa-2xl"></i>
+                                </a>
+                                <a href="/member/mypage" class="btn c-btn " style="height: fit-content;"> <i
+                                    class="fa-solid fa-user fa-2xl"></i>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="#" class="btn c-btn " data-bs-toggle="modal"
+                                    data-bs-target="#loginModal" style="height: fit-content;">
+                                    <i class="fa-solid fa-right-to-bracket fa-2xl"></i>
+                                </a>
+                                <a href="/member/join" class="btn c-btn " style="height: fit-content;"> <i
+                                    class="fa fa-user-plus fa-2xl"></i>
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    </nav>
+                </div>
+           
 						<!-- 로그인 모달 -->
 						<div class="modal fade" id="loginModal" tabindex="-1"
 							aria-labelledby="loginModalLabel" aria-hidden="true">
