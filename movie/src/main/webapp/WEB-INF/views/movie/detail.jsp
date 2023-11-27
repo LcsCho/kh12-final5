@@ -300,8 +300,8 @@ $(function () {
                     console.log(response);
                     reviewWriteContainer.show();
                     $(writeHtmlTemplate).remove();
-                    window.alert(response); // 서버에서 반환된 메시지를 출력
-//                     location.reload();
+                    window.alert("됨"); // 서버에서 반환된 메시지를 출력
+                    location.reload();
                 },
                 error: function(error) {
                     window.alert("이미 리뷰를 작성하셨습니다.");

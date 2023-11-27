@@ -8,7 +8,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,10 +37,12 @@ import com.kh.movie.dao.MovieWishDao;
 import com.kh.movie.dao.RatingDao;
 import com.kh.movie.dao.RecommendDao;
 import com.kh.movie.dao.ReviewDao;
+import com.kh.movie.dao.ReviewLikeDao;
 import com.kh.movie.dto.ImageDto;
 import com.kh.movie.dto.MemberDto;
 import com.kh.movie.vo.MovieListVO;
 import com.kh.movie.vo.MovieVO;
+import com.kh.movie.vo.ReviewLikeVO;
 import com.kh.movie.vo.ReviewListVO;
 import com.kh.movie.vo.WishMovieRecommendVO;
 
@@ -77,7 +78,10 @@ public class MemberRestController {
 	@Autowired
 	private ReviewDao reviewDao;
 
-
+	@Autowired
+	private ReviewLikeDao reviewLikeDao;
+	
+	
 	@Autowired
 	private FileUploadProperties props;
 
@@ -323,14 +327,42 @@ public class MemberRestController {
 		return memberDao.selectListByPage(currentPage, pageSize);
 	}
 	
-	@GetMapping("/reviewList")
-	public List<ReviewListVO> reviewList(HttpSession session, Model model) {
+	@PostMapping("/reviewLikeList")//좋아요 기능 리스트
+	public List<ReviewLikeVO> reviewLikeList(HttpSession session, Model model) {
 		
 		String memberId = (String) session.getAttribute("name");
-		MemberDto memberDto = memberDao.selectOne(memberId);
-		String memberNickname = memberDto.getMemberNickname();
+		String memberNickname = memberDao.findNicknameById(memberId);
+	    // 영화에 달린 리뷰 번호 가져오기
+		
+		//멤버 이름으로 가져온 리뷰 리스트
 		List<ReviewListVO> reviewList = reviewDao.getListByMemberNickname(memberNickname); 
+		
+		//리뷰 좋아요 기능이 달린 리스트
+		List<ReviewLikeVO> reviewLikeList = new ArrayList<>();
+		for(ReviewListVO review : reviewList) {//리뷰리스트 값을 review로 지정하고 reviewList 개수만큼 반복
+			int reviewNo = review.getReviewNo();
+			String reviewLIke = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+			
+			ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
+					.check(reviewLIke)
+					.count(reviewDao.findReviewLikeCount(reviewNo))
+					.reviewNo(reviewNo)
+					.memberNickname(memberNickname)
+					.build();
+			
+			reviewLikeList.add(reviewLikeVO);
+		}
+		return reviewLikeList;
+	}
+	
+	@GetMapping("/reviewList")
+	public List<ReviewListVO> reviewList(HttpSession session){
+		String memberId = (String)session.getAttribute("name");
+		String memberNickname = memberDao.findNicknameById(memberId);
+		
+		List <ReviewListVO> reviewList = reviewDao.getListByMemberNickname(memberNickname); 
 		return reviewList;
+		
 	}
 	
 	@GetMapping("/ratingList")
