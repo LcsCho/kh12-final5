@@ -32,7 +32,7 @@ $(function(){
 
         $(".btn-send").prop("disabled", true);
         $(".btn-send").find(".fa-spinner").show();
-        $(".btn-send").find("span").text("이메일 발송중");
+        $(".btn-send").find("span").text("발송중");
         $.ajax({
             url:"http://localhost:8080/rest/cert/send",
             method:"post",
@@ -41,7 +41,7 @@ $(function(){
                 $(".btn-send").prop("disabled", false);
                 $(".btn-send").find(".fa-spinner").hide();
                 $(".cert-wrapper").hide();
-                $(".btn-send").find("span").text("발송하기");
+                $(".btn-send").find("span").text("재발송");
                  // window.alert("이메일 확인하세요!");
 
                  $(".cert-wrapper").show();
@@ -74,7 +74,7 @@ $(function(){
                                 $("#cert-input").removeClass("is-valid is-invalid")
                                     .addClass("is-valid");
                                 $(".btn-cert").prop("disabled", true);
-                                console.log("이메일 인증 완료");
+                                //console.log("이메일 인증 완료");
 
                                 // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
                                 $(".btn-send").find("span").text("인증완료!");
@@ -101,6 +101,7 @@ $(function(){
                 <form class="join-form" action="join" method="post" autocomplete="off">
 
                     <!-- 제목 -->
+                    <div class="container-fluid">
                     <div class="row">
                         <div class="col">
                             <h3 class="text-center">회원 가입</h3>
@@ -110,15 +111,15 @@ $(function(){
                     </div>
 					<!-- 아이디 입력창 -->
                     <div class="row">
-                        <div class="col-9">
+                        <div class="col-8">
                             <div class="form-floating">
                                 <input type="email" id="memberEmail" class="form-control" placeholder=""
                                     name="memberId">
                                 <label>아이디(이메일)</label>
                             </div>
                         </div>
-                        <div class="col-3 d-flex align-items-center">
-                            <button type="button" class="btn-send btn btn-danger btn-lg form-control" style="font-size:15px;">
+                        <div class="col-4 d-flex align-items-center">
+                            <button type="button" class="btn-send btn btn-danger btn-lg form-control" style="font-size:14px; height:54px;">
                                 <i class="fa-solid fa-spinner fa-spin"></i>
                                 <span>인증</span>
                             </button>
@@ -126,15 +127,15 @@ $(function(){
                     </div>
 					<!-- 인증번호 입력창 -->
                     <div class="row mt-2">
-                        <div class="col-9">
+                        <div class="col-8">
                             <div class="form-floating cert-wrapper">
                                 <input type="text" id="cert-input" class="form-control" placeholder="">
                                 <label>인증번호 6자리</label>
                            </div>
                      </div>
-                             <div class="col-3 d-flex align-items-center">
-                                <button type="button" class="btn-cert btn btn-danger btn-lg form-control" style="font-size:15px;">
-                                <span>확인완료</span>
+                             <div class="col-4 d-flex align-items-center">
+                                <button type="button" class="btn-cert btn btn-danger btn-lg form-control" style="font-size:14px; height:54px;">
+                                <span>확인</span>
                             </button>
                            </div>
                             <div class="feedback">
@@ -224,7 +225,7 @@ $(function(){
                             </button>
                         </div>
                     </div>
-
+				</div>
 
                 </form>
             </div>

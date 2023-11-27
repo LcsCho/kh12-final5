@@ -13,7 +13,7 @@ $(function () {
     $("#email").blur(function (e) {
         var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
         var isValid = regex.test($(this).val());
-        var feedbackWrapper = $(this).closest('.mb-3').find('.feedback');
+        var feedbackWrapper = $(this).closest('.col-3').next().find('.feedback');
 
         if (isValid) {
             $(e.target).removeClass("is-valid is-invalid").addClass("is-valid");

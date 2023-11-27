@@ -153,7 +153,7 @@ $(function(){
                    $(".btn-emailSend").find(".fa-spinner").hide();
                    $(".cert-wrapper").hide();
                    $("#certBtn").hide();
-                   $(".btn-emailSend").find("span").text("재발송");
+                   $(".btn-emailSend").find("span").text("발송완료");
                    // window.alert("이메일 확인하세요!");
                    
                     $(".cert-wrapper").show();
@@ -187,14 +187,14 @@ $(function(){
                        $(".cert-input").removeClass("is-valid is-invalid")
                                        .addClass("is-valid");
                        $("#certBtn").prop("disabled", true);
-                       //상태객체에 상태 저장하는 코드
+                       
                        
                     // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
-                       $(".btn-send").find("span").text("인증완료!");
-                       $(".btn-send").prop("disabled", true);
+                       $(".btn-emailSend").find("span").text("인증완료!");
+                       $(".btn-emailSend").prop("disabled", true);
                        $(".cert-wrapper").hide();
                        $("#certBtn").hide();
-                       
+                    
                     // '비밀번호 재설정하러가기' 버튼 생성
                        //if (!$('#resetPasswordButton').length) {
                        var resetPasswordButton = $('<button/>', {
@@ -217,7 +217,7 @@ $(function(){
        });
     			// 모달이 닫힐 때 이벤트 처리
        			$('#forgotPasswordModal').on('hidden.bs.modal', function () {
-       				if ($(".btn-send").find("span").text() !== "재발송") {
+       				if ($(".btn-emailSend").find("span").text() !== "재발송") {
        		            return;
        				}
           		 location.reload();
@@ -547,6 +547,7 @@ $(document).ready(function () {
 
 <style>
 
+
  .logout-btn{
 	color:#B33939;
 }
@@ -651,41 +652,39 @@ $(document).ready(function () {
 
 <body class="center">
 	<main>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col">
+		
 
 					<header>
-						<div class="container-float">
+						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-10 offset-md-1">
 									<div class="row align-items-center me-3 mt-3">
 
-										<div class="col-4">
+										<div class="col-12 col-md-4">
 											<a href="http://localhost:8080/"> <img
 												src="/images/mvc.png" width="150">
 											</a>
 										</div>
-
-										<div class="col-8 d-flex justify-content-end">
+										
+										<!-- 검색창과 검색 버튼 -->
+										<div class="col-12 col-md-8 d-flex  justify-content-between align-items-center">
 											<form action="/" method="post" class="d-flex"
 												id="movieSearchForm">
-												<div class="position-relative">
+												<div class="position-relative d-flex align-items-center">
 													<!-- 부모 요소 추가 -->
-													<input class="form-control me-sm-2 custom-search"
+													<input class="form-control col-md-8 d-flex me-sm-2 custom-search"
 														type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
 														style="height: fit-content;" autocomplete="off"
 														id="searchInput">
-													<div id="popularContainer"></div>
-													<div id="recentContainer"></div>
+													<div id="popularContainer" class="me-2"></div>
+													<div id="recentContainer" class="me-2"></div>
 													<div id="suggestionsContainer"></div>
-
-
-												</div>
 												<button
 													class="btn btn-danger my-2 my-sm-0 custom-search-btn c-btn"
 													id="searchButton" disabled type="submit"
 													style="height: fit-content;">검색</button>
+
+												</div>
 											</form>
 											<c:if test="${sessionScope.level == '관리자' }">
 												<a href="http://localhost:3000/" class="btn c-btn ms-5"
@@ -694,21 +693,21 @@ $(document).ready(function () {
 											</c:if>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
-													<a href="/member/logout" class="btn c-btn logout-btn ms-5" data-bs-toggle="modal"
+													<a href="/member/logout" class="btn c-btn logout-btn ms-3" data-bs-toggle="modal"
 														data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
 														class="fa fa-sign-out-alt fa-2xl"></i>
 													</a>
-													<a href="/member/mypage" class="btn c-btn"
+													<a href="/member/mypage" class="btn c-btn ms-3"
 														style="height: fit-content;"> <i
 														class="fa-solid fa-user fa-2xl"></i>
 													</a>
 												</c:when>
 												<c:otherwise>
-													<a href="#" class="btn c-btn ms-5" data-bs-toggle="modal"
+													<a href="#" class="btn c-btn ms-3" data-bs-toggle="modal"
 														data-bs-target="#loginModal" style="height: fit-content;">
 														<i class="fa-solid fa-right-to-bracket fa-2xl"></i>
 													</a>
-													<a href="/member/join" class="btn c-btn"
+													<a href="/member/join" class="btn c-btn ms-3"
 														style="height: fit-content;"> <i
 														class="fa fa-user-plus fa-2xl"></i>
 													</a>
@@ -810,7 +809,7 @@ $(document).ready(function () {
                             </div>
                         </div>
                         <div class="col-3 d-flex align-items-center">
-                            <button type="button" class="btn-emailSend btn btn-danger btn-lg form-control" style="font-size:15px;">
+                            <button type="button" class="btn-emailSend btn btn-danger btn-lg form-control" style="font-size:14px; height:54px;">
                                 <i class="fa-solid fa-spinner fa-spin"></i>
                                 <span>인증</span>
                             </button>
@@ -825,11 +824,11 @@ $(document).ready(function () {
                            </div>
                      </div>
                              <div class="col-3 d-flex align-items-center">
-                                <button type="button" id="certBtn" class="btn btn-danger btn-lg form-control" style="font-size:15px;">
-                                <span>확인완료</span>
+                                <button type="button" id="certBtn" class="btn btn-danger btn-lg form-control"  style="font-size:14px; height:54px;">
+                                <span>확인</span>
                             </button>
                            </div>
-                            <div class="feedback email-feedback">
+                            <div class="feedback">
 					            <div class="valid-feedback"></div>
 					            <div class="invalid-feedback"></div>
         				</div>
@@ -846,7 +845,7 @@ $(document).ready(function () {
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
-										<strong class="modal-title" id="resetPasswordModalLabel" style="">비밀번호
+										<strong class="modal-title" id="resetPasswordModalLabel" style="font-size:20px;">비밀번호
 											재설정</strong>
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
@@ -879,8 +878,12 @@ $(document).ready(function () {
                                 <label>비밀번호 확인</label>
                                 <div class="valid-feedback"></div>
                                 <div class="invalid-feedback"></div>
-                                <div class="row">
-                                <button type="submit" class="btn btn-danger form-control">비밀번호 재설정</button>
+                                
+                             <div class="row mt-2">
+                               <div class="col">
+                                <button type="submit" class="btn btn-danger form-control" 
+                                		style="width:466px; height:54px;">비밀번호 재설정</button>
+                                	</div>
                             	</div>
                             </div>
                         </div>
@@ -895,9 +898,9 @@ $(document).ready(function () {
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">알림</h5>
+                <strong class="modal-title" id="logoutModalLabel" style="font-size:20px;">알림</strong>
             </div>
-            <div class="modal-body p-5" style="font-size: 20px;">로그아웃하시겠습니까?</div>
+            <div class="modal-body p-5" style="font-size: 18px;">정말 로그아웃하시겠습니까?</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary close-logoutBtn" data-bs-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-danger" id="logoutButton">확인</button>
