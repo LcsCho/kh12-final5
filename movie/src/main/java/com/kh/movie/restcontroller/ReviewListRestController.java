@@ -99,7 +99,7 @@ public class ReviewListRestController {
 	
 	//좋아요 설정/해제
 	@PostMapping("/likeAction")
-	public ResponseEntity<String> likeAction(@RequestParam int reviewNo, HttpSession session) {
+	public ResponseEntity<ReviewLikeVO> likeAction(@RequestParam int reviewNo, HttpSession session) {
 	    // memberId로 memberNickname 가져오기
 	    String memberId = (String) session.getAttribute("name");
 	    String memberNickname = memberDao.findNicknameById(memberId);
@@ -123,9 +123,9 @@ public class ReviewListRestController {
 	    	reviewLikeVO.setReviewNo(reviewNo);
 	    	reviewLikeVO.setMemberNickname(memberNickname);
 	    	
-	    	return ResponseEntity.ok().build();
+	    	return ResponseEntity.ok().body(reviewLikeVO);
 	    }
-	    return ResponseEntity.badRequest().body("로그인 후 이용 가능합니다.");
+	    return ResponseEntity.badRequest().build();
 	}
 	
 	//리뷰 수정

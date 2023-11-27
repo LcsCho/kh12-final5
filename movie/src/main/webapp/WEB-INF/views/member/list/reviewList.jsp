@@ -92,8 +92,8 @@ $(function(){
     
     
     $(".review-container").on("click", ".likeButton", function () {
-        var clickedReviewNo = $(this).data("reviewNo");
-        console.log(clickedReviewNo);
+        var clickedReviewNo = $(this).data("reviewno");
+        console.log("click! = "+clickedReviewNo);
         reviewLike(clickedReviewNo);
     });    
     
@@ -102,14 +102,13 @@ $(function(){
         // 리뷰를 동적으로 생성하여 화면에 추가
         var template = $('#review-template').html();
         var $reviewCard = $(template);
-        // 리뷰 데이터를 템플릿에 적용
-        console.log("아오!=" + review.reviewLikeCount);
+        // 리뷰 데이터를 템플릿에 적용     
         $reviewCard.find('.userImage').attr('src', '/rest/image/' + review.imageNo);
         $reviewCard.find('.memberNickname').text(review.memberNickname);
         $reviewCard.find('.ratingScore').text(review.ratingScore);
         $reviewCard.find('.reviewContent').text(review.reviewContent);
         $reviewCard.find('.replyCount').text(review.reviewReplyCount);
-        $reviewCard.find('.likeButton').attr('data-reviewNo', review.reviewNo);
+        $reviewCard.find('.likeButton').attr('data-reviewno', review.reviewNo);
         $reviewCard.find('.likeCount').text(review.reviewLikeCount);
         // 리뷰 카드를 화면에 추가
         $('.review-container').append($reviewCard);
