@@ -379,7 +379,18 @@
 		<div class="row">
 			<div class="col-md-10 offset-md-1 mb-5 mt-5">
 
-				<!-- 영화 목록으로 이동 -->	
+				<!-- 영화 상세로 이동 -->
+				<div class="row">
+					<div class="col-3">
+						<a href="/movie/detail?movieNo=${movieSimpleInfo.movieNo}">
+							<button type="button" class="btn btn-link">
+								<i class="fa-solid fa-angle-left"></i>영화 상세
+							</button>
+						</a>
+					</div>
+				</div>
+				
+				<!-- 리뷰 목록으로 이동 -->	
 				<div class="row">
 					<div class="col-3">
 						<a href="list?movieNo=${review.movieNo}">

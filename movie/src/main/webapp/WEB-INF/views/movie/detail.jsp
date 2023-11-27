@@ -184,8 +184,7 @@ body {
                         // 이미 매긴 별점과 동일한 경우 삭제 처리
 //                         console.log(response.ratingScore=== parseFloat(selectedRating));
                         if (parseFloat(response.ratingScore) === parseFloat(selectedRating)) {//selectedRating은 String이라 변환
-                        	
-                        	var confirmDelete = confirm("정말로 별점을 삭제하시겠습니까?");
+                        	var confirmDelete = confirm("별점 삭제시 본인이 작성한 리뷰도 함께 삭제됩니다. \n정말 별점을 삭제하시겠습니까?");
                             if (confirmDelete) {
                                 // 사용자가 확인한 경우에만 삭제 처리
                                 $.ajax({
@@ -194,7 +193,8 @@ body {
                                     success: function(deleteResponse) {
 //                                         console.log('평점이 성공적으로 삭제되었습니다.');
                                         $('.rate input').prop('checked', false);//삭제했으면 별점 비어있는 형태로 만들기
-                                        // 추가적인 UI 업데이트 로직 작성
+                                        location.reload();
+										
                                     },
                                     error: function(deleteError) {
                                         console.error('평점 삭제 중 오류가 발생했습니다:', deleteError);
@@ -253,11 +253,13 @@ body {
 
 <script>
 $(function () {
-
+	
     // 리뷰 작성(등록)
     $(".writeReview").click(function(e){
         // 리뷰작성 버튼 숨기기
         $(this).hide();
+		
+        var selectedRating = $('input[name=rating]:checked').val();
         
         // 리뷰 버튼 창 가져오기
         var reviewWriteContainer = $(this).closest(".review-write-container");
@@ -284,29 +286,41 @@ $(function () {
             var params = new URLSearchParams(location.search);
             var movieNo = params.get("movieNo");
             
+            console.log(selectedRating);
             
-            var reviewContentValue = reviewContent.val(); // .val() 추가
+            var reviewContent = $("#review-content").val(); // .val() 추가
 			
-            console.log(reviewContentValue);
+            if (selectedRating != null) {
+	            $.ajax({
+	                url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
+	                method: "post",
+	                data: {
+	                    movieNo: movieNo,
+	                    reviewContent: reviewContent // reviewContent.val()로 변경
+	                },
+	                success: function(response){
+	                	console.log(response);
+	                	
+	                    reviewWriteContainer.show();
+	                    $(writeHtmlTemplate).remove(); // 변수명 수정
+	                    window.alert("리뷰가 작성되었습니다!");
+	                    location.reload();
+	                },
+	                error: function(error) {
+	                    window.alert("이미 리뷰를 등록하셨습니다.");
+	                    reviewWriteContainer.show();
+	    	            $(writeHtmlTemplate).remove();
+	                },
+	            });
+	        } else {
+	            handleError("별점을 먼저 등록해주세요");
+	            reviewWriteContainer.show();
+	            $(writeHtmlTemplate).remove();
+	        }
             
-            $.ajax({
-                url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
-                method: "post",
-                data: {
-                    movieNo: movieNo,
-                    reviewContent: reviewContentValue // reviewContent.val()로 변경
-                },
-                success: function(response){
-                    console.log(response);
-                    reviewWriteContainer.show();
-                    $(writeHtmlTemplate).remove();
-                    window.alert(response); // 서버에서 반환된 메시지를 출력
-//                     location.reload();
-                },
-                error: function(error) {
-                    window.alert("이미 리뷰를 작성하셨습니다.");
-                },
-            });
+	        function handleError(errorMessage) {
+	            window.alert(errorMessage);
+	        }
         });
 
         reviewWriteContainer.hide().after(writeHtmlTemplate);
