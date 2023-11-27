@@ -154,13 +154,15 @@
         <div class="col-md-8 offset-md-2">
         
             <div class="row mt-4">
-                <div class="col text-center">
-                   <h3 style="color:#B33939;"><strong>회원가입 완료</strong></h3>
+                <div class="col text-center me-2">
+                   <h3 style="color:#B33939;"><i class="fa-solid fa-check fa-2xl"></i>
+                   <strong class="ms-2">회원가입 완료</strong>
+                   </h3>
                 </div>
             </div>
             
             <div class="row mt-4">
-                <div class="col text-center">
+                <div class="col text-center mb-2">
                    <h4>선호장르 선택 후 맞춤 정보를 받아보세요!</h4>
                 </div>
             </div>
@@ -168,21 +170,25 @@
             <!-- 장르 체크박스 (최대 5개만 가능) -->
                 <div class="row mt-3 genre-name mx-auto" style="width:340px;">
             <c:forEach var="genreDto" items="${list}" varStatus="status">
-                    <div class="col-md-6 mb-2 d-flex align-items-center">
-                        <input type="checkbox" class="check-item" name="selectedGenres"
-                            value="${genreDto.genreName}" style="width: 20px; height: 20px; margin-right: 7px;"> 
-                            <span style="font-size:16px; height:25px;" class="badge bg-danger badge-pill">${genreDto.genreName}</span>
-                    </div>
+                    <div class="col-md-6 mb-3">
+			            <label class="d-flex align-items-center">
+			                <input type="checkbox" class="check-item" name="selectedGenres" value="${genreDto.genreName}" style="width: 20px; height: 20px; margin-right: 9px;">
+			                <span style="font-size:16px; height:25px;" class="badge bg-danger badge-pill">${genreDto.genreName}</span>
+			            </label>
+			        </div>
             </c:forEach>
                 </div>
     
             <div class="row mt-3 text-center">
-               <div class="col">
-                  <button type="button" class="btn btn-primary btn-save mb-2" style="width:50%;">선택완료</button>
-                  <button type="button" class="btn btn-secondary btn-pass" style="width:50%;">건너뛰기</button>
+               <div class="col ">
+                  <button type="button" class="btn btn-primary btn-save mb-2" style="width:340px;">선택완료</button>
                </div>
             </div>
-            <!-- 건너뛰기 누르면 자동으로 null값 - 안내 팝업 띄우기 -->
+            <div class="row text-center">
+            	<div class="col">
+                  <button type="button" class="btn btn-secondary btn-pass" style="width:340px;">건너뛰기</button>
+            	</div>
+            </div>
     
         </div>
     </div>
@@ -268,7 +274,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary close-skip" 
                 	data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger" 
+                <button type="button" class="btn btn-primary" 
                 	id="skipConfirmBtn">확인</button>
             </div>
         </div>
