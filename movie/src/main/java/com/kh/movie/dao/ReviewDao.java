@@ -30,10 +30,11 @@ public interface ReviewDao {
 	String findMemberIdByReviewNo(int reviewNo);//리뷰 번호로 회원 아이디 검색
 	int countList(PaginationVO paginationVO);//리뷰 갯수
 	int reviewCountByMemberId(String memberId);
+	Float findRatingByMovieNoAndNickname(int movieNo, String memberNickname);
 	
 	//리액트 페이지네이션
 	int reviewCount();
 	List<AdminReviewListVO> adminReviewListByPage(int currentPage, int pageSize);
 	List<ReviewListVO> getListByMemberNickname(String memberNickname);
-	ReviewDto findReviewByMemberId(String memberId);
+	ReviewDto findReviewByMemberId(String memberId, int movieNo);
 }
