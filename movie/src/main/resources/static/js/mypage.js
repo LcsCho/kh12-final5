@@ -4,12 +4,9 @@ $(function(){
     var status = {
         memberPw:false,
         pwCheck:false,
-        memberNickname:false,
         memberContact:false,
-        memberBirth:false,
         ok:function(){
-            return this.memberPw && this.pwCheck && this.memberNickname &&
-           this.memberContact && this.memberBirth;
+            return this.memberPw && this.pwCheck && this.memberContact;
         },
     };
     
@@ -27,7 +24,7 @@ $(function(){
 
 	//비밀번호 확인 검사
     $("#pw-check").blur(function(){
-        var originPw = $("#memberPassword").val();
+        var originPw = $("#newPw").val();
         var checkPw = $(this).val();
          $(this).removeClass("is-valid").removeClass("is-invalid");
         if(originPw.length === 0){//미입력이면
@@ -44,65 +41,65 @@ $(function(){
         }
     });
 
-	 $("[name=memberNickname]").blur(function(e){
-        var regex = /^[ㄱ-ㅎㅏ-ㅣ가-힣0-9]{2,10}$/;
-        var isValid = regex.test($(e.target).val());
-
-        if(isValid){ //형식이 유효하다면
-            $.ajax({   
-                url:"http://localhost:8080/rest/member/nicknameCheck",
-                method:"post",
-                data:{memberNickname: $(e.target).val()}, //jQuery
-                success:function(response){
-                    $(e.target).removeClass("is-valid is-invalid");  
-                    if(response == "Y"){ //사용가능한 닉네임
-                        $(e.target).addClass("is-valid");
-	                     $(e.target).parent().find('.valid-feedback').text("멋진 닉네임입니다!"); 
-	                    status.memberNickname = true;
-                    }
-                    else{ //이미 사용중인 닉네임
-                        $(e.target).addClass("is-invalid");
-	                    $(e.target).parent().find('.invalid-feedback').text("이미 사용중인 닉네임 입니다"); 
-	                    status.memberNickname = false;
-                    }
-                },
-                error:function(){
-                    alert("서버와의 통신이 원활하지 않습니다");
-                },
-        });
-    }
-        else {//형식이 유효하지 않다면(1차실패)
-           	$(e.target).removeClass("is-valid is-invalid");
-        	$(e.target).addClass("is-invalid");
-         	$(e.target).parent().find('.invalid-feedback').text("한글/영문/숫자 포함 2~10자로 입력하세요"); 
-	        status.memberNickname = false;
-        }
-    }); 
+//	 $("[name=memberNickname]").blur(function(e){
+//        var regex = /^[A-Za-z0-9가-힣]{2,30}$/;
+//        var isValid = regex.test($(e.target).val());
+//
+//        if(isValid){ //형식이 유효하다면
+//            $.ajax({   
+//                url:"http://localhost:8080/rest/member/nicknameCheck",
+//                method:"post",
+//                data:{memberNickname: $(e.target).val()}, //jQuery
+//                success:function(response){
+//                    $(e.target).removeClass("is-valid is-invalid");  
+//                    if(response == "Y"){ //사용가능한 닉네임
+//                        $(e.target).addClass("is-valid");
+//	                     $(e.target).parent().find('.valid-feedback').text("멋진 닉네임입니다!"); 
+//	                    status.memberNickname = true;
+//                    }
+//                    else{ //이미 사용중인 닉네임
+//                        $(e.target).addClass("is-invalid");
+//	                    $(e.target).parent().find('.invalid-feedback').text("이미 사용중인 닉네임 입니다"); 
+//	                    status.memberNickname = false;
+//                    }
+//                },
+//                error:function(){
+//                    alert("서버와의 통신이 원활하지 않습니다");
+//                },
+//        });
+//    }
+//        else {//형식이 유효하지 않다면(1차실패)
+//           	$(e.target).removeClass("is-valid is-invalid");
+//        	$(e.target).addClass("is-invalid");
+//         	$(e.target).parent().find('.invalid-feedback').text("한글/영문/숫자 포함 2~10자로 입력하세요"); 
+//	        status.memberNickname = false;
+//        }
+//    }); 
       
- 
-    $("[name=memberContact]").blur(function(){
-        var regex = /^01[016789][1-9][0-9]{2,3}[0-9]{4}$/;
-        var contact = $(this).val();
-        var isValid =regex.test(contact);
-        $(this).removeClass("is-valid is-invalid");
-         if(isValid){
-			  $(this).addClass("is-valid"); 
-              status.memberContact = true;
-		 }
-		 else{
-			 $(this).addClass("is-invalid");
-            status.memberContact = false;
-		 }
-    });
-    
-    
-    $("#memberBirth").blur(function(){
-        var regex =  /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-        var isValid = regex.test($(this).val());
-        $(this).removeClass("is-valid is-invalid");
-        $(this).addClass(isValid ? "is-valid" : "is-invalid");
-         status.memberBirth = isValid;
-    });
+// 
+//    $("[name=memberContact]").blur(function(){
+//        var regex = /^01[016789][1-9][0-9]{2,3}[0-9]{4}$/;
+//        var contact = $(this).val();
+//        var isValid =regex.test(contact);
+//        $(this).removeClass("is-valid is-invalid");
+//         if(isValid){
+//			  $(this).addClass("is-valid"); 
+//              status.memberContact = true;
+//		 }
+//		 else{
+//			 $(this).addClass("is-invalid");
+//            status.memberContact = false;
+//		 }
+//    });
+//    
+//    
+//    $("#memberBirth").blur(function(){
+//        var regex =  /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+//        var isValid = regex.test($(this).val());
+//        $(this).removeClass("is-valid is-invalid");
+//        $(this).addClass(isValid ? "is-valid" : "is-invalid");
+//         status.memberBirth = isValid;
+//    });
 });
 
 

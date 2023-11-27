@@ -58,6 +58,10 @@
         border-color: rgb(179, 57, 57);
         border-width: 2px;
     }
+    .img-thumbnail{
+    	width: 50px;
+    	height: 50px;
+    }
 </style>
 
 <script>
@@ -175,6 +179,16 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
+	                var imageNo = review.imageNo;
+	                
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
+	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
@@ -217,6 +231,16 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
+					var imageNo = review.imageNo;
+	                
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
+	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
@@ -225,7 +249,6 @@ $(function () {
 				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
-				    
 				}
 				loadReviewLike(movieNo);
             }
@@ -260,6 +283,16 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
+					var imageNo = review.imageNo;
+	                
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
+	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
@@ -268,7 +301,6 @@ $(function () {
 				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
-				    
 				}
 				loadReviewLike(movieNo);
             }
@@ -303,6 +335,16 @@ $(function () {
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
 
+					var imageNo = review.imageNo;
+	                
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
+	                
 				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
@@ -311,7 +353,6 @@ $(function () {
 				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
-				    
 				}
 				loadReviewLike(movieNo);
             }
@@ -345,8 +386,18 @@ $(function () {
 	                
 	                var hrefInfo = "detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
 	                $(htmlTemplate).find(".commentButton").attr("href", hrefInfo);
-				    
-	                $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
+
+					var imageNo = review.imageNo;
+	                
+	                if(imageNo != 0){
+		                var imageHref = "/rest/image/" + imageNo;
+		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }else{
+	                	var imageHref = "/images/user.jpg";
+	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
+	                }
+	                
+				    $(htmlTemplate).find(".reviewNo").text(review.reviewNo);
 				    $(htmlTemplate).find(".memberNickname").text(review.memberNickname);
 				    $(htmlTemplate).find(".ratingScore").text(review.ratingScore);
 				    $(htmlTemplate).find(".reviewContent").text(review.reviewContent);
@@ -354,7 +405,6 @@ $(function () {
 				    $(htmlTemplate).find(".replyButton .replyCount").text(review.reviewReplyCount);
 
 				    $(".review-list").append(htmlTemplate);
-				    
 				}
 				loadReviewLike(movieNo);
             }
@@ -369,7 +419,7 @@ $(function () {
 	<div class="card mt-3">
 		<div class="card-body">
 			<div>
-				<img src="/images/user.jpg" class="userImage">
+				<img class="userImage img-thumbnail">
 				<span class="card-title ms-3 memberNickname" style="font-weight: bold; font-size: 20px;"></span>
 				<i class="fa-solid fa-star"></i><span class="ratingScore"></span>
 			</div>
@@ -438,11 +488,11 @@ $(function () {
 
 			<div class="row mt-5">
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button type="button" class="btn btn-info ByDateDesc active" onclick="changeButton(this)">최신순</button>
-					<button type="button" class="btn btn-info ByDateAsc" onclick="changeButton(this)">오래된순</button>
-					<button type="button" class="btn btn-info ByLikeDesc" onclick="changeButton(this)">좋아요순</button>
-					<button type="button" class="btn btn-info ByRatingDesc" onclick="changeButton(this)">높은평점순</button>
-					<button type="button" class="btn btn-info ByRatingAsc" onclick="changeButton(this)">낮은평점순</button>
+					<button type="button" class="btn btn-info ByDateDesc active">최신순</button>
+					<button type="button" class="btn btn-info ByDateAsc">오래된순</button>
+					<button type="button" class="btn btn-info ByLikeDesc">좋아요순</button>
+					<button type="button" class="btn btn-info ByRatingDesc">높은평점순</button>
+					<button type="button" class="btn btn-info ByRatingAsc">낮은평점순</button>
 				</div>
 			</div>
 					

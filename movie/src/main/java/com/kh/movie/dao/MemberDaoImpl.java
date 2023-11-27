@@ -63,11 +63,14 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.searchCount", memberNickname);
 	}
 	
-	//회원정보수정
-	@Override
-	public boolean updateMemberInfo(MemberDto inputDto) {
-		return sqlSession.update("member.edit", inputDto) > 0;
-	}
+	//회원정보수정(연락처)
+//	@Override
+//	public boolean updateMemberInfo(String memberId, String memberContact) {
+//	    Map<String, String> paramMap = new HashMap<>();
+//	    paramMap.put("memberId", memberId);
+//	    paramMap.put("memberContact", memberContact);
+//	    return sqlSession.update("member.edit", paramMap) > 0;
+//	}
 
 
 	@Override

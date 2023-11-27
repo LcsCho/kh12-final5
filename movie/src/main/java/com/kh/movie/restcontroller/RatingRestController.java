@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dao.ReviewDao;
 import com.kh.movie.dto.RatingDto;
+import com.kh.movie.dto.ReviewDto;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,9 @@ public class RatingRestController {
 	
 	@Autowired
 	private RatingDao ratingDao;
+	
+	@Autowired
+	private ReviewDao reviewDao;
 	
 	@GetMapping("/ratingCount")
 	public int count() {
@@ -49,8 +54,11 @@ public class RatingRestController {
 	//삭제
 	@DeleteMapping("/{ratingNo}")
 	public ResponseEntity<String>delete(@PathVariable int ratingNo){
+			RatingDto ratingDto = ratingDao.findByRatingNo(ratingNo);
+			ReviewDto reviewDto = reviewDao.findReviewByMemberId(ratingDto.getMemberId(), ratingDto.getMovieNo());
 		boolean result = ratingDao.delete(ratingNo);
 		if(result) {
+			reviewDao.delete(reviewDto.getReviewNo());
 			return ResponseEntity.ok().build();
 		}
 		else {

@@ -92,17 +92,16 @@ public class MemberController {
 
  	@GetMapping("/joinFinish")
 	public String joinFinish(Model model, HttpSession session) {
- 		String memberId = (String) session.getAttribute("name");
+ 		String memberId = (String) session.getAttribute("memberId");
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
-		model.addAttribute("name", memberId);
 		return "member/joinFinish";
 	}
 	
  	@PostMapping("/joinFinish")
 	public String joinFinish(@RequestParam(value = "selectedGenres", required = false) List<String> selectedGenres, 
 										HttpSession session) {
-		String memberId = (String) session.getAttribute("name");
+		String memberId = (String) session.getAttribute("memberId");
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		// 선택한 장르를 DB에 저장
 	    for (String genreName : selectedGenres) {
@@ -111,7 +110,7 @@ public class MemberController {
 	        preferGenreDto.setGenreName(genreName);
 	        preferGenreDao.insert(preferGenreDto);
 	    }
-		session.removeAttribute("name");
+		session.removeAttribute("memberId");
 		return "redirect:/";
 	}
 
@@ -154,22 +153,16 @@ public class MemberController {
 	
 	@RequestMapping("list/reviewList")
 	public String reviewList(Model model) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
 		return "member/list/reviewList";
 	}
 	
 	@RequestMapping("list/ratingList")
 	public String ratingList(Model model) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
 		return "member/list/ratingList";
 	}
 	
 	@RequestMapping("list/wishList")
 	public String wishList(Model model) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
 		return "member/list/wishList";
 	}
 	

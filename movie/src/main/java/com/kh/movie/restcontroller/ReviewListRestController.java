@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,32 +98,33 @@ public class ReviewListRestController {
 	
 	//좋아요 설정/해제
 	@PostMapping("/likeAction")
-	public ReviewLikeVO likeAction(@RequestParam int reviewNo, HttpSession session) {
+	public ResponseEntity<String> likeAction(@RequestParam int reviewNo, HttpSession session) {
 	    // memberId로 memberNickname 가져오기
 	    String memberId = (String) session.getAttribute("name");
 	    String memberNickname = memberDao.findNicknameById(memberId);
 	    
-	    String check = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
-	    int count = reviewDao.findReviewLikeCount(reviewNo);
-
-	    ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
-	    
-	    if ("Y".equals(check)) {
-	    	reviewLikeDao.delete(reviewNo, memberNickname); // 좋아요 해제
-	    	reviewLikeVO.setCheck("N");
-	    	reviewLikeVO.setCount(count - 1);
-	    } else {
-	    	reviewLikeDao.insert(reviewNo, memberNickname); // 좋아요 설정
-	    	reviewLikeVO.setCheck("Y");
-	    	reviewLikeVO.setCount(count + 1);
+	    if(memberId != null) {
+	    	String check = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+	    	int count = reviewDao.findReviewLikeCount(reviewNo);
+	    	
+	    	ReviewLikeVO reviewLikeVO = new ReviewLikeVO();
+	    	
+	    	if ("Y".equals(check)) {
+	    		reviewLikeDao.delete(reviewNo, memberNickname); // 좋아요 해제
+	    		reviewLikeVO.setCheck("N");
+	    		reviewLikeVO.setCount(count - 1);
+	    	} else {
+	    		reviewLikeDao.insert(reviewNo, memberNickname); // 좋아요 설정
+	    		reviewLikeVO.setCheck("Y");
+	    		reviewLikeVO.setCount(count + 1);
+	    	}
+	    	
+	    	reviewLikeVO.setReviewNo(reviewNo);
+	    	reviewLikeVO.setMemberNickname(memberNickname);
+	    	
+	    	return ResponseEntity.ok().build();
 	    }
-
-	    reviewLikeVO.setReviewNo(reviewNo);
-	    reviewLikeVO.setMemberNickname(memberNickname);
-	    
-	    log.debug("reviewLikeVO = {}", reviewLikeVO);
-
-	    return reviewLikeVO;
+	    return ResponseEntity.badRequest().body("로그인 후 이용 가능합니다.");
 	}
 	
 	//리뷰 수정
@@ -133,24 +136,30 @@ public class ReviewListRestController {
 	
 	//리뷰 작성(등록)
 	@PostMapping("/writeReview")
-	public void write(@RequestParam("movieNo") int movieNo,
-								@RequestParam String reviewContent,
-								HttpSession session) {
-		ReviewDto reviewDto = new ReviewDto();
+	public ResponseEntity<String> write(@RequestParam("movieNo") int movieNo,
+								@RequestParam("reviewContent") String reviewContent,
+								HttpSession session, Model model) {
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
-		reviewDto.setMemberId(memberId);
-		reviewDto.setMemberNickname(memberNickname);
-		reviewDto.setMovieNo(movieNo);
+		ReviewDto findReviewDto = reviewDao.findReviewByMemberId(memberId, movieNo);
 		
-		int reviewNo = reviewDao.sequence();
-		reviewDto.setReviewNo(reviewNo);
-		reviewDto.setReviewContent(reviewContent);
+//		Float ratingScore = reviewDao.findRatingByMovieNoAndNickname(movieNo, memberNickname);
+//		model.addAttribute("ratingScore", ratingScore);
+//		log.debug("ratingScore = {}", ratingScore);
 		
-		log.debug("reviewDto = {}", reviewDto);
-		
-		reviewDao.insert(reviewDto);
-		
-		
+		if(findReviewDto == null) {
+			ReviewDto reviewDto = new ReviewDto();
+			int reviewNo = reviewDao.sequence();
+			reviewDto.setReviewNo(reviewNo);
+			reviewDto.setMovieNo(movieNo);
+			reviewDto.setMemberId(memberId);
+			reviewDto.setMemberNickname(memberNickname);
+			reviewDto.setReviewContent(reviewContent);
+			reviewDao.insert(reviewDto);
+			return ResponseEntity.ok().build();
+		}
+		else {
+			return ResponseEntity.badRequest().body("이미 리뷰를 작성하셨습니다.");
+		}
 	}
 }

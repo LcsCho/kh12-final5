@@ -13,7 +13,7 @@ $(function () {
     $("#email").blur(function (e) {
         var regex = /^[a-z0-9]+@[a-z]+\.(com|co\.kr|net)$/;
         var isValid = regex.test($(this).val());
-        var feedbackWrapper = $(this).closest('.mb-3').find('.feedback');
+        var feedbackWrapper = $(this).closest('.col-3').next().find('.feedback');
 
         if (isValid) {
             $(e.target).removeClass("is-valid is-invalid").addClass("is-valid");
@@ -73,7 +73,7 @@ $(function () {
 //        }
 //    });
 
-    $("#newPw").blur(function () {
+    $("[name=newPassword]").blur(function () {
         var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,60}$/;
         var isValid = regex.test($(this).val());
         $(this).removeClass("is-valid is-invalid");
@@ -85,8 +85,8 @@ $(function () {
     });
 
     // 비밀번호 확인 검사
-    $("#confirmPw").blur(function () {
-        var originPw = $("#newPw").val();
+    $("[name=confirmPassword]").blur(function () {
+        var originPw = $("[name=newPassword]").val();
         var checkPw = $(this).val();
         
         $(this).removeClass("is-valid is-invalid");

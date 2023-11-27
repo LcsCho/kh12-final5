@@ -82,6 +82,11 @@ body {
     border-width: 2px;
     font-size: 16px;
 }
+.img-thumbnail{
+    	width: 35px;
+    	height: 35px;
+    	border-radius: 30px;
+    }
 </style>
 <script>
 	//영화 찜기능
@@ -179,8 +184,7 @@ body {
                         // 이미 매긴 별점과 동일한 경우 삭제 처리
 //                         console.log(response.ratingScore=== parseFloat(selectedRating));
                         if (parseFloat(response.ratingScore) === parseFloat(selectedRating)) {//selectedRating은 String이라 변환
-                        	
-                        	var confirmDelete = confirm("정말로 별점을 삭제하시겠습니까?");
+                        	var confirmDelete = confirm("별점 삭제시 본인이 작성한 리뷰도 함께 삭제됩니다. \n정말 별점을 삭제하시겠습니까?");
                             if (confirmDelete) {
                                 // 사용자가 확인한 경우에만 삭제 처리
                                 $.ajax({
@@ -189,7 +193,8 @@ body {
                                     success: function(deleteResponse) {
 //                                         console.log('평점이 성공적으로 삭제되었습니다.');
                                         $('.rate input').prop('checked', false);//삭제했으면 별점 비어있는 형태로 만들기
-                                        // 추가적인 UI 업데이트 로직 작성
+                                        location.reload();
+										
                                     },
                                     error: function(deleteError) {
                                         console.error('평점 삭제 중 오류가 발생했습니다:', deleteError);
@@ -248,11 +253,14 @@ body {
 
 <script>
 $(function () {
+	
     // 리뷰 작성(등록)
     $(".writeReview").click(function(e){
         // 리뷰작성 버튼 숨기기
         $(this).hide();
-
+		
+        var selectedRating = $('input[name=rating]:checked').val();
+        
         // 리뷰 버튼 창 가져오기
         var reviewWriteContainer = $(this).closest(".review-write-container");
 
@@ -277,24 +285,42 @@ $(function () {
 
             var params = new URLSearchParams(location.search);
             var movieNo = params.get("movieNo");
-            var reviewContentValue = reviewContent.val(); // .val() 추가
-
-            $.ajax({
-                url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
-                method: "post",
-                data: {
-                    movieNo: movieNo,
-                    reviewContent: reviewContentValue // reviewContent.val()로 변경
-                },
-                success: function(response){
-                    reviewWriteContainer.show();
-                    $(writeHtmlTemplate).remove(); // 변수명 수정
-                    location.reload();
-                },
-                error : function() {
-					window.alert("이미 리뷰를 작성하셨습니다.");
-				},
-            });
+            
+            console.log(selectedRating);
+            
+            var reviewContent = $("#review-content").val(); // .val() 추가
+			
+            if (selectedRating != null) {
+	            $.ajax({
+	                url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
+	                method: "post",
+	                data: {
+	                    movieNo: movieNo,
+	                    reviewContent: reviewContent // reviewContent.val()로 변경
+	                },
+	                success: function(response){
+	                	console.log(response);
+	                	
+	                    reviewWriteContainer.show();
+	                    $(writeHtmlTemplate).remove(); // 변수명 수정
+	                    window.alert("리뷰가 작성되었습니다!");
+	                    location.reload();
+	                },
+	                error: function(error) {
+	                    window.alert("이미 리뷰를 등록하셨습니다.");
+	                    reviewWriteContainer.show();
+	    	            $(writeHtmlTemplate).remove();
+	                },
+	            });
+	        } else {
+	            handleError("별점을 먼저 등록해주세요");
+	            reviewWriteContainer.show();
+	            $(writeHtmlTemplate).remove();
+	        }
+            
+	        function handleError(errorMessage) {
+	            window.alert(errorMessage);
+	        }
         });
 
         reviewWriteContainer.hide().after(writeHtmlTemplate);
@@ -402,32 +428,36 @@ $(document).ready(function(){
 		<div class="row">
 			<!-- Movie Poster -->
 			<div class="col-md-4 text-center">
-				<img src="/rest/image/${mainImgNo}" class="img-thumbnail"
-					style="width: 215px; height: 300px">
-				<!-- Rating Section -->
-<%-- 				<c:choose> --%>
-					<c:if test="${ratingAvg != null}">
-						<h4 class="mt-4">평점 평균: ${ratingAvg}</h4>
+				<div>
+					<img src="/rest/image/${mainImgNo}" class="img-thumbnail"
+						style="width: 215px; height: 300px">
+				</div>
+				<div>
+					<!-- Rating Section -->
+	<%-- 				<c:choose> --%>
+						<c:if test="${ratingAvg != null}">
+							<h4 class="mt-4">평점 평균: ${ratingAvg}</h4>
+						</c:if>
+	<%-- 					<c:otherwise> --%>
+	<!-- 						<h4 class="mt-4">평점 평균: 0.0</h4> -->
+	<%-- 					</c:otherwise> --%>
+	<%-- 				</c:choose> --%>
+					<c:if test="${sessionScope.name != null }">
+					<fieldset class="rate">
+					    <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
+					    <input type="radio" id="rating9" name="rating" value="4.5"><label class="half" for="rating9" title="4.5점"></label>
+					    <input type="radio" id="rating8" name="rating" value="4"><label for="rating8" title="4점"></label>
+					    <input type="radio" id="rating7" name="rating" value="3.5"><label class="half" for="rating7" title="3.5점"></label>
+					    <input type="radio" id="rating6" name="rating" value="3"><label for="rating6" title="3점"></label>
+					    <input type="radio" id="rating5" name="rating" value="2.5"><label class="half" for="rating5" title="2.5점"></label>
+					    <input type="radio" id="rating4" name="rating" value="2"><label for="rating4" title="2점"></label>
+					    <input type="radio" id="rating3" name="rating" value="1.5"><label class="half" for="rating3" title="1.5점"></label>
+					    <input type="radio" id="rating2" name="rating" value="1"><label for="rating2" title="1점"></label>
+					    <input type="radio" id="rating1" name="rating" value="0.5"><label class="half" for="rating1" title="0.5점"></label>
+					
+					</fieldset>
 					</c:if>
-<%-- 					<c:otherwise> --%>
-<!-- 						<h4 class="mt-4">평점 평균: 0.0</h4> -->
-<%-- 					</c:otherwise> --%>
-<%-- 				</c:choose> --%>
-				<c:if test="${sessionScope.name != null }">
-				<fieldset class="rate">
-				    <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
-				    <input type="radio" id="rating9" name="rating" value="4.5"><label class="half" for="rating9" title="4.5점"></label>
-				    <input type="radio" id="rating8" name="rating" value="4"><label for="rating8" title="4점"></label>
-				    <input type="radio" id="rating7" name="rating" value="3.5"><label class="half" for="rating7" title="3.5점"></label>
-				    <input type="radio" id="rating6" name="rating" value="3"><label for="rating6" title="3점"></label>
-				    <input type="radio" id="rating5" name="rating" value="2.5"><label class="half" for="rating5" title="2.5점"></label>
-				    <input type="radio" id="rating4" name="rating" value="2"><label for="rating4" title="2점"></label>
-				    <input type="radio" id="rating3" name="rating" value="1.5"><label class="half" for="rating3" title="1.5점"></label>
-				    <input type="radio" id="rating2" name="rating" value="1"><label for="rating2" title="1점"></label>
-				    <input type="radio" id="rating1" name="rating" value="0.5"><label class="half" for="rating1" title="0.5점"></label>
-				
-				</fieldset>
-				</c:if>
+				</div>
 			</div>
 			<!-- Movie Information -->
 			<div class="col-md-8">
@@ -520,6 +550,16 @@ $(document).ready(function(){
 					<c:forEach var="reviewDto" items="${reviewList}">
 						<div class="col">
 							<div class="review-item">
+							
+								<c:choose>
+								    <c:when test="${reviewDto.imageNo != 0}">
+								        <img src="/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
+								    </c:when>
+								    <c:otherwise>
+								        <img src="/images/user.jpg" class="userImage img-thumbnail">
+								    </c:otherwise>
+								</c:choose>
+									
 								<strong>${reviewDto.memberNickname}</strong>
 								<p>${reviewDto.reviewContent}</p>
 								<button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">

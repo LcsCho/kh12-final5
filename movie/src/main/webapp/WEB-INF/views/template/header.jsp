@@ -32,15 +32,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/flatly/bootstrap.min.css"
 	rel="stylesheet">
-	
-	<style>
-	.logout-btn{
-	color:#B33939;
-	}
-	.btn-primary{
-	background-color:#B33939;
-	}
-	</style>
+
 
 <script src="js/header.js"></script>
 
@@ -52,11 +44,19 @@
     $(document).ready(function () {
         $('#loginModal').on('hidden.bs.modal', function () {
             // 모달이 닫힌 후
+             if ($(e.target).hasClass('modal')) {
              window.location.href = window.location.href;//이용중인 페이지 유지
-        });
+             }
+          });
 
         // 비밀번호 찾기 모달 표시를 위한 이벤트 처리
         $('#forgotPasswordLink').click(function () {
+        	$(".sendEmail").removeClass("is-valid is-invalid");
+     	   $('#email').val('');
+     	   $('.cert-input').val('');
+        	//부모 모달 닫기
+        	 $('#loginModal').modal('hide');
+        	//비밀번호 찾기 모달 열기
             $('#forgotPasswordModal').modal('show');
         });
     });
@@ -81,25 +81,42 @@ $(document).ready(function() {
             success: function(response) {
                 // 로그인 성공 시의 동작
                $("#loginModal").modal("hide");
-               if (response && response.redirect) {
-                   // 만약 로그인 성공 후 redirect 속성이 있다면 해당 페이지로 이동
-                   window.location.href = response.redirect;
-               } else {
-                   // 페이지 주소에 "join"이라는 단어가 포함되어 있다면 메인 페이지로 이동
-                   if (window.location.href.indexOf("join") !== -1) {
+               // 만약 join페이지에서 로그인할 경우 성공 시, 메인페이지로 이동
+               if (window.location.href.indexOf("join") !== -1) {
                        window.location.href = "/";
-                   }
+            	  
+               } else {
+            	   //그 외 다른 페이지에서 로그인할 경우엔 성공 시, 해당 페이지 유지
+                   location.reload();
+                  
                }
            },
-            error: function(error) {
-                // 로그인 실패 시의 동작
-                alert("아이디,비밀번호가 일치하지 않습니다.");
-            }
+           error: function(xhr) {
+               // 로그인 실패 시의 동작
+               if (xhr.status === 401) {
+                   alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+               } else if (xhr.status === 404) {
+                   alert("아이디가 존재하지 않습니다.");
+               } else {
+                   alert("로그인 실패: " + xhr.statusText);
+               }
+           }
         });
     });
 });
 
 </script>
+
+<!-- 로그아웃 모달 -->
+<script>
+$(document).ready(function () {
+    $("#logoutButton").click(function () {
+       
+        window.location.href = "/member/logout";
+    });
+});
+</script>
+
 
 <!-- 비밀번호 재설정 -->
 <script>
@@ -112,6 +129,7 @@ $(function(){
        //처음 로딩아이콘 숨김
        $(".btn-emailSend").find(".fa-spinner").hide();
        $(".cert-wrapper").hide();
+       $("#certBtn").hide();
 
        //인증번호 보내기 버튼을 누르면
        //서버로 비동기 통신을 보내 인증 메일 발송 요청
@@ -125,7 +143,7 @@ $(function(){
            }
            $(".btn-emailSend").prop("disabled", true);
            $(".btn-emailSend").find(".fa-spinner").show();
-           $(".btn-emailSend").find("span").text("이메일발송중");
+           $(".btn-emailSend").find("span").text("발송중");
            $.ajax({
                url:"http://localhost:8080/rest/cert/resetPassword",
                method:"post",
@@ -134,20 +152,21 @@ $(function(){
                    $(".btn-emailSend").prop("disabled", false);
                    $(".btn-emailSend").find(".fa-spinner").hide();
                    $(".cert-wrapper").hide();
-                   $(".btn-cert").hide();
-                   $(".btn-emailSend").find("span").text("인증번호 재발송");
+                   $("#certBtn").hide();
+                   $(".btn-emailSend").find("span").text("발송완료");
                    // window.alert("이메일 확인하세요!");
-
-                   $(".cert-wrapper").show();
-                   $(".btn-cert").show();
-                   window.email = email;
+                   
+                    $(".cert-wrapper").show();
+                    $("#certBtn").show();
+                    window.email = email;
                },
            });
        });
+       
 
        
        //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
-       $(".btn-cert").click(function(){
+       $("#certBtn").click(function(){
            // var email = $("[name=memberEmail]").val();
            var email = window.email;
            var no = $(".cert-input").val();
@@ -167,20 +186,20 @@ $(function(){
                    if(response.result){ //인증성공
                        $(".cert-input").removeClass("is-valid is-invalid")
                                        .addClass("is-valid");
-                       $(".btn-cert").prop("disabled", true);
-                       //상태객체에 상태 저장하는 코드
+                       $("#certBtn").prop("disabled", true);
+                       
                        
                     // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
-                       $(".btn-send").find("span").text("인증완료!");
-                       $(".btn-send").prop("disabled", true);
+                       $(".btn-emailSend").find("span").text("인증완료!");
+                       $(".btn-emailSend").prop("disabled", true);
                        $(".cert-wrapper").hide();
-                       $(".btn-cert").hide();
-                       
+                       $("#certBtn").hide();
+                    
                     // '비밀번호 재설정하러가기' 버튼 생성
                        //if (!$('#resetPasswordButton').length) {
                        var resetPasswordButton = $('<button/>', {
                            type: 'button',
-                           class: 'btn btn-primary',
+                           class: 'btn btn-danger',
                            text: '비밀번호 재설정하러가기',
                            id: 'resetPasswordButton'
                        });
@@ -196,11 +215,22 @@ $(function(){
                },
            });
        });
+    			// 모달이 닫힐 때 이벤트 처리
+       			$('#forgotPasswordModal').on('hidden.bs.modal', function () {
+       				if ($(".btn-emailSend").find("span").text() !== "재발송") {
+       		            return;
+       				}
+          		 location.reload();
+       });
     });
+    
     
 $(document).ready(function () {
         // '비밀번호 재설정하러가기' 버튼 클릭 이벤트 처리
         $(document).on('click', '#resetPasswordButton', function () {
+            //부모 모달 닫기
+        	$('#forgotPasswordModal').modal('hide');
+            
             // 비밀번호 재설정 모달을 띄움
             $('#resetPasswordModal').modal('show');
             //$('#forgotPasswordModal').modal('hide');
@@ -213,9 +243,15 @@ $(document).ready(function () {
             event.preventDefault();
 
             // 새로운 비밀번호와 비밀번호 확인을 가져옴
-            var newPassword = $("[name=memberPw]").val();
+            var newPassword = $("[name=newPassword]").val();
             var confirmPassword = $("[name=confirmPassword]").val();
             var memberId = $("#email").val();
+            
+         // 비밀번호가 입력되지 않았을 경우
+            if (newPassword.length == 0 || confirmPassword.length == 0 ) {
+                alert('비밀번호가 입력되지 않았습니다. \n 다시 시도해주세요.');
+                return;
+            }
 
             // 비밀번호 일치 여부 확인
             if (newPassword !== confirmPassword) {
@@ -247,6 +283,11 @@ $(document).ready(function () {
                 }
             });
         });
+
+			// 모달이 닫힐 때 이벤트 처리
+			$('#resetPasswordModal').on('hidden.bs.modal', function () {
+		  		 location.reload();
+			});
     });
 </script>
 <!-- 영화 검색 실시간으로 연관 검색어 출력 -->
@@ -507,6 +548,26 @@ $(document).ready(function () {
 <style>
 
 
+ .logout-btn{
+	color:#B33939;
+}
+ .logout-btn:hover{
+ 	color:#eccccc;
+ }
+
+ .btn-danger{
+	background-color:#B33939;
+}
+
+ .btn-secondary{
+	background-color:rgb(241, 185, 185);
+	border:rgb(241, 185, 185);
+	}
+.btn-secondary:hover{
+	background:#eccccc;
+	border:#eccccc;
+	}
+
 .delete-recent-all{
 	color: rgb(179, 57, 57);
 }
@@ -547,7 +608,6 @@ $(document).ready(function () {
 	max-height: 200px;
 	overflow-y: auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	width: 50%; /* 입력창의 절반 크기로 조정 */
 }
 /* #recentContainer { */
 /*     position: absolute; */
@@ -562,16 +622,19 @@ $(document).ready(function () {
 /* } */
 #suggestionsContainer {
     left: 0;
+    width:100%;
 }
 
 #popularContainer {
     left: 0;
     border-right: 0; /* 오른쪽 테두리 제거 */
+    width: 50%;
 }
 
 #recentContainer {
     right: 0; /* 오른쪽 끝에 위치하도록 설정 */
     border-left: 0;
+    width: 50%;
 }
 
 
@@ -589,42 +652,39 @@ $(document).ready(function () {
 
 <body class="center">
 	<main>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col">
+		
 
 					<header>
-
-						<div class="container-float">
+						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-10 offset-md-1">
 									<div class="row align-items-center me-3 mt-3">
 
-										<div class="col-4">
+										<div class="col-12 col-md-4">
 											<a href="http://localhost:8080/"> <img
 												src="/images/mvc.png" width="150">
 											</a>
 										</div>
-
-										<div class="col-8 d-flex justify-content-end">
+										
+										<!-- 검색창과 검색 버튼 -->
+										<div class="col-12 col-md-8 d-flex  justify-content-between align-items-center">
 											<form action="/" method="post" class="d-flex"
 												id="movieSearchForm">
-												<div class="position-relative">
+												<div class="position-relative d-flex align-items-center">
 													<!-- 부모 요소 추가 -->
-													<input class="form-control me-sm-2 custom-search"
+													<input class="form-control col-md-8 d-flex me-sm-2 custom-search"
 														type="text" name="movieName" placeholder="영화 제목을 입력해주세요."
 														style="height: fit-content;" autocomplete="off"
 														id="searchInput">
-													<div id="popularContainer"></div>
-													<div id="recentContainer"></div>
+													<div id="popularContainer" class="me-2"></div>
+													<div id="recentContainer" class="me-2"></div>
 													<div id="suggestionsContainer"></div>
-
-
-												</div>
 												<button
-													class="btn btn-secondary my-2 my-sm-0 custom-search-btn c-btn"
+													class="btn btn-danger my-2 my-sm-0 custom-search-btn c-btn"
 													id="searchButton" disabled type="submit"
 													style="height: fit-content;">검색</button>
+
+												</div>
 											</form>
 											<c:if test="${sessionScope.level == '관리자' }">
 												<a href="http://localhost:3000/" class="btn c-btn ms-5"
@@ -633,21 +693,21 @@ $(document).ready(function () {
 											</c:if>
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
-													<a href="/member/logout" class="btn c-btn logout-btn ms-5"
-														style="height: fit-content;"> <i
+													<a href="/member/logout" class="btn c-btn logout-btn ms-3" data-bs-toggle="modal"
+														data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
 														class="fa fa-sign-out-alt fa-2xl"></i>
 													</a>
-													<a href="/member/mypage" class="btn c-btn"
+													<a href="/member/mypage" class="btn c-btn ms-3"
 														style="height: fit-content;"> <i
 														class="fa-solid fa-user fa-2xl"></i>
 													</a>
 												</c:when>
 												<c:otherwise>
-													<a href="#" class="btn c-btn ms-5" data-bs-toggle="modal"
+													<a href="#" class="btn c-btn ms-3" data-bs-toggle="modal"
 														data-bs-target="#loginModal" style="height: fit-content;">
 														<i class="fa-solid fa-right-to-bracket fa-2xl"></i>
 													</a>
-													<a href="/member/join" class="btn c-btn"
+													<a href="/member/join" class="btn c-btn ms-3"
 														style="height: fit-content;"> <i
 														class="fa fa-user-plus fa-2xl"></i>
 													</a>
@@ -700,7 +760,7 @@ $(document).ready(function () {
 										</div>
 										<div class="mt-4" >
                     					  <div class="modal-title text-center mx-auto" style="width:380px;">
-											<button type="submit" id="loginBtn" class="btn btn-primary btn-lg w-100">Login</button>
+											<button type="submit" id="loginBtn" class="btn btn-danger btn-lg w-100">Login</button>
 										  </div>
 										</div>
 											<!-- 비밀번호 찾기 버튼 추가 -->
@@ -708,7 +768,7 @@ $(document).ready(function () {
                    						 <div class="modal-title text-center">
 											<button type="button" class="btn btn-link text-primary link-underline
                                            link-underline-opacity-0 link-underline-opacity-75-hover"
-												id="forgotPasswordLink">비밀번호 찾기</button>
+												id="forgotPasswordLink">비밀번호를 잊으셨나요?</button>
 										</div>
 									</div>
 										</form>
@@ -723,38 +783,56 @@ $(document).ready(function () {
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="forgotPasswordModalLabel">비밀번호
-											찾기</h5>
+										<strong class="modal-title" id="forgotPasswordModalLabel" style="font-size:20px;">비밀번호
+											찾기</strong>
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body" id="cert-modal-body">
 										<div class="row mb-3">
-											<p>비밀번호를 잊으셨나요?</p>
+											<p>이메일 인증 후 비밀번호를 재설정해주세요</p>
 											<br>
-											<p>가입했던 이메일을 적어주세요.</p>
-											<br>
-											<p>입력하신 이메일 주소로 인증번호를 보내드릴게요.</p>
+											<p>입력하신 이메일 주소로 인증번호를 보내드릴게요.<br>
+											(인증번호가 오지 않았다면, 이메일 주소를 확인해주세요)</p>
 											<br>
 										</div>
 										<!-- 비밀번호 찾기 폼 추가 -->
 										<form id="forgotPasswordForm" action="" method="post"
 											autocomplete="off">
 											<!-- 비밀번호 찾기 폼 요소들을 여기에 추가 -->
-											<div class="mb-3">
-												<input type="email" class="form-control" id="email"
-													name="memberId" placeholder="이메일">
-											</div>
-											<button type="button" class="btn-emailSend btn btn-primary">
-												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일
-													보내기</span>
-											</button>
-											<div class="cert-wrapper pt-10">
-												<input type="text" class="cert-input form-control">
-												<button type="button" class="btn-cert btn btn-primary">확인완료</button>
-											</div>
-											<div class="valid-feedback left"></div>
-											<div class="invalid-feedback left"></div>
+											<div class="row">
+                        <div class="col-9">
+                            <div class="form-floating">
+                                <input type="email" id="email" class="form-control sendEmail" placeholder=""
+                                    name="memberId">
+                                <label>아이디(이메일)</label>
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex align-items-center">
+                            <button type="button" class="btn-emailSend btn btn-danger btn-lg form-control" style="font-size:14px; height:54px;">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <span>인증</span>
+                            </button>
+                        </div>
+                    </div>
+					<!-- 인증번호 입력창 -->
+                    <div class="row mt-2">
+                        <div class="col-9">
+                            <div class="form-floating cert-wrapper">
+                                <input type="text" class="cert-input form-control" placeholder="">
+                                <label>인증번호 6자리</label>
+                           </div>
+                     </div>
+                             <div class="col-3 d-flex align-items-center">
+                                <button type="button" id="certBtn" class="btn btn-danger btn-lg form-control"  style="font-size:14px; height:54px;">
+                                <span>확인</span>
+                            </button>
+                           </div>
+                            <div class="feedback">
+					            <div class="valid-feedback"></div>
+					            <div class="invalid-feedback"></div>
+        				</div>
+                    </div>
 										</form>
 									</div>
 								</div>
@@ -767,8 +845,8 @@ $(document).ready(function () {
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="resetPasswordModalLabel">비밀번호
-											재설정</h5>
+										<strong class="modal-title" id="resetPasswordModalLabel" style="font-size:20px;">비밀번호
+											재설정</strong>
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -777,21 +855,59 @@ $(document).ready(function () {
 										<form id="resetPasswordForm" action="member/changePw"
 											method="post">
 											<!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
-											<div class="mb-3">
-												<input type="password" class="form-control" id="newPassword"
-													name="newPassword" placeholder="새로운 비밀번호" required>
-											</div>
-											<div class="mb-3">
-												<input type="password" class="form-control"
-													id="confirmPassword" name="confirmPassword"
-													placeholder="비밀번호 확인" required>
-											</div>
-											<button type="submit" class="btn btn-primary">비밀번호
-												재설정</button>
+											 <!-- 비밀번호 입력창-->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="password" name="newPassword" class="form-control" placeholder=""
+                                    id="newPassWord">
+                                <label>새로운 비밀번호
+                                </label>
+                                  <div class="valid-feedback">올바른 형식입니다</div>
+                                  <div class="invalid-feedback">형식이 올바르지 않습니다</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 비밀번호 확인 입력창 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="">
+                                <label>비밀번호 확인</label>
+                                <div class="valid-feedback"></div>
+                                <div class="invalid-feedback"></div>
+                                
+                             <div class="row mt-2">
+                               <div class="col">
+                                <button type="submit" class="btn btn-danger form-control" 
+                                		style="width:466px; height:54px;">비밀번호 재설정</button>
+                                	</div>
+                            	</div>
+                            </div>
+                        </div>
+                    </div>
 										</form>
 									</div>
 								</div>
 							</div>
 						</div>
+				<!-- 로그아웃 확인 모달 창 -->
+<div class="modal fade" id="headerLogoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong class="modal-title" id="logoutModalLabel" style="font-size:20px;">알림</strong>
+            </div>
+            <div class="modal-body p-5" style="font-size: 18px;">정말 로그아웃하시겠습니까?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-logoutBtn" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" id="logoutButton">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 						<hr>
 					</header>

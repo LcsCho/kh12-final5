@@ -82,7 +82,7 @@
 		WHERE GENRE_NAME = '음악'
 		OR GENRE_NAME = '드라마'
 		OR GENRE_NAME =
-		'로맨스 코미디'
+		'로맨스'
 		OR GENRE_NAME = '코미디'
 		OR GENRE_NAME = '애니메이션'
 	</select>
@@ -109,6 +109,7 @@
 		= '범죄'
 		OR GENRE_NAME = '전쟁'
 		OR GENRE_NAME = 'SF'
+		OR GENRE_NAME = '모험'
 	</select>
 
 

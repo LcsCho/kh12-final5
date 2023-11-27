@@ -13,9 +13,9 @@ public interface ReviewDao {
 	void insert(ReviewDto reviewDto);
 	boolean delete(int reviewNo);
 	boolean edit(int reviewNo, String reviewContent);
-	List<ReviewDto> selectList(int movieNo);
+	List<ReviewListVO> selectList(int movieNo);
 	List<AdminReviewListVO> selectAdminReviewList();
-	ReviewListVO findByReviewNo(int reviewNo); //리뷰 상세 조회
+	ReviewListVO findByReviewNo(int reviewNo,int movieNo); //리뷰 상세 조회
 	
 	List<ReviewListVO> findByDateDesc(int movieNo);//최신순
 	List<ReviewListVO> findByDateAsc(int movieNo);//오래된순
@@ -30,9 +30,11 @@ public interface ReviewDao {
 	String findMemberIdByReviewNo(int reviewNo);//리뷰 번호로 회원 아이디 검색
 	int countList(PaginationVO paginationVO);//리뷰 갯수
 	int reviewCountByMemberId(String memberId);
+	Float findRatingByMovieNoAndNickname(int movieNo, String memberNickname);
 	
 	//리액트 페이지네이션
 	int reviewCount();
 	List<AdminReviewListVO> adminReviewListByPage(int currentPage, int pageSize);
 	List<ReviewListVO> getListByMemberNickname(String memberNickname);
+	ReviewDto findReviewByMemberId(String memberId, int movieNo);
 }

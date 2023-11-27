@@ -54,7 +54,9 @@ public class HomeController {
 	@RequestMapping("/")
 	public String main(Model model, HttpSession session, @RequestParam(required = false) String movieName) {
 		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
+		session.setAttribute("ratingCount", ratingCount);
+		String memberId = (String) session.getAttribute("name");
+		model.addAttribute("memberId",memberId);
 		
 		// 영화 검색 구문
 		boolean isSearch = movieName != null;
@@ -156,7 +158,7 @@ public class HomeController {
 		// 회원 로그인 했을 때 출력
 		if (session.getAttribute("name") != null) {
 			// 세션에서 사용자 아이디를 가져와서 memberId에 저장
-			String memberId = (String) session.getAttribute("name");
+//			String memberId = (String) session.getAttribute("name");
 
 //			log.debug("memberId = {}", memberId);
 			MemberDto memberDto = memberDao.selectOne(memberId);
