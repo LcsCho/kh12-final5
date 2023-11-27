@@ -51,6 +51,9 @@
 
         // 비밀번호 찾기 모달 표시를 위한 이벤트 처리
         $('#forgotPasswordLink').click(function () {
+        	$(".sendEmail").removeClass("is-valid is-invalid");
+     	   $('#email').val('');
+     	   $('.cert-input').val('');
         	//부모 모달 닫기
         	 $('#loginModal').modal('hide');
         	//비밀번호 찾기 모달 열기
@@ -78,14 +81,14 @@ $(document).ready(function() {
             success: function(response) {
                 // 로그인 성공 시의 동작
                $("#loginModal").modal("hide");
-               if (response) {
-                   // 만약 로그인 성공 후 redirect 속성이 있다면 해당 페이지로 이동
-                   location.reload();
-               } else {
-                   // 페이지 주소에 "join"이라는 단어가 포함되어 있다면 메인 페이지로 이동
-                   if (window.location.href.indexOf("join") !== -1) {
+               // 만약 join페이지에서 로그인할 경우 성공 시, 메인페이지로 이동
+               if (window.location.href.indexOf("join") !== -1) {
                        window.location.href = "/";
-                   }
+            	  
+               } else {
+            	   //그 외 다른 페이지에서 로그인할 경우엔 성공 시, 해당 페이지 유지
+                   location.reload();
+                  
                }
            },
            error: function(xhr) {
@@ -104,18 +107,16 @@ $(document).ready(function() {
 
 </script>
 
-<!-- 로그아웃 컨펌 처리 -->
+<!-- 로그아웃 모달 -->
 <script>
-    // 확인 버튼 클릭 이벤트
-    $(document).ready(function() {
-    $("#logoutConfirmButton").click(function() {
-        
-        window.location.href = '/member/logout';
-        alert("로그아웃되었습니다.");
-        $('#logoutModal').modal('hide');// 모달 닫기
+$(document).ready(function () {
+    $("#logoutButton").click(function () {
+       
+        window.location.href = "/member/logout";
     });
-  });
+});
 </script>
+
 
 <!-- 비밀번호 재설정 -->
 <script>
@@ -128,6 +129,7 @@ $(function(){
        //처음 로딩아이콘 숨김
        $(".btn-emailSend").find(".fa-spinner").hide();
        $(".cert-wrapper").hide();
+       $("#certBtn").hide();
 
        //인증번호 보내기 버튼을 누르면
        //서버로 비동기 통신을 보내 인증 메일 발송 요청
@@ -141,7 +143,7 @@ $(function(){
            }
            $(".btn-emailSend").prop("disabled", true);
            $(".btn-emailSend").find(".fa-spinner").show();
-           $(".btn-emailSend").find("span").text("이메일발송중");
+           $(".btn-emailSend").find("span").text("발송중");
            $.ajax({
                url:"http://localhost:8080/rest/cert/resetPassword",
                method:"post",
@@ -150,12 +152,12 @@ $(function(){
                    $(".btn-emailSend").prop("disabled", false);
                    $(".btn-emailSend").find(".fa-spinner").hide();
                    $(".cert-wrapper").hide();
-                   $(".btn-cert").hide();
-                   $(".btn-emailSend").find("span").text("인증번호 재발송");
+                   $("#certBtn").hide();
+                   $(".btn-emailSend").find("span").text("재발송");
                    // window.alert("이메일 확인하세요!");
                    
                     $(".cert-wrapper").show();
-                    $(".btn-cert").show();
+                    $("#certBtn").show();
                     window.email = email;
                },
            });
@@ -164,7 +166,7 @@ $(function(){
 
        
        //확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사
-       $(".btn-cert").click(function(){
+       $("#certBtn").click(function(){
            // var email = $("[name=memberEmail]").val();
            var email = window.email;
            var no = $(".cert-input").val();
@@ -184,14 +186,14 @@ $(function(){
                    if(response.result){ //인증성공
                        $(".cert-input").removeClass("is-valid is-invalid")
                                        .addClass("is-valid");
-                       $(".btn-cert").prop("disabled", true);
+                       $("#certBtn").prop("disabled", true);
                        //상태객체에 상태 저장하는 코드
                        
                     // 이메일 인증이 성공하면 인증번호 입력창과 버튼을 숨김
                        $(".btn-send").find("span").text("인증완료!");
                        $(".btn-send").prop("disabled", true);
                        $(".cert-wrapper").hide();
-                       $(".btn-cert").hide();
+                       $("#certBtn").hide();
                        
                     // '비밀번호 재설정하러가기' 버튼 생성
                        //if (!$('#resetPasswordButton').length) {
@@ -215,7 +217,7 @@ $(function(){
        });
     			// 모달이 닫힐 때 이벤트 처리
        			$('#forgotPasswordModal').on('hidden.bs.modal', function () {
-       				if ($(".btn-send").find("span").text() !== "인증번호 재발송") {
+       				if ($(".btn-send").find("span").text() !== "재발송") {
        		            return;
        				}
           		 location.reload();
@@ -241,9 +243,15 @@ $(document).ready(function () {
             event.preventDefault();
 
             // 새로운 비밀번호와 비밀번호 확인을 가져옴
-            var newPassword = $("[name=memberPw]").val();
+            var newPassword = $("[name=newPassword]").val();
             var confirmPassword = $("[name=confirmPassword]").val();
             var memberId = $("#email").val();
+            
+         // 비밀번호가 입력되지 않았을 경우
+            if (newPassword.length == 0 || confirmPassword.length == 0 ) {
+                alert('비밀번호가 입력되지 않았습니다. \n 다시 시도해주세요.');
+                return;
+            }
 
             // 비밀번호 일치 여부 확인
             if (newPassword !== confirmPassword) {
@@ -687,7 +695,7 @@ $(document).ready(function () {
 											<c:choose>
 												<c:when test="${sessionScope.name !=null}">
 													<a href="/member/logout" class="btn c-btn logout-btn ms-5" data-bs-toggle="modal"
-														data-bs-target="#logoutModal" style="height: fit-content;"> <i
+														data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
 														class="fa fa-sign-out-alt fa-2xl"></i>
 													</a>
 													<a href="/member/mypage" class="btn c-btn"
@@ -793,20 +801,39 @@ $(document).ready(function () {
 										<form id="forgotPasswordForm" action="" method="post"
 											autocomplete="off">
 											<!-- 비밀번호 찾기 폼 요소들을 여기에 추가 -->
-											<div class="mb-3">
-												<input type="email" class="form-control" id="email"
-													name="memberId" placeholder="이메일">
-											</div>
-											<button type="button" class="btn-emailSend btn btn-danger">
-												<i class="fa-solid fa-spinner fa-spin"></i> <span>이메일
-													보내기</span>
-											</button>
-											<div class="cert-wrapper pt-10">
-												<input type="text" class="cert-input form-control">
-												<button type="button" class="btn-cert btn btn-danger">확인완료</button>
-											</div>
-											<div class="valid-feedback left"></div>
-											<div class="invalid-feedback left"></div>
+											<div class="row">
+                        <div class="col-9">
+                            <div class="form-floating">
+                                <input type="email" id="email" class="form-control sendEmail" placeholder=""
+                                    name="memberId">
+                                <label>아이디(이메일)</label>
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex align-items-center">
+                            <button type="button" class="btn-emailSend btn btn-danger btn-lg form-control" style="font-size:15px;">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <span>인증</span>
+                            </button>
+                        </div>
+                    </div>
+					<!-- 인증번호 입력창 -->
+                    <div class="row mt-2">
+                        <div class="col-9">
+                            <div class="form-floating cert-wrapper">
+                                <input type="text" class="cert-input form-control" placeholder="">
+                                <label>인증번호 6자리</label>
+                           </div>
+                     </div>
+                             <div class="col-3 d-flex align-items-center">
+                                <button type="button" id="certBtn" class="btn btn-danger btn-lg form-control" style="font-size:15px;">
+                                <span>확인완료</span>
+                            </button>
+                           </div>
+                            <div class="feedback email-feedback">
+					            <div class="valid-feedback"></div>
+					            <div class="invalid-feedback"></div>
+        				</div>
+                    </div>
 										</form>
 									</div>
 								</div>
@@ -819,8 +846,8 @@ $(document).ready(function () {
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="resetPasswordModalLabel">비밀번호
-											재설정</h5>
+										<strong class="modal-title" id="resetPasswordModalLabel" style="">비밀번호
+											재설정</strong>
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -829,34 +856,51 @@ $(document).ready(function () {
 										<form id="resetPasswordForm" action="member/changePw"
 											method="post">
 											<!-- 비밀번호 재설정 폼 요소들을 여기에 추가 -->
-											<div class="mb-3">
-												<input type="password" class="form-control" id="newPassword"
-													name="newPassword" placeholder="새로운 비밀번호" required>
-											</div>
-											<div class="mb-3">
-												<input type="password" class="form-control"
-													id="confirmPassword" name="confirmPassword"
-													placeholder="비밀번호 확인" required>
-											</div>
-											<button type="submit" class="btn btn-danger">비밀번호
-												재설정</button>
+											 <!-- 비밀번호 입력창-->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="password" name="newPassword" class="form-control" placeholder=""
+                                    id="newPassWord">
+                                <label>새로운 비밀번호
+                                </label>
+                                  <div class="valid-feedback">올바른 형식입니다</div>
+                                  <div class="invalid-feedback">형식이 올바르지 않습니다</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 비밀번호 확인 입력창 -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="">
+                                <label>비밀번호 확인</label>
+                                <div class="valid-feedback"></div>
+                                <div class="invalid-feedback"></div>
+                                <div class="row">
+                                <button type="submit" class="btn btn-danger form-control">비밀번호 재설정</button>
+                            	</div>
+                            </div>
+                        </div>
+                    </div>
 										</form>
 									</div>
 								</div>
 							</div>
 						</div>
 				<!-- 로그아웃 확인 모달 창 -->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+<div class="modal fade" id="headerLogoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="logoutModalLabel">알림</h5>
-                <button type="button" class="btn-close close-logout" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-5" style="font-size: 20px;">로그아웃하시겠습니까?</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-logout" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger" id="logoutConfirmButton">확인</button>
+                <button type="button" class="btn btn-secondary close-logoutBtn" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" id="logoutButton">확인</button>
             </div>
         </div>
     </div>

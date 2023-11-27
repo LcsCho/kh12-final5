@@ -14,7 +14,8 @@ public interface MemberDao {
   
 	//회원 아이디로 회원 닉네임 검색
 	String findNicknameById(String memberId);
-	boolean updateMemberInfo(MemberDto inputDto);
+	//연락처 수정
+	//boolean updateMemberInfo(String memberId, String memberContact);
 	
 	List<MemberDto> selectList();
 	List<MemberDto> selectListByPage(int currentPage, int pageSize);
