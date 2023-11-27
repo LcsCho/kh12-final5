@@ -315,9 +315,7 @@ public class MemberRestController {
 	}
 	
 	@GetMapping("/reviewList")
-	public List<ReviewListVO> reviewList(HttpSession session, Model model) {
-		int ratingCount = ratingDao.getCount();
-		model.addAttribute("ratingCount", ratingCount);
+	public List<ReviewListVO> reviewList(HttpSession session) {
 		
 		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
