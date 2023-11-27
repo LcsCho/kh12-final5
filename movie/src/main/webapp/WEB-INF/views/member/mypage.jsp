@@ -210,65 +210,13 @@
 
 </script>
 
-<!-- 회원 정보 변경 모달 -->
-<script>
 
-	function openChangeInfoModal() {
-		 resetModalInputs();
-		$('#changeInfoModal').modal('show');
-	}
-	
-	// 기존 값 초기화 함수
-	function resetModalInputs() {
-		// 닉네임 입력 필드 초기화
-        $('#memberNickname').val('${memberDto.memberNickname}');
-
-        // 생년월일 입력 필드 초기화
-        $('#memberBirth').val('${memberDto.memberBirth}');
-
-        // 연락처 입력 필드 초기화
-        $('#memberContact').val('${memberDto.memberContact}');
-
-
-	    // 피드백 메시지 초기화
-	    $(".info").removeClass("is-valid is-invalid");
-	}
-
-	function changeInfo() {
-
-		var memberNickname = $('#memberNickname').val();
-		var memberBirth = $('#memberBirth').val();
-		var memberContact = $('#memberContact').val();
-
-		// AJAX를 통해 서버로 회원 정보 전송
-		$.ajax({
-			url : "http://localhost:8080/rest/member/change",
-			method : "POST",
-			data : {
-				memberNickname : memberNickname,
-				memberBirth : memberBirth,
-				memberContact : memberContact
-			},
-			success : function(response) {
-					console.log(response);
-	                // 성공 시 모달 닫기 및 화면 갱신
-	                $('#changeInfoModal').modal('hide');
-	                window.alert("수정이 완료되었습니다!");
-	                location.reload();
-	          
-	        },
-			error : function(xhr, status, error) {
-				alert("회원 정보 변경에 실패했습니다. 다시 시도해주세요.");
-			}
-		});
-		
-		$('#changeInfoModal').modal('hide');
-	}
-</script>
 
 <!-- 회원 탈퇴 모달 -->
 <script>
 	function openExitModal() {
+		//입력값 초기화 처리
+		 $('#inputPw').val('');
 		$('#exitModal').modal('show');
 	}
 
@@ -342,11 +290,11 @@
 								<a class="btn" onclick="openChangePasswordModal()">비밀번호 변경</a>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col text-center mid-setting-area">
-								<a class="btn" onclick="openChangeInfoModal()">개인정보 수정</a>
-							</div>
-						</div>
+<!-- 						<div class="row"> -->
+<!-- 							<div class="col text-center mid-setting-area"> -->
+<!-- 								<a class="btn" onclick="openChangeInfoModal()">개인정보 수정</a> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						
 						<div class="row">
 							<div class="col text-center bottom-setting-area">
@@ -475,7 +423,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="changePasswordModal">비밀번호 변경</h5>
+				<strong class="modal-title" id="changePasswordModal" style="font-size:20px;">비밀번호 변경</strong>
 			</div>
 			
             <div class="modal-body">
@@ -508,51 +456,51 @@
 <!-- 모달 끝 -->
 
 <!-- 회원정보 수정 모달 -->
-<div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog"
-	aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5>
-			</div>
+<!-- <div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" -->
+<!-- 	aria-labelledby="changePasswordModalLabel" aria-hidden="true"> -->
+<!-- 	<div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- 		<div class="modal-content"> -->
+<!-- 			<div class="modal-header"> -->
+<!-- 				<h5 class="modal-title" id="changeInfoModal">개인정보 수정</h5> -->
+<!-- 			</div> -->
 
-            <div class="modal-body">
-                <!-- 회원정보 변경 폼 -->
-                <form id="changeInfoForm" action="" method="post" autocomplete="off" onsubmit="changeInfo();">
+<!--             <div class="modal-body"> -->
+<!--                 회원정보 변경 폼 -->
+<!--                 <form id="changeInfoForm" action="" method="post" autocomplete="off" onsubmit="changeInfo();"> -->
 
-                    <!-- 닉네임 입력 -->
-                    <div class="form-group">
-                        <label for="memberNickname">닉네임</label>
-                        <input type="text" class="form-control info" name="memberNickname" id="memberNickname"
-                            value="${memberDto.memberNickname}">
-                            <div class="valid-feedback"></div>
-           					<div class="invalid-feedback"></div>
-                    </div>
-                    <!-- 생년월일 입력 -->
-                    <div class="form-group">
-                        <label for="memberBirth">생년월일</label>
-                        <input type="date" class="form-control info" name="memberBirth" id="memberBirth"
-                            value="${memberDto.memberBirth}">
-                        <div class="invalid-feedback">잘못된 날짜 형식입니다</div>
-                    </div>
-                    <!-- 연락처 입력 -->
-                    <div class="form-group">
-                        <label for="memberContact">연락처</label>
-                        <input type="text" class="form-control info" name="memberContact" id="memberContact"
-                            value="${memberDto.memberContact}">
-                       	<div class="valid-feedback">사용 가능한 전화번호입니다</div>
-           				<div class="invalid-feedback">형식이 올바르지 않습니다</div>
+<!--                     닉네임 입력 -->
+<!--                     <div class="form-group"> -->
+<!--                         <label for="memberNickname">닉네임</label> -->
+<!--                         <input type="text" class="form-control info" name="memberNickname" id="memberNickname" -->
+<%--                             value="${memberDto.memberNickname}"> --%>
+<!--                             <div class="valid-feedback"></div> -->
+<!--            					<div class="invalid-feedback"></div> -->
+<!--                     </div> -->
+<!--                     생년월일 입력 -->
+<!--                     <div class="form-group"> -->
+<!--                         <label for="memberBirth">생년월일</label> -->
+<!--                         <input type="date" class="form-control info" name="memberBirth" id="memberBirth" -->
+<%--                             value="${memberDto.memberBirth}"> --%>
+<!--                         <div class="invalid-feedback">잘못된 날짜 형식입니다</div> -->
+<!--                     </div> -->
+<!--                     연락처 입력 -->
+<!--                     <div class="form-group"> -->
+<!--                         <label for="memberContact">연락처</label> -->
+<!--                         <input type="text" class="form-control info" name="memberContact" id="memberContact" -->
+<%--                             value="${memberDto.memberContact}"> --%>
+<!--                        	<div class="valid-feedback">사용 가능한 전화번호입니다</div> -->
+<!--            				<div class="invalid-feedback">형식이 올바르지 않습니다</div> -->
                             
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="submit" class="btn btn-danger" onclick="changeInfo()">수정하기</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--                     </div> -->
+<!--                 </form> -->
+<!--             </div> -->
+<!--             <div class="modal-footer"> -->
+<!--                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button> -->
+<!--                 <button type="submit" class="btn btn-danger" onclick="changeInfo()">수정하기</button> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
 <!-- 모달 끝 -->
 
 <!-- 회원 탈퇴 모달 -->
@@ -562,7 +510,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exitModalLabel">회원 탈퇴</h5>
+                <strong class="modal-title" id="exitModalLabel" style="font-size:20px;">회원 탈퇴</strong>
             </div>
             <div class="modal-body">
                 <!-- 탈퇴 확인 폼 -->

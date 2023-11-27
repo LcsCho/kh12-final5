@@ -122,7 +122,7 @@
 	</select>
 	
 	<select id="findRatingByMovieNoAndNickname" resultType="Float">
-		select rating_score from review_list where movie_no = #{movieNo} and member_nickname = #{memberNickname}
+		select rating_score from rating where movie_no = #{movieNo} and member_nickname = #{memberNickname}
 	</select>
 	
 </mapper>
