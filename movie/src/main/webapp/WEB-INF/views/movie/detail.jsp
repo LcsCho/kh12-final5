@@ -636,7 +636,7 @@ $(document).ready(function(){
          <c:if test="${actorDetailList != null}">
             <c:forEach var="actorDetailVO" items="${actorDetailList}">
                <div class="col" style="width: 100px;">
-                    <img src="/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
+                    <img src="/rest/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
                        style="width: 100px; height: 120px">
                     <p>${actorDetailVO.actorName} (${actorDetailVO.actorRole})</p>
                  </div>
