@@ -29,62 +29,62 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/rest/review/list")
 public class ReviewListRestController {
-	
-	@Autowired
-	private ReviewDao reviewDao;
-	
-	@Autowired
-	private ReviewLikeDao reviewLikeDao;
-	
-	@Autowired
-	private MemberDao memberDao;
-	
-	//최신순 조회
-	@PostMapping("/findByDateDesc")
-	public List<ReviewListVO> findByDateDesc(int movieNo) {
-		return reviewDao.findByDateDesc(movieNo);
-	}
-	
-	//오래된순 조회
-	@PostMapping("/findByDateAsc")
-	public List<ReviewListVO> findByDateAsc(int movieNo) {
-		return reviewDao.findByDateAsc(movieNo);
-	}
-	
-	//좋아요순 조회
-	@PostMapping("/findByLikeDesc")
-	public List<ReviewListVO> findByLikeDesc(int movieNo) {
-		return reviewDao.findByLikeDesc(movieNo);
-	}
-	
-	//평점높은순
-	@PostMapping("/findByRatingDesc")
-	public List<ReviewListVO> findByRatingDesc(int movieNo) {
-		return reviewDao.findByRatingDesc(movieNo);
-	}
-	
-	//평점낮은순
-	@PostMapping("/findByRatingAsc")
-	public List<ReviewListVO> findByRatingAsc(int movieNo) {
-		return reviewDao.findByRatingAsc(movieNo);
-	}
+   
+   @Autowired
+   private ReviewDao reviewDao;
+   
+   @Autowired
+   private ReviewLikeDao reviewLikeDao;
+   
+   @Autowired
+   private MemberDao memberDao;
+   
+   //최신순 조회
+   @PostMapping("/findByDateDesc")
+   public List<ReviewListVO> findByDateDesc(int movieNo) {
+      return reviewDao.findByDateDesc(movieNo);
+   }
+   
+   //오래된순 조회
+   @PostMapping("/findByDateAsc")
+   public List<ReviewListVO> findByDateAsc(int movieNo) {
+      return reviewDao.findByDateAsc(movieNo);
+   }
+   
+   //좋아요순 조회
+   @PostMapping("/findByLikeDesc")
+   public List<ReviewListVO> findByLikeDesc(int movieNo) {
+      return reviewDao.findByLikeDesc(movieNo);
+   }
+   
+   //평점높은순
+   @PostMapping("/findByRatingDesc")
+   public List<ReviewListVO> findByRatingDesc(int movieNo) {
+      return reviewDao.findByRatingDesc(movieNo);
+   }
+   
+   //평점낮은순
+   @PostMapping("/findByRatingAsc")
+   public List<ReviewListVO> findByRatingAsc(int movieNo) {
+      return reviewDao.findByRatingAsc(movieNo);
+   }
 
-	//좋아요 조회(좋아요 체크 여부, 좋아요 개수)
-	@PostMapping("/findReviewLike")
-	public List<ReviewLikeVO> findReviewLike(@RequestParam int movieNo, HttpSession session){
-	    // memberId로 memberNickname 가져오기
-	    String memberId = (String) session.getAttribute("name");
-	    String memberNickname = memberDao.findNicknameById(memberId);
-	    
-	    // 영화에 달린 리뷰 번호 가져오기
-	    List<ReviewListVO> reviewNos = reviewDao.findReviewNoByMovie(movieNo);
-	    
-	    List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
-	    	for (ReviewListVO review : reviewNos) {
-	    	int reviewNo = review.getReviewNo();
-	    	String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
+   //좋아요 조회(좋아요 체크 여부, 좋아요 개수)
+   @PostMapping("/findReviewLike")
+   public List<ReviewLikeVO> findReviewLike(@RequestParam int movieNo, HttpSession session){
+       // memberId로 memberNickname 가져오기
+       String memberId = (String) session.getAttribute("name");
+       String memberNickname = memberDao.findNicknameById(memberId);
+       
+       // 영화에 달린 리뷰 번호 가져오기
+       List<ReviewListVO> reviewNos = reviewDao.findReviewNoByMovie(movieNo);
+       
+       List<ReviewLikeVO> reviewLikeVOList = new ArrayList<>();
+          for (ReviewListVO review : reviewNos) {
+          int reviewNo = review.getReviewNo();
+          String reviewLike = reviewLikeDao.findReviewLike(reviewNo, memberNickname);
 
-	    	ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
+          ReviewLikeVO reviewLikeVO = ReviewLikeVO.builder()
                 .check(reviewLike)
                 .count(reviewDao.findReviewLikeCount(reviewNo))
                 .reviewNo(reviewNo)
@@ -95,12 +95,13 @@ public class ReviewListRestController {
             
             log.debug("reviewLiktVOList = {}", reviewLikeVOList);
         }
+     
 	    return reviewLikeVOList;
 	}
 	
 	//좋아요 설정/해제
 	@PostMapping("/likeAction")
-	public ResponseEntity<String> likeAction(@RequestParam int reviewNo, HttpSession session) {
+	public ResponseEntity<ReviewLikeVO> likeAction(@RequestParam int reviewNo, HttpSession session) {
 	    // memberId로 memberNickname 가져오기
 	    String memberId = (String) session.getAttribute("name");
 	    String memberNickname = memberDao.findNicknameById(memberId);
@@ -124,11 +125,9 @@ public class ReviewListRestController {
 	    	reviewLikeVO.setReviewNo(reviewNo);
 	    	reviewLikeVO.setMemberNickname(memberNickname);
 	    	
-	    	log.debug("reviewLikeVO = {}", reviewLikeVO);
-	    	
-	    	return ResponseEntity.ok().build();
+	    	return ResponseEntity.ok().body(reviewLikeVO);
 	    }
-	    return ResponseEntity.badRequest().body("로그인 후 이용 가능합니다.");
+	    return ResponseEntity.badRequest().build();
 	}
 	
 	//리뷰 수정
@@ -146,7 +145,7 @@ public class ReviewListRestController {
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
 		ReviewDto findReviewDto = reviewDao.findReviewByMemberId(memberId, movieNo);
-		
+
 		if(findReviewDto == null) {
 			ReviewDto reviewDto = new ReviewDto();
 			int reviewNo = reviewDao.sequence();

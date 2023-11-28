@@ -215,4 +215,9 @@ public class ActorRestController {
 		return actorDao.selectList(actorName, searchCurrentPage, searchPageSize);
 	}
 	
+	@GetMapping("/getCount")
+	public int getCount() {
+		return actorDao.getActorCount();
+	}
+	
 }

@@ -7,7 +7,7 @@
 
 <style>
 body {
-	padding-top: 30px;
+   padding-top: 30px;
 }
 .review-item {
         border: 1px solid #ccc;
@@ -93,50 +93,50 @@ body {
 </style>
 
 <script>
-	//영화 찜기능
-	$(function() {
-		var params = new URLSearchParams(location.search);
-		var movieNo = params.get("movieNo");
+   //영화 찜기능
+   $(function() {
+      var params = new URLSearchParams(location.search);
+      var movieNo = params.get("movieNo");
 
-		$.ajax({
-			url : "/rest/movieWish/check",
-			method : "post",
-			data : {
-				movieNo : movieNo
-			},
-			success : function(response) {
-				if (response.check) {
-					$(".fa-bookmark").removeClass("fa-solid fa-regular")
-							.addClass("fa-solid");
-				} else {
-					$(".fa-bookmark").removeClass("fa-solid fa-regular")
-							.addClass("fa-regular");
-				}
-			}
-		});
+      $.ajax({
+         url : "/rest/movieWish/check",
+         method : "post",
+         data : {
+            movieNo : movieNo
+         },
+         success : function(response) {
+            if (response.check) {
+               $(".fa-bookmark").removeClass("fa-solid fa-regular")
+                     .addClass("fa-solid");
+            } else {
+               $(".fa-bookmark").removeClass("fa-solid fa-regular")
+                     .addClass("fa-regular");
+            }
+         }
+      });
 
-		$(".fa-bookmark").click(
-				function() {
-					$.ajax({
-						url : "/rest/movieWish/action",
-						method : "post",
-						data : {
-							movieNo : movieNo
-						},
-						success : function(response) {
-							if (response.check) {
-								$(".fa-bookmark").removeClass(
-										"fa-solid fa-regular").addClass(
-										"fa-solid");
-							} else {
-								$(".fa-bookmark").removeClass(
-										"fa-solid fa-regular").addClass(
-										"fa-regular");
-							}
-						}
-					});
-				});
-	});
+      $(".fa-bookmark").click(
+            function() {
+               $.ajax({
+                  url : "/rest/movieWish/action",
+                  method : "post",
+                  data : {
+                     movieNo : movieNo
+                  },
+                  success : function(response) {
+                     if (response.check) {
+                        $(".fa-bookmark").removeClass(
+                              "fa-solid fa-regular").addClass(
+                              "fa-solid");
+                     } else {
+                        $(".fa-bookmark").removeClass(
+                              "fa-solid fa-regular").addClass(
+                              "fa-regular");
+                     }
+                  }
+               });
+            });
+   });
 </script>
 
 <script>
@@ -153,7 +153,7 @@ body {
                 movieNo: movieNo
             },
             success: function (response) {
-//             	console.log(response);
+//                console.log(response);
                 // 서버에서 받아온 평점을 선택한 상태로 만들기
                 var selectedRating = response.ratingScore;
                 //float형태로 변형
@@ -180,15 +180,15 @@ body {
                 url: '/rest/rating/' + movieNo,
                 method: 'GET',
                 success: function(response) {
-//                 	console.log(typeof response.ratingScore);
+//                    console.log(typeof response.ratingScore);
                     // 기존 별점이 존재한다면 수정
                     if (Object.keys(response).length > 0) {
 
-                    	
+                       
                         // 이미 매긴 별점과 동일한 경우 삭제 처리
 //                         console.log(response.ratingScore=== parseFloat(selectedRating));
                         if (parseFloat(response.ratingScore) === parseFloat(selectedRating)) {//selectedRating은 String이라 변환
-                        	var confirmDelete = confirm("별점 삭제시 본인이 작성한 리뷰도 함께 삭제됩니다. \n정말 별점을 삭제하시겠습니까?");
+                           var confirmDelete = confirm("별점 삭제시 본인이 작성한 리뷰도 함께 삭제됩니다. \n정말 별점을 삭제하시겠습니까?");
                             if (confirmDelete) {
                                 // 사용자가 확인한 경우에만 삭제 처리
                                 $.ajax({
@@ -198,7 +198,7 @@ body {
 //                                         console.log('평점이 성공적으로 삭제되었습니다.');
                                         $('.rate input').prop('checked', false);//삭제했으면 별점 비어있는 형태로 만들기
                                         location.reload();
-										
+                              
                                     },
                                     error: function(deleteError) {
                                         console.error('평점 삭제 중 오류가 발생했습니다:', deleteError);
@@ -257,12 +257,12 @@ body {
 
 <script>
 $(function () {
-	
+   
     // 리뷰 작성(등록)
     $(".writeReview").click(function(e){
         // 리뷰작성 버튼 숨기기
         $(this).hide();
-		
+      
         var selectedRating = $('input[name=rating]:checked').val();
         
         // 리뷰 버튼 창 가져오기
@@ -293,38 +293,38 @@ $(function () {
             console.log(selectedRating);
             
             var reviewContent = $("#review-content").val(); // .val() 추가
-			
+         
             if (selectedRating != null) {
-	            $.ajax({
-	                url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
-	                method: "post",
-	                data: {
-	                    movieNo: movieNo,
-	                    reviewContent: reviewContent // reviewContent.val()로 변경
-	                },
-	                success: function(response){
-	                	console.log(response);
-	                	
-	                    reviewWriteContainer.show();
-	                    $(writeHtmlTemplate).remove(); // 변수명 수정
-	                    window.alert("리뷰가 작성되었습니다!");
-	                    location.reload();
-	                },
-	                error: function(error) {
-	                    window.alert("이미 리뷰를 등록하셨습니다.");
-	                    reviewWriteContainer.show();
-	    	            $(writeHtmlTemplate).remove();
-	                },
-	            });
-	        } else {
-	            handleError("별점을 먼저 등록해주세요");
-	            reviewWriteContainer.show();
-	            $(writeHtmlTemplate).remove();
-	        }
+               $.ajax({
+                   url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
+                   method: "post",
+                   data: {
+                       movieNo: movieNo,
+                       reviewContent: reviewContent // reviewContent.val()로 변경
+                   },
+                   success: function(response){
+                      console.log(response);
+                      
+                       reviewWriteContainer.show();
+                       $(writeHtmlTemplate).remove(); // 변수명 수정
+                       window.alert("리뷰가 작성되었습니다!");
+                       location.reload();
+                   },
+                   error: function(error) {
+                       window.alert("이미 리뷰를 등록하셨습니다.");
+                       reviewWriteContainer.show();
+                      $(writeHtmlTemplate).remove();
+                   },
+               });
+           } else {
+               handleError("별점을 먼저 등록해주세요");
+               reviewWriteContainer.show();
+               $(writeHtmlTemplate).remove();
+           }
             
-	        function handleError(errorMessage) {
-	            window.alert(errorMessage);
-	        }
+           function handleError(errorMessage) {
+               window.alert(errorMessage);
+           }
         });
 
         reviewWriteContainer.hide().after(writeHtmlTemplate);
@@ -335,78 +335,78 @@ $(function () {
 
 <script>
 $(document).ready(function(){
-	var params = new URLSearchParams(location.search);
+   var params = new URLSearchParams(location.search);
     var movieNo = params.get("movieNo");
     
-	//좋아요 체크
-	loadReviewLike(movieNo);
-	
-	function loadReviewLike(movieNo) {
-	    $.ajax({
-	        url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
-	        method: "post",
-	        data: {
-	            movieNo: movieNo,
-	        },
-	        success: function (response) {
-	            for (var i = 0; i < response.length; i++) {
-	                var reviewNo = response[i].reviewNo;
-	                var check = response[i].check;
-	                var liked = check == "Y";
-	                
-	                var $likeButton = $(".likeButton[data-reviewNo='" + reviewNo + "']");
-	                var $likeIcon = $likeButton.find(".fa-thumbs-up");
-	                
-	                var hrefInfo = "review/detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
-	                var $commentButton = $(".commentButton[data-reviewNo='" + reviewNo + "']");
-	                $commentButton.attr("href", hrefInfo);
-	                
-	                console.log(hrefInfo);
-	
-	                if (liked) {
-	                    $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-solid");
-	                } else {
-	                    $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-regular");
-	                }
-	                $likeButton.find(".reviewLikeCount").text(response[i].count);
-	            }
-	        }
-		});
-	}
+   //좋아요 체크
+   loadReviewLike(movieNo);
+   
+   function loadReviewLike(movieNo) {
+       $.ajax({
+           url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
+           method: "post",
+           data: {
+               movieNo: movieNo,
+           },
+           success: function (response) {
+               for (var i = 0; i < response.length; i++) {
+                   var reviewNo = response[i].reviewNo;
+                   var check = response[i].check;
+                   var liked = check == "Y";
+                   
+                   var $likeButton = $(".likeButton[data-reviewNo='" + reviewNo + "']");
+                   var $likeIcon = $likeButton.find(".fa-thumbs-up");
+                   
+                   var hrefInfo = "review/detail?movieNo=" + movieNo + "&reviewNo=" + reviewNo;
+                   var $commentButton = $(".commentButton[data-reviewNo='" + reviewNo + "']");
+                   $commentButton.attr("href", hrefInfo);
+                   
+                   console.log(hrefInfo);
+   
+                   if (liked) {
+                       $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-solid");
+                   } else {
+                       $likeIcon.removeClass("fa-regular fa-solid").addClass("fa-regular");
+                   }
+                   $likeButton.find(".reviewLikeCount").text(response[i].count);
+               }
+           }
+      });
+   }
 
-	//좋아요 설정/해제
-	function reviewLike(reviewNo) {
-		$.ajax({
-			url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
-			method: "post",
-			data: {
-				movieNo: movieNo,
-				reviewNo: reviewNo
-			},
-			success: function (response) {
-				loadReviewLike(movieNo);
-          	
-				var $likeButton = $(".likeButton[data-reviewno='" + reviewNo + "']");
+   //좋아요 설정/해제
+   function reviewLike(reviewNo) {
+      $.ajax({
+         url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+         method: "post",
+         data: {
+            movieNo: movieNo,
+            reviewNo: reviewNo
+         },
+         success: function (response) {
+            loadReviewLike(movieNo);
+             
+            var $likeButton = $(".likeButton[data-reviewno='" + reviewNo + "']");
 
-				if (response.check) {
-					$likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
-					$likeButton.find(".reviewLikeCount").text(response.count);
-				} else {
-					$likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid");
-					$likeButton.find(".reviewLikeCount").text(response.count);
-				}
-				
-			},
-			error : function() {
-				window.alert("로그인 후 이용 가능합니다.");
-			}
-		});
-	}
+            if (response.check) {
+               $likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
+               $likeButton.find(".reviewLikeCount").text(response.count);
+            } else {
+               $likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid");
+               $likeButton.find(".reviewLikeCount").text(response.count);
+            }
+            
+         },
+         error : function() {
+            window.alert("로그인 후 이용 가능합니다.");
+         }
+      });
+   }
   
-	$(".review-container").on("click", ".likeButton", function () {
-		var clickedReviewNo = $(this).data("reviewno");
-		reviewLike(clickedReviewNo);
-	});
+   $(".review-container").on("click", ".likeButton", function () {
+      var clickedReviewNo = $(this).data("reviewno");
+      reviewLike(clickedReviewNo);
+   });
 });
 
 
@@ -523,19 +523,19 @@ $(document).ready(function(){
 				</c:forEach>
 			</c:if>
 
-			<!-- Cast Section -->
-			<h4 class="mt-3">출연자</h4>
-			<c:if test="${actorDetailList != null}">
-				<c:forEach var="actorDetailVO" items="${actorDetailList}">
+         <!-- Cast Section -->
+         <h4 class="mt-3">출연자</h4>
+         <c:if test="${actorDetailList != null}">
+            <c:forEach var="actorDetailVO" items="${actorDetailList}">
 
-					<div class="col" style="width: 215px;">
-						<p>${actorDetailVO.actorName}</p>
-						<p>${actorDetailVO.actorRole}</p>
-						<img src="/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
-							style="width: 215px; height: 300px">
-					</div>
-				</c:forEach>
-			</c:if>
+               <div class="col" style="width: 215px;">
+                  <p>${actorDetailVO.actorName}</p>
+                  <p>${actorDetailVO.actorRole}</p>
+                  <img src="/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
+                     style="width: 215px; height: 300px">
+               </div>
+            </c:forEach>
+         </c:if>
 
 			<!-- Review Section -->
 			<div class="container mt-5">
@@ -584,8 +584,7 @@ $(document).ready(function(){
 				</div>
 				
 			</div>
-
-		</div>
-	</div>
+      </div>
+   </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

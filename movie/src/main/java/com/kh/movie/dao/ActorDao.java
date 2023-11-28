@@ -25,5 +25,6 @@ public interface ActorDao {
 	List<ActorViewVO> selectActorList();
 	List<ActorViewVO> selectListByPage(int currentPage, int pageSize);
 	List<ActorDto> selectList(String actorName, int searchCurrentPage, int searchPageSize);
+	int getActorCount();
 
 }

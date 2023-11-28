@@ -112,4 +112,8 @@
 		(select actor_no from actor where actor_name like '%' || #{actorName} || '%')
 	</select>
 	
+	<select id="getCount" resultType="int">
+		select count(*) from actor
+	</select>
+	
 </mapper>

@@ -6,10 +6,13 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+
+	var isFirstLoad = true;
+	
     $(document).ready(function () {
-    	 // 초기에 xmark 숨기기
-        $('.fa-circle-xmark').hide();
-        
+    	
+	    loadMovieList();
+
         // 클릭 이벤트를 추가
         $('.fa-gear').on('click', function () {
             // 아이콘을 토글하여 보이기/숨기기
@@ -29,8 +32,6 @@
             }
         });
         
-        // AJAX 요청 완료 후에 영화 목록을 가져와서 표시
-        loadMovieList();
     });
 
     function loadMovieList() {
@@ -77,9 +78,14 @@
                 movieHtml += '</div>';
 
                     moviesContainer.append(movieHtml);
+                    
+                //처음 로드 시에만 실행
+                if(isFirstLoad){
                  // 각각의 xmark를 숨김
                     $('.fa-circle-xmark').hide();
+                }
                 });
+                isFirstLoad = false;//초기화 상태 변경
             },
             error: function (error) {
                 // 에러 처리
