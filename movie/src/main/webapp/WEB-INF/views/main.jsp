@@ -330,7 +330,7 @@ a {
 						<div class="swiper-button-prev custom-prev"></div>
 					</div>
 					
-					<div class="row style="min-height: 400px;">
+					<div class="row" style="min-height: 400px;">
                     <div class="col">
 					
 					<!-- 계절별 영화 추천 -->

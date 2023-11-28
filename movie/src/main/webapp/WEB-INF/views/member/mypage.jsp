@@ -6,6 +6,12 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
 
+<!-- swiper cdn -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 <style>
 .center-section {
 	height: 48px;
@@ -393,11 +399,13 @@
 					<c:forEach var="todayMovieVO" items="${todayMovieList}">
 						<div class="swiper-slide" style="min-width: 240px;">
 							<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-								<div>
+								<div class="row">
+								<div class="col">
 									<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}"> <img
 										src="/rest/image/${todayMovieVO.imageNo}" class="img-thumbnail"
 										style="width: 250px; height: 310px">
 									</a>
+									</div>
 								</div>
 								<div class="row">
 								<div class="col">
@@ -414,7 +422,7 @@
 								</div>
 								<c:if test="${todayMovieVO.ratingAvg != 0}">
 								<div class="row">
-									<div class="col">
+									<div class="col mb-3">
 										평균 <i class="fa-solid fa-star"></i> ${todayMovieVO.ratingAvg}점
 									</div>
 									</div>
@@ -548,4 +556,23 @@
 
 </div>
 <!-- 모달 끝 -->
+
+<script>
+	//스와이퍼 설정
+	var swiper = new Swiper('.swiper', {
+		slidesPerView : 4,
+		slidesPerGroup : 4,
+		spaceBetween: 5,
+		loop : true,
+		navigation : {
+			nextEl : '.custom-next', // 커스텀 클래스 지정
+			prevEl : '.custom-prev', // 커스텀 클래스 지정
+		},
+		pagination : {
+			el : '.swiper-pagination',
+			clickable : true,
+		},
+		speed : 700,
+	});
+</script>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
