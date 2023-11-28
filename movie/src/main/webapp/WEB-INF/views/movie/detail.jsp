@@ -531,7 +531,7 @@ $(document).ready(function(){
                <div class="col" style="width: 215px;">
                   <p>${actorDetailVO.actorName}</p>
                   <p>${actorDetailVO.actorRole}</p>
-                  <img src="/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
+                  <img src="/rest/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
                      style="width: 215px; height: 300px">
                </div>
             </c:forEach>
