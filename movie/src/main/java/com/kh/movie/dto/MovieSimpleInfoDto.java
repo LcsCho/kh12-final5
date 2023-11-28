@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class MovieSimpleInfoDto {
-	private int movieNo, movieTime, ImageNo;
+	private int movieNo, movieTime, imageNo;
 	private String movieName, movieReleaseYear, genreName, movieNation, movieLevel;
 }
