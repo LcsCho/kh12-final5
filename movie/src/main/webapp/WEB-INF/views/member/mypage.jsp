@@ -383,7 +383,7 @@
 			<div class="swiper row">
 				<div class="swiper-wrapper">
 					<c:forEach var="todayMovieVO" items="${todayMovieList}">
-						<div class="swiper-slide">
+						<div class="swiper-slide" style="min-width: 240px;">
 							<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 								<div>
 									<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}"> <img
@@ -391,18 +391,24 @@
 										style="width: 250px; height: 310px">
 									</a>
 								</div>
+								<div class="row">
 								<div class="col">
 									<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
 										${todayMovieVO.movieName} </a>
 								</div>
+								</div>
+								<div class="row">
 								<div class="col">
 									<fmt:formatDate value="${todayMovieVO.movieReleaseDate}"
 										pattern="yyyy" />
 									/ ${todayMovieVO.movieNation}
 								</div>
+								</div>
 								<c:if test="${todayMovieVO.ratingAvg != 0}">
+								<div class="row">
 									<div class="col">
 										평균 <i class="fa-solid fa-star"></i> ${todayMovieVO.ratingAvg}점
+									</div>
 									</div>
 								</c:if>
 							</div>
