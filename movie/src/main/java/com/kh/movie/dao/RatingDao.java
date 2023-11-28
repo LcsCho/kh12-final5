@@ -26,4 +26,6 @@ public interface RatingDao {
 
 	List<Integer> getRatingListByMemberId(String memberId);
 	void deleteRating(String memberId, int movieNo);
+
+	boolean existsByMovieNoAndMemberId(int movieNo, String memberId);
 }

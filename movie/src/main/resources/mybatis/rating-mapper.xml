@@ -66,5 +66,11 @@
 	<delete id="deleteRating">
 		delete from rating where member_id = #{memberId} and movie_no = #{movieNo}
 	</delete>
+	
+	<!-- 영화 더미 생성 중복 확인 -->
+	<select id="existsByMovieNoAndMemberId" resultType="Integer">
+    SELECT COUNT(*) FROM rating WHERE member_id = #{memberId} AND movie_no = #{movieNo}
+	</select>
+	
 
 </mapper>

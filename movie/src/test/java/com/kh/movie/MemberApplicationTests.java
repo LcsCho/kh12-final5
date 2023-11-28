@@ -11,9 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.kh.movie.dao.MemberDao;
-import com.kh.movie.dto.MemberDto;
-import com.kh.movie.dto.RatingDto;
+import com.kh.movie.dao.MovieWishDao;
+import com.kh.movie.dao.PreferGenreDao;
 import com.kh.movie.dao.RatingDao;
+import com.kh.movie.dto.MemberDto;
+import com.kh.movie.dto.PreferGenreDto;
+import com.kh.movie.dto.RatingDto;
 
 @SpringBootTest
 public class MemberApplicationTests {
@@ -32,7 +35,7 @@ public class MemberApplicationTests {
         Random random = new Random();
 
         // 더미 회원 생성
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 450; i++) {
             // 테스트용 MemberDto 생성
             MemberDto testMember = new MemberDto();
             testMember.setMemberId(generateSequentialEmail());
@@ -55,6 +58,8 @@ public class MemberApplicationTests {
             
          // 영화 평점 생성 및 등록
             generateAndInsertMovieRatings(testMember.getMemberId());
+            
+            //generateAndInsertMemberPreferences(testMember.getMemberNickname());
         }
     }
 
@@ -105,26 +110,58 @@ public class MemberApplicationTests {
 //    }
     
     
+    
+// // 영화 평점 생성 및 등록 메서드
+//    private void generateAndInsertMovieRatings(String memberId) {
+//        Random random = new Random();
+//
+//     // 영화 평점을 125편의 영화에 대해 생성
+//        for (int movieNo = 1; movieNo <= 140; movieNo++) {
+//            // 특정 영화에 대한 회원의 평점이 이미 존재하는지 확인
+//            if (!ratingDao.existsByMovieNoAndMemberId(movieNo, memberId)) {
+//                // 테스트용 RatingDto 생성
+//                RatingDto ratingDto = new RatingDto();
+//                ratingDto.setRatingNo(random.nextInt());
+//                ratingDto.setMovieNo(movieNo);
+//                ratingDto.setMemberId(memberId);
+//
+//                // 2 이상부터 5까지 0.5 단위로 랜덤한 평점 부여
+//                float ratingScore = 2.0f + (random.nextInt() * 3);
+//                ratingDto.setRatingScore(ratingScore);
+//                
+//                ratingDto.setRatingDate(new Date(System.currentTimeMillis()));
+//
+//                // 평점 등록
+//                ratingDao.insert(ratingDto);
+//        }
+//    }
+//}
+
     @Autowired
     private RatingDao ratingDao;
- // 영화 평점 생성 및 등록 메서드
+    
+    // 영화 평점 생성 및 등록 메서드
     private void generateAndInsertMovieRatings(String memberId) {
         Random random = new Random();
 
-        // 영화 평점을 5편의 영화에 대해 생성
-        for (int i = 1; i <= 5; i++) {
-            int movieNo = i; // 간단한 예시로 영화 번호를 그대로 사용
+        // 영화 평점을 140편의 영화에 대해 생성
+        for (int movieNo = 1; movieNo <= 142; movieNo++) {
+            // 특정 영화에 대한 회원의 평점이 이미 존재하는지 확인
+            if (!ratingDao.existsByMovieNoAndMemberId(movieNo, memberId)) {
+                // 테스트용 RatingDto 생성
+                RatingDto ratingDto = new RatingDto();
+                ratingDto.setMovieNo(movieNo);
+                ratingDto.setMemberId(memberId);
 
-            // 테스트용 RatingDto 생성
-            RatingDto ratingDto = new RatingDto();
-            ratingDto.setRatingNo(random.nextInt()); 
-            ratingDto.setMovieNo(movieNo);
-            ratingDto.setMemberId(memberId);
-            ratingDto.setRatingDate(new Date(System.currentTimeMillis())); // 현재 날짜로 설정
-            ratingDto.setRatingScore((float) (((random.nextInt(9) + 1) * 0.5) + 0.5)); // 1에서 10까지의 랜덤한 숫자
+                // 2.0에서 5.0 사이의 랜덤한 평점 부여
+                float ratingScore = 2.0f + (random.nextInt(7) * 0.5f);
+                ratingDto.setRatingScore(ratingScore);
 
-            // 평점 등록
-            ratingDao.insert(ratingDto);
+                ratingDto.setRatingDate(new Date(System.currentTimeMillis()));
+
+                // 평점 등록
+                ratingDao.insert(ratingDto);
+            }
         }
     }
 }

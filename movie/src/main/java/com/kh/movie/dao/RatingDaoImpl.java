@@ -95,4 +95,15 @@ public class RatingDaoImpl implements RatingDao{
 		params.put("movieNo", movieNo);
 		sqlSession.delete("rating.deleteRating", params);
 	}
+
+	@Override
+	public boolean existsByMovieNoAndMemberId(int movieNo, String memberId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("movieNo", movieNo);
+		params.put("memberId", memberId);
+		
+		Integer count = sqlSession.selectOne("rating.existsByMovieNoAndMemberId", params);
+		
+		return count != null && count > 0;
+	}
 }
