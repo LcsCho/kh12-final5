@@ -140,21 +140,25 @@ public class MemberApplicationTests {
     @Autowired
     private RatingDao ratingDao;
     
-    // 영화 평점 생성 및 등록 메서드
+     //영화 평점 생성 및 등록 메서드
     private void generateAndInsertMovieRatings(String memberId) {
         Random random = new Random();
 
         // 영화 평점을 140편의 영화에 대해 생성
         for (int movieNo = 1; movieNo <= 142; movieNo++) {
+        	if (random.nextFloat() < 0.5) { // 50%의 확률로 평점을 남김
+        	
             // 특정 영화에 대한 회원의 평점이 이미 존재하는지 확인
             if (!ratingDao.existsByMovieNoAndMemberId(movieNo, memberId)) {
                 // 테스트용 RatingDto 생성
                 RatingDto ratingDto = new RatingDto();
+                int ratingNo = ratingDao.sequence();
+                ratingDto.setRatingNo(ratingNo);
                 ratingDto.setMovieNo(movieNo);
                 ratingDto.setMemberId(memberId);
 
-                // 2.0에서 5.0 사이의 랜덤한 평점 부여
-                float ratingScore = 2.0f + (random.nextInt(7) * 0.5f);
+                // 1.5에서 5.0 사이의 랜덤한 평점 부여
+                float ratingScore = 1.5f + (random.nextInt(7) * 0.5f);
                 ratingDto.setRatingScore(ratingScore);
 
                 ratingDto.setRatingDate(new Date(System.currentTimeMillis()));
@@ -164,4 +168,5 @@ public class MemberApplicationTests {
             }
         }
     }
+  }
 }
