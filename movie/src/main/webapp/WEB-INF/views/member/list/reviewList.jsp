@@ -109,14 +109,19 @@ $(function(){
         // 리뷰를 동적으로 생성하여 화면에 추가
         var template = $('#review-template').html();
         var $reviewCard = $(template);
+        console.log("영화번호 = " + review.movieNo);
+        console.log("리뷰번호 = " + review.reviewNo);
         // 리뷰 데이터를 템플릿에 적용     
         $reviewCard.find('.userImage').attr('src', '/rest/image/' + review.imageNo);
         $reviewCard.find('.memberNickname').text(review.memberNickname);
         $reviewCard.find('.ratingScore').text(review.ratingScore);
         $reviewCard.find('.reviewContent').text(review.reviewContent);
-        $reviewCard.find('.replyCount').text(review.reviewReplyCount);
         $reviewCard.find('.likeButton').attr('data-reviewno', review.reviewNo);
-        $reviewCard.find('.likeCount').text(review.reviewLikeCount);
+        $reviewCard.find('.likeCount').text(review.reviewLikeCount);	
+        var hrefInfo ="/movie/review/detail?movieNo=" + review.movieNo + "&reviewNo=" + review.reviewNo;
+        console.log($reviewCard.find(".commnetButton"));
+        $reviewCard.find(".commentButton").attr("href",hrefInfo);
+        $reviewCard.find('.replyCount').text(review.reviewReplyCount);
         // 리뷰 카드를 화면에 추가
         $('.review-container').append($reviewCard);
 
@@ -145,7 +150,7 @@ $(function(){
 					</button>
 				</div>
 				<div class="col">
-					<a class="commnetButton">					
+					<a class="commentButton">					
 						<button type="button" class="btn btn-link replyButton">
 							<i class="fa-regular fa-comment"><span class="replyCount"></span></i>
 						</button>
