@@ -608,6 +608,8 @@ $(document).ready(function () {
 	max-height: 200px;
 	overflow-y: auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	cursor: auto;
+	 user-select: none;
 }
 /* #recentContainer { */
 /*     position: absolute; */
