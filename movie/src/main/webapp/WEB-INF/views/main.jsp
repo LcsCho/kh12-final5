@@ -67,6 +67,42 @@ h3 {
 	.message.other-message {
 	    text-align: left;
 	}
+	.swiper-container {
+            width: 100%;
+            padding-top: 50px; /* 이전 버튼과 다음 버튼이 겹치지 않도록 상단 패딩 추가 */
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            top: 50%; /* 버튼을 세로 중앙에 배치 */
+            transform: translateY(-50%); /* 세로 중앙에 정렬하기 위한 변형 */
+        }
+
+        .swiper-button-next {
+            right: 0; /* 다음 버튼을 오른쪽에 배치 */
+        }
+
+        .swiper-button-prev {
+            left: 0; /* 이전 버튼을 왼쪽에 배치 */
+        }
+
+        .swiper-slide {
+/*             width: auto !important; */
+            padding: 0 5px;
+        } 
+
+        .swiper-wrapper {
+/*             display: flex; */
+            gap: 10px;
+            justify-content: flex-start; /* 왼쪽 정렬 */
+            margin-left: -10px; /* 첫 번째 슬라이드와 왼쪽 여백 조절 */
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+        }
+	
 </style>
 
 <!-- swiper cdn -->
@@ -268,7 +304,11 @@ h3 {
 						<div class="swiper-button-next custom-next"></div>
 						<div class="swiper-button-prev custom-prev"></div>
 					</div>
-
+					
+					
+					<div class="row mt-5 pt-5" style="min-height: 400px;">
+                    <div class="col">
+					
 					<!-- 계절별 영화 추천 -->
 					<div class="row mt-5 p-3">
 						<div class="col">
@@ -291,27 +331,35 @@ h3 {
 					<div class="swiper row">
 						<div class="swiper-wrapper">
 							<c:forEach var="seasonMovieVO" items="${seasonMovieList}">
-								<div class="swiper-slide">
+								<div class="swiper-slide" style="min-width: 250px;">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-										<div>
+										<div class="row">
+											<div class="col">
 											<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
 												<img src="/rest/image/${seasonMovieVO.imageNo}"
 												class="img-thumbnail" style="width: 250px; height: 310px">
 											</a>
+											</div>
 										</div>
+										<div class="row">
 										<div class="col">
 											<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
 												${seasonMovieVO.movieName} </a>
 										</div>
+										</div>
+										<div class="row">
 										<div class="col">
 											<fmt:formatDate value="${seasonMovieVO.movieReleaseDate}"
 												pattern="yyyy" />
 											/ ${seasonMovieVO.movieNation}
 										</div>
+										</div>
 										<c:if test="${seasonMovieVO.ratingAvg != 0}">
+										<div class="row">
 											<div class="col">
 												평균 <i class="fa-solid fa-star"></i>
 												${seasonMovieVO.ratingAvg}점
+											</div>
 											</div>
 										</c:if>
 									</div>
@@ -321,6 +369,9 @@ h3 {
 						<div class="swiper-button-next custom-next"></div>
 						<div class="swiper-button-prev custom-prev"></div>
 					</div>
+					
+					</div>
+                </div>
 
 					<!-- 회원으로 로그인 할 경우만 출력 -->
 					<c:if test="${sessionScope.name != null}">
@@ -688,7 +739,7 @@ h3 {
 	var swiper = new Swiper('.swiper', {
 		slidesPerView : 5,
 		slidesPerGroup : 5,
-		//         spaceBetween: 5,
+		spaceBetween: 5,
 		loop : true,
 		navigation : {
 			nextEl : '.custom-next', // 커스텀 클래스 지정
@@ -701,13 +752,13 @@ h3 {
 		speed : 700,
 	});
 	
-	$(function () {
-        $(".open-modal-btn").click(function () {
+// 	$(function () {
+//         $(".open-modal-btn").click(function () {
 
-            var modal = new bootstrap.Modal(document.querySelector("#chatModal"));
-            modal.show();
-        });
-    });
+//             var modal = new bootstrap.Modal(document.querySelector("#chatModal"));
+//             modal.show();
+//         });
+//     });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
 <!-- 채팅 -->

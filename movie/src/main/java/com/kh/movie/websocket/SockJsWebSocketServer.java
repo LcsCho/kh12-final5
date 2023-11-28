@@ -40,8 +40,8 @@ public class SockJsWebSocketServer extends TextWebSocketHandler{
 		
 		if(client.isMember()) members.add(client);
 		
-		log.debug("사용자 접속! 현재 {}명", clients.size());
-		log.debug("접속한 사용자 = {}", clients);
+//		log.debug("사용자 접속! 현재 {}명", clients.size());
+//		log.debug("접속한 사용자 = {}", clients);
 		
 		sendClientList();
 		sendMessageList(client);
@@ -54,7 +54,7 @@ public class SockJsWebSocketServer extends TextWebSocketHandler{
 		
 		if(client.isMember()) members.remove(client);
 		
-		log.debug("사용자 접속종료! 현재 {}명", clients.size());
+//		log.debug("사용자 접속종료! 현재 {}명", clients.size());
 		
 		sendClientList();
 	}
