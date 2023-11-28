@@ -34,7 +34,7 @@
 /* 	.swiper-button-prev:hover { */
 /* 	  background-color: #2980b9; /* hover 시 버튼 배경색 변경 */
 /* 	  /* 다른 스타일 속성들 추가 가능 */
-h3 {
+h4 {
 	color: rgb(179, 57, 57);
 }
 
@@ -80,10 +80,12 @@ h3 {
 
         .swiper-button-next {
             right: 0; /* 다음 버튼을 오른쪽에 배치 */
+            color: rgb(179, 57, 57);
         }
 
         .swiper-button-prev {
             left: 0; /* 이전 버튼을 왼쪽에 배치 */
+            color: rgb(179, 57, 57);
         }
 
         .swiper-slide {
@@ -102,6 +104,12 @@ h3 {
             width: 100%;
             height: auto;
         }
+        :root {
+    		--swiper-theme-color: #B33939 !important;
+		}
+a {
+	color: rgb(179, 57, 57);
+}
 	
 </style>
 
@@ -122,7 +130,7 @@ h3 {
 					<!-- 검색결과 -->
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>${movieName}의검색결과</h3>
+							<h4>"<span style="font-weight: bold;">${movieName}</span>" 검색결과</h4>
 						</div>
 					</div>
 					<div class="swiper row">
@@ -166,7 +174,7 @@ h3 {
 				<c:when test="${empty movieList && movieList != null}">
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>${movieName}의 검색결과가 없어요!</h3>
+							<h4 class="mb-5">"<span style="font-weight: bold;">${movieName}</span>" 의 검색결과가 없어요!</h4>
 							<a href="/">메인으로</a>
 						</div>
 					</div>
@@ -176,16 +184,15 @@ h3 {
 					<!-- MVC Top 10 -->
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>MVC Top 10</h3>
+							<h4><i class="fa-solid fa-fire-flame-curved"></i>   MVC Top 10</h4>
 						</div>
 					</div>
 					<div class="swiper row">
 						<!-- Additional required wrapper -->
 						<div class="swiper-wrapper">
 							<!-- Slides -->
-							<c:forEach var="mvcTop10RecommendVO"
-								items="${mvcTop10RecommendList}">
-								<div class="swiper-slide">
+							<c:forEach var="mvcTop10RecommendVO" items="${mvcTop10RecommendList}">
+								<div class="swiper-slide" style="min-width: 250px;">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
 											<img src="/rest/image/${mvcTop10RecommendVO.imageNo}"
@@ -193,20 +200,26 @@ h3 {
 											<!--<img src="https://picsum.photos/215/300"  -->
 											<!--class="img-thumbnail" style="width:250px; height: 310px;"> -->
 										</a>
-										<div class="col mt-2">
-											<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
-												${mvcTop10RecommendVO.movieName} </a>
+										<div class="row">
+											<div class="col mt-2">
+												<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
+													${mvcTop10RecommendVO.movieName} </a>
+											</div>
 										</div>
-										<div class="col">
-											<fmt:formatDate
-												value="${mvcTop10RecommendVO.movieReleaseDate}"
-												pattern="yyyy" />
-											/ ${mvcTop10RecommendVO.movieNation}
+										<div class="row">
+											<div class="col">
+												<fmt:formatDate
+													value="${mvcTop10RecommendVO.movieReleaseDate}"
+													pattern="yyyy" />
+												/ ${mvcTop10RecommendVO.movieNation}
+											</div>
 										</div>
 										<c:if test="${mvcTop10RecommendVO.ratingAvg != 0}">
-											<div class="col">
-												평균 <i class="fa-solid fa-star"></i>
-												${mvcTop10RecommendVO.ratingAvg}점
+											<div class="row">
+												<div class="col">
+													평균 <i class="fa-solid fa-star"></i>
+													${mvcTop10RecommendVO.ratingAvg}점
+												</div>
 											</div>
 										</c:if>
 									</div>
@@ -224,37 +237,43 @@ h3 {
 					<!-- MVC 평론가 Top 10 -->
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>MVC 평론가 Top 10</h3>
+							<h4><i class="fa-solid fa-fire-flame-curved"></i>   MVC 평론가 Top 10</h4>
 						</div>
 					</div>
 					<div class="swiper row">
 						<div class="swiper-wrapper">
-							<c:forEach var="mvcCriticTop10RecommendVO"
-								items="${mvcCriticTop10RecommendList}">
-								<div class="swiper-slide">
+							<c:forEach var="mvcCriticTop10RecommendVO" items="${mvcCriticTop10RecommendList}">
+								<div class="swiper-slide" style="min-width: 250px;">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-										<div>
-											<a
-												href="/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
-												<img src="/rest/image/${mvcCriticTop10RecommendVO.imageNo}"
-												class="img-thumbnail" style="width: 250px; height: 310px">
-											</a>
+										<div class="row">
+											<div class="col">
+												<a href="/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
+													<img src="/rest/image/${mvcCriticTop10RecommendVO.imageNo}"
+													class="img-thumbnail" style="width: 250px; height: 310px">
+												</a>
+											</div>
 										</div>
-										<div class="col">
-											<a
-												href="/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
-												${mvcCriticTop10RecommendVO.movieName} </a>
+										<div class="row">
+											<div class="col">
+												<a
+													href="/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
+													${mvcCriticTop10RecommendVO.movieName} </a>
+											</div>
 										</div>
-										<div class="col">
-											<fmt:formatDate
-												value="${mvcCriticTop10RecommendVO.movieReleaseDate}"
-												pattern="yyyy" />
-											/ ${mvcCriticTop10RecommendVO.movieNation}
+										<div class="row">
+											<div class="col">
+												<fmt:formatDate
+													value="${mvcCriticTop10RecommendVO.movieReleaseDate}"
+													pattern="yyyy" />
+												/ ${mvcCriticTop10RecommendVO.movieNation}
+											</div>
 										</div>
 										<c:if test="${mvcCriticTop10RecommendVO.ratingAvg != 0}">
-											<div class="col">
-												평균 <i class="fa-solid fa-star"></i>
-												${mvcCriticTop10RecommendVO.ratingAvg}점
+											<div class="row">
+												<div class="col">
+													평균 <i class="fa-solid fa-star"></i>
+													${mvcCriticTop10RecommendVO.ratingAvg}점
+												</div>
 											</div>
 										</c:if>
 									</div>
@@ -268,13 +287,13 @@ h3 {
 					<!-- 오늘의 영화 추천 Top 10 -->
 					<div class="row mt-5 p-3">
 						<div class="col">
-							<h3>오늘의 추천!</h3>
+							<h4><i class="fa-solid fa-check"></i>    오늘의 추천!</h4>
 						</div>
 					</div>
 					<div class="swiper row">
 						<div class="swiper-wrapper">
 							<c:forEach var="todayMovieVO" items="${todayMovieList}">
-								<div class="swiper-slide">
+								<div class="swiper-slide" style="min-width: 250px;">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<div>
 											<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
@@ -282,19 +301,25 @@ h3 {
 												class="img-thumbnail" style="width: 250px; height: 310px">
 											</a>
 										</div>
-										<div class="col">
-											<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
-												${todayMovieVO.movieName} </a>
+										<div class="row">
+											<div class="col">
+												<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
+													${todayMovieVO.movieName} </a>
+											</div>
 										</div>
-										<div class="col">
-											<fmt:formatDate value="${todayMovieVO.movieReleaseDate}"
-												pattern="yyyy" />
-											/ ${todayMovieVO.movieNation}
+										<div class="row">
+											<div class="col">
+												<fmt:formatDate value="${todayMovieVO.movieReleaseDate}"
+													pattern="yyyy" />
+												/ ${todayMovieVO.movieNation}
+											</div>
 										</div>
 										<c:if test="${todayMovieVO.ratingAvg != 0}">
-											<div class="col">
-												평균 <i class="fa-solid fa-star"></i>
-												${todayMovieVO.ratingAvg}점
+											<div class="row">
+												<div class="col">
+													평균 <i class="fa-solid fa-star"></i>
+													${todayMovieVO.ratingAvg}점
+												</div>
 											</div>
 										</c:if>
 									</div>
@@ -305,8 +330,7 @@ h3 {
 						<div class="swiper-button-prev custom-prev"></div>
 					</div>
 					
-					
-					<div class="row mt-5 pt-5" style="min-height: 400px;">
+					<div class="row style="min-height: 400px;">
                     <div class="col">
 					
 					<!-- 계절별 영화 추천 -->
@@ -314,16 +338,16 @@ h3 {
 						<div class="col">
 							<c:choose>
 								<c:when test="${currentMonth >= 3 && currentMonth <= 5}">
-									<h3>따스한 봄, 마음이 따뜻해지는 영화를 추천드려요!</h3>
+									<h4>따스한 봄, 마음이 따뜻해지는 영화를 추천드려요!</h4>
 								</c:when>
 								<c:when test="${currentMonth >= 6 && currentMonth <= 8}">
-									<h3>뜨거운의 여름의 열기를 식혀줄 시원한 영화들, 시원한 영화를 추천드려요!</h3>
+									<h4>뜨거운의 여름의 열기를 식혀줄 시원한 영화들, 시원한 영화를 추천드려요!</h4>
 								</c:when>
 								<c:when test="${currentMonth >= 9 && currentMonth <= 11}">
-									<h3>가을 감성을 자극할 영화를 추천드려요!</h3>
+									<h4>가을 감성을 자극할 영화를 추천드려요!</h4>
 								</c:when>
 								<c:otherwise>
-									<h3>추운 겨울, 우리의 마음을 녹여줄 영화를 추천드려요!</h3>
+									<h4>추운 겨울, 우리의 마음을 녹여줄 영화를 추천드려요!</h4>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -342,24 +366,24 @@ h3 {
 											</div>
 										</div>
 										<div class="row">
-										<div class="col">
-											<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
-												${seasonMovieVO.movieName} </a>
+											<div class="col">
+												<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
+													${seasonMovieVO.movieName} </a>
+											</div>
 										</div>
-										</div>
-										<div class="row">
-										<div class="col">
-											<fmt:formatDate value="${seasonMovieVO.movieReleaseDate}"
-												pattern="yyyy" />
-											/ ${seasonMovieVO.movieNation}
-										</div>
-										</div>
-										<c:if test="${seasonMovieVO.ratingAvg != 0}">
 										<div class="row">
 											<div class="col">
-												평균 <i class="fa-solid fa-star"></i>
-												${seasonMovieVO.ratingAvg}점
+												<fmt:formatDate value="${seasonMovieVO.movieReleaseDate}"
+													pattern="yyyy" />
+												/ ${seasonMovieVO.movieNation}
 											</div>
+										</div>
+										<c:if test="${seasonMovieVO.ratingAvg != 0}">
+											<div class="row">
+												<div class="col">
+													평균 <i class="fa-solid fa-star"></i>
+													${seasonMovieVO.ratingAvg}점
+												</div>
 											</div>
 										</c:if>
 									</div>
@@ -381,39 +405,45 @@ h3 {
 							test="${preferGenreByMemberRecommendList != null and not empty preferGenreByMemberRecommendList}">
 							<div class="row mt-5 p-3">
 								<div class="col">
-									<h3>선호 장르에 대한 영화를 추천해드려요!</h3>
+									<h4>선호 장르에 대한 영화를 추천해드려요!</h4>
 								</div>
 							</div>
 							<div class="swiper row">
 								<div class="swiper-wrapper">
 									<c:forEach var="preferGenreByMemberRecommendVO"
 										items="${preferGenreByMemberRecommendList}">
-										<div class="swiper-slide">
+										<div class="swiper-slide" style="min-width: 250px;">
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-												<div>
-													<a
-														href="/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
-														<img
-														src="/rest/image/${preferGenreByMemberRecommendVO.imageNo}"
-														class="img-thumbnail" style="width: 250px; height: 310px">
-													</a>
-												</div>
-												<div class="col">
-													<a
-														href="/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
-														${preferGenreByMemberRecommendVO.movieName} </a>
-												</div>
-												<div class="col">
-													<fmt:formatDate
-														value="${preferGenreByMemberRecommendVO.movieReleaseDate}"
-														pattern="yyyy" />
-													/ ${preferGenreByMemberRecommendVO.movieNation}
-												</div>
-												<c:if
-													test="${preferGenreByMemberRecommendVO.ratingAvg != 0}">
+												<div class="row">
 													<div class="col">
-														평균 <i class="fa-solid fa-star"></i>
-														${preferGenreByMemberRecommendVO.ratingAvg}점
+														<a href="/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
+															<img
+															src="/rest/image/${preferGenreByMemberRecommendVO.imageNo}"
+															class="img-thumbnail" style="width: 250px; height: 310px">
+														</a>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col">
+														<a
+															href="/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
+															${preferGenreByMemberRecommendVO.movieName} </a>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col">
+														<fmt:formatDate
+															value="${preferGenreByMemberRecommendVO.movieReleaseDate}"
+															pattern="yyyy" />
+														/ ${preferGenreByMemberRecommendVO.movieNation}
+													</div>
+												</div>
+												<c:if test="${preferGenreByMemberRecommendVO.ratingAvg != 0}">
+													<div class="row">
+														<div class="col">
+															평균 <i class="fa-solid fa-star"></i>
+															${preferGenreByMemberRecommendVO.ratingAvg}점
+														</div>
 													</div>
 												</c:if>
 											</div>
@@ -430,13 +460,13 @@ h3 {
 							<div class="col">
 								<c:choose>
 									<c:when test="${ageGroup < 10}">
-										<h3>10세 미만의 영화를 추천드려요!</h3>
+										<h4>10세 미만의 영화를 추천드려요!</h4>
 									</c:when>
 									<c:when test="${ageGroup >= 60}">
-										<h3>60대 이상의 영화를 추천드려요!</h3>
+										<h4>60대 이상의 영화를 추천드려요!</h4>
 									</c:when>
 									<c:otherwise>
-										<h3>${ageGroup}대영화를추천드려요!</h3>
+										<h4>${ageGroup}대영화를추천드려요!</h4>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -445,30 +475,36 @@ h3 {
 							<div class="swiper-wrapper">
 								<c:forEach var="ageGroupRecommendVO"
 									items="${ageGroupRecommendList}">
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="min-width: 250px;">
 										<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-											<div>
-												<a
-													href="/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
-													<img src="/rest/image/${ageGroupRecommendVO.imageNo}"
-													class="img-thumbnail" style="width: 250px; height: 310px">
-												</a>
+											<div class="row">
+												<div class="col">
+													<a href="/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
+														<img src="/rest/image/${ageGroupRecommendVO.imageNo}"
+														class="img-thumbnail" style="width: 250px; height: 310px">
+													</a>
+												</div>
 											</div>
-											<div class="col">
-												<a
-													href="/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
-													${ageGroupRecommendVO.movieName} </a>
+											<div class="row">
+												<div class="col">
+													<a href="/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
+														${ageGroupRecommendVO.movieName} </a>
+												</div>
 											</div>
-											<div class="col">
-												<fmt:formatDate
-													value="${ageGroupRecommendVO.movieReleaseDate}"
-													pattern="yyyy" />
-												/ ${ageGroupRecommendVO.movieNation}
+											<div class="row">
+												<div class="col">
+													<fmt:formatDate
+														value="${ageGroupRecommendVO.movieReleaseDate}"
+														pattern="yyyy" />
+													/ ${ageGroupRecommendVO.movieNation}
+												</div>
 											</div>
 											<c:if test="${ageGroupRecommendVO.ratingAvg != 0}">
-												<div class="col">
-													평균 <i class="fa-solid fa-star"></i>
-													${ageGroupRecommendVO.ratingAvg}점
+												<<div class="row">
+													<div class="col">
+														평균 <i class="fa-solid fa-star"></i>
+														${ageGroupRecommendVO.ratingAvg}점
+													</div>
 												</div>
 											</c:if>
 										</div>
@@ -485,10 +521,10 @@ h3 {
 							<div class="col">
 								<c:choose>
 									<c:when test="${memberGender == '남자'}">
-										<h3>Movie For Man!</h3>
+										<h4>Movie For Man!</h4>
 									</c:when>
 									<c:otherwise>
-										<h3>Movie For Woman!</h3>
+										<h4>Movie For Woman!</h4>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -497,28 +533,36 @@ h3 {
 							<div class="swiper-wrapper">
 								<c:forEach var="genderRecommendVO"
 									items="${genderRecommendList}">
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="min-width: 250px;">
 										<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-											<div>
-												<a href="/movie/detail?movieNo=${genderRecommendVO.movieNo}">
-													<img src="/rest/image/${genderRecommendVO.imageNo}"
-													class="img-thumbnail" style="width: 250px; height: 310px">
-												</a>
+											<div class="row">
+												<div class="col">
+													<a href="/movie/detail?movieNo=${genderRecommendVO.movieNo}">
+														<img src="/rest/image/${genderRecommendVO.imageNo}"
+														class="img-thumbnail" style="width: 250px; height: 310px">
+													</a>
+												</div>
 											</div>
-											<div class="col">
-												<a href="/movie/detail?movieNo=${genderRecommendVO.movieNo}">
-													${genderRecommendVO.movieName} </a>
+											<div class="row">
+												<div class="col">
+													<a href="/movie/detail?movieNo=${genderRecommendVO.movieNo}">
+														${genderRecommendVO.movieName} </a>
+												</div>
 											</div>
-											<div class="col">
-												<fmt:formatDate
-													value="${genderRecommendVO.movieReleaseDate}"
-													pattern="yyyy" />
-												/ ${genderRecommendVO.movieNation}
+											<div class="row">
+												<div class="col">
+													<fmt:formatDate
+														value="${genderRecommendVO.movieReleaseDate}"
+														pattern="yyyy" />
+													/ ${genderRecommendVO.movieNation}
+												</div>
 											</div>
 											<c:if test="${genderRecommendVO.ratingAvg != 0}">
-												<div class="col">
-													평균 <i class="fa-solid fa-star"></i>
-													${genderRecommendVO.ratingAvg}점
+												<div class="row">
+													<div class="col">
+														평균 <i class="fa-solid fa-star"></i>
+														${genderRecommendVO.ratingAvg}점
+													</div>
 												</div>
 											</c:if>
 										</div>
@@ -536,30 +580,30 @@ h3 {
 									<c:when test="${ageGroup < 10}">
 										<c:choose>
 											<c:when test="${memberGender == '남자'}">
-												<h3>10살 미만의 남성을 위한 영화를 추천드려요!</h3>
+												<h4>10살 미만의 남성을 위한 영화를 추천드려요!</h4>
 											</c:when>
 											<c:otherwise>
-												<h3>10살 미만의 여성을 위한 영화를 추천드려요!</h3>
+												<h4>10살 미만의 여성을 위한 영화를 추천드려요!</h4>
 											</c:otherwise>
 										</c:choose>
 									</c:when>
 									<c:when test="${ageGroup >= 60}">
 										<c:choose>
 											<c:when test="${memberGender == '남자'}">
-												<h3>60대 이상의 남성을 위한 영화를 추천드려요!</h3>
+												<h4>60대 이상의 남성을 위한 영화를 추천드려요!</h4>
 											</c:when>
 											<c:otherwise>
-												<h3>60대 이상의 여성을 위한 영화를 추천드려요!</h3>
+												<h4>60대 이상의 여성을 위한 영화를 추천드려요!</h4>
 											</c:otherwise>
 										</c:choose>
 									</c:when>
 									<c:otherwise>
 										<c:choose>
 											<c:when test="${memberGender == '남자'}">
-												<h3>${ageGroup}대남성을위한영화를추천드려요!</h3>
+												<h4>${ageGroup}대남성을위한영화를추천드려요!</h4>
 											</c:when>
 											<c:otherwise>
-												<h3>${ageGroup}대여성을위한영화를추천드려요!</h3>
+												<h4>${ageGroup}대여성을위한영화를추천드려요!</h4>
 											</c:otherwise>
 										</c:choose>
 									</c:otherwise>
@@ -570,30 +614,37 @@ h3 {
 							<div class="swiper-wrapper">
 								<c:forEach var="ageGroupGenderRecommendVO"
 									items="${ageGroupGenderRecommendList}">
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="min-width: 250px;">
 										<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-											<div>
-												<a
-													href="/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
-													<img src="/rest/image/${ageGroupGenderRecommendVO.imageNo}"
-													class="img-thumbnail" style="width: 250px; height: 310px">
-												</a>
+											<div class="row">
+												<div class="col">
+													<a href="/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
+														<img src="/rest/image/${ageGroupGenderRecommendVO.imageNo}"
+														class="img-thumbnail" style="width: 250px; height: 310px">
+													</a>
+												</div>
 											</div>
-											<div class="col">
-												<a
-													href="/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
-													${ageGroupGenderRecommendVO.movieName} </a>
+											<div class="row">
+												<div class="col">
+													<a
+														href="/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
+														${ageGroupGenderRecommendVO.movieName} </a>
+												</div>
 											</div>
-											<div class="col">
-												<fmt:formatDate
-													value="${ageGroupGenderRecommendVO.movieReleaseDate}"
-													pattern="yyyy" />
-												/ ${ageGroupGenderRecommendVO.movieNation}
+											<div class="row">
+												<div class="col">
+													<fmt:formatDate
+														value="${ageGroupGenderRecommendVO.movieReleaseDate}"
+														pattern="yyyy" />
+													/ ${ageGroupGenderRecommendVO.movieNation}
+												</div>
 											</div>
 											<c:if test="${ageGroupGenderRecommendVO.ratingAvg != 0}">
-												<div class="col">
-													평균 <i class="fa-solid fa-star"></i>
-													${ageGroupGenderRecommendVO.ratingAvg}점
+												<div class="row">
+													<div class="col">
+														평균 <i class="fa-solid fa-star"></i>
+														${ageGroupGenderRecommendVO.ratingAvg}점
+													</div>
 												</div>
 											</c:if>
 										</div>
@@ -608,33 +659,41 @@ h3 {
 						<c:if test="${wishMovieList != null and not empty wishMovieList}">
 							<div class="row mt-5 p-3">
 								<div class="col">
-									<h3>찜목록은 어때요?</h3>
+									<h4>찜목록은 어때요?</h4>
 								</div>
 							</div>
 							<div class="swiper row">
 								<div class="swiper-wrapper">
 									<c:forEach var="wishMovieVO" items="${wishMovieList}">
-										<div class="swiper-slide">
+										<div class="swiper-slide" style="min-width: 250px;">
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-												<div>
-													<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
-														<img src="/rest/image/${wishMovieVO.imageNo}"
-														class="img-thumbnail" style="width: 215px; height: 300px">
-													</a>
+												<div class="row">
+													<div class="col">
+														<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
+															<img src="/rest/image/${wishMovieVO.imageNo}"
+															class="img-thumbnail" style="width: 215px; height: 300px">
+														</a>
+													</div>
 												</div>
-												<div class="col">
-													<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
-														${wishMovieVO.movieName} </a>
+												<div class="row">
+													<div class="col">
+														<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
+															${wishMovieVO.movieName} </a>
+													</div>
 												</div>
-												<div class="col">
-													<fmt:formatDate value="${wishMovieVO.movieReleaseDate}"
-														pattern="yyyy" />
-													/ ${wishMovieVO.movieNation}
+												<div class="row">
+													<div class="col">
+														<fmt:formatDate value="${wishMovieVO.movieReleaseDate}"
+															pattern="yyyy" />
+														/ ${wishMovieVO.movieNation}
+													</div>
 												</div>
 												<c:if test="${wishMovieVO.ratingAvg != 0}">
-													<div class="col">
-														평균 <i class="fa-solid fa-star"></i>
-														${wishMovieVO.ratingAvg}점
+													<div class="row">
+														<div class="col">
+															평균 <i class="fa-solid fa-star"></i>
+															${wishMovieVO.ratingAvg}점
+														</div>
 													</div>
 												</c:if>
 											</div>
@@ -651,34 +710,42 @@ h3 {
 							test="${againRecommendList != null and not empty againRecommendList}">
 							<div class="row mt-5 p-3">
 								<div class="col">
-									<h3>봤던 영화 다시 보는건 어떠세요!</h3>
+									<h4>봤던 영화 다시 보는건 어떠세요!</h4>
 								</div>
 							</div>
 							<div class="swiper row">
 								<div class="swiper-wrapper">
 									<c:forEach var="againRecommendVO" items="${againRecommendList}">
-										<div class="swiper-slide">
+										<div class="swiper-slide" style="min-width: 250px;">
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-												<div>
-													<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
-														<img src="/rest/image/${againRecommendVO.imageNo}"
-														class="img-thumbnail" style="width: 250px; height: 310px">
-													</a>
+												<div class="row">
+													<div class="col">
+														<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
+															<img src="/rest/image/${againRecommendVO.imageNo}"
+															class="img-thumbnail" style="width: 250px; height: 310px">
+														</a>
+													</div>
 												</div>
-												<div class="col">
-													<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
-														${againRecommendVO.movieName} </a>
+												<div class="row">
+													<div class="col">
+														<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
+															${againRecommendVO.movieName} </a>
+													</div>
 												</div>
-												<div class="col">
-													<fmt:formatDate
-														value="${againRecommendVO.movieReleaseDate}"
-														pattern="yyyy" />
-													/ ${againRecommendVO.movieNation}
+												<div class="row">
+													<div class="col">
+														<fmt:formatDate
+															value="${againRecommendVO.movieReleaseDate}"
+															pattern="yyyy" />
+														/ ${againRecommendVO.movieNation}
+													</div>
 												</div>
 												<c:if test="${againRecommendVO.ratingAvg != 0}">
-													<div class="col">
-														평균 <i class="fa-solid fa-star"></i>
-														${againRecommendVO.ratingAvg}점
+													<div class="row">
+														<div class="col">
+															평균 <i class="fa-solid fa-star"></i>
+															${againRecommendVO.ratingAvg}점
+														</div>
 													</div>
 												</c:if>
 											</div>
