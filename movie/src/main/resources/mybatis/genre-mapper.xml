@@ -19,7 +19,7 @@
 	</delete>
 	
 	<select id="findAll" resultType="GenreDto">
-		select * from genre order by genre_no asc
+		select * from genre order by genre_name
 	</select>
 	
 	<select id="findByGenreNo" resultType="GenreDto">

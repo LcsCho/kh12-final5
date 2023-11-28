@@ -226,27 +226,35 @@
     //console.log(memberPw);
     
     
-    $.ajax({
-      url: "http://localhost:8080/rest/member/exit",
-      method: "POST",
-      data: {
-        memberPw: memberPw
-      },
-      success: function(response) {
-    	  window.confirm("정말 탈퇴하시겠습니까?");
-         alert(response);
-          if (response.includes("탈퇴")) {
-              window.location.href = "/";
-          }
+    var userConfirmed = window.confirm("정말 탈퇴하시겠습니까?");
+	
+    if (userConfirmed) {
+        $.ajax({
+            url: "http://localhost:8080/rest/member/exit",
+            method: "POST",
+            data: {
+                memberPw: memberPw
+            },
+            success: function(response) {
+                alert(response);
+                if (response.includes("탈퇴")) {
+                    window.location.href = "/";
+                }
+                // 모달 닫기
+                $('#exitModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
+            }
+        });
+    } else {
+        // 사용자가 취소를 선택한 경우의 처리
+        //console.log("사용자가 취소를 선택했습니다.");
         // 모달 닫기
         $('#exitModal').modal('hide');
-      },
-      error: function(xhr, status, error) {
-         console.error(xhr.responseText);
-        alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
-      }
-    });
-  }
+    }
+}
 </script>
 
 <div class="container-fluid mt-5">

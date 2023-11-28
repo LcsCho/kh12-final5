@@ -15,22 +15,11 @@ $(function(){
     });
 
     function loadReviewLikeList() {//이게 따봉이랑 댓글 값 가져오는 구문입니다
-    	console.log("갱신이 됐어요!");	
+//     	console.log("갱신이 됐어요!");	
         $.ajax({
             url: '/rest/member/reviewLikeList',
             method: 'post',
             success: function (response) {
-//             	console.log("리스폰스에요" + response);
-            	
-//             	console.log("Response 에요:", response); // 서버 응답 전체를 로그에 출력
-//             	for (var i = 0; i < response.length; i++) {
-//             	    console.log("Index:", i);
-//             	    console.log("ReviewNo:", response[i].reviewNo);
-//             	    console.log("Check:", response[i].check);
-//             	    console.log("LikeCount ?:", response[i].count);
-
-//             	    // 나머지 로직 ...
-//             	}
 				for(var i = 0; i< response.length; i++){
 					var reviewNo = response[i].reviewNo;
 					var check =response[i].check;
@@ -64,11 +53,11 @@ $(function(){
     			var $likeButton =$(".review-container .likeButton [data-reviewNo='" + reviewNo + "']");
                 if (response.check=="Y") {
                     $likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-regular");
-                    console.log("좋아요 개수 상태" + response.count);
+//                     console.log("좋아요 개수 상태" + response.count);
                     $likeButton.find(".likeCount").text(response.count);
                 } else {
                     $likeButton.find(".fa-thumbs-up").removeClass("fa-regular fa-solid").addClass("fa-solid");
-                    console.log("좋아요 개수 상태" + response.count);
+//                     console.log("좋아요 개수 상태" + response.count);
                     $likeButton.find(".likeCount").text(response.count);
                 }
                 loadReviewLikeList();
@@ -90,17 +79,12 @@ $(function(){
                     appendReview(review);
                 });
     		}
-    	
-    		
-    		
     	});
     }
     
-    
-    
     $(".review-container").on("click", ".likeButton", function () {
         var clickedReviewNo = $(this).data("reviewno");
-        console.log("click! = "+clickedReviewNo);
+//         console.log("click! = "+clickedReviewNo);
         reviewLike(clickedReviewNo);
     });    
     
@@ -109,17 +93,19 @@ $(function(){
         // 리뷰를 동적으로 생성하여 화면에 추가
         var template = $('#review-template').html();
         var $reviewCard = $(template);
-        console.log("영화번호 = " + review.movieNo);
-        console.log("리뷰번호 = " + review.reviewNo);
-        // 리뷰 데이터를 템플릿에 적용     
-        $reviewCard.find('.userImage').attr('src', '/rest/image/' + review.imageNo);
+        // 리뷰 데이터를 템플릿에 적용
+        if(review.imageNo == 0 || review.imageNo == null){
+        	$reviewCard.find('.userImage').attr('src', '/images/user.jpg');
+        }
+        else{
+	        $reviewCard.find('.userImage').attr('src', '/rest/image/' + review.imageNo);
+        }
         $reviewCard.find('.memberNickname').text(review.memberNickname);
         $reviewCard.find('.ratingScore').text(review.ratingScore);
         $reviewCard.find('.reviewContent').text(review.reviewContent);
         $reviewCard.find('.likeButton').attr('data-reviewno', review.reviewNo);
         $reviewCard.find('.likeCount').text(review.reviewLikeCount);	
         var hrefInfo ="/movie/review/detail?movieNo=" + review.movieNo + "&reviewNo=" + review.reviewNo;
-        console.log($reviewCard.find(".commnetButton"));
         $reviewCard.find(".commentButton").attr("href",hrefInfo);
         $reviewCard.find('.replyCount').text(review.reviewReplyCount);
         // 리뷰 카드를 화면에 추가

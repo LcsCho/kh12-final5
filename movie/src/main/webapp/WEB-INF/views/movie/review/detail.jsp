@@ -271,6 +271,7 @@
          var editHtmlTemplate = $.parseHTML(editTemplate);
          
          //리뷰 수정 창에 회원 프로필 이미지 띄우기
+         console.log( $(".userImage").html());
          var imageHref = $(".userImage").html();
           $(editHtmlTemplate).find(".userImage").attr("src", imageHref);
       
@@ -430,7 +431,14 @@
 				<div class="card mt-5 view-container">
 					<div class="card-body">
 						<div>
-							<img src="/rest/image/${review.imageNo}" class="userImage">
+							<c:choose>
+								<c:when test="${review.imageNo  == 0 || review.imageNo == null}">
+									<img src="/images/user.jpg" class="userImage">
+								</c:when>
+								<c:otherwise>
+									<img src="/rest/image/${review.imageNo}" class="userImage">
+								</c:otherwise>
+							</c:choose>
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
 							<i class="fa-solid fa-star"></i><span>${review.ratingScore}</span>
 							

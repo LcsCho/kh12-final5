@@ -635,7 +635,6 @@ $(document).ready(function(){
          <h4 class="mt-5">출연자</h4>
          <c:if test="${actorDetailList != null}">
             <c:forEach var="actorDetailVO" items="${actorDetailList}">
-
                <div class="col" style="width: 100px;">
                     <img src="/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
                        style="width: 100px; height: 120px">
