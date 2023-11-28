@@ -552,21 +552,21 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<!-- Movie Information -->
-			<div class="col-md-8">
+			<div class="col-md-8 bg-body-tertiary rounded p-2">
 				<h2 class="mb-3" style="font-weight: bold;">${movieDto.movieName}
 					<c:if test="${sessionScope.name != null}">
 					<i class="fa-regular fa-bookmark"></i>
 					</c:if>
 				</h2>
 				<p>
-					<strong>영화감독: </strong> ${movieDto.movieDirector}
+					<strong>감독: </strong> ${movieDto.movieDirector}
 				</p>
 				<p>
-					<strong>출시년도: </strong>
+					<strong>개봉일: </strong>
 					<fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" />
 				</p>
 				<p>
-					<strong>영화 장르: </strong>
+					<strong>장르: </strong>
 					<c:forEach var="movieGenreDto" items="${movieGenreList}"
 						varStatus="loopStatus">
 	                   	${movieGenreDto.genreName} 
@@ -574,16 +574,16 @@ $(document).ready(function(){
 					</c:forEach>
 				</p>
 				<p>
-					<strong>영화제작 국가: </strong> ${movieDto.movieNation}
+					<strong>제작 국가: </strong> ${movieDto.movieNation}
 				</p>
 				<p>
-					<strong>영화 상영시간: </strong> ${movieDto.movieTime} 분
+					<strong>상영 시간: </strong> ${movieDto.movieTime} 분
 				</p>
 				<p>
-					<strong>영화 등급: </strong> ${movieDto.movieLevel}
+					<strong>등급: </strong> ${movieDto.movieLevel}
 				</p>
-				<p>
-					<strong>영화 줄거리: </strong> ${movieDto.movieContent}
+				<p class="bg-light rounded p-1">
+					<strong>줄거리: </strong> ${movieDto.movieContent}
 				</p>
 			</div>
 			

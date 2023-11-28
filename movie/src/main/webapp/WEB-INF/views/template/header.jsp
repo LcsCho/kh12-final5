@@ -734,7 +734,7 @@ $(document).ready(function () {
                         <c:if test="${sessionScope.level == '관리자' }">
                         	<div class="d-flex align-items-center" style="position: relative;">
 	                            <a href="http://localhost:3000/" class="btn c-btn wrenchButton" style="height: fit-content;">
-	                            	<i class="fa-solid fa-screwdriver-wrench fa-lg"></i>
+	                            	<i class="fa-solid fa-screwdriver-wrench fa-2xl"></i>
 	                            </a>
 	                        </div>
                         </c:if>
