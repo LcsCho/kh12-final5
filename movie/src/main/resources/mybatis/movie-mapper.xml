@@ -142,10 +142,11 @@
 	<select id="movieListByPage" resultType="AdminMovieListVO">
 		select * from (
 			select rownum rn, TMP.* from (
-				select * from admin_movie_list 
+				select * from admin_movie_list
+				ORDER BY LTRIM(movie_name) ASC
 			)TMP
 		) where rn between #{begin} and #{end}
-		order by movie_name asc
+		 ORDER BY movie_name
 	</select>
 
 <!-- 	<select id="adminSearch" parameterType="String" -->
