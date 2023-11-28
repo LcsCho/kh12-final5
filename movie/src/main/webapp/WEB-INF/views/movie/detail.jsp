@@ -522,7 +522,7 @@ $(document).ready(function(){
 			<div class="col-md-4 text-center">
 				<div>
 					<img src="/rest/image/${mainImgNo}" class="img-thumbnail"
-						style="width: 215px; height: 300px">
+						style="width: 250px; height: 350px">
 				</div>
 				<div>
 					<!-- Rating Section -->

@@ -412,7 +412,8 @@
 				<!-- 영화 정보 -->
 				<div class="row justify-content-center align-items-center">
 			        <div class="col-lg-3 col-md-10 col-sm-10 text-center">
-			            <img src="/rest/image/movieMain/${review.movieNo}" style="width: 250px; height: 350px">
+			            <img src="/rest/image/movieMain/${review.movieNo}" 
+			            class="img-thumbnail" style="width: 250px; height: 350px">
 			        </div>
 			        <div class="col-lg-6 col-md-10 col-sm-10 text-center">
 			            <div class="row">
