@@ -97,6 +97,7 @@ $(function () {
             },
             success: function (response) {
             	console.log(response);
+
                 for (var i = 0; i < response.length; i++) {
                     var reviewNo = response[i].reviewNo;
                     var check = response[i].check;
@@ -460,41 +461,47 @@ $(function () {
 				</div>
 			</div>
 			
-			<div class="row">
-	            <div class="col-2 offset-4 text-right">
-	                <img src="/rest/image/movieMain/${movieNo}" class="img-thumbnail"  style="width: 215px; height: 300px">
-	            </div>
-	            <div class="col-6 text-right">
-	                <div class="row mt-5 pt-5">
-	                    <h2 class="mt-5 pt-4">${movieSimpleInfo.movieName}</h2>
-	                </div>
-	                <div class="row mt-3">
-	                    <div class="col-6">
-	                        <span>${movieSimpleInfo.movieReleaseYear}</span>
-	                        <span> • </span>
-	                        <span>${movieSimpleInfo.genreName}</span>
-	                        <span> • </span>
-	                        <span>${movieSimpleInfo.movieNation}</span>
-	                    </div>
-	                </div>
-	                <div class="row mt-2">
-	                    <div class="col-6">
-	                        <span>${movieSimpleInfo.movieTime}분</span>
-	                        <span> • </span>
-	                        <span>${movieSimpleInfo.movieLevel}</span>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
+			<!-- 영화 정보 -->
+			<div class="row justify-content-center align-items-center">
+		        <div class="col-lg-3 col-md-10 col-sm-10 text-center">
+		            <img src="/rest/image/movieMain/${movieNo}" style="width: 250px; height: 350px">
+		        </div>
+		        <div class="col-lg-6 col-md-10 col-sm-10 text-center">
+		            <div class="row">
+		                <h2 class="mt-5 pt-4">${movieSimpleInfo.movieName}</h2>
+		            </div>
+		            <div class="row mt-5">
+		                <span>${movieSimpleInfo.movieReleaseYear} • ${movieSimpleInfo.genreName} • ${movieSimpleInfo.movieNation}</span>
+		            </div>
+		            <div class="row">
+		                <span>${movieSimpleInfo.movieTime}분 • ${movieSimpleInfo.movieLevel}</span>
+		            </div>
+		        </div>
+		    </div>
 
 			<div class="row mt-5">
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button type="button" class="btn btn-info ByDateDesc active">최신순</button>
-					<button type="button" class="btn btn-info ByDateAsc">오래된순</button>
-					<button type="button" class="btn btn-info ByLikeDesc">좋아요순</button>
-					<button type="button" class="btn btn-info ByRatingDesc">높은평점순</button>
-					<button type="button" class="btn btn-info ByRatingAsc">낮은평점순</button>
-				</div>
+			    <div class="col-12 d-md-flex justify-content-md-end">
+			        <div class="btn-group d-flex justify-content-center">
+			            <div>
+			                <button type="button" class="btn btn-info ByDateDesc active">최신순</button>
+			            </div>
+			            <div class="ms-2">
+			                <button type="button" class="btn btn-info ByDateAsc">오래된순</button>
+			            </div>
+			            <div class="ms-2">
+			                <button type="button" class="btn btn-info ByLikeDesc">좋아요순</button>
+			            </div>
+			        </div>
+			        
+			        <div class="btn-group mt-2 mt-md-0 d-flex justify-content-center">
+			            <div class="ms-2">
+			                <button type="button" class="btn btn-info ByRatingDesc">높은평점순</button>
+			            </div>
+			            <div class="ms-2">
+			                <button type="button" class="btn btn-info ByRatingAsc">낮은평점순</button>
+			            </div>
+			        </div>
+			    </div>
 			</div>
 					
 			<div class="row">

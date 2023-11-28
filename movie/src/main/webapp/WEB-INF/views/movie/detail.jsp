@@ -9,16 +9,14 @@
 body {
    padding-top: 30px;
 }
-
-.review-container {
-   margin-top: 20px;
-}
-
 .review-item {
-   border: 1px solid #ccc;
-   padding: 10px;
-   margin-bottom: 10px;
-   border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: rgb(179, 57, 57, 0.2);
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        width: 10em;
+        height: 10em;
 }
  .btn-link{
         color: rgb(179, 57, 57);
@@ -83,11 +81,17 @@ body {
     font-size: 16px;
 }
 .img-thumbnail{
-       width: 35px;
-       height: 35px;
-       border-radius: 30px;
-    }
+    	width: 35px;
+    	height: 35px;
+    	border-radius: 30px;
+}
+.ellipsis {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+}
 </style>
+
 <script>
    //영화 찜기능
    $(function() {
@@ -409,113 +413,115 @@ $(document).ready(function(){
 </script>
 
 <script id="review-write-template" type="text/template">
-   <div class="row mt-3 mb-3 content-right">
-      <form class="review-insert-form">
-         <div class="col-8 offset-2">
-            <textarea class="form-control" id="review-content" name="reviewContent" rows="10" style=" height: 150px; resize: none;""></textarea>
-         </div>
-         <div class="col">
-            <button type="submit" class="btn btn-success write-success" style="position: relative; left: 0px; top: 6.8em;">등록</button>
-            <button type="button" class="btn btn-danger write-cancel" style="position: relative; left: 0px; top: 6.8em;">취소</button>
-         </div>
-      </form>
-   </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<textarea class="form-control" id="review-content" name="reviewContent" rows="10" style="height: 150px; resize: none;"></textarea>
+			</div>
+			<div class="col-sm-8 offset-sm-2 col-md-8 col-md-2 col-lg-8 offset-lg-2 mt-2">
+				<div class="d-flex justify-content-end">
+					<button type="button" class="btn btn-danger write-cancel">취소</button>
+					<button type="submit" class="btn btn-success ms-2 write-success">등록</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </script>
 
 
-   <!-- Movie Details Section -->
-   <div class="container mt-4">
-      <div class="row">
-         <!-- Movie Poster -->
-         <div class="col-md-4 text-center">
-            <div>
-               <img src="/rest/image/${mainImgNo}" class="img-thumbnail"
-                  style="width: 215px; height: 300px">
-            </div>
-            <div>
-               <!-- Rating Section -->
-   <%--             <c:choose> --%>
-                  <c:if test="${ratingAvg != null}">
-                     <h4 class="mt-4">평점 평균: ${ratingAvg}</h4>
-                  </c:if>
-   <%--                <c:otherwise> --%>
-   <!--                   <h4 class="mt-4">평점 평균: 0.0</h4> -->
-   <%--                </c:otherwise> --%>
-   <%--             </c:choose> --%>
-               <c:if test="${sessionScope.name != null }">
-               <fieldset class="rate">
-                   <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
-                   <input type="radio" id="rating9" name="rating" value="4.5"><label class="half" for="rating9" title="4.5점"></label>
-                   <input type="radio" id="rating8" name="rating" value="4"><label for="rating8" title="4점"></label>
-                   <input type="radio" id="rating7" name="rating" value="3.5"><label class="half" for="rating7" title="3.5점"></label>
-                   <input type="radio" id="rating6" name="rating" value="3"><label for="rating6" title="3점"></label>
-                   <input type="radio" id="rating5" name="rating" value="2.5"><label class="half" for="rating5" title="2.5점"></label>
-                   <input type="radio" id="rating4" name="rating" value="2"><label for="rating4" title="2점"></label>
-                   <input type="radio" id="rating3" name="rating" value="1.5"><label class="half" for="rating3" title="1.5점"></label>
-                   <input type="radio" id="rating2" name="rating" value="1"><label for="rating2" title="1점"></label>
-                   <input type="radio" id="rating1" name="rating" value="0.5"><label class="half" for="rating1" title="0.5점"></label>
-               
-               </fieldset>
-               </c:if>
-            </div>
-         </div>
-         <!-- Movie Information -->
-         <div class="col-md-8">
-            <h2>${movieDto.movieName}
-               <c:if test="${sessionScope.name != null}">
-               <i class="fa-regular fa-bookmark"></i>
-               </c:if>
-            </h2>
-            <p>
-               <strong>영화감독: </strong> ${movieDto.movieDirector}
-            </p>
-            <p>
-               <strong>출시년도: </strong>
-               <fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" />
-            </p>
-            <p>
-               <strong>영화 장르: </strong>
-               <c:forEach var="movieGenreDto" items="${movieGenreList}"
-                  varStatus="loopStatus">
-                         ${movieGenreDto.genreName} 
-                      <c:if test="${not loopStatus.last}">/</c:if>
-               </c:forEach>
-            </p>
-            <p>
-               <strong>영화제작 국가: </strong> ${movieDto.movieNation}
-            </p>
-            <p>
-               <strong>영화 상영시간: </strong> ${movieDto.movieTime} 분
-            </p>
-            <p>
-               <strong>영화 등급: </strong> ${movieDto.movieLevel}
-            </p>
-            <p>
-               <strong>영화 줄거리: </strong> ${movieDto.movieContent}
-            </p>
-         </div>
-         
-         <!-- 리뷰 작성란 -->
-         <c:if test="${sessionScope.name != null }">
-         <div class="row content-end review-write-container">
-              <div class="col-8 offset-2 text-end">
-                   <button type="button" class="btn btn-primary writeReview">
-                  리뷰작성 <i class="fa-solid fa-pen" style="color: #fff;"></i>
-                  </button>
-              </div>
-          </div>
-         </c:if>
-         
-         <!-- Still Cut Section -->
-         <h4 class="mt-3">영화 갤러리</h4>
-         <c:if test="${movieDetailList != null}">
-            <c:forEach var="movieDetailVO" items="${movieDetailList}">
-               <div class="col" style="width: 215px;">
-                  <img src="/rest/image/${movieDetailVO.detailImgNo}"
-                     class="img-thumbnail" style="width: 215px; height: 300px">
-               </div>
-            </c:forEach>
-         </c:if>
+	<!-- Movie Details Section -->
+	<div class="container mt-4">
+		<div class="row">
+			<!-- Movie Poster -->
+			<div class="col-md-4 text-center">
+				<div>
+					<img src="/rest/image/${mainImgNo}" class="img-thumbnail"
+						style="width: 215px; height: 300px">
+				</div>
+				<div>
+					<!-- Rating Section -->
+	<%-- 				<c:choose> --%>
+						<c:if test="${ratingAvg != null}">
+							<h4 class="mt-4">평점 평균: ${ratingAvg}</h4>
+						</c:if>
+	<%-- 					<c:otherwise> --%>
+	<!-- 						<h4 class="mt-4">평점 평균: 0.0</h4> -->
+	<%-- 					</c:otherwise> --%>
+	<%-- 				</c:choose> --%>
+					<c:if test="${sessionScope.name != null }">
+					<fieldset class="rate">
+					    <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
+					    <input type="radio" id="rating9" name="rating" value="4.5"><label class="half" for="rating9" title="4.5점"></label>
+					    <input type="radio" id="rating8" name="rating" value="4"><label for="rating8" title="4점"></label>
+					    <input type="radio" id="rating7" name="rating" value="3.5"><label class="half" for="rating7" title="3.5점"></label>
+					    <input type="radio" id="rating6" name="rating" value="3"><label for="rating6" title="3점"></label>
+					    <input type="radio" id="rating5" name="rating" value="2.5"><label class="half" for="rating5" title="2.5점"></label>
+					    <input type="radio" id="rating4" name="rating" value="2"><label for="rating4" title="2점"></label>
+					    <input type="radio" id="rating3" name="rating" value="1.5"><label class="half" for="rating3" title="1.5점"></label>
+					    <input type="radio" id="rating2" name="rating" value="1"><label for="rating2" title="1점"></label>
+					    <input type="radio" id="rating1" name="rating" value="0.5"><label class="half" for="rating1" title="0.5점"></label>
+					
+					</fieldset>
+					</c:if>
+				</div>
+			</div>
+			<!-- Movie Information -->
+			<div class="col-md-8">
+				<h2>${movieDto.movieName}
+					<c:if test="${sessionScope.name != null}">
+					<i class="fa-regular fa-bookmark"></i>
+					</c:if>
+				</h2>
+				<p>
+					<strong>영화감독: </strong> ${movieDto.movieDirector}
+				</p>
+				<p>
+					<strong>출시년도: </strong>
+					<fmt:formatDate value="${movieDto.movieReleaseDate}" pattern="yyyy" />
+				</p>
+				<p>
+					<strong>영화 장르: </strong>
+					<c:forEach var="movieGenreDto" items="${movieGenreList}"
+						varStatus="loopStatus">
+	                   	${movieGenreDto.genreName} 
+	                   <c:if test="${not loopStatus.last}">/</c:if>
+					</c:forEach>
+				</p>
+				<p>
+					<strong>영화제작 국가: </strong> ${movieDto.movieNation}
+				</p>
+				<p>
+					<strong>영화 상영시간: </strong> ${movieDto.movieTime} 분
+				</p>
+				<p>
+					<strong>영화 등급: </strong> ${movieDto.movieLevel}
+				</p>
+				<p>
+					<strong>영화 줄거리: </strong> ${movieDto.movieContent}
+				</p>
+			</div>
+			
+			<!-- 리뷰 작성란 -->
+			<c:if test="${sessionScope.name != null }">
+			<div class="row content-end review-write-container">
+			    <div class="col d-flex justify-content-end">
+			        <button type="button" class="btn btn-primary writeReview">
+			            리뷰작성 <i class="fa-solid fa-pen" style="color: #fff;"></i>
+			        </button>
+			    </div>
+			</div>
+			</c:if>
+			
+			<!-- Still Cut Section -->
+			<h4 class="mt-3">영화 갤러리</h4>
+			<c:if test="${movieDetailList != null}">
+				<c:forEach var="movieDetailVO" items="${movieDetailList}">
+					<div class="col" style="width: 215px;">
+						<img src="/rest/image/${movieDetailVO.detailImgNo}"
+							class="img-thumbnail" style="width: 215px; height: 300px">
+					</div>
+				</c:forEach>
+			</c:if>
 
          <!-- Cast Section -->
          <h4 class="mt-3">출연자</h4>
@@ -531,52 +537,53 @@ $(document).ready(function(){
             </c:forEach>
          </c:if>
 
-         <!-- Review Section -->
-         <div class="container">
-            <div class="row">
-               <div class="col d-flex">
-                  <h4 class="mt-3">리뷰</h4>
-                  <div class="ms-auto mt-3">
-                     <a href="review/list?movieNo=${movieDto.movieNo}" class="btn btn-link">
-                        <button class="btn btn-link">
-                           더보기 <i class="fa-solid fa-angle-right"></i>
-                        </button>
-                     </a>
-                  </div>
-               </div>
-            </div>
-            
-            <div class="row row-cols-1 row-cols-md-5 g-4 review-container">
-               <c:forEach var="reviewDto" items="${reviewList}">
-                  <div class="col">
-                     <div class="review-item">
-                     
-                        <c:choose>
-                            <c:when test="${reviewDto.imageNo != 0}">
-                                <img src="/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="/images/user.jpg" class="userImage img-thumbnail">
-                            </c:otherwise>
-                        </c:choose>
-                           
-                        <strong>${reviewDto.memberNickname}</strong>
-                        <p>${reviewDto.reviewContent}</p>
-                        <button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
-                           <i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
-                        </button>
-                           <a class="commentButton" data-reviewNo="${reviewDto.reviewNo}">
-                              <button type="button" class="btn btn-link replyButton" data-reviewNo="${reviewDto.reviewNo}">
-                                 <i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
-                              </button>
-                           </a>
-                     </div>
-                  </div>
-               </c:forEach>
-            </div>
-            
-         </div>
-
+			<!-- Review Section -->
+			<div class="container mt-5">
+				<div class="row">
+					<div class="col d-flex">
+						<h4 class="mt-3" style="font-weight: bold">리뷰</h4>
+						<div class="ms-auto mt-3">
+							<a href="review/list?movieNo=${movieDto.movieNo}" class="btn btn-link">
+								<button class="btn btn-link">
+									더보기 <i class="fa-solid fa-angle-right"></i>
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row row-cols-1 row-cols-md-5 g-4 review-container">
+					<c:forEach var="reviewDto" items="${reviewList}">
+						<div class="col">
+							<div class="review-item">
+							
+								<c:choose>
+								    <c:when test="${reviewDto.imageNo != 0}">
+								        <img src="/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
+								    </c:when>
+								    <c:otherwise>
+								        <img src="/images/user.jpg" class="userImage img-thumbnail">
+								    </c:otherwise>
+								</c:choose>
+									
+								<strong>${reviewDto.memberNickname}</strong>
+								<p class="mt-3 ellipsis" style="max-width: 200px;">${reviewDto.reviewContent}</p>
+								<div class="mt-3">
+								    <button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
+								        <i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
+								    </button>
+								    <a class="commentButton" data-reviewNo="${reviewDto.reviewNo}">
+								        <button type="button" class="btn btn-link replyButton" data-reviewNo="${reviewDto.reviewNo}">
+								            <i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
+								        </button>
+								    </a>
+								</div>
+                            </div>
+                        </div>
+                    </c:forEach>
+				</div>
+				
+			</div>
       </div>
    </div>
 

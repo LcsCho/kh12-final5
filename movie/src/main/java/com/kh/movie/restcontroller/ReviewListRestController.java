@@ -92,6 +92,8 @@ public class ReviewListRestController {
                 .build();
 
             reviewLikeVOList.add(reviewLikeVO);
+            
+            log.debug("reviewLiktVOList = {}", reviewLikeVOList);
         }
      
 	    return reviewLikeVOList;
@@ -143,7 +145,7 @@ public class ReviewListRestController {
 		String memberId = (String) session.getAttribute("name");
 		String memberNickname = memberDao.findNicknameById(memberId);
 		ReviewDto findReviewDto = reviewDao.findReviewByMemberId(memberId, movieNo);
-			
+
 		if(findReviewDto == null) {
 			ReviewDto reviewDto = new ReviewDto();
 			int reviewNo = reviewDao.sequence();
