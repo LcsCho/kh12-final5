@@ -677,7 +677,7 @@ $(document).ready(function () {
                     <div class="d-flex align-items-center ms-5">
                         <c:if test="${sessionScope.level == '관리자' }">
                             <a href="http://localhost:3000/" class="btn c-btn " style="height: fit-content;"><i
-                                class="fa-solid fa-screwdriver-wrench fa-2x1"></i></a>
+                                class="fa-solid fa-screwdriver-wrench fa-2xl"></i></a>
                         </c:if>
 
                         <!-- 로그인/로그아웃 버튼 -->
