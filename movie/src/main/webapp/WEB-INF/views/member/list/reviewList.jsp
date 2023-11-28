@@ -118,7 +118,7 @@ $(function(){
 })
 </script>
 <script id="review-template" type="text/template">
-	<div class="card mt-3">
+	<div class="card mt-3  col-md-10 offset-md-1">
 		<div class="card-body">
 			<div>
 				<img class="userImage">

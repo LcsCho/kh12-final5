@@ -329,7 +329,7 @@ $(document).ready(function () {
 
                         // 클릭 가능한 링크 생성하고 suggestionsContainer에 추가
                         var movieLink = $("<a>")
-                            .addClass("link link-underline link-underline-opacity-0 link-danger")
+                            .addClass("link link-underline link-underline-opacity-0 link-danger ms-2 me-2")
                             .text(movieName)
                             .on("click", function () {
                                 // 클릭한 연관 검색어를 검색 입력란에 설정
@@ -339,7 +339,7 @@ $(document).ready(function () {
                                 $("#movieSearchForm").submit();
                             });
 						
-                        suggestionsContainer.append("<div>").append(movieLink);
+                        suggestionsContainer.append("<div class='ms-2 me-2 mt-2 mb-2'>").append(movieLink);
                     }
                     $("#suggestionsContainer").show();
                 },
@@ -391,10 +391,10 @@ $(document).ready(function () {
 	            	var popularContainer = $("#popularContainer");
 	                // 받아온 데이터를 popularContainer에 표시
 	                popularContainer.empty();
-	            	popularContainer.append($("<h3>").text("인기 검색어"));
+	            	popularContainer.append($("<h5 class='ms-2 mt-2 mb-2'>").text("인기 검색어"));
 	                for (var i = 0; i < response.length; i++) {
 	                	var popularItem = $("<div>")
-	                        .addClass("link link-underline link-underline-opacity-0 link-danger")
+	                        .addClass("link link-underline link-underline-opacity-0 link-danger ms-2 me-2")
 	                        .text(response[i])
 	                        .on("click", function () {
 	                            // 클릭한 인기 검색어를 검색 입력란에 설정
@@ -426,9 +426,9 @@ $(document).ready(function () {
 	            	if(response && response.length > 0){
 	                recentContainer.empty();
 	                recentContainer.append(
-	                		$("<div>").addClass("d-flex")
-	                		.append($("<div>").addClass("w-100").append($("<h3>").text("최근 검색어")))
-	                		.append($("<div>").addClass("flex-shrink-1 me-2").append($("<i>").addClass("fas fa-times fa-2x delete-recent-all")))
+	                		$("<div class='ms-2 me-2'>").addClass("d-flex")
+	                		.append($("<div>").addClass("w-100 mt-2").append($("<h5>").text("최근 검색어")))
+	                		.append($("<div>").addClass("flex-shrink-1 mt-2 me-2").append($("<i>").addClass("fas fa-times fa-sm delete-recent-all")))
 	                		.on("click", function () {
 	                	    	// 확인 창 띄우기
 	                	        if (confirm("정말로 모든 검색 기록을 삭제하시겠습니까?")) {
@@ -455,8 +455,8 @@ $(document).ready(function () {
 	                    
 	                	var keyword=response[i];
 	                	var recentItem = $("<div>")
-	                        .addClass("link link-underline link-underline-opacity-0 link-danger d-flex")
-							.append($("<div>").addClass("w-100")
+	                        .addClass("link link-underline link-underline-opacity-0 link-danger d-flex me-2")
+							.append($("<div>").addClass("w-100 ms-2")
 									.append(
 										$("<span>")
 											.text(keyword)
@@ -472,7 +472,7 @@ $(document).ready(function () {
 					        .append($("<div>").addClass("flex-shrink-1 me-2")
 					        		.append(
 					        			$("<i>")
-					        			.addClass("fas fa-times")
+					        			.addClass("fas fa-times fa-xs")
 					                		.on("click", function () {
 					                			console.log(keyword);
 					                			// 확인 창 띄우기
@@ -608,6 +608,8 @@ $(document).ready(function () {
 	max-height: 200px;
 	overflow-y: auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	cursor: auto;
+	 user-select: none;
 }
 /* #recentContainer { */
 /*     position: absolute; */
@@ -647,7 +649,61 @@ $(document).ready(function () {
 #suggestionsContainer a, #popularContainer a, #recentContainer a {
 	cursor: pointer;
 }
-
+.wrenchButton:hover::after{
+	content: "관리자 페이지";
+    position: absolute;
+    left: -100%;
+    background-color: rgb(179, 57, 57, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.signOutButton:hover::after{
+	content: "로그아웃";
+    position: absolute;
+    left: -100%;
+    background-color: rgb(179, 57, 57, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.userButton:hover::after{
+	content: "마이페이지";
+    position: absolute;
+    left: -100%;
+    background-color: rgb(179, 57, 57, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.loginButton:hover::after{
+	content: "로그인";
+    position: absolute;
+    left: -50%;
+    background-color: rgb(179, 57, 57, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.userPlusButton:hover::after{
+	content: "회원가입";
+    position: absolute;
+    left: -80%;
+    background-color: rgb(179, 57, 57, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: -20px;
+}
 </style>
 </head>
 
@@ -668,37 +724,48 @@ $(document).ready(function () {
                             <div id="popularContainer" class="me-2"></div>
                             <div id="recentContainer"></div>
                             <div id="suggestionsContainer"></div>
-                            <button class="btn btn-danger my-2 my-sm-0 custom-search-btn c-btn"
+                            <button class="btn my-2 my-sm-0 custom-search-btn c-btn"
                                 id="searchButton" disabled type="submit"
-                                style="height: fit-content;">검색</button>
+                                style="height: fit-content; background-color: rgb(179, 57, 57); color: white;">검색</button>
                         </div>
            		 </form>
 					 <!-- 권한에 따른 버튼 -->
                     <div class="d-flex align-items-center ms-5">
                         <c:if test="${sessionScope.level == '관리자' }">
-                            <a href="http://localhost:3000/" class="btn c-btn " style="height: fit-content;"><i
-                                class="fa-solid fa-screwdriver-wrench fa-2xl"></i></a>
+                        	<div class="d-flex align-items-center" style="position: relative;">
+	                            <a href="http://localhost:3000/" class="btn c-btn wrenchButton" style="height: fit-content;">
+	                            	<i class="fa-solid fa-screwdriver-wrench fa-2xl"></i>
+	                            </a>
+	                        </div>
                         </c:if>
 
                         <!-- 로그인/로그아웃 버튼 -->
                         <c:choose>
                             <c:when test="${sessionScope.name !=null}">
-                                <a href="/member/logout" class="btn c-btn logout-btn " data-bs-toggle="modal"
-                                    data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
-                                    class="fa fa-sign-out-alt fa-2xl"></i>
-                                </a>
-                                <a href="/member/mypage" class="btn c-btn " style="height: fit-content;"> <i
-                                    class="fa-solid fa-user fa-2xl"></i>
-                                </a>
+                            	<div class="d-flex align-items-center" style="position: relative;">
+	                                <a href="/member/logout" class="btn c-btn logout-btn signOutButton" data-bs-toggle="modal"
+	                                    data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
+	                                    class="fa fa-sign-out-alt fa-2xl"></i>
+	                                </a>
+	                            </div>
+                                <div class="d-flex align-items-center" style="position: relative;">
+								    <a href="/member/mypage" class="btn c-btn userButton" style="height: fit-content;">
+								        <i class="fa-solid fa-user fa-2xl"></i>
+								    </a>
+								</div>
                             </c:when>
                             <c:otherwise>
-                                <a href="#" class="btn c-btn " data-bs-toggle="modal"
-                                    data-bs-target="#loginModal" style="height: fit-content;">
-                                    <i class="fa-solid fa-right-to-bracket fa-2xl"></i>
-                                </a>
-                                <a href="/member/join" class="btn c-btn " style="height: fit-content;"> <i
-                                    class="fa fa-user-plus fa-2xl"></i>
-                                </a>
+                            	<div class="d-flex align-items-center" style="position: relative;">
+	                                <a href="#" class="btn c-btn loginButton" data-bs-toggle="modal"
+	                                    data-bs-target="#loginModal" style="height: fit-content;">
+	                                    <i class="fa-solid fa-right-to-bracket fa-2xl"></i>
+	                                </a>
+	                            </div>
+                                <div class="d-flex align-items-center" style="position: relative;">
+	                                <a href="/member/join" class="btn c-btn userPlusButton" style="height: fit-content;"> <i
+	                                    class="fa fa-user-plus fa-2xl"></i>
+	                                </a>
+	                            </div>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -866,10 +933,10 @@ $(document).ready(function () {
                                 <div class="valid-feedback"></div>
                                 <div class="invalid-feedback"></div>
                                 
-                             <div class="row mt-2">
-                               <div class="col">
-                                <button type="submit" class="btn btn-danger form-control" 
-                                		style="width:466px; height:54px;">비밀번호 재설정</button>
+                            	<div class="row mt-2">
+                               		<div class="col">
+                                		<button type="submit" class="btn btn-danger form-control" 
+                                			style="width:466px; height:54px;">비밀번호 재설정</button>
                                 	</div>
                             	</div>
                             </div>
@@ -881,20 +948,20 @@ $(document).ready(function () {
 							</div>
 						</div>
 				<!-- 로그아웃 확인 모달 창 -->
-<div class="modal fade" id="headerLogoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <strong class="modal-title" id="logoutModalLabel" style="font-size:20px;">알림</strong>
-            </div>
-            <div class="modal-body p-5" style="font-size: 18px;">정말 로그아웃하시겠습니까?</div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-logoutBtn" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger" id="logoutButton">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
+				<div class="modal fade" id="headerLogoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-dialog-centered">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <strong class="modal-title" id="logoutModalLabel" style="font-size:20px;">알림</strong>
+				            </div>
+				            <div class="modal-body p-5" style="font-size: 18px;">정말 로그아웃하시겠습니까?</div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary close-logoutBtn" data-bs-dismiss="modal">취소</button>
+				                <button type="button" class="btn btn-danger" id="logoutButton">확인</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
 
 						<hr>
 					</header>

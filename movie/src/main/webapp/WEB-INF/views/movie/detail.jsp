@@ -5,6 +5,12 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="/css/star.css">
 
+<!-- swiper cdn -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 <style>
 body {
    padding-top: 30px;
@@ -12,7 +18,7 @@ body {
 .review-item {
         border: 1px solid #ccc;
         background-color: rgb(179, 57, 57, 0.2);
-        padding: 10px;
+		padding: 10px;
         margin-bottom: 10px;
         border-radius: 10px;
         width: 10em;
@@ -90,7 +96,87 @@ body {
         white-space: nowrap;
         text-overflow: ellipsis;
 }
+h4 {
+ 	font-style bold: 
+}
+.custom-next {
+	right: 0;
+	/*원하는 위치로 조정 (예: 오른쪽 끝에 배치)  */
+	left: auto;
+	top: 60%;
+	/*예: 50% 위로 이동 */
+	transform: translateY(-50%);
+	/*세로 중앙 정렬을 위한 추가 설정 */
+	color: #fff; /* 버튼 텍스트 색상 */
+	border-radius: 5px; /* 버튼 테두리 모양 설정 */
+}
+
+.custom-prev {
+	left: 0;
+	/*원하는 위치로 조정 (예: 왼쪽 끝에 배치) */
+	right: auto;
+	top: 60%;
+	/*예: 50% 위로 이동  */
+	transform: translateY(-50%);
+	/*세로 중앙 정렬을 위한 추가 설정  */
+	/* 		 color: #fff; /* 버튼 텍스트 색상 */ */
+	border-radius: 5px; /* 버튼 테두리 모양 설정 */
+}
+.message-list{
+	height:65vh;
+	overflow-y: scroll;
+	padding-bottom: 5px; 
+}
+::-webkit-scrollbar{
+   	width: 3px; /* 스크롤바 너비 */
+   	background-color:black;
+}
+::-webkit-scrollbar-thumb {
+	background: var(--bs-secondary); /* 스크롤바 색상 */
+}
+.swiper-container {
+	width: 100%;
+	padding-top: 50px; /* 이전 버튼과 다음 버튼이 겹치지 않도록 상단 패딩 추가 */
+}
+.swiper-button-next,
+.swiper-button-prev {
+	top: 50%; /* 버튼을 세로 중앙에 배치 */
+	transform: translateY(-50%); /* 세로 중앙에 정렬하기 위한 변형 */
+}
+.swiper-button-next {
+	right: 0; /* 다음 버튼을 오른쪽에 배치 */
+	color: rgb(179, 57, 57);
+}
+.swiper-button-prev {
+	left: 0; /* 이전 버튼을 왼쪽에 배치 */
+	color: rgb(179, 57, 57);
+}
+.swiper-slide {
+/*		width: auto !important; */
+	padding: 0 5px;
+} 
+.swiper-wrapper {
+/* 	display: flex; */
+	gap: 3px;
+	justify-content: flex-start; /* 왼쪽 정렬 */
+	margin-left: -10px; /* 첫 번째 슬라이드와 왼쪽 여백 조절 */
+ }
+ .swiper-slide img {
+	width: 100%;
+	height: auto;
+}
+:root {
+	--swiper-theme-color: #B33939 !important;
+}
+a {
+	color: rgb(179, 57, 57);
+}
+/* .swiper { */
+/*             overflow: hidden; /* 여기에 추가 */ */
+/*         } */
 </style>
+
+
 
 <script>
    //영화 찜기능
@@ -467,7 +553,7 @@ $(document).ready(function(){
 			</div>
 			<!-- Movie Information -->
 			<div class="col-md-8 bg-body-tertiary rounded p-2">
-				<h2><strong>${movieDto.movieName}</strong>
+				<h2 class="mb-3" style="font-weight: bold;">${movieDto.movieName}
 					<c:if test="${sessionScope.name != null}">
 					<i class="fa-regular fa-bookmark"></i>
 					</c:if>
@@ -513,27 +599,47 @@ $(document).ready(function(){
 			</c:if>
 			
 			<!-- Still Cut Section -->
-			<h4 class="mt-3">영화 갤러리</h4>
-			<c:if test="${movieDetailList != null}">
-				<c:forEach var="movieDetailVO" items="${movieDetailList}">
-					<div class="col" style="width: 215px;">
-						<img src="/rest/image/${movieDetailVO.detailImgNo}"
-							class="img-thumbnail" style="width: 215px; height: 300px">
-					</div>
-				</c:forEach>
-			</c:if>
+<!-- 			<h4 class="mt-3">영화 갤러리</h4> -->
+<%-- 			<c:if test="${movieDetailList != null}"> --%>
+<!-- 			    <div class="row"> -->
+<%-- 			        <c:forEach var="movieDetailVO" items="${movieDetailList}"> --%>
+<!-- 			            <div class="col-12 col-md-6 col-lg-4"> -->
+<%-- 			                <img src="/rest/image/${movieDetailVO.detailImgNo}" class="img-thumbnail" style="width: 500px; height: 300px"> --%>
+<!-- 			            </div> -->
+<%-- 			        </c:forEach> --%>
+<!-- 			    </div> -->
+<%-- 			</c:if> --%>
+			
+			<div class="row mt-5 p-3">
+				<div class="col">
+					<h4 class="mt-3">영화 갤러리</h4>
+				</div>
+			</div>
+			<div class="swiper row">
+				<div class="swiper-wrapper" >
+					<c:if test="${movieDetailList != null}">
+		        		<c:forEach var="movieDetailVO" items="${movieDetailList}">
+		        			<div class="swiper-slide" style="min-width: 240px; overflow: hidden; ">
+		        				<div class="col-sm-6 col-md-4 col-lg-3" style="width: 236px;">	
+			                		<img src="/rest/image/${movieDetailVO.detailImgNo}" class="img-thumbnail" style="width: 236px; height: 310px;">
+			            		</div>
+			            	</div>
+		       	 		</c:forEach>
+					</c:if>
+				</div>
+			    <div class="swiper-button-next custom-next"></div>
+				<div class="swiper-button-prev custom-prev"></div>
+			</div>		
 
          <!-- Cast Section -->
-         <h4 class="mt-3">출연자</h4>
+         <h4 class="mt-5">출연자</h4>
          <c:if test="${actorDetailList != null}">
             <c:forEach var="actorDetailVO" items="${actorDetailList}">
-
-               <div class="col" style="width: 215px;">
-                  <p>${actorDetailVO.actorName}</p>
-                  <p>${actorDetailVO.actorRole}</p>
-                  <img src="/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
-                     style="width: 215px; height: 300px">
-               </div>
+               <div class="col" style="width: 100px;">
+                    <img src="/rest/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
+                       style="width: 100px; height: 120px">
+                    <p>${actorDetailVO.actorName} (${actorDetailVO.actorRole})</p>
+                 </div>
             </c:forEach>
          </c:if>
 
@@ -553,38 +659,57 @@ $(document).ready(function(){
 				</div>
 				
 				<div class="row row-cols-1 row-cols-md-5 g-4 review-container">
-					<c:forEach var="reviewDto" items="${reviewList}">
-						<div class="col">
-							<div class="review-item">
-							
-								<c:choose>
-								    <c:when test="${reviewDto.imageNo != 0}">
-								        <img src="/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
-								    </c:when>
-								    <c:otherwise>
-								        <img src="/images/user.jpg" class="userImage img-thumbnail">
-								    </c:otherwise>
-								</c:choose>
-									
-								<strong>${reviewDto.memberNickname}</strong>
-								<p class="mt-3 ellipsis" style="max-width: 200px;">${reviewDto.reviewContent}</p>
-								<div class="mt-3">
-								    <button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
-								        <i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
-								    </button>
-								    <a class="commentButton" data-reviewNo="${reviewDto.reviewNo}">
-								        <button type="button" class="btn btn-link replyButton" data-reviewNo="${reviewDto.reviewNo}">
-								            <i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
-								        </button>
-								    </a>
-								</div>
-                            </div>
-                        </div>
-                    </c:forEach>
+				    <c:forEach var="reviewDto" items="${reviewList}">
+				        <div class="col-lg-3 col-md-3 col-sm">
+				            <div class="review-item">
+				                <c:choose>
+				                    <c:when test="${reviewDto.imageNo != 0}">
+				                        <img src="/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
+				                    </c:when>
+				                    <c:otherwise>
+				                        <img src="/images/user.jpg" class="userImage img-thumbnail">
+				                    </c:otherwise>
+				                </c:choose>
+				                <strong>${reviewDto.memberNickname}</strong>
+				                <p class="mt-3 ellipsis" style="max-width: 200px;">${reviewDto.reviewContent}</p>
+				                <div class="mt-3">
+				                    <button type="button" class="btn btn-link likeButton" data-reviewNo="${reviewDto.reviewNo}">
+				                        <i class="fa-regular fa-thumbs-up"><span class="reviewLikeCount"></span></i>
+				                    </button>
+				                    <a class="commentButton" data-reviewNo="${reviewDto.reviewNo}">
+				                        <button type="button" class="btn btn-link replyButton" data-reviewNo="${reviewDto.reviewNo}">
+				                            <i class="fa-regular fa-comment"><span class="reviewReplyCount">${reviewDto.reviewReplyCount}</span></i>
+				                        </button>
+				                    </a>
+				                </div>
+				            </div>
+				        </div>
+				    </c:forEach>
 				</div>
 				
 			</div>
       </div>
    </div>
+   
+<script>
+	//스와이퍼 설정
+	var swiper = new Swiper('.swiper', {
+		slidesPerView : 5,
+		slidesPerGroup : 5,
+		spaceBetween: 5,
+		loop : true,
+		navigation : {
+			nextEl : '.custom-next', // 커스텀 클래스 지정
+			prevEl : '.custom-prev', // 커스텀 클래스 지정
+		},
+		pagination : {
+			el : '.swiper-pagination',
+			clickable : true,
+		},
+		   speed: 700,
+		    observer: true, // 이 부분을 추가
+		    observeParents: true, // 이 부분을 추가
+	});
+</script>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

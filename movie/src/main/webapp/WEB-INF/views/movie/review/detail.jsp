@@ -416,7 +416,7 @@
 			        </div>
 			        <div class="col-lg-6 col-md-10 col-sm-10 text-center">
 			            <div class="row">
-			                <h2 class="mt-5 pt-4">${movieSimpleInfo.movieName}</h2>
+			                <h2 class="mt-5 pt-4 mb-3" style="font-weight: bold;">${movieSimpleInfo.movieName}</h2>
 			            </div>
 			            <div class="row mt-5">
 			                <span>${movieSimpleInfo.movieReleaseYear} • ${movieSimpleInfo.genreName} • ${movieSimpleInfo.movieNation}</span>
@@ -484,7 +484,6 @@
                         	</div>
                         </form>
                     </div>
-
                 </div>
             
             <!-- 댓글 -->
