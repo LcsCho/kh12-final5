@@ -1,13 +1,63 @@
-<div style="padding:20px; box-shadow:0 0 2px 2px greenyellow;">
-	<h1 class="text-center" style="color:darkgray;">
-		[<span id="target"></span>]님 가입을 진심으로 축하합니다!
-		</h1>
-		<br><br>
-		
-	<h3 class="text-center" style="color:#B33939">
-		MVC에서 취향저격 영화들을 추천받아보세요!
-	</h3>
-	<br><br>
-	
-	<h2 class="text-end"><a id="main-link">MVC 접속 <i class="fa-solid fa-person-walking" style="color:#B33939"></i> </a></h2>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 가입 축하 이메일</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #header {
+            background-color: #B33939;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        #content {
+            padding: 30px;
+            text-align: center;
+        }
+
+        #main-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #B33939;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        #main-link i {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <h1>[<span id="target"></span>]님 가입을 진심으로 축하합니다!</h1>
+        </div>
+        <div id="content">
+            <h3 style="color:#B33939">MVC에서 취향저격 영화들을 추천받아보세요!</h3>
+            <br><br>
+            <h2><a id="main-link" href="#">MVC 접속 <i class="fa-solid fa-person-walking"></i></a></h2>
+        </div>
+    </div>
+</body>
+</html>

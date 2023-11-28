@@ -28,6 +28,7 @@ public class SchedulerImpl implements Scheduler {
 	// 오늘의 영화 추천 리스트
 	// 매일 자정
 	@Override
+//	@Scheduled(cron = "0 0 0 * * *")
 	@Scheduled(cron = "0 0 0 * * *")
 	public void getRandomMovies() {
 		recommendDao.deleteRandom();
