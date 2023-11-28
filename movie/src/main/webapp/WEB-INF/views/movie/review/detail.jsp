@@ -465,14 +465,16 @@
 				<!-- 댓글 작성 란 -->
 				<div class="container-fluid mt-5">
                     <div class="row">
-                        <div class="col-md-8 offset-md-2">
-                            <textarea name="replyContent" style="width: 100%; height: 100px; resize: none;"></textarea>
-                        </div>
-                        <div class="col-sm-8 offset-sm-2 col-md-8 col-md-2 col-lg-8 offset-lg-2 ">
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success">전송</button>
-                            </div>
-                        </div>
+                    	<form class="reply-insert-form">
+                        	<div class="col-md-8 offset-md-2">
+                            	<textarea name="replyContent" style="width: 100%; height: 100px; resize: none;"></textarea>
+                        	</div>
+                        	<div class="col-sm-8 offset-sm-2 col-md-8 col-md-2 col-lg-8 offset-lg-2 ">
+                            	<div class="d-flex justify-content-end">
+                                	<button type="submit" class="btn btn-success">전송</button>
+                            	</div>
+                        	</div>
+                        </form>
                     </div>
 
                 </div>
