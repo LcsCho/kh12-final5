@@ -79,13 +79,8 @@ $(function(){
                     appendReview(review);
                 });
     		}
-    	
-    		
-    		
     	});
     }
-    
-    
     
     $(".review-container").on("click", ".likeButton", function () {
         var clickedReviewNo = $(this).data("reviewno");
