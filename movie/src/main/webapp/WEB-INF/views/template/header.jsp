@@ -711,7 +711,7 @@ $(document).ready(function () {
 	<main>
 		<header>
 		 <div class="container-fluid">
-        <nav class="navbar navbar-primary bg-white sticky-top pt-3">
+        <nav class="navbar navbar-primary bg-white sticky-top pt-4">
             <a class="navbar-brand mb-2" href="http://localhost:8080/">
                 <img src="/images/mvc.png"width="150">
             </a>
