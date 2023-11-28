@@ -390,6 +390,7 @@ $(document).ready(function () {
 // 	                console.log(response);
 	            	var popularContainer = $("#popularContainer");
 	                // 받아온 데이터를 popularContainer에 표시
+	                if(response && response.length > 0){
 	                popularContainer.empty();
 	            	popularContainer.append($("<h5 class='ms-2 mt-2 mb-2'>").text("인기 검색어"));
 	                for (var i = 0; i < response.length; i++) {
@@ -409,6 +410,12 @@ $(document).ready(function () {
 	
 	                // 인기 검색어를 표시한 후 popularContainer를 보여줌
 	                popularContainer.show();
+	                }else{
+	                	popularContainer.hide();
+	                
+	                	}
+	                
+	                
 	            },
 	            error: function (error) {
 	                console.error("인기 검색어 불러오기에 실패했습니다.", error);
