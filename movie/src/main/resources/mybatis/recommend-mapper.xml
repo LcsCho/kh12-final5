@@ -13,7 +13,7 @@
 
 	<select id="mvcCriticTop10"
 		resultType="MVCCriticTop10RecommendVO">
-		select * from mvc_top_10_recommend
+		select * from mvc_critic_top_10_recommend
 	</select>
 
 	<select id="preferGenreByMember"
