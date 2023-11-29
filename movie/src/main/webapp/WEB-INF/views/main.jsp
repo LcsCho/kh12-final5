@@ -671,7 +671,7 @@ a {
 													<div class="col">
 														<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
 															<img src="/rest/image/${wishMovieVO.imageNo}"
-															class="img-thumbnail" style="width: 215px; height: 300px">
+															class="img-thumbnail" style="width: 250px; height: 310px">
 														</a>
 													</div>
 												</div>
