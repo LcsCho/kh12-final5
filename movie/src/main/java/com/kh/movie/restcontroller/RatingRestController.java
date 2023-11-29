@@ -55,10 +55,15 @@ public class RatingRestController {
 	@DeleteMapping("/{ratingNo}")
 	public ResponseEntity<String>delete(@PathVariable int ratingNo){
 			RatingDto ratingDto = ratingDao.findByRatingNo(ratingNo);
+			log.debug("ratingDto={}",ratingDto);
 			ReviewDto reviewDto = reviewDao.findReviewByMemberId(ratingDto.getMemberId(), ratingDto.getMovieNo());
+			log.debug("reviewDto={}",reviewDto);
 		boolean result = ratingDao.delete(ratingNo);
 		if(result) {
-			reviewDao.delete(reviewDto.getReviewNo());
+			if(reviewDto != null) {
+				reviewDao.delete(reviewDto.getReviewNo());
+				return ResponseEntity.ok().build();
+			}
 			return ResponseEntity.ok().build();
 		}
 		else {
