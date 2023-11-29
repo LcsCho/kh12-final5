@@ -210,7 +210,7 @@ $(function(){
 
                     <!-- 성별 선택 -->
                     <div class="row mt-4">
-                        <div class="col">
+                        <div class="col text-center" >
                             <input type="radio" name="memberGender" value="남자" class="form-radio w-70" checked> 남자
                             <input type="radio" name="memberGender" value="여자" class="form-radio w-70"> 여자
                         </div>
