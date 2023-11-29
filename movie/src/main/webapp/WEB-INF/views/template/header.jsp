@@ -653,7 +653,9 @@ $(document).ready(function () {
 	display: none;
 }
 
-#suggestionsContainer a, #popularContainer a, #recentContainer a {
+#suggestionsContainer:hover, 
+#popularContainer:hover,
+#recentContainer:hover {
 	cursor: pointer;
 }
 .wrenchButton:hover::after{
