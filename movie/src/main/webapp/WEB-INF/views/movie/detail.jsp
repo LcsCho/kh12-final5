@@ -19,9 +19,9 @@ body {
         border: 1px solid #ccc;
         background-color: rgb(179, 57, 57, 0.2);
 		padding: 10px;
-        margin-bottom: 10px;
+/*         margin-bottom: 10px; */
         border-radius: 10px;
-        width: 10em;
+        width: 100%;
         height: 10em;
 }
  .btn-link{
@@ -95,6 +95,7 @@ body {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        line-height: 2;
 }
 h4 {
  	font-style bold: 
@@ -648,7 +649,7 @@ $(document).ready(function(){
 				<div class="row">
 					<div class="col d-flex">
 						<h4 class="mt-3" style="font-weight: bold">리뷰</h4>
-						<div class="ms-auto mt-3">
+						<div class="ms-auto mt-5">
 							<a href="review/list?movieNo=${movieDto.movieNo}" class="btn btn-link">
 								<button class="btn btn-link">
 									더보기 <i class="fa-solid fa-angle-right"></i>
@@ -658,7 +659,7 @@ $(document).ready(function(){
 					</div>
 				</div>
 				
-				<div class="row row-cols-1 row-cols-md-5 g-4 review-container">
+				<div class="row row-cols-1 row-cols-md-5 g-3 review-container">
 				    <c:forEach var="reviewDto" items="${reviewList}">
 				        <div class="col-lg-3 col-md-3 col-sm">
 				            <div class="review-item">
