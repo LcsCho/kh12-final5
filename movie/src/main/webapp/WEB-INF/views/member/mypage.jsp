@@ -6,6 +6,12 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
 
+<!-- swiper cdn -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 <style>
 .center-section {
 	height: 48px;
