@@ -500,7 +500,7 @@ a {
 												</div>
 											</div>
 											<c:if test="${ageGroupRecommendVO.ratingAvg != 0}">
-												<<div class="row">
+												<div class="row">
 													<div class="col">
 														평균 <i class="fa-solid fa-star"></i>
 														${ageGroupRecommendVO.ratingAvg}점

@@ -198,6 +198,7 @@ public class HomeController {
 
 			// 회원 연령별 영화 추천
 			List<AgeGroupRecommendVO> ageGroupRecommendVO = recommendDao.getAgeGroup(memberBirth);
+//			log.debug("ageGroupRecommendVO = {}", ageGroupRecommendVO);
 			List<MovieListVO> ageGroupRecommendList = new ArrayList<>();
 			for (AgeGroupRecommendVO ageGroupRecommend : ageGroupRecommendVO) {
 				int movieNo = ageGroupRecommend.getMovieNo();
