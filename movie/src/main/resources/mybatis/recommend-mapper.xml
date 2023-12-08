@@ -20,7 +20,7 @@
 
 	<select id="preferGenreByMember"
 		resultType="PreferGenreByMemberRecommendVO">
-		select distinct * from prefer_genre_by_member_recommend
+		select distinct * from prefer_genre_recommend
 		where member_nickname = #{memberNickname}
 		
 	</select>
