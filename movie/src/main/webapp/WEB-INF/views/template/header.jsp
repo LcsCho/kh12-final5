@@ -110,7 +110,7 @@ $(document).ready(function() {
 $(document).ready(function () {
     $("#logoutButton").click(function () {
        
-        window.location.href = "/member/logout";
+        window.location.href = "${pageContext.request.contextPath}/member/logout";
     });
 });
 </script>
@@ -143,7 +143,7 @@ $(function(){
            $(".btn-emailSend").find(".fa-spinner").show();
            $(".btn-emailSend").find("span").text("발송중");
            $.ajax({
-               url:"http://localhost:8080/rest/cert/resetPassword",
+               url:"${pageContext.request.contextPath}/rest/cert/resetPassword",
                method:"post",
                data:{certEmail: email},
                success:function(){
@@ -173,7 +173,7 @@ $(function(){
            
 
            $.ajax({
-               url:"http://localhost:8080/rest/cert/checkEmail",
+               url:"${pageContext.request.contextPath}/rest/cert/checkEmail",
                method:"post",
                data:{
                    certEmail:email,
@@ -259,7 +259,7 @@ $(document).ready(function () {
 
             // 서버로 비밀번호 변경 요청을 보냄
             $.ajax({
-                url: "http://localhost:8080/rest/member/changePw", 
+                url: "${pageContext.request.contextPath}/rest/member/changePw", 
                 method: "POST",
                 data: {
                     memberId: memberId,
@@ -312,7 +312,7 @@ $(document).ready(function () {
             $("#recentContainer").hide();
 
             $.ajax({
-                url: "/rest/search/movieName",
+                url: "${pageContext.request.contextPath}/rest/search/movieName",
                 method: "GET",
                 data: { "keyword": keyword },
 
@@ -357,7 +357,7 @@ $(document).ready(function () {
         var keyword = $("#searchInput").val();
         
         $.ajax({
-            url: "/rest/search/inputKeyword",
+            url: "${pageContext.request.contextPath}/rest/search/inputKeyword",
             method: "POST",
             data: { "keyword": keyword },
             success: function (response) {
@@ -382,7 +382,7 @@ $(document).ready(function () {
     	 var currentText = $(this).val().trim();
     	 if (currentText === "") {
 	        $.ajax({
-	            url: "/rest/search/showPopular",
+	            url: "${pageContext.request.contextPath}/rest/search/showPopular",
 	            method: "GET",
 	            success: function (response) {
 // 	                console.log(response);
@@ -421,7 +421,7 @@ $(document).ready(function () {
 	        });
 	        // 최근 검색어를 서버에서 가져오는 Ajax 요청
 	        $.ajax({
-	            url: "/rest/search/showRecent",
+	            url: "${pageContext.request.contextPath}/rest/search/showRecent",
 	            method: "GET",
 	            success: function (response) {
 
@@ -439,7 +439,7 @@ $(document).ready(function () {
 	                	        if (confirm("정말로 모든 검색 기록을 삭제하시겠습니까?")) {
 	                	            // 사용자가 확인을 선택한 경우에만 Ajax 요청 보내기
 	                	            $.ajax({
-	                	                url: "/rest/search/deleteAll",
+	                	                url: "${pageContext.request.contextPath}/rest/search/deleteAll",
 	                	                method: "DELETE",
 	                	                success: function(response) {
 	                	                    // 요청이 성공하면 할 일 작성
@@ -484,7 +484,7 @@ $(document).ready(function () {
 					                	        if (confirm("정말로 검색 기록을 삭제하시겠습니까?")) {
 					                	            // 사용자가 확인을 선택한 경우에만 Ajax 요청 보내기
 					                	            $.ajax({
-					                	                url: "/rest/search/deleteEach",
+					                	                url: "${pageContext.request.contextPath}/rest/search/deleteEach",
 					                	                method: "DELETE",
 					                	                data: {keyword: keyword},
 					                	                success: function(response) {
@@ -720,7 +720,7 @@ $(document).ready(function () {
 		 <div class="container-fluid">
         <nav class="navbar navbar-primary bg-white sticky-top pt-4">
             <a class="navbar-brand mb-2" href="http://localhost:8080/">
-                <img src="/images/mvc.png"width="150">
+                <img src="${pageContext.request.contextPath}/images/mvc.png"width="150">
             </a>
             <form class="position-relative" action="/" method="post" id="movieSearchForm">
                 <div class="col d-flex">
@@ -740,7 +740,7 @@ $(document).ready(function () {
                     <div class="d-flex align-items-center ms-5">
                         <c:if test="${sessionScope.level == '관리자' }">
                         	<div class="d-flex align-items-center" style="position: relative;">
-	                            <a href="http://localhost:3000/" class="btn c-btn wrenchButton" style="height: fit-content;">
+	                            <a href="${pageContext.request.contextPath}/adminPage" class="btn c-btn wrenchButton" style="height: fit-content;">
 	                            	<i class="fa-solid fa-screwdriver-wrench fa-2xl"></i>
 	                            </a>
 	                        </div>
@@ -750,13 +750,13 @@ $(document).ready(function () {
                         <c:choose>
                             <c:when test="${sessionScope.name !=null}">
                             	<div class="d-flex align-items-center" style="position: relative;">
-	                                <a href="/member/logout" class="btn c-btn logout-btn signOutButton" data-bs-toggle="modal"
+	                                <a href="${pageContext.request.contextPath}/member/logout" class="btn c-btn logout-btn signOutButton" data-bs-toggle="modal"
 	                                    data-bs-target="#headerLogoutModal" style="height: fit-content;"> <i
 	                                    class="fa fa-sign-out-alt fa-2xl"></i>
 	                                </a>
 	                            </div>
                                 <div class="d-flex align-items-center" style="position: relative;">
-								    <a href="/member/mypage" class="btn c-btn userButton" style="height: fit-content;">
+								    <a href="${pageContext.request.contextPath}/member/mypage" class="btn c-btn userButton" style="height: fit-content;">
 								        <i class="fa-solid fa-user fa-2xl"></i>
 								    </a>
 								</div>
@@ -769,7 +769,7 @@ $(document).ready(function () {
 	                                </a>
 	                            </div>
                                 <div class="d-flex align-items-center" style="position: relative;">
-	                                <a href="/member/join" class="btn c-btn userPlusButton" style="height: fit-content;"> <i
+	                                <a href="${pageContext.request.contextPath}/member/join" class="btn c-btn userPlusButton" style="height: fit-content;"> <i
 	                                    class="fa fa-user-plus fa-2xl"></i>
 	                                </a>
 	                            </div>
@@ -791,7 +791,7 @@ $(document).ready(function () {
 								<div class="modal-body">
 									<div class="row">
 								<div class="modal-title text-center">
-									<img src="/images/mvc.png" width="200px" class="mx-auto">
+									<img src="${pageContext.request.contextPath}/images/mvc.png" width="200px" class="mx-auto">
 									</div>
 								</div>
 								<div class="row">

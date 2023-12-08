@@ -35,7 +35,7 @@ h3, pre {
 주식회사 엠브이씨 | 대표 나사장 | 서울특별시 영등포구 선유동 2로 57 이레빌딩 19층 C강의장
 사업자 등록 번호 123-45-678
 
-<img src="/images/MVClogo.png" width="60">@2023 by MVC, Inc. All rights reserved.</pre>
+<img src="${pageContext.request.contextPath}/images/MVClogo.png" width="60">@2023 by MVC, Inc. All rights reserved.</pre>
                         </div>
                     </div>
                 </div>
