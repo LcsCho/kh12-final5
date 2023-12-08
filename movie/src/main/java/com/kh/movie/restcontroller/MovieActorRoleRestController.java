@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.movie.dao.MovieActorRoleDao;
 import com.kh.movie.dto.MovieActorRoleDto;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "영화 배우 역할 관리", description = "영화 배우 관리를 위한 컨트롤러")

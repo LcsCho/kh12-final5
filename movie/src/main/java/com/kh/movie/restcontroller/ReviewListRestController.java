@@ -93,7 +93,7 @@ public class ReviewListRestController {
 
             reviewLikeVOList.add(reviewLikeVO);
             
-            log.debug("reviewLiktVOList = {}", reviewLikeVOList);
+//            log.debug("reviewLiktVOList = {}", reviewLikeVOList);
         }
      
 	    return reviewLikeVOList;
