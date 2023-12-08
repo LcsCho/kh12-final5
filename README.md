@@ -1,6 +1,6 @@
-![MVClogo](https://github.com/LcsCho/kh12-final5/assets/135007715/b89943d4-1435-46d5-8f1a-efd98bf26032)
-
 # MVC
+
+![MVClogo](https://github.com/LcsCho/kh12-final5/assets/135007715/b89943d4-1435-46d5-8f1a-efd98bf26032)
 
 - 개발 기간 : 2023.11.08 ~ 2023.11.28
 - 개발 목적 : 영화를 좋아하는 사람들을 위한 영화 추천 서비스 제공, 커뮤니티 형성, 회원들을 기반으로 한 평가 데이터 수집
