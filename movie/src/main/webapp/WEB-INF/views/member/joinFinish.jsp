@@ -122,7 +122,7 @@
         // 확인 버튼을 눌렀을 때의 동작
         $("#skipConfirmBtn").click(function () {
             // 페이지 이동
-            window.location.href = "/";
+            window.location.href = "${pageContext.request.contextPath}/";
         });
 
         // 선택 완료 모달 확인 버튼 클릭 시 페이지 이동
@@ -180,7 +180,7 @@
                 </div>
     
             <div class="row mt-3 text-center">
-               <div class="col ">
+               <div class="col">
                   <button type="button" class="btn btn-primary btn-save mb-2" style="width:340px;">선택완료</button>
                </div>
             </div>

@@ -34,7 +34,7 @@
 	rel="stylesheet">
 
 
-<script src="js/header.js"></script>
+<script src="${pageContext.request.contextPath}/js/header.js"></script>
 
 <script>
 	window.contextPath = "${pageContext.request.contextPath}";
@@ -84,11 +84,9 @@ $(document).ready(function() {
                // 만약 join페이지에서 로그인할 경우 성공 시, 메인페이지로 이동
                if (window.location.href.indexOf("join") !== -1) {
                        window.location.href = "/";
-            	  
                } else {
             	   //그 외 다른 페이지에서 로그인할 경우엔 성공 시, 해당 페이지 유지
                    location.reload();
-                  
                }
            },
            error: function(xhr) {

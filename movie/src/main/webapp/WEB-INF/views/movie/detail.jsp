@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css" href="/css/star.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/star.css">
 
 <!-- swiper cdn -->
 <link rel="stylesheet"
@@ -186,7 +186,7 @@ a {
       var movieNo = params.get("movieNo");
 
       $.ajax({
-         url : "/rest/movieWish/check",
+         url : "${pageContext.request.contextPath}/rest/movieWish/check",
          method : "post",
          data : {
             movieNo : movieNo
@@ -205,7 +205,7 @@ a {
       $(".fa-bookmark").click(
             function() {
                $.ajax({
-                  url : "/rest/movieWish/action",
+                  url : "${pageContext.request.contextPath}/rest/movieWish/action",
                   method : "post",
                   data : {
                      movieNo : movieNo
@@ -234,7 +234,7 @@ a {
         
         // 서버에서 현재 사용자의 평점을 가져오는 AJAX 요청
         $.ajax({
-            url: '/rest/rating/'+movieNo,
+            url: '${pageContext.request.contextPath}/rest/rating/'+movieNo,
             method: 'GET',
             data: { 
                 movieNo: movieNo
@@ -264,7 +264,7 @@ a {
 
             // 기존 별점을 확인하는 Ajax 요청
             $.ajax({
-                url: '/rest/rating/' + movieNo,
+                url: '${pageContext.request.contextPath}/rest/rating/' + movieNo,
                 method: 'GET',
                 success: function(response) {
 //                    console.log(typeof response.ratingScore);
@@ -279,7 +279,7 @@ a {
                             if (confirmDelete) {
                                 // 사용자가 확인한 경우에만 삭제 처리
                                 $.ajax({
-                                    url: '/rest/rating/' + response.ratingNo,
+                                    url: '${pageContext.request.contextPath}/rest/rating/' + response.ratingNo,
                                     method: 'DELETE',
                                     success: function(deleteResponse) {
 //                                         console.log('평점이 성공적으로 삭제되었습니다.');
@@ -300,7 +300,7 @@ a {
                         } else {
                             // 이미 매긴 별점과 동일하지 않은 경우 수정 처리
                             $.ajax({
-                                url: '/rest/rating/' + response.ratingNo,
+                                url: '${pageContext.request.contextPath}/rest/rating/' + response.ratingNo,
                                 method: 'PUT',
                                 data: {
                                     ratingScore: selectedRating
@@ -317,7 +317,7 @@ a {
                     } else {
                         // 기존 별점이 없다면 바로 등록을 수행하는 Ajax 요청
                         $.ajax({
-                            url: '/rest/rating/' + movieNo,
+                            url: '${pageContext.request.contextPath}/rest/rating/' + movieNo,
                             method: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify({
@@ -383,7 +383,7 @@ $(function () {
          
             if (selectedRating != null) {
                $.ajax({
-                   url: "http://localhost:8080/rest/review/list/writeReview?movieNo=" + movieNo,
+                   url: "${pageContext.request.contextPath}/rest/review/list/writeReview?movieNo=" + movieNo,
                    method: "post",
                    data: {
                        movieNo: movieNo,
@@ -430,7 +430,7 @@ $(document).ready(function(){
    
    function loadReviewLike(movieNo) {
        $.ajax({
-           url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
+           url: "${pageContext.request.contextPath}/rest/review/list/findReviewLike?movieNo=" + movieNo,
            method: "post",
            data: {
                movieNo: movieNo,
@@ -464,7 +464,7 @@ $(document).ready(function(){
    //좋아요 설정/해제
    function reviewLike(reviewNo) {
       $.ajax({
-         url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+         url: "${pageContext.request.contextPath}/rest/review/list/likeAction?reviewNo=" + reviewNo,
          method: "post",
          data: {
             movieNo: movieNo,
@@ -522,7 +522,7 @@ $(document).ready(function(){
 			<!-- Movie Poster -->
 			<div class="col-md-4 text-center">
 				<div>
-					<img src="/rest/image/${mainImgNo}" class="img-thumbnail"
+					<img src="${pageContext.request.contextPath}/rest/image/${mainImgNo}" class="img-thumbnail"
 						style="width: 250px; height: 350px">
 				</div>
 				<div>
@@ -622,7 +622,7 @@ $(document).ready(function(){
 		        		<c:forEach var="movieDetailVO" items="${movieDetailList}">
 		        			<div class="swiper-slide" style="min-width: 240px; overflow: hidden; ">
 		        				<div class="col-sm-6 col-md-4 col-lg-3" style="width: 236px;">	
-			                		<img src="/rest/image/${movieDetailVO.detailImgNo}" class="img-thumbnail" style="width: 236px; height: 310px;">
+			                		<img src="${pageContext.request.contextPath}/rest/image/${movieDetailVO.detailImgNo}" class="img-thumbnail" style="width: 236px; height: 310px;">
 			            		</div>
 			            	</div>
 		       	 		</c:forEach>
@@ -637,7 +637,7 @@ $(document).ready(function(){
          <c:if test="${actorDetailList != null}">
             <c:forEach var="actorDetailVO" items="${actorDetailList}">
                <div class="col" style="width: 100px;">
-                    <img src="/rest/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
+                    <img src="${pageContext.request.contextPath}/rest/image/actor/${actorDetailVO.actorNo}" class="img-thumbnail"
                        style="width: 100px; height: 120px">
                     <p>${actorDetailVO.actorName} (${actorDetailVO.actorRole})</p>
                  </div>
@@ -665,10 +665,10 @@ $(document).ready(function(){
 				            <div class="review-item">
 				                <c:choose>
 				                    <c:when test="${reviewDto.imageNo != 0}">
-				                        <img src="/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
+				                        <img src="${pageContext.request.contextPath}/rest/image/${reviewDto.imageNo}" class="userImage img-thumbnail">
 				                    </c:when>
 				                    <c:otherwise>
-				                        <img src="/images/user.jpg" class="userImage img-thumbnail">
+				                        <img src="${pageContext.request.contextPath}/images/user.jpg" class="userImage img-thumbnail">
 				                    </c:otherwise>
 				                </c:choose>
 				                <strong>${reviewDto.memberNickname}</strong>

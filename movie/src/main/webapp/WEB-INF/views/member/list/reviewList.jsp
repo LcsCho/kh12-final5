@@ -17,7 +17,7 @@ $(function(){
     function loadReviewLikeList() {//이게 따봉이랑 댓글 값 가져오는 구문입니다
 //     	console.log("갱신이 됐어요!");	
         $.ajax({
-            url: '/rest/member/reviewLikeList',
+            url: '${pageContext.request.contextPath}/rest/member/reviewLikeList',
             method: 'post',
             success: function (response) {
 				for(var i = 0; i< response.length; i++){
@@ -44,7 +44,7 @@ $(function(){
     
     function reviewLike(reviewNo){//내가 따봉 눌렀을 때 처리 되는놈
     	$.ajax({
-    		url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+    		url: "${pageContext.request.contextPath}/rest/review/list/likeAction?reviewNo=" + reviewNo,
     		method:"post",
     		data:{
     			reviewNo: reviewNo
@@ -71,7 +71,7 @@ $(function(){
     
     function loadReviewList(){ //그냥 리스트 띄우는 놈
     	$.ajax({
-    		url:'/rest/member/reviewList',
+    		url:'${pageContext.request.contextPath}/rest/member/reviewList',
     		method:'get',
     		success: function(response){
     			
@@ -95,17 +95,17 @@ $(function(){
         var $reviewCard = $(template);
         // 리뷰 데이터를 템플릿에 적용
         if(review.imageNo == 0 || review.imageNo == null){
-        	$reviewCard.find('.userImage').attr('src', '/images/user.jpg');
+        	$reviewCard.find('.userImage').attr('src', '${pageContext.request.contextPath}/images/user.jpg');
         }
         else{
-	        $reviewCard.find('.userImage').attr('src', '/rest/image/' + review.imageNo);
+	        $reviewCard.find('.userImage').attr('src', '${pageContext.request.contextPath}/rest/image/' + review.imageNo);
         }
         $reviewCard.find('.memberNickname').text(review.memberNickname);
         $reviewCard.find('.ratingScore').text(review.ratingScore);
         $reviewCard.find('.reviewContent').text(review.reviewContent);
         $reviewCard.find('.likeButton').attr('data-reviewno', review.reviewNo);
         $reviewCard.find('.likeCount').text(review.reviewLikeCount);	
-        var hrefInfo ="/movie/review/detail?movieNo=" + review.movieNo + "&reviewNo=" + review.reviewNo;
+        var hrefInfo ="${pageContext.request.contextPath}/movie/review/detail?movieNo=" + review.movieNo + "&reviewNo=" + review.reviewNo;
         $reviewCard.find(".commentButton").attr("href",hrefInfo);
         $reviewCard.find('.replyCount').text(review.reviewReplyCount);
         // 리뷰 카드를 화면에 추가

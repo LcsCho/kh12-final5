@@ -25,7 +25,6 @@
             var result = confirm("정말로 해당 영화에 대한 평가를 삭제하시겠습니까?");
             var movieNo = $(this).attr('data-movieNo');
 //             console.log('movieNo:', movieNo);
-
             // 확인을 선택한 경우
             if (result) {
                 deleteMovie(movieNo);
@@ -36,12 +35,11 @@
 
     function loadMovieList() {
         $.ajax({
-            url: '/rest/member/ratingList',
+            url: '${pageContext.request.contextPath}/rest/member/ratingList',
             method: 'GET',
             success: function (data) {
                 var moviesContainer = $('#movies-container');
                 moviesContainer.empty();
-
                 $.each(data, function (index, movieVO) {
                     var formattedDate = new Date(movieVO.movieReleaseDate).getFullYear();
                     var movieNo = parseInt(movieVO.movieNo);
@@ -49,9 +47,9 @@
 
                     var movieHtml = '<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">' +
                     '<div style="position: relative;">' +
-                    '<a href="/movie/detail?movieNo=' + movieNo + '" style="display: inline-block; position: relative;">' +
+                    '<a href="${pageContext.request.contextPath}/movie/detail?movieNo=' + movieNo + '" style="display: inline-block; position: relative;">' +
                     '<div style="position: relative;">' +
-                    '<img src="/rest/image/' + imageNo + '" class="img-thumbnail" style="width: 215px; height: 300px;">' +
+                    '<img src="${pageContext.request.contextPath}/rest/image/' + imageNo + '" class="img-thumbnail" style="width: 215px; height: 300px;">' +
                     '</div>' +
                     '</a>' +
                     
@@ -60,7 +58,7 @@
 				        '<i class="fa-regular fa-circle-xmark fa-xl" style="position: absolute; top: 20px; right: 20px; color: black;" data-movieNo="' + movieNo + '"></i>' +
 				    '</div>' +
                     '<div class="col">' +
-                        '<a href="/movie/detail?movieNo=' + movieNo + '">' +
+                        '<a href="${pageContext.request.contextPath}/movie/detail?movieNo=' + movieNo + '">' +
                             movieVO.movieName +
                         '</a>' +
                     '</div>' +
@@ -96,7 +94,7 @@
 
     function deleteMovie(movieNo) {
         $.ajax({
-            url: '/rest/member/ratingDelete',
+            url: '${pageContext.request.contextPath}/rest/member/ratingDelete',
             method: 'delete',
             data: { movieNo: movieNo },
             success: function (response) {
