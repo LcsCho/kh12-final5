@@ -13,12 +13,17 @@
 	</insert>
 
 	<select id="show" resultType="String">
-		SELECT popular_history_keyword
-		FROM popular_history
-		WHERE popular_history_time >= SYSDATE - 7
-		GROUP BY popular_history_keyword
-		ORDER BY COUNT(popular_history_keyword) DESC
-		FETCH FIRST 5 ROWS ONLY
+		 <![CDATA[
+			SELECT popular_history_keyword
+			FROM (
+			    SELECT popular_history_keyword, COUNT(popular_history_keyword) as keyword_count
+			    FROM popular_history
+			    WHERE popular_history_time >= SYSDATE - 7
+			    GROUP BY popular_history_keyword
+			    ORDER BY keyword_count DESC
+			)
+			WHERE ROWNUM <= 5
+		]]>
 	</select>
 
 
