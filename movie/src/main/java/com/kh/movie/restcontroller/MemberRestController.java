@@ -237,11 +237,11 @@ public class MemberRestController {
 	@PostMapping("/newPw")
 	public String newPassword(HttpSession session, @RequestParam String memberPw) {
 		String loginMemberId = (String) session.getAttribute("name");
-		log.debug("입력PW = {}", memberPw);
+//		log.debug("입력PW = {}", memberPw);
 
 		if (loginMemberId != null && memberPw != null) {
 			String encryptedPassword = encoder.encode(memberPw);
-			log.debug("새로운PW = {}", encryptedPassword);
+//			log.debug("새로운PW = {}", encryptedPassword);
 			
 			MemberDto memberDto = new MemberDto();
 			memberDto.setMemberId(loginMemberId);
@@ -267,10 +267,10 @@ public class MemberRestController {
 			throws IllegalStateException, IOException {
 
 		String memberId = (String) session.getAttribute("name");
-		log.debug("memberId={}", memberId);
+//		log.debug("memberId={}", memberId);
 
 		// 기존 아이디가 가지고 있던 이미지의 번호 가져오기
-		log.debug("findImageNo={}", memberDao.findMemberImage(memberId));
+//		log.debug("findImageNo={}", memberDao.findMemberImage(memberId));
 		Integer findImageNo = memberDao.findMemberImage(memberId);
 
 		if (findImageNo != null && findImageNo > 0) {// 찾은 이미지가 0보다 크면//이미지가 있으면
@@ -280,7 +280,7 @@ public class MemberRestController {
 		}
 
 		int imageNo = imageDao.sequence();
-		log.debug("imageNo={}", imageNo);
+//		log.debug("imageNo={}", imageNo);
 		File target = new File(dir, String.valueOf(imageNo));
 		image.transferTo(target);
 
@@ -298,7 +298,7 @@ public class MemberRestController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> delete(HttpSession session) {
 		String memberId = (String) session.getAttribute("name");
-		log.debug(memberId);
+//		log.debug(memberId);
 		int findImageNo = memberDao.findMemberImage(memberId);
 
 		boolean result = imageDao.delete(findImageNo);

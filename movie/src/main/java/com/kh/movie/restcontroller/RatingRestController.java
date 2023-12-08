@@ -43,7 +43,7 @@ public class RatingRestController {
 	//등록
 	@PostMapping("/{movieNo}")
 	public void insert(@RequestBody RatingDto ratingDto, @PathVariable int movieNo, HttpSession session) {
-		log.debug("movieNo={}",movieNo);
+//		log.debug("movieNo={}",movieNo);
 		String memberId= (String) session.getAttribute("name");
 		int ratingNo =ratingDao.sequence();
 		ratingDto.setMovieNo(movieNo);
@@ -55,9 +55,9 @@ public class RatingRestController {
 	@DeleteMapping("/{ratingNo}")
 	public ResponseEntity<String>delete(@PathVariable int ratingNo){
 			RatingDto ratingDto = ratingDao.findByRatingNo(ratingNo);
-			log.debug("ratingDto={}",ratingDto);
+//			log.debug("ratingDto={}",ratingDto);
 			ReviewDto reviewDto = reviewDao.findReviewByMemberId(ratingDto.getMemberId(), ratingDto.getMovieNo());
-			log.debug("reviewDto={}",reviewDto);
+//			log.debug("reviewDto={}",reviewDto);
 		boolean result = ratingDao.delete(ratingNo);
 		if(result) {
 			if(reviewDto != null) {

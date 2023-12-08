@@ -162,11 +162,11 @@ public class MovieController {
 	//리뷰 상세 페이지에서 리뷰(+평점) 삭제
 	@RequestMapping("/deleteReview")
 	public String deleteReview(@RequestParam int reviewNo,@RequestParam int movieNo) {
-		log.debug("movieNo={}",movieNo);
+//		log.debug("movieNo={}",movieNo);
 		
 //		ReviewListVO reviewListVO = reviewDao.findByReviewNo(reviewNo,movieNo);
 		boolean result = reviewDao.delete(reviewNo);
-		log.debug("삭제됨");
+//		log.debug("삭제됨");
 		if(result) {
 			return "redirect:review/list?movieNo=" + movieNo;
 		}else {

@@ -29,7 +29,7 @@ public class ExceptionControllerAdvice {
 	public String error(Exception e) {
 		//e.printStackTrace();
 		//에러 로그에는 예외 객체를 한 개 첨부시킬 수 있다(자동 print stack trace)
-		log.error("오류",e);
+//		log.error("오류",e);
 		return "error/500";
 	}
 	
