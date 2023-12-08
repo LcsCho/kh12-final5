@@ -3,7 +3,7 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<script src="/js/join.js"></script>
+<script src="${pageContext.request.contextPath}/js/join.js"></script>
 <style>
 .btn-danger{
 background-color:#B33939;
@@ -34,7 +34,7 @@ $(function(){
         $(".btn-send").find(".fa-spinner").show();
         $(".btn-send").find("span").text("발송중");
         $.ajax({
-            url:"http://localhost:8080/rest/cert/send",
+            url:"${pageContext.request.contextPath}/rest/cert/send",
             method:"post",
             data:{certEmail: memberEmail},
             success:function(){
@@ -62,7 +62,7 @@ $(function(){
                     if (memberEmail.length == 0 || no.length == 0) return;
                     
                     $.ajax({
-                        url: "http://localhost:8080/rest/cert/check",
+                        url: "${pageContext.request.contextPath}/rest/cert/check",
                         method: "post",
                         data: {
                             certEmail: memberEmail,

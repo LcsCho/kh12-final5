@@ -90,7 +90,7 @@ $(function () {
     //좋아요 체크
     function loadReviewLike(movieNo) {
         $.ajax({
-            url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
+            url: "${pageContext.request.contextPath}/rest/review/list/findReviewLike?movieNo=" + movieNo,
             method: "post",
             data: {
                 movieNo: movieNo,
@@ -121,7 +121,7 @@ $(function () {
     //좋아요 설정/해제
     function reviewLike(reviewNo) {
         $.ajax({
-            url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+            url: "${pageContext.request.contextPath}/rest/review/list/likeAction?reviewNo=" + reviewNo,
             method: "post",
             data: {
                 movieNo: movieNo,
@@ -157,7 +157,7 @@ $(function () {
     // 최신순 조회
     $(".ByDateDesc").click(function () {	
     	$.ajax({
-            url: "http://localhost:8080/rest/review/list/findByDateDesc?movieNo=" + movieNo,
+            url: "${pageContext.request.contextPath}/rest/review/list/findByDateDesc?movieNo=" + movieNo,
             method: "post",
             data: {
                 movieNo: movieNo,
@@ -184,10 +184,10 @@ $(function () {
 	                var imageNo = review.imageNo;
 	                
 	                if(imageNo != 0){
-		                var imageHref = "/rest/image/" + imageNo;
+		                var imageHref = "${pageContext.request.contextPath}/rest/image/" + imageNo;
 		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }else{
-	                	var imageHref = "/images/user.jpg";
+	                	var imageHref = "${pageContext.request.contextPath}/images/user.jpg";
 	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }
 	                
@@ -209,7 +209,7 @@ $(function () {
 	//오래된순 조회
 	$(".ByDateAsc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByDateAsc?movieNo=" + movieNo,
+			url: "${pageContext.request.contextPath}/rest/review/list/findByDateAsc?movieNo=" + movieNo,
 			method: "post",
 			data: {
 				movieNo : movieNo,
@@ -236,10 +236,10 @@ $(function () {
 					var imageNo = review.imageNo;
 	                
 	                if(imageNo != 0){
-		                var imageHref = "/rest/image/" + imageNo;
+		                var imageHref = "${pageContext.request.contextPath}/rest/image/" + imageNo;
 		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }else{
-	                	var imageHref = "/images/user.jpg";
+	                	var imageHref = "${pageContext.request.contextPath}/images/user.jpg";
 	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }
 	                
@@ -261,7 +261,7 @@ $(function () {
 	//좋아요순 조회
 	$(".ByLikeDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByLikeDesc?movieNo=" + movieNo,
+			url: "${pageContext.request.contextPath}/rest/review/list/findByLikeDesc?movieNo=" + movieNo,
 			method: "post",
 			data: {
 				movieNo : movieNo,
@@ -288,10 +288,10 @@ $(function () {
 					var imageNo = review.imageNo;
 	                
 	                if(imageNo != 0){
-		                var imageHref = "/rest/image/" + imageNo;
+		                var imageHref = "${pageContext.request.contextPath}/rest/image/" + imageNo;
 		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }else{
-	                	var imageHref = "/images/user.jpg";
+	                	var imageHref = "${pageContext.request.contextPath}/images/user.jpg";
 	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }
 	                
@@ -313,7 +313,7 @@ $(function () {
 	//평점높은순 조회
 	$(".ByRatingDesc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByRatingDesc?movieNo=" + movieNo,
+			url: "${pageContext.request.contextPath}/rest/review/list/findByRatingDesc?movieNo=" + movieNo,
 			method: "post",
 			data: {
 				movieNo : movieNo,
@@ -340,10 +340,10 @@ $(function () {
 					var imageNo = review.imageNo;
 	                
 	                if(imageNo != 0){
-		                var imageHref = "/rest/image/" + imageNo;
+		                var imageHref = "${pageContext.request.contextPath}/rest/image/" + imageNo;
 		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }else{
-	                	var imageHref = "/images/user.jpg";
+	                	var imageHref = "${pageContext.request.contextPath}/images/user.jpg";
 	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }
 	                
@@ -365,7 +365,7 @@ $(function () {
 	//평점낮은순 조회
 	$(".ByRatingAsc").click(function(){
 		$.ajax({
-			url: "http://localhost:8080/rest/review/list/findByRatingAsc?movieNo=" + movieNo,
+			url: "${pageContext.request.contextPath}/rest/review/list/findByRatingAsc?movieNo=" + movieNo,
 			method: "post",
 			data: {
 				movieNo : movieNo,
@@ -392,10 +392,10 @@ $(function () {
 					var imageNo = review.imageNo;
 	                
 	                if(imageNo != 0){
-		                var imageHref = "/rest/image/" + imageNo;
+		                var imageHref = "${pageContext.request.contextPath}/rest/image/" + imageNo;
 		                $(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }else{
-	                	var imageHref = "/images/user.jpg";
+	                	var imageHref = "${pageContext.request.contextPath}/images/user.jpg";
 	                	$(htmlTemplate).find(".userImage").attr("src", imageHref);
 	                }
 	                
@@ -453,7 +453,7 @@ $(function () {
 			
 			<div class="row">
 				<div class="col-3">
-					<a href="/movie/detail?movieNo=${movieSimpleInfo.movieNo}">
+					<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${movieSimpleInfo.movieNo}">
 						<button type="button" class="btn btn-link">
 							<i class="fa-solid fa-angle-left"></i>영화 상세
 						</button>
@@ -464,7 +464,7 @@ $(function () {
 			<!-- 영화 정보 -->
 			<div class="row justify-content-center align-items-center">
 		        <div class="col-lg-3 col-md-10 col-sm-10 text-center">
-		            <img src="/rest/image/movieMain/${movieNo}" class="img-thumbnail" style="width: 250px; height: 350px">
+		            <img src="${pageContext.request.contextPath}/rest/image/movieMain/${movieNo}" class="img-thumbnail" style="width: 250px; height: 350px">
 		        </div>
 		        <div class="col-lg-6 col-md-10 col-sm-10 text-center">
 		            <div class="row">

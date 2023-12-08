@@ -84,7 +84,7 @@
 	        
 	        if (confirmDelete) {
 	            $.ajax({
-	                url: "http://localhost:8080/rest/reply/delete",
+	                url: "${pageContext.request.contextPath}/rest/reply/delete",
 	                method: "post",
 	                data: {
 	                    replyNo: replyNo
@@ -99,7 +99,7 @@
 	    // 댓글 목록
 	    function loadReplyList() {
 	        $.ajax({
-	            url: "http://localhost:8080/rest/reply/findAll?reviewNo=" + reviewNo,
+	            url: "${pageContext.request.contextPath}/rest/reply/findAll?reviewNo=" + reviewNo,
 	            method: "post",
 	            data: {
 	                reviewNo: reviewNo,
@@ -151,7 +151,7 @@
           e.preventDefault();
           
           $.ajax({
-             url: "http://localhost:8080/rest/reply/insert?reviewNo=" + reviewNo,
+             url: "${pageContext.request.contextPath}/rest/reply/insert?reviewNo=" + reviewNo,
              method: "post",
              data: $(e.target).serialize(),
              success: function(response){
@@ -169,7 +169,7 @@
        //좋아요 체크
        function loadReviewLike(movieNo) {
           $.ajax({
-               url: "http://localhost:8080/rest/review/list/findReviewLike?movieNo=" + movieNo,
+               url: "${pageContext.request.contextPath}/rest/review/list/findReviewLike?movieNo=" + movieNo,
                method: "post",
                data: {
                    movieNo: movieNo,
@@ -202,7 +202,7 @@
        //좋아요 설정/해제
        function reviewLike(reviewNo) {
            $.ajax({
-               url: "http://localhost:8080/rest/review/list/likeAction?reviewNo=" + reviewNo,
+               url: "${pageContext.request.contextPath}/rest/review/list/likeAction?reviewNo=" + reviewNo,
                method: "post",
                data: {
                    movieNo: movieNo,
@@ -302,7 +302,7 @@
                    var editedReviewContent = $(editHtmlTemplate).find(".card-text").val();
 
                    $.ajax({
-                       url: "http://localhost:8080/rest/review/list/editReview?reviewNo=" + reviewNo,
+                       url: "${pageContext.request.contextPath}/rest/review/list/editReview?reviewNo=" + reviewNo,
                        method: "post",
                        data: {
                            reviewNo: reviewNo,
@@ -333,7 +333,7 @@
         var confirmDelete = confirm("삭제하시겠습니까?");
         if (confirmDelete) {
             // 사용자가 확인하면, deleteReview URL로 리다이렉트
-            window.location.href = "/movie/deleteReview?reviewNo=" + reviewNo + "&movieNo=" + movieNo;
+            window.location.href = "${pageContext.request.contextPath}/movie/deleteReview?reviewNo=" + reviewNo + "&movieNo=" + movieNo;
         }
     }
 </script>
@@ -390,7 +390,7 @@
 				<!-- 영화 상세로 이동 -->
 				<div class="row">
 					<div class="col-3">
-						<a href="/movie/detail?movieNo=${movieSimpleInfo.movieNo}">
+						<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${movieSimpleInfo.movieNo}">
 							<button type="button" class="btn btn-link">
 								<i class="fa-solid fa-angle-left"></i>영화 상세
 							</button>
@@ -412,7 +412,7 @@
 				<!-- 영화 정보 -->
 				<div class="row justify-content-center align-items-center">
 			        <div class="col-lg-3 col-md-10 col-sm-10 text-center">
-			            <img src="/rest/image/movieMain/${review.movieNo}" 
+			            <img src="${pageContext.request.contextPath}/rest/image/movieMain/${review.movieNo}" 
 			            class="img-thumbnail" style="width: 250px; height: 350px">
 			        </div>
 			        <div class="col-lg-6 col-md-10 col-sm-10 text-center">
@@ -434,10 +434,10 @@
 						<div>
 							<c:choose>
 								<c:when test="${review.imageNo  == 0 || review.imageNo == null}">
-									<img src="/images/user.jpg" class="userImage">
+									<img src="${pageContext.request.contextPath}/images/user.jpg" class="userImage">
 								</c:when>
 								<c:otherwise>
-									<img src="/rest/image/${review.imageNo}" class="userImage">
+									<img src="${pageContext.request.contextPath}/rest/image/${review.imageNo}" class="userImage">
 								</c:otherwise>
 							</c:choose>
 							<span class="card-title ms-3" style="font-weight: bold; font-size: 20px;">${review.memberNickname}</span>
