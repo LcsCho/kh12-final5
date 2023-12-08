@@ -1,3 +1,5 @@
+![MVClogo](https://github.com/LcsCho/kh12-final5/assets/135007715/b89943d4-1435-46d5-8f1a-efd98bf26032)
+
 # MVC
 
 - 개발 기간 : 2023.11.08 ~ 2023.11.28
