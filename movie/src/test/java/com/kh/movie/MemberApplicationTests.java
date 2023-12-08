@@ -51,7 +51,7 @@ public class MemberApplicationTests {
             testMember.setMemberContact(generateRandomPhoneNumber());
             //testMember.setMemberJoin(generateRandomJoinDate());
 
-            System.out.println(testMember);
+//            System.out.println(testMember);
 
             // 회원 등록
             memberDao.insert(testMember);

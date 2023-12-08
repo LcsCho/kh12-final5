@@ -51,6 +51,12 @@ public class HomeController {
 	private RecommendDao recommendDao;
 	
 
+	@RequestMapping("/adminPage")
+	public String admin() {
+		return "adminPage";
+	}
+	
+	
 	@RequestMapping("/")
 	public String main(Model model, HttpSession session, @RequestParam(required = false) String movieName) {
 		int ratingCount = ratingDao.getCount();

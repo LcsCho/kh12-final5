@@ -140,14 +140,14 @@ a {
 							<c:forEach var="movieVO" items="${movieList}">
 								<div class="swiper-slide">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-										<a href="/movie/detail?movieNo=${movieVO.movieNo}"> <img
-											src="/rest/image/${movieVO.imageNo}" class="img-thumbnail"
+										<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${movieVO.movieNo}"> <img
+											src="${pageContext.request.contextPath}/rest/image/${movieVO.imageNo}" class="img-thumbnail"
 											style="width: 250px; height: 310px;">
 											 <!--<img src="https://picsum.photos/215/300"  -->
 											<!--class="img-thumbnail" style="width:250px; height: 310px;"> -->
 										</a>
 										<div class="col mt-2">
-											<a href="/movie/detail?movieNo=${movieVO.movieNo}">
+											<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${movieVO.movieNo}">
 												${movieVO.movieName} </a>
 										</div>
 										<div class="col">
@@ -175,7 +175,7 @@ a {
 					<div class="row mt-5 p-3">
 						<div class="col">
 							<h4 class="mb-5">"<span style="font-weight: bold;">${movieName}</span>" 의 검색결과가 없어요!</h4>
-							<a href="/">메인으로</a>
+							<a href="${pageContext.request.contextPath}/">메인으로</a>
 						</div>
 					</div>
 				</c:when>
@@ -194,15 +194,15 @@ a {
 							<c:forEach var="mvcTop10RecommendVO" items="${mvcTop10RecommendList}">
 								<div class="swiper-slide" style="min-width: 250px;">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
-										<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
-											<img src="/rest/image/${mvcTop10RecommendVO.imageNo}"
+										<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
+											<img src="${pageContext.request.contextPath}/rest/image/${mvcTop10RecommendVO.imageNo}"
 											class="img-thumbnail" style="width: 250px; height: 310px;">
 											<!--<img src="https://picsum.photos/215/300"  -->
 											<!--class="img-thumbnail" style="width:250px; height: 310px;"> -->
 										</a>
 										<div class="row">
 											<div class="col mt-2">
-												<a href="/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
+												<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${mvcTop10RecommendVO.movieNo}">
 													${mvcTop10RecommendVO.movieName} </a>
 											</div>
 										</div>
@@ -247,8 +247,8 @@ a {
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<div class="row">
 											<div class="col">
-												<a href="/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
-													<img src="/rest/image/${mvcCriticTop10RecommendVO.imageNo}"
+												<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
+													<img src="${pageContext.request.contextPath}/rest/image/${mvcCriticTop10RecommendVO.imageNo}"
 													class="img-thumbnail" style="width: 250px; height: 310px">
 												</a>
 											</div>
@@ -256,7 +256,7 @@ a {
 										<div class="row">
 											<div class="col">
 												<a
-													href="/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
+													href="${pageContext.request.contextPath}/movie/detail?movieNo=${mvcCriticTop10RecommendVO.movieNo}">
 													${mvcCriticTop10RecommendVO.movieName} </a>
 											</div>
 										</div>
@@ -296,14 +296,14 @@ a {
 								<div class="swiper-slide" style="min-width: 250px;">
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<div>
-											<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
-												<img src="/rest/image/${todayMovieVO.imageNo}"
+											<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${todayMovieVO.movieNo}">
+												<img src="${pageContext.request.contextPath}/rest/image/${todayMovieVO.imageNo}"
 												class="img-thumbnail" style="width: 250px; height: 310px">
 											</a>
 										</div>
 										<div class="row">
 											<div class="col">
-												<a href="/movie/detail?movieNo=${todayMovieVO.movieNo}">
+												<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${todayMovieVO.movieNo}">
 													${todayMovieVO.movieName} </a>
 											</div>
 										</div>
@@ -359,15 +359,15 @@ a {
 									<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 										<div class="row">
 											<div class="col">
-											<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
-												<img src="/rest/image/${seasonMovieVO.imageNo}"
+											<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${seasonMovieVO.movieNo}">
+												<img src="${pageContext.request.contextPath}/rest/image/${seasonMovieVO.imageNo}"
 												class="img-thumbnail" style="width: 250px; height: 310px">
 											</a>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col">
-												<a href="/movie/detail?movieNo=${seasonMovieVO.movieNo}">
+												<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${seasonMovieVO.movieNo}">
 													${seasonMovieVO.movieName} </a>
 											</div>
 										</div>
@@ -416,9 +416,9 @@ a {
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 												<div class="row">
 													<div class="col">
-														<a href="/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
+														<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
 															<img
-															src="/rest/image/${preferGenreByMemberRecommendVO.imageNo}"
+															src="${pageContext.request.contextPath}/rest/image/${preferGenreByMemberRecommendVO.imageNo}"
 															class="img-thumbnail" style="width: 250px; height: 310px">
 														</a>
 													</div>
@@ -426,7 +426,7 @@ a {
 												<div class="row">
 													<div class="col">
 														<a
-															href="/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
+															href="${pageContext.request.contextPath}/movie/detail?movieNo=${preferGenreByMemberRecommendVO.movieNo}">
 															${preferGenreByMemberRecommendVO.movieName} </a>
 													</div>
 												</div>
@@ -479,15 +479,15 @@ a {
 										<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 											<div class="row">
 												<div class="col">
-													<a href="/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
-														<img src="/rest/image/${ageGroupRecommendVO.imageNo}"
+													<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
+														<img src="${pageContext.request.contextPath}/rest/image/${ageGroupRecommendVO.imageNo}"
 														class="img-thumbnail" style="width: 250px; height: 310px">
 													</a>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col">
-													<a href="/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
+													<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${ageGroupRecommendVO.movieNo}">
 														${ageGroupRecommendVO.movieName} </a>
 												</div>
 											</div>
@@ -537,15 +537,15 @@ a {
 										<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 											<div class="row">
 												<div class="col">
-													<a href="/movie/detail?movieNo=${genderRecommendVO.movieNo}">
-														<img src="/rest/image/${genderRecommendVO.imageNo}"
+													<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${genderRecommendVO.movieNo}">
+														<img src="${pageContext.request.contextPath}/rest/image/${genderRecommendVO.imageNo}"
 														class="img-thumbnail" style="width: 250px; height: 310px">
 													</a>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col">
-													<a href="/movie/detail?movieNo=${genderRecommendVO.movieNo}">
+													<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${genderRecommendVO.movieNo}">
 														${genderRecommendVO.movieName} </a>
 												</div>
 											</div>
@@ -618,8 +618,8 @@ a {
 										<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 											<div class="row">
 												<div class="col">
-													<a href="/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
-														<img src="/rest/image/${ageGroupGenderRecommendVO.imageNo}"
+													<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
+														<img src="${pageContext.request.contextPath}/rest/image/${ageGroupGenderRecommendVO.imageNo}"
 														class="img-thumbnail" style="width: 250px; height: 310px">
 													</a>
 												</div>
@@ -627,7 +627,7 @@ a {
 											<div class="row">
 												<div class="col">
 													<a
-														href="/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
+														href="${pageContext.request.contextPath}/movie/detail?movieNo=${ageGroupGenderRecommendVO.movieNo}">
 														${ageGroupGenderRecommendVO.movieName} </a>
 												</div>
 											</div>
@@ -669,15 +669,15 @@ a {
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 												<div class="row">
 													<div class="col">
-														<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
-															<img src="/rest/image/${wishMovieVO.imageNo}"
+														<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${wishMovieVO.movieNo}">
+															<img src="${pageContext.request.contextPath}/rest/image/${wishMovieVO.imageNo}"
 															class="img-thumbnail" style="width: 250px; height: 310px">
 														</a>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col">
-														<a href="/movie/detail?movieNo=${wishMovieVO.movieNo}">
+														<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${wishMovieVO.movieNo}">
 															${wishMovieVO.movieName} </a>
 													</div>
 												</div>
@@ -720,15 +720,15 @@ a {
 											<div class="col-sm-6 col-md-4 col-lg-3" style="width: 250px;">
 												<div class="row">
 													<div class="col">
-														<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
-															<img src="/rest/image/${againRecommendVO.imageNo}"
+														<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${againRecommendVO.movieNo}">
+															<img src="${pageContext.request.contextPath}/rest/image/${againRecommendVO.imageNo}"
 															class="img-thumbnail" style="width: 250px; height: 310px">
 														</a>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col">
-														<a href="/movie/detail?movieNo=${againRecommendVO.movieNo}">
+														<a href="${pageContext.request.contextPath}/movie/detail?movieNo=${againRecommendVO.movieNo}">
 															${againRecommendVO.movieName} </a>
 													</div>
 												</div>
