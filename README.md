@@ -48,7 +48,7 @@
   - 회원 마이페이지 내 프로필 설정
 
 ### ERD 주소
-- <https://www.erdcloud.com/d/oLhBPQncamq3NzHsP>
+- <[https://www.erdcloud.com/d/oLhBPQncamq3NzHsP](https://www.erdcloud.com/d/KBNLWBxvnQvdXvwj3)>
 
 ### Figma 주소
 - <https://www.figma.com/file/NWqvue42bu15qccv5TlUYp/FinalProject_MVC?type=design&node-id=0-1&mode=design&t=K3aORdGCWYIUzEeh-0>
