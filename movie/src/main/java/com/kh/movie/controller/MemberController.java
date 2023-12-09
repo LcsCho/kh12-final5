@@ -92,7 +92,7 @@ public class MemberController {
 
  	@GetMapping("/joinFinish")
 	public String joinFinish(Model model, HttpSession session) {
- 		String memberId = (String) session.getAttribute("memberId");
+// 		String memberId = (String) session.getAttribute("memberId");
 		List<GenreDto> list = genreDao.selectList();
 		model.addAttribute("list", list);
 		return "member/joinFinish";
